@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "productiveslimes",
+	"version": "${version}",
+	"name": "Productive Slimes",
+	"description": "Productive Slimes for Fabric",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/productiveslimes/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.chesy.productiveslimes.ProductiveSlimes"
+		],
+		"fabric-datagen": [
+			"com.chesy.productiveslimes.ProductiveSlimesDataGenerator"
+		],
+		"client": [
+			"com.chesy.productiveslimes.ProductiveSlimesClient"
+		]
+	},
+	"mixins": [
+		"productiveslimes.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
