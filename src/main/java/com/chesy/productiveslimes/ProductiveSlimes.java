@@ -1,5 +1,7 @@
 package com.chesy.productiveslimes;
 
+import com.chesy.productiveslimes.item.ModItems;
+import com.chesy.productiveslimes.screen.ModMenuTypes;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ public class ProductiveSlimes implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		ModItems.initialize();
+		ModMenuTypes.registerScreenHandlers();
 	}
 }
