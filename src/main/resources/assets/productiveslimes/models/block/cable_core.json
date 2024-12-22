@@ -1,7 +1,0 @@
-{
-  "parent": "productiveslimes:block/cable_core_part",
-  "textures": {
-    "0": "productiveslimes:block/cable",
-    "particle": "productiveslimes:block/cable"
-  }
-}
