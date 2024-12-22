@@ -1,0 +1,286 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "productiveslimes:fluid_tank_empty",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "productiveslimes:item/fluid_tank/fluid_tank_empty",
+      "tints": [
+        {
+          "type": "minecraft:constant",
+          "value": -1
+        },
+        {
+          "type": "productiveslimes:fluid_tank_tint",
+          "default": 16777215
+        }
+      ]
+    },
+    "on_false": {
+      "type": "minecraft:condition",
+      "property": "productiveslimes:fluid_tank_less_than_3k",
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "productiveslimes:item/fluid_tank/fluid_tank_1",
+        "tints": [
+          {
+            "type": "minecraft:constant",
+            "value": -1
+          },
+          {
+            "type": "productiveslimes:fluid_tank_tint",
+            "default": 16777215
+          }
+        ]
+      },
+      "on_false": {
+        "type": "minecraft:condition",
+        "property": "productiveslimes:fluid_tank_less_than_6k",
+        "on_true": {
+          "type": "minecraft:model",
+          "model": "productiveslimes:item/fluid_tank/fluid_tank_2",
+          "tints": [
+            {
+              "type": "minecraft:constant",
+              "value": -1
+            },
+            {
+              "type": "productiveslimes:fluid_tank_tint",
+              "default": 16777215
+            }
+          ]
+        },
+        "on_false": {
+          "type": "minecraft:condition",
+          "property": "productiveslimes:fluid_tank_less_than_9k",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "productiveslimes:item/fluid_tank/fluid_tank_3",
+            "tints": [
+              {
+                "type": "minecraft:constant",
+                "value": -1
+              },
+              {
+                "type": "productiveslimes:fluid_tank_tint",
+                "default": 16777215
+              }
+            ]
+          },
+          "on_false": {
+            "type": "minecraft:condition",
+            "property": "productiveslimes:fluid_tank_less_than_12k",
+            "on_true": {
+              "type": "minecraft:model",
+              "model": "productiveslimes:item/fluid_tank/fluid_tank_4",
+              "tints": [
+                {
+                  "type": "minecraft:constant",
+                  "value": -1
+                },
+                {
+                  "type": "productiveslimes:fluid_tank_tint",
+                  "default": 16777215
+                }
+              ]
+            },
+            "on_false": {
+              "type": "minecraft:condition",
+              "property": "productiveslimes:fluid_tank_less_than_15k",
+              "on_true": {
+                "type": "minecraft:model",
+                "model": "productiveslimes:item/fluid_tank/fluid_tank_5",
+                "tints": [
+                  {
+                    "type": "minecraft:constant",
+                    "value": -1
+                  },
+                  {
+                    "type": "productiveslimes:fluid_tank_tint",
+                    "default": 16777215
+                  }
+                ]
+              },
+              "on_false": {
+                "type": "minecraft:condition",
+                "property": "productiveslimes:fluid_tank_less_than_18k",
+                "on_true": {
+                  "type": "minecraft:model",
+                  "model": "productiveslimes:item/fluid_tank/fluid_tank_6",
+                  "tints": [
+                    {
+                      "type": "minecraft:constant",
+                      "value": -1
+                    },
+                    {
+                      "type": "productiveslimes:fluid_tank_tint",
+                      "default": 16777215
+                    }
+                  ]
+                },
+                "on_false": {
+                  "type": "minecraft:condition",
+                  "property": "productiveslimes:fluid_tank_less_than_21k",
+                  "on_true": {
+                    "type": "minecraft:model",
+                    "model": "productiveslimes:item/fluid_tank/fluid_tank_7",
+                    "tints": [
+                      {
+                        "type": "minecraft:constant",
+                        "value": -1
+                      },
+                      {
+                        "type": "productiveslimes:fluid_tank_tint",
+                        "default": 16777215
+                      }
+                    ]
+                  },
+                  "on_false": {
+                    "type": "minecraft:condition",
+                    "property": "productiveslimes:fluid_tank_less_than_24k",
+                    "on_true": {
+                      "type": "minecraft:model",
+                      "model": "productiveslimes:item/fluid_tank/fluid_tank_8",
+                      "tints": [
+                        {
+                          "type": "minecraft:constant",
+                          "value": -1
+                        },
+                        {
+                          "type": "productiveslimes:fluid_tank_tint",
+                          "default": 16777215
+                        }
+                      ]
+                    },
+                    "on_false": {
+                      "type": "minecraft:condition",
+                      "property": "productiveslimes:fluid_tank_less_than_27k",
+                      "on_true": {
+                        "type": "minecraft:model",
+                        "model": "productiveslimes:item/fluid_tank/fluid_tank_9",
+                        "tints": [
+                          {
+                            "type": "minecraft:constant",
+                            "value": -1
+                          },
+                          {
+                            "type": "productiveslimes:fluid_tank_tint",
+                            "default": 16777215
+                          }
+                        ]
+                      },
+                      "on_false": {
+                        "type": "minecraft:condition",
+                        "property": "productiveslimes:fluid_tank_less_than_30k",
+                        "on_true": {
+                          "type": "minecraft:model",
+                          "model": "productiveslimes:item/fluid_tank/fluid_tank_10",
+                          "tints": [
+                            {
+                              "type": "minecraft:constant",
+                              "value": -1
+                            },
+                            {
+                              "type": "productiveslimes:fluid_tank_tint",
+                              "default": 16777215
+                            }
+                          ]
+                        },
+                        "on_false": {
+                          "type": "minecraft:condition",
+                          "property": "productiveslimes:fluid_tank_less_than_33k",
+                          "on_true": {
+                            "type": "minecraft:model",
+                            "model": "productiveslimes:item/fluid_tank/fluid_tank_11",
+                            "tints": [
+                              {
+                                "type": "minecraft:constant",
+                                "value": -1
+                              },
+                              {
+                                "type": "productiveslimes:fluid_tank_tint",
+                                "default": 16777215
+                              }
+                            ]
+                          },
+                          "on_false": {
+                            "type": "minecraft:condition",
+                            "property": "productiveslimes:fluid_tank_less_than_36k",
+                            "on_true": {
+                              "type": "minecraft:model",
+                              "model": "productiveslimes:item/fluid_tank/fluid_tank_12",
+                              "tints": [
+                                {
+                                  "type": "minecraft:constant",
+                                  "value": -1
+                                },
+                                {
+                                  "type": "productiveslimes:fluid_tank_tint",
+                                  "default": 16777215
+                                }
+                              ]
+                            },
+                            "on_false": {
+                              "type": "minecraft:condition",
+                              "property": "productiveslimes:fluid_tank_less_than_40k",
+                              "on_true": {
+                                "type": "minecraft:model",
+                                "model": "productiveslimes:item/fluid_tank/fluid_tank_13",
+                                "tints": [
+                                  {
+                                    "type": "minecraft:constant",
+                                    "value": -1
+                                  },
+                                  {
+                                    "type": "productiveslimes:fluid_tank_tint",
+                                    "default": 16777215
+                                  }
+                                ]
+                              },
+                              "on_false": {
+                                "type": "minecraft:condition",
+                                "property": "productiveslimes:fluid_tank_less_than_45k",
+                                "on_true": {
+                                  "type": "minecraft:model",
+                                  "model": "productiveslimes:item/fluid_tank/fluid_tank_14",
+                                  "tints": [
+                                    {
+                                      "type": "minecraft:constant",
+                                      "value": -1
+                                    },
+                                    {
+                                      "type": "productiveslimes:fluid_tank_tint",
+                                      "default": 16777215
+                                    }
+                                  ]
+                                },
+                                "on_false": {
+                                  "type": "minecraft:model",
+                                  "model": "productiveslimes:item/fluid_tank/fluid_tank_full",
+                                  "tints": [
+                                    {
+                                      "type": "minecraft:constant",
+                                      "value": -1
+                                    },
+                                    {
+                                      "type": "productiveslimes:fluid_tank_tint",
+                                      "default": 16777215
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

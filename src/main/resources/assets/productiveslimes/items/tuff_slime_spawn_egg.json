@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/tuff_slime_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -11184564
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -11184564
+      }
+    ]
+  }
+}

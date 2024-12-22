@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/redstone_slimeball",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -6224635
+      }
+    ]
+  }
+}

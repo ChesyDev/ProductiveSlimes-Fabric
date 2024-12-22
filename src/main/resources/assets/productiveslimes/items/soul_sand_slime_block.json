@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/soul_sand_slime_block",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -12504793
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "productiveslimes:item/slime_dna"
+  },
+  "tints": [
+    {
+      "type": "minecraft:constant",
+      "value": -8666276
+    }
+  ]
+}

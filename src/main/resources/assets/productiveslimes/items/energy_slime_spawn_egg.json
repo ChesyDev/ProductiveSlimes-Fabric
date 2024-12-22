@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/energy_slime_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -144
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -256
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/dirt_slimeball",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -7970749
+      }
+    ]
+  }
+}

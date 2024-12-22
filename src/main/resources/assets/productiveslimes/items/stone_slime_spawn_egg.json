@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:item/stone_slime_spawn_egg",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -11909819
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -11909819
+      }
+    ]
+  }
+}
