@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.entity;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;

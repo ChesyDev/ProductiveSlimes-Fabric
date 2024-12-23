@@ -1,24 +1,55 @@
 package com.chesy.productiveslimes.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class BaseSlime extends SlimeEntity {
+    private static final TrackedData<ItemStack> RESOURCE =
+            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.ITEM_STACK);
+    private static final TrackedData<Integer> ID_SIZE =
+            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> GROWTH_COUNTER =
+            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
+
     private final Item item;
     private final Item growthItem;
+    public final int growthTime;
+
     public BaseSlime(EntityType<? extends SlimeEntity> entityType, World level, int cooldown, int color, Item dropItem, Item growthItem) {
         super(entityType, level);
         this.item = dropItem;
-        this.growthItem = growthItem;
+        this.growthItem = growthItem;;
+
+        growthTime = cooldown;
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(RESOURCE, ItemStack.EMPTY);
+        builder.add(ID_SIZE, 1);
+        builder.add(GROWTH_COUNTER, 0);
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
@@ -40,6 +71,24 @@ public class BaseSlime extends SlimeEntity {
         slime.setHealth(slime.getMaxHealth());
         slime.setPos(slime.getX(), slime.getY() + 1, slime.getZ());
         player.getStackInHand(hand).decrement(slime.getSize() + 1);
+    }
+
+    @Override
+    public boolean cannotDespawn() {
+        return true;
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        super.remove(reason);
+        this.setRemoved(reason);
+        if (reason == Entity.RemovalReason.KILLED) {
+            this.emitGameEvent(GameEvent.ENTITY_DIE);
+
+            if(this.getSize() == 1){
+                this.dropResource();
+            }
+        }
     }
 
     @Override
@@ -65,5 +114,90 @@ public class BaseSlime extends SlimeEntity {
     @Override
     public double getAttributeBaseValue(RegistryEntry<EntityAttribute> attribute) {
         return createAttributes().build().getBaseValue(attribute);
+    }
+
+    public static TrackedData<Integer> getGrowthCounter() {
+        return GROWTH_COUNTER;
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        nbt.putInt("growth_counter", this.dataTracker.get(GROWTH_COUNTER));
+        nbt.putInt("size", this.dataTracker.get(ID_SIZE));
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        this.dataTracker.set(ID_SIZE, nbt.getInt("size"));
+        this.dataTracker.set(GROWTH_COUNTER, nbt.getInt("growth_counter"));
+    }
+
+    public int getNextDropTime(){
+        return growthTime - this.dataTracker.get(GROWTH_COUNTER);
+    }
+
+    public void setResource(ItemStack stack) {
+        this.dataTracker.set(RESOURCE, stack);
+        resetGrowthCount();
+    }
+
+    public ItemStack getResourceItem() {
+        if(!this.dataTracker.get(RESOURCE).isEmpty()) {
+            return this.dataTracker.get(RESOURCE);
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public void dropResource() {
+        ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.item, this.getSize()));
+        this.getWorld().spawnEntity(itemEntity);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if(!isDead()) {
+            countGrowth();
+
+            if(readyForNewResource()) {
+                dropResource();
+                resetGrowthCount();
+            }
+        }
+    }
+
+    private boolean readyForNewResource() {
+        return this.dataTracker.get(GROWTH_COUNTER) >= growthTime;
+    }
+
+    private void resetGrowthCount() {
+        this.dataTracker.set(GROWTH_COUNTER, 0);
+    }
+
+    private void countGrowth() {
+        this.dataTracker.set(GROWTH_COUNTER, this.dataTracker.get(GROWTH_COUNTER) + 1);
+    }
+
+    @Override
+    public int getSize() {
+        return this.dataTracker.get(ID_SIZE);
+    }
+
+    @Override
+    public void setSize(int pSize, boolean pResetHealth) {
+        // Setting the size based on the number of resources
+        // int newSize = this.entityData.get(RESOURCE).getCount() * 2 - 1; // INSANE GROWTH (64 -> Size 127)
+        int i = Math.clamp(pSize, 1, 127);
+        this.dataTracker.set(ID_SIZE, i);
+        this.refreshPosition();
+        this.calculateDimensions();
+        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue((double)(i * i));
+        this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue((double)(0.2F + 0.1F * (float)i));
+        this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double)i);
+
+        this.experiencePoints = i;
     }
 }

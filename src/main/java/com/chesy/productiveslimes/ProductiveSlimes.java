@@ -1,5 +1,7 @@
 package com.chesy.productiveslimes;
 
+import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.item.ModItems;
@@ -17,6 +19,11 @@ public class ProductiveSlimes implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.initialize();
+		System.out.println("ModItems Initialized");
+		ModBlocks.initialize();
+		System.out.println("ModBlocks Initialized");
+		ModBlockEntities.initialize();
+		System.out.println("ModBlockEntities Initialized");
 		ModMenuTypes.registerScreenHandlers();
 		ModEntities.initialize();
 
