@@ -1,13 +1,17 @@
 package com.chesy.productiveslimes.datagen;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.item.ModItems;
+import com.chesy.productiveslimes.item.custom.DnaItem;
+import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
-import net.minecraft.item.Item;
+import net.minecraft.client.render.item.model.BasicItemModel;
+import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.util.Identifier;
 
-import java.util.Optional;
+import java.util.Collections;
 
 public class ModItemModelProvider extends FabricModelProvider {
 
@@ -24,19 +28,24 @@ public class ModItemModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.GUIDEBOOK, Models.GENERATED);
         itemModelGenerator.register(ModItems.ENERGY_MULTIPLIER_UPGRADE, Models.GENERATED);
-
-        itemModelGenerator.register(ModItems.ENERGY_SLIME_BALL, Models.GENERATED);
-        dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
         itemModelGenerator.register(ModItems.SLIMEBALL_FRAGMENT, Models.GENERATED);
+
+        slimeballItem(itemModelGenerator, ModItems.ENERGY_SLIME_BALL);
+        dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
     }
 
 
-    private static void dnaItem(ItemModelGenerator itemModelGenerator, Item item) {
-        Model model = new Model(
-                Optional.of(Identifier.ofVanilla("item/generated")),
-                Optional.empty(),
-                TextureKey.of("layer0")
-        );
-        itemModelGenerator.register(item, model);
+    private static void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
+        Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_dna");
+        Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
+
+        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
+    }
+
+    private static void slimeballItem(ItemModelGenerator itemModelGenerator, SlimeballItem item) {
+        Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_slimeball");
+        Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
+
+        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
     }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "productiveslimes:item/energy_slimeball"
+    "layer0": "productiveslimes:item/template_dna"
   }
 }
