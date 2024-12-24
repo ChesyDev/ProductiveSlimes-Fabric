@@ -27,6 +27,7 @@ public class ModItemGroups {
                             entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getDnaItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getBucketItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTierLists.getSpawnEggItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                         }
                     }).build());
 

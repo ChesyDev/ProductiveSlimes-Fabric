@@ -27,14 +27,14 @@ public class ProductiveSlimes implements ModInitializer {
 		ModDataComponents.register();
 		ModItemGroups.initialize();
 
+		ModEntities.initialize();
+
 		ModItems.initialize();
 
 		ModBlocks.initialize();
 		ModBlockEntities.initialize();
 
 		ModMenuTypes.registerScreenHandlers();
-
-		ModEntities.initialize();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 	}

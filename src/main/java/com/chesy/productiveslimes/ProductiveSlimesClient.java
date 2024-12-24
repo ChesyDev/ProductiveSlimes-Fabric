@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.EntityRenderer;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
 
@@ -34,6 +35,8 @@ public class ProductiveSlimesClient implements ClientModInitializer {
                     SimpleFluidRenderHandler.coloredWater(tiers.color()));
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                     ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name));
+
+            EntityRendererRegistry.register(ModTierLists.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
     }
 }

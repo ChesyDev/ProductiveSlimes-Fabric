@@ -45,15 +45,16 @@ public class ModItems {
 
             SlimeballItem slimeball = register(slimeballName, new SlimeballItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
+
             DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, dnaName)))));
-//            System.out.println("Getting Entity for SpawnEgg: " + tiers.name());
-            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTierLists.getEntityByName(tiers.name() + "_slime"), color, color, new Item.Settings()
+
+            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTierLists.getEntityByName(tiers.name()), color, color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, spawnEggName)))));
 
             ModTierLists.addRegisteredSlimeballItem(tiers.name(), slimeball);
             ModTierLists.addRegisteredDnaItem(tiers.name(), dna);
-//            ModTierLists.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
+            ModTierLists.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
         }
     }
 

@@ -54,9 +54,8 @@ public class ModModelProvider extends FabricModelProvider {
             slimeballItem(itemModelGenerator, ModTierLists.getSlimeballItemByName(tiers.name()));
             bucketItem(itemModelGenerator, ModTierLists.getBucketItemByName(tiers.name()));
             dnaItem(itemModelGenerator, ModTierLists.getDnaItemByName(tiers.name()));
-
-            //SpawnEggItem spawnEggItem = ModTierLists.getSpawnEggItemByName(tiers.name());
-            //itemModelGenerator.registerSpawnEgg(spawnEggItem, spawnEggItem.getBg(), spawnEggItem.getFg());
+            SpawnEggItem spawnEggItem = ModTierLists.getSpawnEggItemByName(tiers.name());
+            itemModelGenerator.registerSpawnEgg(spawnEggItem, spawnEggItem.getBg(), spawnEggItem.getFg());
         }
     }
 
