@@ -11,17 +11,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
-    public static final Block MELTING_STATION = registerBlock("melting_station", new MeltingStationBlock(AbstractBlock.Settings.create()));
+    public static final Block MELTING_STATION = registerBlock("melting_station", new MeltingStationBlock(AbstractBlock.Settings.create()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "melting_station")))));
 
     public static Block registerBlock(String name, Block block){
         System.out.println("registerBlock called");
         Identifier id = Identifier.of(ProductiveSlimes.MOD_ID, name);
         System.out.println("Block Identifier Created");
         System.out.println("Registering Block: " + id.toString());
-        registerItem(name, new BlockItem(block, new Item.Settings()));
+        registerItem(name, new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, name)))));
         return Registry.register(Registries.BLOCK, id, block);
     }
 
@@ -32,6 +35,9 @@ public class ModBlocks {
     }
 
     public static void initialize() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.add(MELTING_STATION);
+        });
         System.out.println("initializing ModBlocks");
     }
 }

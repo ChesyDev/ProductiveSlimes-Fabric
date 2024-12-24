@@ -1,31 +1,32 @@
 package com.chesy.productiveslimes.datagen;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
-import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
-import net.minecraft.client.render.item.tint.TintSource;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import java.util.*;
+import java.util.function.Consumer;
 
-public class ModItemModelProvider extends FabricModelProvider {
+public class ModModelProvider extends FabricModelProvider {
 
-    public ModItemModelProvider(FabricDataOutput output) {
+    public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-
+        registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.MELTING_STATION);
     }
 
     @Override
@@ -39,7 +40,6 @@ public class ModItemModelProvider extends FabricModelProvider {
         itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
     }
 
-
     private static void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
         Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_dna");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
@@ -52,5 +52,21 @@ public class ModItemModelProvider extends FabricModelProvider {
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
+    }
+
+    public static BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {
+        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
+                .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270))
+                .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180))
+                .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90))
+                .register(Direction.SOUTH, BlockStateVariant.create());
+    }
+
+    public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
+        blockStateModelGenerator.blockStateCollector
+                .accept(
+                        VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(block)))
+                                .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
+                );
     }
 }
