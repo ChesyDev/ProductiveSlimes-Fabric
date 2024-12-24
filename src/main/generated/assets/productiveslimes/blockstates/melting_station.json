@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/melting_station",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/melting_station",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/melting_station"
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/melting_station",
+      "y": 90
+    }
+  }
+}
