@@ -36,7 +36,6 @@ public class ModItemModelProvider extends FabricModelProvider {
 
         slimeballItem(itemModelGenerator, ModItems.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
-
         itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
     }
 
