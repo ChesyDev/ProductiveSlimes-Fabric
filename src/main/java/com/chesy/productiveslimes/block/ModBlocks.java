@@ -5,7 +5,6 @@ import com.chesy.productiveslimes.block.custom.MeltingStationBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -20,24 +19,19 @@ public class ModBlocks {
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "melting_station")))));
 
     public static Block registerBlock(String name, Block block){
-        System.out.println("registerBlock called");
         Identifier id = Identifier.of(ProductiveSlimes.MOD_ID, name);
-        System.out.println("Block Identifier Created");
-        System.out.println("Registering Block: " + id.toString());
         registerItem(name, new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, name)))));
         return Registry.register(Registries.BLOCK, id, block);
     }
 
-    public static Item registerItem(String name, Item item) {
+    public static void registerItem(String name, Item item) {
         Identifier itemID = Identifier.of(ProductiveSlimes.MOD_ID, name);
-        System.out.println("Registering BlockItem: " + itemID.toString());
-        return Registry.register(Registries.ITEM, itemID, item);
+        Registry.register(Registries.ITEM, itemID, item);
     }
 
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(MELTING_STATION);
         });
-        System.out.println("initializing ModBlocks");
     }
 }

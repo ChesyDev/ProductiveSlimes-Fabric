@@ -2,10 +2,14 @@ package com.chesy.productiveslimes;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
+import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
+import com.chesy.productiveslimes.fluid.ModFluids;
+import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
+import com.chesy.productiveslimes.tier.ModTierLists;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -18,13 +22,18 @@ public class ProductiveSlimes implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModTierLists.init();
+		ModFluids.register();
+		ModDataComponents.register();
+		ModItemGroups.initialize();
+
 		ModItems.initialize();
-		System.out.println("ModItems Initialized");
+
 		ModBlocks.initialize();
-		System.out.println("ModBlocks Initialized");
 		ModBlockEntities.initialize();
-		System.out.println("ModBlockEntities Initialized");
+
 		ModMenuTypes.registerScreenHandlers();
+
 		ModEntities.initialize();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());

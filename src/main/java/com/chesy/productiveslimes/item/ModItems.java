@@ -3,6 +3,9 @@ package com.chesy.productiveslimes.item;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.item.custom.*;
+import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -31,19 +34,35 @@ public class ModItems {
     public static final DnaItem SLIME_DNA = register("slime_dna", new DnaItem(0xFF7BC35C, new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slime_dna")))));
 
+    public static void registerTierItems() {
+        for (Tier name : Tier.values()){
+            ModTiers tiers = ModTierLists.getTierByName(name);
+            String slimeballName = tiers.name() + "_slimeball";
+            String dnaName = tiers.name() + "_slime_dna";
+            String spawnEggName = tiers.name() + "_slime_spawn_egg";
+
+            int color = tiers.color();
+
+            SlimeballItem slimeball = register(slimeballName, new SlimeballItem(color, new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
+            DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, dnaName)))));
+//            System.out.println("Getting Entity for SpawnEgg: " + tiers.name());
+            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTierLists.getEntityByName(tiers.name() + "_slime"), color, color, new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, spawnEggName)))));
+
+            ModTierLists.addRegisteredSlimeballItem(tiers.name(), slimeball);
+            ModTierLists.addRegisteredDnaItem(tiers.name(), dna);
+//            ModTierLists.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
+        }
+    }
+
     private static <T extends Item> T register(String id, T item){
         Identifier itemID = Identifier.of(ProductiveSlimes.MOD_ID, id);
         return Registry.register(Registries.ITEM, itemID, item); //returns Registered Item
     }
 
     public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
-            entries.add(GUIDEBOOK);
-            entries.add(ENERGY_MULTIPLIER_UPGRADE);
-            entries.add(SLIMEBALL_FRAGMENT);
-            entries.add(ENERGY_SLIME_BALL);
-            entries.add(SLIME_DNA);
-            entries.add(ENERGY_SLIME_SPAWN_EGG);
-        });
+        registerTierItems();
     }
 }

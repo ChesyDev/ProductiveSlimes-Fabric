@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes;
 
 import com.chesy.productiveslimes.datagen.ModBlockTagProvider;
+import com.chesy.productiveslimes.datagen.ModFluidTagProvider;
 import com.chesy.productiveslimes.datagen.ModModelProvider;
 import com.chesy.productiveslimes.datagen.ModItemTagProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -14,5 +15,6 @@ public class ProductiveSlimesDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModBlockTagProvider::new);
+		pack.addProvider(ModFluidTagProvider::new);
 	}
 }
