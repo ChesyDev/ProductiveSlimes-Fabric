@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/slime_squeezer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/slime_squeezer"
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/slime_squeezer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/slime_squeezer",
+      "y": 270
+    }
+  }
+}

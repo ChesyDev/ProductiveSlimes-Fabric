@@ -30,6 +30,26 @@ public class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(DnaSynthesizerBlockEntity::new, ModBlocks.DNA_SYNTHESIZER).build()
     );
 
+    public static final BlockEntityType<EnergyGeneratorBlockEntity> ENERGY_GENERATOR = register(
+            "energy_generator",
+            FabricBlockEntityTypeBuilder.create(EnergyGeneratorBlockEntity::new, ModBlocks.ENERGY_GENERATOR).build()
+    );
+
+    public static final BlockEntityType<SlimeSqueezerBlockEntity> SLIME_SQUEEZER = register(
+            "slime_squeezer",
+            FabricBlockEntityTypeBuilder.create(SlimeSqueezerBlockEntity::new, ModBlocks.SLIME_SQUEEZER).build()
+    );
+
+    public static final BlockEntityType<FluidTankBlockEntity> FLUID_TANK = register(
+            "fluid_tank",
+            FabricBlockEntityTypeBuilder.create(FluidTankBlockEntity::new, ModBlocks.FLUID_TANK).build()
+    );
+
+    public static final BlockEntityType<CableBlockEntity> CABLE = register(
+            "cable",
+            FabricBlockEntityTypeBuilder.create(CableBlockEntity::new, ModBlocks.CABLE).build()
+    );
+
     public static <T extends BlockEntityType<?>> T register(String name, T blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(ProductiveSlimes.MOD_ID, name), blockEntityType);
     }

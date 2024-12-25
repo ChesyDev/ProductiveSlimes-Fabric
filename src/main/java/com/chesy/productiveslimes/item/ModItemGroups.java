@@ -23,10 +23,16 @@ public class ModItemGroups {
                     .entries((displayContext, entries) -> {
                         entries.add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
                         entries.add(ModItems.SLIMEBALL_FRAGMENT);
+                        entries.add(ProductiveSlimes.ENERGY_SLIME_BALL);
+                        entries.add(ModItems.ENERGY_SLIME_SPAWN_EGG);
                         entries.add(ModBlocks.MELTING_STATION);
                         entries.add(ModBlocks.SOLIDING_STATION);
                         entries.add(ModBlocks.DNA_EXTRACTOR);
                         entries.add(ModBlocks.DNA_SYNTHESIZER);
+                        entries.add(ModBlocks.ENERGY_GENERATOR);
+                        entries.add(ModBlocks.SLIME_SQUEEZER);
+                        entries.add(ModBlocks.FLUID_TANK);
+                        entries.add(ModBlocks.CABLE);
                         for(Tier tier : Tier.values()) {
                             //entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());

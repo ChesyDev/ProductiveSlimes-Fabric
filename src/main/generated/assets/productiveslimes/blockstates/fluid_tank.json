@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/fluid_tank",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/fluid_tank",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/fluid_tank"
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/fluid_tank",
+      "y": 90
+    }
+  }
+}

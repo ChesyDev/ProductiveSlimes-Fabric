@@ -120,7 +120,6 @@ public class ModTierLists {
     }
 
     public static SlimeballItem getSlimeballItemByName(String name){
-        System.out.println(name);
         return registeredSlimeballItem.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slimeball"));
     }
 

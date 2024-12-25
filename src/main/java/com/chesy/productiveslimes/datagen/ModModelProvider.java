@@ -39,6 +39,10 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SOLIDING_STATION);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_EXTRACTOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_SYNTHESIZER);
+        registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.ENERGY_GENERATOR);
+        registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.FLUID_TANK);
+        blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
+
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ENERGY_MULTIPLIER_UPGRADE, Models.GENERATED);
         itemModelGenerator.register(ModItems.SLIMEBALL_FRAGMENT, Models.GENERATED);
 
-        slimeballItem(itemModelGenerator, ModItems.ENERGY_SLIME_BALL);
+        slimeballItem(itemModelGenerator, ProductiveSlimes.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
         itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
 

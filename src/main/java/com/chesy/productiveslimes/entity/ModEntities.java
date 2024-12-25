@@ -17,7 +17,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ModEntities {
-    public static final EntityType<BaseSlime> ENERGY_SLIME = registerSlime("energy_slime", 1000, 0xffff70, ModItems.ENERGY_SLIME_BALL, Items.SLIME_BALL);
+    public static final EntityType<BaseSlime> ENERGY_SLIME = registerSlime("energy_slime", 1000, 0xffff70, ProductiveSlimes.ENERGY_SLIME_BALL, Items.SLIME_BALL);
 
     public static EntityType<BaseSlime> registerSlime(String name, int cooldown, int color, Item dropItem, Item growthItem) {
         return Registry.register(Registries.ENTITY_TYPE,
@@ -32,7 +32,6 @@ public class ModEntities {
             Item dropItem = ModTierLists.getSlimeballItemByName(tiers.name());
             Item growthItem = ModTierLists.getItemByKey(tiers.growthItemKey());
 
-            System.out.println(dropItem + " Registering " + slimeName + " Drop Item");
             EntityType<BaseSlime> slime = registerSlime(slimeName, tiers.cooldown(), tiers.color(), dropItem, growthItem);
             ModTierLists.addRegisteredSlime(tiers.name(), slime);
         }

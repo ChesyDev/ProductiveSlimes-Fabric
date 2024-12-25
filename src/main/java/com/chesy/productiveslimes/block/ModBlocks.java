@@ -1,10 +1,7 @@
 package com.chesy.productiveslimes.block;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.block.custom.DnaExtratorBlock;
-import com.chesy.productiveslimes.block.custom.DnaSynthesizerBlock;
-import com.chesy.productiveslimes.block.custom.MeltingStationBlock;
-import com.chesy.productiveslimes.block.custom.SolidingStationBlock;
+import com.chesy.productiveslimes.block.custom.*;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -30,6 +27,18 @@ public class ModBlocks {
 
     public static final Block DNA_SYNTHESIZER = registerBlock("dna_synthesizer", new DnaSynthesizerBlock(AbstractBlock.Settings.create()
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "dna_synthesizer")))));
+
+    public static final Block ENERGY_GENERATOR = registerBlock("energy_generator", new EnergyGeneratorBlock(AbstractBlock.Settings.create()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "energy_generator")))));
+
+    public static final Block SLIME_SQUEEZER = registerBlock("slime_squeezer", new SlimeSqueezerBlock(AbstractBlock.Settings.create()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "slime_squeezer")))));
+
+    public static final Block FLUID_TANK = registerBlock("fluid_tank", new FluidTankBlock(AbstractBlock.Settings.create()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "fluid_tank")))));
+
+    public static final Block CABLE = registerBlock("cable", new CableBlock(AbstractBlock.Settings.create()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, "cable")))));
 
     public static Block registerBlock(String name, Block block){
         Identifier id = Identifier.of(ProductiveSlimes.MOD_ID, name);

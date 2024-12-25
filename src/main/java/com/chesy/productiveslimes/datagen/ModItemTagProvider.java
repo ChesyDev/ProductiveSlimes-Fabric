@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.datagen;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -18,7 +19,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ModTags.Items.TRANSFORMABLE_ITEMS)
                 .add(ModItems.GUIDEBOOK)
                 .add(ModItems.SLIMEBALL_FRAGMENT)
-                .add(ModItems.ENERGY_SLIME_BALL)
+                .add(ProductiveSlimes.ENERGY_SLIME_BALL)
                 .add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
         getOrCreateTagBuilder(ModTags.Items.DNA_ITEM)
                 .add(ModItems.SLIME_DNA);

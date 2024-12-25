@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/energy_generator",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/energy_generator",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/energy_generator"
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/energy_generator",
+      "y": 90
+    }
+  }
+}
