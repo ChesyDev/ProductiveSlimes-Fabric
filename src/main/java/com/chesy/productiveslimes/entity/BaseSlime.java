@@ -152,10 +152,8 @@ public class BaseSlime extends SlimeEntity {
     }
 
     public void dropResource() {
-        if(this.item != null) {
-            ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.item, this.getSize()));
-            this.getWorld().spawnEntity(itemEntity);
-        }
+        ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.item, this.getSize()));
+        this.getWorld().spawnEntity(itemEntity);
     }
 
     @Override
