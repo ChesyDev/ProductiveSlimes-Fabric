@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.item;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -22,6 +23,10 @@ public class ModItemGroups {
                     .entries((displayContext, entries) -> {
                         entries.add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
                         entries.add(ModItems.SLIMEBALL_FRAGMENT);
+                        entries.add(ModBlocks.MELTING_STATION);
+                        entries.add(ModBlocks.SOLIDING_STATION);
+                        entries.add(ModBlocks.DNA_EXTRACTOR);
+                        entries.add(ModBlocks.DNA_SYNTHESIZER);
                         for(Tier tier : Tier.values()) {
                             //entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());

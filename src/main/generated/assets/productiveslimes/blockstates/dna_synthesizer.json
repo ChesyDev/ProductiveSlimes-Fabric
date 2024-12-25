@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/dna_synthesizer",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/dna_synthesizer",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/dna_synthesizer"
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/dna_synthesizer",
+      "y": 90
+    }
+  }
+}

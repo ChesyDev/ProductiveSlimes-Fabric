@@ -16,7 +16,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.EntityRenderer;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
 

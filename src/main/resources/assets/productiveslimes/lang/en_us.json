@@ -15,6 +15,17 @@
   "block.productiveslimes.squeezer": "Squeezer",
 
   "item.productiveslimes.melting_station": "Melting Station",
+  "item.productiveslimes.soliding_station": "Soliding Station",
+  "item.productiveslimes.dna_extractor": "DNA Extractor",
+  "item.productiveslimes.dna_synthesizer": "DNA Synthesizer",
+  "item.productiveslimes.energy_generator": "Energy Generator",
+  "item.productiveslimes.fluid_tank": "Fluid Tank",
+  "item.productiveslimes.slime_squeezer": "Slime Squeezer",
+  "item.productiveslimes.squeezer": "Squeezer",
+  "item.productiveslimes.cable_core": "Cable Core",
+  "item.productiveslimes.cable_core_part": "Cable Core Part",
+  "item.productiveslimes.cable_part": "Cable Part",
+  "item.productiveslimes.cable_part_part": "Cable Part Part",
 
   "block.productiveslimes.slimy_grass_block": "Slimy Grass Block",
   "block.productiveslimes.slimy_dirt": "Slimy Dirt",
