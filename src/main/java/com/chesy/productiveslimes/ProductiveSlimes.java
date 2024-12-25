@@ -28,7 +28,6 @@ public class ProductiveSlimes implements ModInitializer {
 		ModItemGroups.initialize();
 
 		ModEntities.initialize();
-
 		ModItems.initialize();
 
 		ModBlocks.initialize();

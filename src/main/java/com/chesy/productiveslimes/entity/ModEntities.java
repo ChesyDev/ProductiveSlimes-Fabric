@@ -32,6 +32,7 @@ public class ModEntities {
             Item dropItem = ModTierLists.getSlimeballItemByName(tiers.name());
             Item growthItem = ModTierLists.getItemByKey(tiers.growthItemKey());
 
+            System.out.println(dropItem + " Registering " + slimeName + " Drop Item");
             EntityType<BaseSlime> slime = registerSlime(slimeName, tiers.cooldown(), tiers.color(), dropItem, growthItem);
             ModTierLists.addRegisteredSlime(tiers.name(), slime);
         }
