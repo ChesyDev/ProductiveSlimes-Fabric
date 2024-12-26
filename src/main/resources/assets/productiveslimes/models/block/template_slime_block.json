@@ -1,0 +1,91 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#texture",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#texture",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#texture",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        3,
+        3,
+        3
+      ],
+      "to": [
+        13,
+        13,
+        13
+      ]
+    }
+  ],
+  "textures": {
+    "particle": "productiveslimes:block/template_slime_block",
+    "texture": "productiveslimes:block/template_slime_block"
+  }
+}

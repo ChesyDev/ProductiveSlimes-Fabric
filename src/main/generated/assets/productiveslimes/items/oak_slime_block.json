@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "productiveslimes:block/template_slime_block",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -5857937
+      }
+    ]
+  }
+}

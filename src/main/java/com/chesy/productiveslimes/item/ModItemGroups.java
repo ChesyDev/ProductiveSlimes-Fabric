@@ -34,7 +34,7 @@ public class ModItemGroups {
                         entries.add(ModBlocks.FLUID_TANK);
                         entries.add(ModBlocks.CABLE);
                         for(Tier tier : Tier.values()) {
-                            //entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getDnaItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                             entries.add(ModTierLists.getBucketItemByName(ModTierLists.getTierByName(tier).name()).asItem());

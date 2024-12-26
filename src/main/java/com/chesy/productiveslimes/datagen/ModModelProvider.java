@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.datagen;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.block.custom.SlimeBlock;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
@@ -17,6 +18,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
+import net.minecraft.client.render.item.model.ItemModelTypes;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -43,6 +45,12 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.FLUID_TANK);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
 
+        slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
+
+        for (Tier tier : Tier.values()){
+            ModTiers tiers = ModTierLists.getTierByName(tier);
+            slimeBlock(blockStateModelGenerator, ModTierLists.getBlockByName(tiers.name()));
+        }
     }
 
     @Override
@@ -98,11 +106,22 @@ public class ModModelProvider extends FabricModelProvider {
                 .register(Direction.SOUTH, BlockStateVariant.create());
     }
 
+    private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
+        blockStateModelGenerator.blockStateCollector
+                .accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation("template_slime_block")))
+                );
+        blockStateModelGenerator.registerTintedItemModel(block, blockLocation("template_slime_block"), ItemModels.constantTintSource(block.getColor()));
+    }
+
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         blockStateModelGenerator.blockStateCollector
                 .accept(
                         VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(block)))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
+    }
+
+    private Identifier blockLocation(String modelName){
+        return Identifier.of(ProductiveSlimes.MOD_ID, "block/" + modelName);
     }
 }

@@ -41,6 +41,8 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                     ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name));
 
+            BlockRenderLayerMap.INSTANCE.putBlock(ModTierLists.getBlockByName(name), RenderLayer.getTranslucent());
+
             EntityRendererRegistry.register(ModTierLists.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
     }

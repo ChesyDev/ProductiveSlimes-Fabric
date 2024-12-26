@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.tier;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.block.custom.SlimeBlock;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 public class ModTierLists {
     public static final Map<Tier , ModTiers> TIERS = new HashMap<>();
-    private static final Map<Identifier, Block> registeredBlock = new HashMap<>();
+    private static final Map<Identifier, SlimeBlock> registeredBlock = new HashMap<>();
     private static final Map<Identifier, SlimeballItem> registeredSlimeballItem = new HashMap<>();
     private static final Map<Identifier, DnaItem> registeredDnaItem = new HashMap<>();
     private static final Map<Identifier, SpawnEggItem> registeredSpawnEggItem = new HashMap<>();
@@ -75,7 +76,7 @@ public class ModTierLists {
         TIERS.put(Tier.OAK_LEAVES, new ModTiers("oak_leaves", 0xFF48b518, 27, 1500, "minecraft:oak_leaves", "minecraft:oak_leaves", 2, "minecraft:oak_leaves", "productiveslimes:dirt_slime_dna", "productiveslimes:slime_dna", 0.7f));
     }
 
-    public static void addRegisteredBlock(String name, Block block){
+    public static void addRegisteredBlock(String name, SlimeBlock block){
         registeredBlock.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_block"), block);
     }
 
@@ -115,7 +116,7 @@ public class ModTierLists {
         return TIERS.get(tier);
     }
 
-    public static Block getBlockByName(String name){
+    public static SlimeBlock getBlockByName(String name){
         return registeredBlock.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_block"));
     }
 
