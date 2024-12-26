@@ -13,6 +13,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -36,12 +37,11 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             ModTiers tiers = ModTierLists.getTierByName(tier);
             String name = tiers.name();
 
-            FluidRenderHandlerRegistry.INSTANCE.register(ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name),
-                    SimpleFluidRenderHandler.coloredWater(tiers.color()));
-            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
-                    ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name));
+            FluidRenderHandlerRegistry.INSTANCE.register(ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name), SimpleFluidRenderHandler.coloredWater(tiers.color()));
+            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name));
 
             BlockRenderLayerMap.INSTANCE.putBlock(ModTierLists.getBlockByName(name), RenderLayer.getTranslucent());
+            ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tiers.color(), ModTierLists.getBlockByName(name));
 
             EntityRendererRegistry.register(ModTierLists.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
