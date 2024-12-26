@@ -23,8 +23,6 @@ public class ModItemGroups {
                     .entries((displayContext, entries) -> {
                         entries.add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
                         entries.add(ModItems.SLIMEBALL_FRAGMENT);
-                        entries.add(ProductiveSlimes.ENERGY_SLIME_BALL);
-                        entries.add(ModItems.ENERGY_SLIME_SPAWN_EGG);
                         entries.add(ModBlocks.MELTING_STATION);
                         entries.add(ModBlocks.SOLIDING_STATION);
                         entries.add(ModBlocks.DNA_EXTRACTOR);
@@ -33,11 +31,28 @@ public class ModItemGroups {
                         entries.add(ModBlocks.SLIME_SQUEEZER);
                         entries.add(ModBlocks.FLUID_TANK);
                         entries.add(ModBlocks.CABLE);
+
+                        entries.add(ModBlocks.ENERGY_SLIME_BLOCK);
                         for(Tier tier : Tier.values()) {
                             entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
+                        }
+
+                        entries.add(ProductiveSlimes.ENERGY_SLIME_BALL);
+                        for (Tier tier : Tier.values()){
                             entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                        }
+
+                        entries.add(ModItems.SLIME_DNA);
+                        for (Tier tier : Tier.values()){
                             entries.add(ModTierLists.getDnaItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                        }
+
+                        for (Tier tier : Tier.values()){
                             entries.add(ModTierLists.getBucketItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                        }
+
+                        entries.add(ModItems.ENERGY_SLIME_SPAWN_EGG);
+                        for (Tier tier : Tier.values()){
                             entries.add(ModTierLists.getSpawnEggItemByName(ModTierLists.getTierByName(tier).name()).asItem());
                         }
                     }).build());
