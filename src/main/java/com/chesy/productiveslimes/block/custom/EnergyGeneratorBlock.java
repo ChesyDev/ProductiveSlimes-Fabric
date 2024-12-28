@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block.custom;
 import com.chesy.productiveslimes.block.entity.DnaSynthesizerBlockEntity;
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
+import com.chesy.productiveslimes.handler.CustomEnergyStorage;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,6 +32,8 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
+
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0);
 
     @Override
     protected MapCodec<? extends EnergyGeneratorBlock> getCodec() {

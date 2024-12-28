@@ -1,45 +1,29 @@
 package com.chesy.productiveslimes.screen.custom;
 
-import com.chesy.productiveslimes.ProductiveSlimes;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
+import com.chesy.productiveslimes.screen.ModMenuTypes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.util.math.BlockPos;
 
-import java.util.function.Function;
+public class GuidebookMenu extends ScreenHandler {
 
-public class GuidebookMenu extends HandledScreen<GuidebookMenuHandler> {
-    public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/guidebook_gui.png");
+    public GuidebookMenu(int syncId, PlayerInventory inventory, BlockPos pos) {
+        this(syncId, inventory);
+    }
 
-    public GuidebookMenu(GuidebookMenuHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
+    public GuidebookMenu(int syncId, PlayerInventory playerInventory) {
+        super(ModMenuTypes.GUIDEBOOK_MENU_HANDLER, syncId);
     }
 
     @Override
-    protected void init() {
-        super.init();
-
-        titleY = 1000;
-        playerInventoryTitleY = 1000;
+    public ItemStack quickMove(PlayerEntity player, int slot) {
+        return ItemStack.EMPTY;
     }
 
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        int x = (width - backgroundWidth) / 2;
-        int y = (height - backgroundHeight) / 2;
-        Function<Identifier, RenderLayer> renderLayerFunction = RenderLayer::getGuiTextured;
-
-        // Drawing the background texture using context.drawTexture
-        context.drawTexture(renderLayerFunction, GUI_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
-    }
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta);
-        super.render(context, mouseX, mouseY, delta);
-        drawMouseoverTooltip(context, mouseX, mouseY);
+    public boolean canUse(PlayerEntity player) {
+        return true;
     }
 }

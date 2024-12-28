@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.item.custom;
 
-import com.chesy.productiveslimes.screen.custom.GuidebookMenuHandler;
+import com.chesy.productiveslimes.screen.custom.GuidebookMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -30,8 +30,8 @@ public class GuidebookItem extends Item {
                 }
 
                 @Override
-                public GuidebookMenuHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                    return new GuidebookMenuHandler(syncId, playerInventory);
+                public GuidebookMenu createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+                    return new GuidebookMenu(syncId, playerInventory);
                 }
 
                 @Override
