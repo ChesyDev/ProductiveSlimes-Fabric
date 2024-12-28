@@ -5,6 +5,7 @@ import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
+import com.chesy.productiveslimes.screen.custom.EnergyGeneratorScreen;
 import com.chesy.productiveslimes.screen.custom.GuidebookScreen;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
@@ -24,6 +25,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         HandledScreens.register(ModMenuTypes.GUIDEBOOK_MENU_HANDLER, GuidebookScreen::new);
+        HandledScreens.register(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, EnergyGeneratorScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));

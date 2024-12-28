@@ -486,5 +486,6 @@
 
   "": "",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "Scientist"
+  "entity.minecraft.villager.productiveslimes.scientist": "Scientist",
+  "gui.productiveslimes.energy_generator": "Energy Generator"
 }

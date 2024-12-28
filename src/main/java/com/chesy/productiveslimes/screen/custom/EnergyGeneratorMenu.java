@@ -9,6 +9,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -17,14 +19,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EnergyGeneratorMenu extends ScreenHandler {
-    public final EnergyGeneratorBlockEntity blockEntity;
-    private final World world;
-    private final PropertyDelegate data;
+    public EnergyGeneratorBlockEntity blockEntity;
+    private World world;
+    private PropertyDelegate data;
     private boolean showExtraSlots = true;
-    private final PlayerInventory playerInventory;
+    private PlayerInventory playerInventory;
 
-    public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockPos pos, EnergyGeneratorBlockEntity entity, PropertyDelegate data) {
-        this(syncId, inv, entity, data);
+    public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
+        super(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, syncId);
     }
 
     public EnergyGeneratorMenu(int syncId, PlayerInventory inv, EnergyGeneratorBlockEntity entity, PropertyDelegate data) {
@@ -57,14 +59,14 @@ public class EnergyGeneratorMenu extends ScreenHandler {
         addPlayerHotbar(playerInventory);
 
         ItemStackHandler iItemHandler = blockEntity.getItemHandler();
-        this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
+        addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
 
         if (showExtraSlots) {
             ItemStackHandler upgradeHandler = blockEntity.getUpgradeHandler();
-            this.addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
-            this.addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
-            this.addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));
-            this.addSlot(new SlotItemHandler(upgradeHandler, 3, 197, 47));
+            addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
+            addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
+            addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));
+            addSlot(new SlotItemHandler(upgradeHandler, 3, 197, 47));
         }
 
         this.sendContentUpdates();
