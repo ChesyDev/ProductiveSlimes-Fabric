@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import team.reborn.energy.api.EnergyStorage;
 
 public class ModBlockEntities {
     public static final BlockEntityType<MeltingStationBlockEntity> MELTING_STATION = register(
@@ -55,5 +56,11 @@ public class ModBlockEntities {
     }
 
     public static void initialize() {
+        EnergyStorage.SIDED.registerForBlockEntities((blockEntity, direction) -> {
+            if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
+                return energyGeneratorBlockEntity.getEnergyHandler();
+            }
+            return null;
+        }, ModBlockEntities.ENERGY_GENERATOR);
     }
 }
