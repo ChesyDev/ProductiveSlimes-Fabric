@@ -19,12 +19,6 @@ import net.minecraft.util.Identifier;
 public class ModEntities {
     public static final EntityType<BaseSlime> ENERGY_SLIME = registerSlime("energy_slime", 1000, 0xffff70, ProductiveSlimes.ENERGY_SLIME_BALL, Items.SLIME_BALL);
 
-    public static EntityType<BaseSlime> registerSlime(String name, int cooldown, int color, Item dropItem, Item growthItem) {
-        return Registry.register(Registries.ENTITY_TYPE,
-                Identifier.of(ProductiveSlimes.MOD_ID, name),
-                EntityType.Builder.<BaseSlime>create((type, world) -> new BaseSlime(type, world, cooldown, color, dropItem, growthItem), SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MOD_ID, name))));
-    }
-
     public static void registerTierEntities(){
         for (Tier name : Tier.values()){
             ModTiers tiers = ModTierLists.getTierByName(name);
@@ -36,6 +30,13 @@ public class ModEntities {
             ModTierLists.addRegisteredSlime(tiers.name(), slime);
         }
     }
+
+    public static EntityType<BaseSlime> registerSlime(String name, int cooldown, int color, Item dropItem, Item growthItem) {
+        return Registry.register(Registries.ENTITY_TYPE,
+                Identifier.of(ProductiveSlimes.MOD_ID, name),
+                EntityType.Builder.<BaseSlime>create((type, world) -> new BaseSlime(type, world, cooldown, color, dropItem, growthItem), SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MOD_ID, name))));
+    }
+
 
     public static void initialize() {
         registerTierEntities();

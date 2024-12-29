@@ -35,14 +35,10 @@ public class ModItems {
     public static void registerTierItems() {
         for (Tier name : Tier.values()){
             ModTiers tiers = ModTierLists.getTierByName(name);
-            String slimeballName = tiers.name() + "_slimeball";
             String dnaName = tiers.name() + "_slime_dna";
             String spawnEggName = tiers.name() + "_slime_spawn_egg";
 
             int color = tiers.color();
-
-            SlimeballItem slimeball = register(slimeballName, new SlimeballItem(color, new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
 
             DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, dnaName)))));
@@ -50,18 +46,31 @@ public class ModItems {
             SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTierLists.getEntityByName(tiers.name()), color, color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, spawnEggName)))));
 
-            ModTierLists.addRegisteredSlimeballItem(tiers.name(), slimeball);
             ModTierLists.addRegisteredDnaItem(tiers.name(), dna);
             ModTierLists.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
         }
     }
 
-    private static <T extends Item> T register(String id, T item){
+    public static <T extends Item> T register(String id, T item){
         Identifier itemID = Identifier.of(ProductiveSlimes.MOD_ID, id);
         return Registry.register(Registries.ITEM, itemID, item); //returns Registered Item
     }
 
     public static void initialize() {
         registerTierItems();
+    }
+
+    public static void registerSlimeball(){
+        for (Tier name : Tier.values()){
+            ModTiers tiers = ModTierLists.getTierByName(name);
+            String slimeballName = tiers.name() + "_slimeball";
+
+            int color = tiers.color();
+
+            SlimeballItem slimeball = ModItems.register(slimeballName, new SlimeballItem(color, new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
+
+            ModTierLists.addRegisteredSlimeballItem(tiers.name(), slimeball);
+        }
     }
 }

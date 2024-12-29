@@ -8,9 +8,13 @@ import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.fluid.ModFluids;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
+import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
+import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -37,6 +41,7 @@ public class ProductiveSlimes implements ModInitializer {
 		ModDataComponents.register();
 		ModItemGroups.initialize();
 
+		ModItems.registerSlimeball();
 		ModEntities.initialize();
 		ModItems.initialize();
 
