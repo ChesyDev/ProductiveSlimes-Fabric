@@ -29,6 +29,8 @@ import net.minecraft.world.block.WireOrientation;
 import net.minecraft.world.tick.ScheduledTickView;
 import org.apache.logging.log4j.core.Core;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.EnergyStorageUtil;
 
 public class CableBlock extends Block implements BlockEntityProvider {
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
@@ -113,7 +115,6 @@ public class CableBlock extends Block implements BlockEntityProvider {
     private boolean canConnectToBlock(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        // Define blocks that the cable can connect to
         return block instanceof CableBlock;
     }
 
@@ -149,13 +150,10 @@ public class CableBlock extends Block implements BlockEntityProvider {
     }
 
     private boolean canConnectTo(World world, BlockPos pos, Direction direction) {
-        // Access the capability at the neighbor position and side
-//        IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction.getOpposite());
-        String energyStorage = null;
+        EnergyStorage energyStorage = EnergyStorage.SIDED.find(world, pos, direction);
         if (energyStorage != null) {
             return true;
         } else {
-            // Check if the block is another cable
             BlockState state = world.getBlockState(pos);
             return state.getBlock() instanceof CableBlock;
         }
