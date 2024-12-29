@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
     public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/guidebook_gui.png");
+            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/energy_generator_gui.png");
 
     public EnergyGeneratorScreen(EnergyGeneratorMenu handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -38,7 +38,7 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
 
         ButtonWidget iconButton = new IconButton(x + 155, y + 62, 16, 16, Text.translatable(""), 0, 0, 16, 0, button -> onButtonPress());
 
-        this.addDrawable(iconButton);
+        this.addDrawableChild(iconButton);
     }
 
     private void onButtonPress(){
@@ -67,7 +67,7 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
         // Drawing the background texture using context.drawTexture
         context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 232.0f, 57.0f - (float)energyScaled, 9, energyScaled, 256, 256);
 
-
+        renderProgressArrow(context, x, y);
     }
 
     private void renderProgressArrow(DrawContext context, int x, int y) {

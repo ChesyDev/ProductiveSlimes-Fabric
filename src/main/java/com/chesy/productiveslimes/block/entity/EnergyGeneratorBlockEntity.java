@@ -5,17 +5,16 @@ import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.handler.ContainerUtils;
 import com.chesy.productiveslimes.handler.CustomEnergyStorage;
 import com.chesy.productiveslimes.handler.EnergyAccessingBlock;
-import com.chesy.productiveslimes.handler.ItemStackHandler;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientBlockEntityEvents;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -23,42 +22,26 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return canBurn(stack);
-        }
-    };
+public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
+
     protected final PropertyDelegate data;
 
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0);
-
-    private final ItemStackHandler upgradeHandler = new ItemStackHandler(4) {
-        @Override
-        public int getSlotLimit(int slot) {
-            return 1;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() == ModItems.ENERGY_MULTIPLIER_UPGRADE;
-        }
-    };
 
     private int progress = 0;
     private int maxProgress = 100;
@@ -69,14 +52,6 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
 
     public PropertyDelegate getData(){
         return data;
-    }
-
-    public ItemStackHandler getItemHandler(){
-        return itemHandler;
-    }
-
-    public ItemStackHandler getUpgradeHandler(){
-        return upgradeHandler;
     }
 
     public EnergyGeneratorBlockEntity(BlockPos pos, BlockState state) {
@@ -127,19 +102,19 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
 
         if (this.energyHandler.getAmountStored() < this.energyHandler.getMaxAmountStored()) {
             if (this.progress <= 0) {
-                if (canBurn(this.itemHandler.getStackInSlot(0))) {
-                    this.progress = this.maxProgress = getBurnTime(this.itemHandler.getStackInSlot(0));
-                    this.itemHandler.getStackInSlot(0).decrement(1);
+                if (canBurn(this.inventory.getFirst())) {
+                    this.progress = this.maxProgress = getBurnTime(this.inventory.getFirst());
+                    this.removeStack(0, 1);
                     isDirty.set(true);
                 }
             } else {
                 this.progress--;
 
                 int upgrade = 0;
-                for (int i = 0; i < this.upgradeHandler.getSlots(); i++) {
-                    if (this.upgradeHandler.getStackInSlot(i).isEmpty()) continue;
+                for (int i = 1; i < this.inventory.size(); i++) {
+                    if (this.inventory.get(i).isEmpty()) continue;
 
-                    if (this.upgradeHandler.getStackInSlot(i).getItem() == ModItems.ENERGY_MULTIPLIER_UPGRADE) {
+                    if (this.inventory.get(i).getItem() == ModItems.ENERGY_MULTIPLIER_UPGRADE) {
                         upgrade++;
                     }
                 }
@@ -183,22 +158,20 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.writeNbt(nbt, registries);
 
-        nbt.put("Inventory", itemHandler.serializeNBT(registries));
+        Inventories.writeNbt(nbt, inventory, registries);
         nbt.put("Energy", energyHandler.serializeNBT(registries));
         nbt.putInt("Progress", progress);
         nbt.putInt("MaxProgress", maxProgress);
-        nbt.put("Upgrades", upgradeHandler.serializeNBT(registries));
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
 
-        this.itemHandler.deserializeNBT(registries, nbt.getCompound("Inventory"));
+        Inventories.readNbt(nbt, inventory, registries);
         this.energyHandler.deserializeNBT(registries, nbt.getCompound("Energy"));
         this.progress = nbt.getInt("Progress");
         this.maxProgress = nbt.getInt("MaxProgress");
-        this.upgradeHandler.deserializeNBT(registries, nbt.getCompound("Upgrades"));
     }
 
     @Nullable
@@ -208,9 +181,9 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
     }
 
     public void drops() {
-        SimpleInventory inventory = new SimpleInventory(itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setStack(i, itemHandler.getStackInSlot(i));
+        SimpleInventory inventory = new SimpleInventory(this.inventory.size());
+        for(int i = 0; i < this.inventory.size(); i++) {
+            inventory.setStack(i, this.inventory.get(i));
         }
         ContainerUtils.dropContents(this.world, this.pos, inventory);
     }
@@ -235,5 +208,15 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
 
     public boolean canBurn(ItemStack stack) {
         return getBurnTime(stack) > 0;
+    }
+
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
+        return this.pos;
+    }
+
+    @Override
+    public DefaultedList<ItemStack> getItems() {
+        return inventory;
     }
 }

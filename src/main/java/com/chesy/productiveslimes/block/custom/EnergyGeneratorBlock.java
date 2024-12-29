@@ -19,6 +19,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
@@ -104,29 +105,8 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             BlockEntity entity = world.getBlockEntity(pos);
-            if (entity instanceof EnergyGeneratorBlockEntity) {
-                EnergyGeneratorBlockEntity containerProvider = (EnergyGeneratorBlockEntity) entity;
-                player.openHandledScreen(new ExtendedScreenHandlerFactory<>() {
-                    @Override
-                    public EnergyGeneratorMenu createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                        if (world.getBlockEntity(pos) instanceof EnergyGeneratorBlockEntity blockEntity) {
-                            return new EnergyGeneratorMenu(syncId, playerInventory, blockEntity, blockEntity.getData());
-                        }
-
-                        return null;
-                    }
-
-                    @Override
-                    public Text getDisplayName() {
-                        return Text.translatable("gui.productiveslimes.energy_generator");
-                    }
-
-                    @Override
-                    public Object getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-                        BlockPos pos = serverPlayerEntity.getBlockPos(); // Example of getting player position
-                        return pos;
-                    }
-                });
+            if (entity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
+                player.openHandledScreen(energyGeneratorBlockEntity);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }

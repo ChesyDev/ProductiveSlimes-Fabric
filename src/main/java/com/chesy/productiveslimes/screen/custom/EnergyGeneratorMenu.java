@@ -1,20 +1,17 @@
 package com.chesy.productiveslimes.screen.custom;
 
-import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
-import com.chesy.productiveslimes.handler.ItemStackHandler;
-import com.chesy.productiveslimes.handler.SlotItemHandler;
-import com.chesy.productiveslimes.handler.items.IItemHandler;
+import com.chesy.productiveslimes.screen.slot.EnergyGeneratorInputSlot;
+import com.chesy.productiveslimes.screen.slot.EnergyGeneratorUpgradeSlot;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,30 +22,27 @@ public class EnergyGeneratorMenu extends ScreenHandler {
     private PropertyDelegate data;
     private boolean showExtraSlots = true;
     private PlayerInventory playerInventory;
+    private final Inventory inventory;
 
     public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
-        super(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, syncId);
+        this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
     }
 
-    public EnergyGeneratorMenu(int syncId, PlayerInventory inv, EnergyGeneratorBlockEntity entity, PropertyDelegate data) {
+    public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, syncId);
-        checkSize(inv, 4);
-        this.blockEntity = entity;
-        this.world = entity.getWorld();
+        this.blockEntity = ((EnergyGeneratorBlockEntity) entity);
         this.data = data;
         this.playerInventory = inv;
+        this.inventory = (Inventory) entity;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        IItemHandler iItemHandler = blockEntity.getItemHandler();
-        this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
-
-        IItemHandler upgradeHandler = blockEntity.getUpgradeHandler();
-        this.addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
-        this.addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
-        this.addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));
-        this.addSlot(new SlotItemHandler(upgradeHandler, 3, 197, 47));
+        this.addSlot(new EnergyGeneratorInputSlot(inventory, 0, 80, 25, blockEntity));
+        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 1, 179, 29));
+        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 2, 197, 29));
+        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 3, 179, 47));
+        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 4, 197, 47));
 
         addProperties(data);
     }
@@ -58,16 +52,13 @@ public class EnergyGeneratorMenu extends ScreenHandler {
         this.slots.clear();
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-
-        IItemHandler iItemHandler = blockEntity.getItemHandler();
-        addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
+        addSlot(new EnergyGeneratorInputSlot(inventory, 0, 80, 25, blockEntity));
 
         if (showExtraSlots) {
-            IItemHandler upgradeHandler = blockEntity.getUpgradeHandler();
-            addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
-            addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
-            addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));
-            addSlot(new SlotItemHandler(upgradeHandler, 3, 197, 47));
+            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 1, 179, 29));
+            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 2, 197, 29));
+            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 3, 179, 47));
+            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 4, 197, 47));
         }
 
         this.sendContentUpdates();
@@ -103,41 +94,27 @@ public class EnergyGeneratorMenu extends ScreenHandler {
     private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
 
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
-        Slot sourceSlot = slots.get(slot);
-        if (sourceSlot == null || !sourceSlot.hasStack()) return ItemStack.EMPTY;  //EMPTY_ITEM
-        ItemStack sourceStack = sourceSlot.getStack();
-        ItemStack copyOfSourceStack = sourceStack.copy();
-
-        // Check if the slot clicked is one of the vanilla container slots
-        if (slot < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!insertItem(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
-            }
-        } else if (slot < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            // This is a TE slot so merge the stack into the players inventory
-            if (!insertItem(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+    public ItemStack quickMove(PlayerEntity player, int invSlot) {
+        ItemStack newStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(invSlot);
+        if (slot != null && slot.hasStack()) {
+            ItemStack originalStack = slot.getStack();
+            newStack = originalStack.copy();
+            if (invSlot < this.inventory.size()) {
+                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             }
-        } else {
-            System.out.println("Invalid slotIndex:" + slot);
-            return ItemStack.EMPTY;
-        }
-        // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.setStack(ItemStack.EMPTY);
-        } else {
 
+            if (originalStack.isEmpty()) {
+                slot.setStack(ItemStack.EMPTY);
+            } else {
+                slot.markDirty();
+            }
         }
-        sourceSlot.onTakeItem(player, sourceStack);
-        return copyOfSourceStack;
-    }
-
-    @Override
-    public boolean isValid(int slot) {
-        return isValid(slot);
+        return newStack;
     }
 
     private void addPlayerInventory(PlayerInventory playerInventory) {
@@ -180,6 +157,6 @@ public class EnergyGeneratorMenu extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        return this.inventory.canPlayerUse(player);
     }
 }
