@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.handler.ItemStackHandler;
 import com.chesy.productiveslimes.handler.SlotItemHandler;
+import com.chesy.productiveslimes.handler.items.IItemHandler;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -40,10 +41,10 @@ public class EnergyGeneratorMenu extends ScreenHandler {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        ItemStackHandler iItemHandler = blockEntity.getItemHandler();
+        IItemHandler iItemHandler = blockEntity.getItemHandler();
         this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
 
-        ItemStackHandler upgradeHandler = blockEntity.getUpgradeHandler();
+        IItemHandler upgradeHandler = blockEntity.getUpgradeHandler();
         this.addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
         this.addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
         this.addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));
@@ -58,11 +59,11 @@ public class EnergyGeneratorMenu extends ScreenHandler {
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
 
-        ItemStackHandler iItemHandler = blockEntity.getItemHandler();
+        IItemHandler iItemHandler = blockEntity.getItemHandler();
         addSlot(new SlotItemHandler(iItemHandler, 0, 80, 25));
 
         if (showExtraSlots) {
-            ItemStackHandler upgradeHandler = blockEntity.getUpgradeHandler();
+            IItemHandler upgradeHandler = blockEntity.getUpgradeHandler();
             addSlot(new SlotItemHandler(upgradeHandler, 0, 179, 29));
             addSlot(new SlotItemHandler(upgradeHandler, 1, 197, 29));
             addSlot(new SlotItemHandler(upgradeHandler, 2, 179, 47));

@@ -1,5 +1,7 @@
 package com.chesy.productiveslimes.handler;
 
+import com.chesy.productiveslimes.handler.items.IItemHandler;
+import com.chesy.productiveslimes.handler.items.IItemHandlerModifiable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -8,10 +10,10 @@ import net.minecraft.screen.slot.Slot;
 
 public class SlotItemHandler extends Slot {
     private static Inventory emptyInventory = new SimpleInventory(0);
-    private final ItemStackHandler itemHandler;
+    private final IItemHandler itemHandler;
     protected final int index;
 
-    public SlotItemHandler(ItemStackHandler itemHandler, int index, int x, int y) {
+    public SlotItemHandler(IItemHandler itemHandler, int index, int x, int y) {
         super(emptyInventory, index, x, y);
         this.itemHandler = itemHandler;
         this.index = index;
@@ -32,11 +34,13 @@ public class SlotItemHandler extends Slot {
 
     @Override
     public void setStack(ItemStack stack) {
-        this.getItemHandler().setStackInSlot(index, stack);
+        ((IItemHandlerModifiable)this.getItemHandler()).setStackInSlot(index, stack);
+        this.markDirty();
     }
 
     public void initialize(ItemStack stack) {
-        this.getItemHandler().setStackInSlot(index, stack);
+        ((IItemHandlerModifiable)this.getItemHandler()).setStackInSlot(index, stack);
+        this.markDirty();
     }
 
     @Override
@@ -53,10 +57,10 @@ public class SlotItemHandler extends Slot {
         int maxInput = stack.getMaxCount();
         maxAdd.setCount(maxInput);
 
-        ItemStackHandler handler = this.getItemHandler();
+        IItemHandler handler = this.getItemHandler();
         ItemStack currentStack = handler.getStackInSlot(index);
         if (handler instanceof ItemStackHandler) {
-            ItemStackHandler handlerModifiable = handler;
+            IItemHandlerModifiable handlerModifiable = (IItemHandlerModifiable) handler;
 
             handlerModifiable.setStackInSlot(index, ItemStack.EMPTY);
 
@@ -84,7 +88,7 @@ public class SlotItemHandler extends Slot {
         return this.getItemHandler().extractItem(index, amount, false);
     }
 
-    public ItemStackHandler getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 }

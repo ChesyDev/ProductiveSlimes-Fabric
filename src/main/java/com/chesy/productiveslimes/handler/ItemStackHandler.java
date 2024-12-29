@@ -1,5 +1,8 @@
 package com.chesy.productiveslimes.handler;
 
+import com.chesy.productiveslimes.common.util.INBTSerializable;
+import com.chesy.productiveslimes.handler.items.IItemHandler;
+import com.chesy.productiveslimes.handler.items.IItemHandlerModifiable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -10,7 +13,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
-public class ItemStackHandler {
+public class ItemStackHandler implements IItemHandler, IItemHandlerModifiable, INBTSerializable<NbtCompound> {
     protected DefaultedList<ItemStack> stacks;
 
     public ItemStackHandler(){
@@ -29,21 +32,25 @@ public class ItemStackHandler {
         stacks = DefaultedList.ofSize(size, ItemStack.EMPTY);
     }
 
+    @Override
     public void setStackInSlot(int slot, ItemStack stack) {
         validateSlotIndex(slot);
         this.stacks.set(slot, stack);
         onContentsChanged(slot);
     }
 
+    @Override
     public int getSlots() {
         return stacks.size();
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot) {
         validateSlotIndex(slot);
         return this.stacks.get(slot);
     }
 
+    @Override
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
         if (stack.isEmpty())
             return ItemStack.EMPTY;
@@ -81,6 +88,7 @@ public class ItemStackHandler {
         return reachedLimit ? stack.copyWithCount(stack.getCount() - limit) : ItemStack.EMPTY;
     }
 
+    @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         if (amount == 0)
             return ItemStack.EMPTY;
@@ -112,6 +120,7 @@ public class ItemStackHandler {
         }
     }
 
+    @Override
     public int getSlotLimit(int slot) {
         return Item.DEFAULT_MAX_COUNT;
     }
@@ -120,6 +129,7 @@ public class ItemStackHandler {
         return Math.min(getSlotLimit(slot), stack.getMaxCount());
     }
 
+    @Override
     public boolean isItemValid(int slot, ItemStack stack) {
         return true;
     }
@@ -129,6 +139,7 @@ public class ItemStackHandler {
             throw new RuntimeException("Slot " + slot + " not in valid range - [0," + stacks.size() + ")");
     }
 
+    @Override
     public NbtCompound serializeNBT(RegistryWrapper.WrapperLookup registryWrapper) {
         NbtList nbtTagList = new NbtList();
         for (int i = 0; i < stacks.size(); i++) {
@@ -145,6 +156,7 @@ public class ItemStackHandler {
         return nbt;
     }
 
+    @Override
     public void deserializeNBT(RegistryWrapper.WrapperLookup registryWrapper, NbtCompound nbt) {
         setSize(nbt.contains("Size", NbtElement.INT_TYPE) ? nbt.getInt("Size") : stacks.size());
         NbtList tagList = nbt.getList("Items", NbtCompound.COMPOUND_TYPE);
