@@ -160,15 +160,10 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements NamedScre
         if (!this.world.isClient) {
             for (Direction direction : Direction.values()) {
                 World world = this.world;
-                BlockPos neighborPos = this.getPos().offset(direction);
-
                 Optional<EnergyStorage> neighborEnergy = new EnergyAccessingBlock(world).getNeighborEnergyStorage(pos, direction);
 
                 if (neighborEnergy.isPresent()) {
                     EnergyStorage neighborStorage = neighborEnergy.get();
-
-
-
                     if (neighborStorage.supportsInsertion()) {
                         int energyToExtract = (int) Math.min(this.energyHandler.extract(1000, Transaction.openOuter()), neighborStorage.insert(1000, Transaction.openOuter()));
 
