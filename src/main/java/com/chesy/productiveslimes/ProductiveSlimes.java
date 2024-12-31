@@ -11,6 +11,7 @@ import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.item.custom.SpawnEggItem;
+import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
@@ -49,6 +50,7 @@ public class ProductiveSlimes implements ModInitializer {
 		ModBlockEntities.initialize();
 
 		ModMenuTypes.registerScreenHandlers();
+		ModRecipes.register();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 	}

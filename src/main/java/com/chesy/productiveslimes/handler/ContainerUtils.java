@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class ContainerUtils {
 
-
     public static void dropContents(World world, BlockPos pos, Inventory inventory) {
         if (!world.isClient) {
             for (int i = 0; i < inventory.size(); i++) {
