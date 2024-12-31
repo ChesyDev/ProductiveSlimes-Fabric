@@ -47,7 +47,7 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
             int k = handler.getScaledProgress();
-            context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 81, y + 47 + 14 - k, 218.0f, 14.0f - (float)k, 14, k, 256, 256);
+            context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 77, y + 38, 176.0f, 0, k, 8, 256, 256);
         }
     }
 

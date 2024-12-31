@@ -41,7 +41,12 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
 
     protected final PropertyDelegate data;
 
-    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0);
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0){
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+        }
+    };
 
     private int progress = 0;
     private int maxProgress = 100;

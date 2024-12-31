@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "productiveslimes:melting/item.productiveslimes.oak_leaves_slime_block_melting"
+        "recipe": "productiveslimes:melting/oak_leaves_slimeball_melting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "productiveslimes:melting/item.productiveslimes.oak_leaves_slime_block_melting"
+      "productiveslimes:melting/oak_leaves_slimeball_melting"
     ]
   }
 }

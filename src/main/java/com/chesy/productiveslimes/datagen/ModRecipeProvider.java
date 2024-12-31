@@ -80,7 +80,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private static String getItemName(Item item) {
-        return item.getName().getString();
+        String name = item.getName().getString();
+        return name.substring(name.lastIndexOf('.') + 1);
     }
 
     protected AdvancementCriterion<?> has(NumberRange.IntRange pCount, ItemConvertible item) {

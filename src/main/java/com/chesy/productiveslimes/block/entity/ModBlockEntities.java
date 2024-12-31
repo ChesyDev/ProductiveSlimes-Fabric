@@ -60,7 +60,11 @@ public class ModBlockEntities {
             if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
                 return energyGeneratorBlockEntity.getEnergyHandler();
             }
+
+            if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity) {
+                return meltingStationBlockEntity.getEnergyHandler();
+            }
             return null;
-        }, ModBlockEntities.ENERGY_GENERATOR);
+        }, ModBlockEntities.ENERGY_GENERATOR, ModBlockEntities.MELTING_STATION);
     }
 }

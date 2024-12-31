@@ -17,6 +17,6 @@ public class MeltingStationOutputSlot extends Slot {
 
     @Override
     public int getMaxItemCount() {
-        return 1;
+        return 64;
     }
 }

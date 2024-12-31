@@ -25,6 +25,8 @@ public class MeltingStationMenu extends ScreenHandler {
     public final MeltingStationBlockEntity blockEntity;
     private final World world;
     private final PropertyDelegate data;
+    private PlayerInventory playerInventory;
+    private final Inventory inventory;
 
     public MeltingStationMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
         this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
@@ -35,18 +37,20 @@ public class MeltingStationMenu extends ScreenHandler {
         this.blockEntity = ((MeltingStationBlockEntity) entity);
         this.world = inv.player.getWorld();
         this.data = data;
+        this.playerInventory = inv;
+        this.inventory = (Inventory) entity;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
         ItemStack bucketHandler = blockEntity.getBucketHandler();
-        this.addSlot(new MeltingStationBucketSlot(inv, 0, 25, 34));
+        this.addSlot(new MeltingStationBucketSlot(inventory, 0, 25, 34));
 
         ItemStack inputHandler = blockEntity.getInputHandler();
-        this.addSlot(new MeltingStationInputSlot(inv, 0, 45, 34, blockEntity));
+        this.addSlot(new MeltingStationInputSlot(inventory, 1, 45, 34, blockEntity));
 
         ItemStack outputHandler = blockEntity.getOutputHandler();
-        this.addSlot(new MeltingStationOutputSlot(inv, 0, 134, 34));
+        this.addSlot(new MeltingStationOutputSlot(inventory, 2, 134, 34));
 
         addProperties(data);
     }
@@ -112,7 +116,7 @@ public class MeltingStationMenu extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return false;
+        return this.inventory.canPlayerUse(player);
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

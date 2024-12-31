@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.screen.slot;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.screen.slot.Slot;
 
 public class MeltingStationBucketSlot extends Slot {
@@ -11,11 +12,11 @@ public class MeltingStationBucketSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return false;
+        return stack.getItem() == Items.BUCKET;
     }
 
     @Override
     public int getMaxItemCount() {
-        return 1;
+        return 64;
     }
 }

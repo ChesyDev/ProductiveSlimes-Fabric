@@ -40,11 +40,18 @@ import java.util.Optional;
 public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory{
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
-    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0);
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+        }
+    };
 
     protected final PropertyDelegate data;
     private int progress = 0;
     private int maxProgress = 78;
+
+    private final int OUTPUT_SLOT = 2;
 
     public MeltingStationBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.MELTING_STATION, pos, state);
@@ -86,6 +93,10 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     public ItemStack getOutputHandler() {
         return this.inventory.get(2);
+    }
+
+    public int outputHandlerCount(){
+        return 1;
     }
 
     public CustomEnergyStorage getEnergyHandler() {
@@ -145,6 +156,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+
         if(hasRecipe() && getBucketHandler().getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
@@ -176,7 +188,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
                 if (outputSlot != -1) {
-                    getOutputHandler().set(ComponentType.builder().build(), new ItemStack(result.getItem(),
+                    this.inventory.set(OUTPUT_SLOT, new ItemStack(result.getItem(),
                             getOutputHandler().getCount() + result.getCount()));
                 } else {
                     // Handle the case where no suitable output slot is found
@@ -190,7 +202,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     private int findSuitableOutputSlot(ItemStack result) {
         // Implement logic to find a suitable output slot for the given result
         // Return the slot index or -1 if no suitable slot is found
-        for (int i = 0; i < getOutputHandler().getCount(); i++) {
+        for (int i = 0; i < outputHandlerCount(); i++) {
             ItemStack stackInSlot = getOutputHandler();
             if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
                 return i;
@@ -228,7 +240,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             count++;
         }
 
-        for (int i = 0; i < getOutputHandler().getCount(); i++) {
+        for (int i = 0; i < outputHandlerCount(); i++) {
             ItemStack stackInSlot = getOutputHandler();
             if(!stackInSlot.isEmpty()){
                 for (ItemStack result : results){
@@ -253,7 +265,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        for (int i = 0; i < getOutputHandler().getCount(); i++) {
+        for (int i = 0; i < outputHandlerCount(); i++) {
             ItemStack stackInSlot = getOutputHandler();
             if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
                 return true;
@@ -263,7 +275,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
-        for (int i = 0; i < getOutputHandler().getCount(); i++) {
+        for (int i = 0; i < outputHandlerCount(); i++) {
             ItemStack stackInSlot = getOutputHandler();
             if (stackInSlot.isEmpty() || stackInSlot.getItem() == item) {
                 return true;
