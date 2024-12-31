@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:melting",
+  "energy": 200,
+  "ingredients": [
+    "productiveslimes:coal_slimeball"
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:molten_coal_bucket"
+    }
+  ]
+}

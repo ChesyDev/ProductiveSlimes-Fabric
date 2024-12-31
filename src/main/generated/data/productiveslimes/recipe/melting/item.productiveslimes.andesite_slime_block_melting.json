@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:melting",
+  "energy": 200,
+  "ingredients": [
+    "productiveslimes:andesite_slime_block"
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 5,
+      "id": "productiveslimes:molten_andesite_bucket"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:melting",
+  "energy": 200,
+  "ingredients": [
+    "productiveslimes:granite_slimeball"
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:molten_granite_bucket"
+    }
+  ]
+}
