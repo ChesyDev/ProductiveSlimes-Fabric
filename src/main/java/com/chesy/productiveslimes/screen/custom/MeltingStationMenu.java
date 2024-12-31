@@ -88,7 +88,7 @@ public class MeltingStationMenu extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
-        if (slot != null && slot.hasStack()) return ItemStack.EMPTY;
+        if (slot.hasStack()) return ItemStack.EMPTY;
         ItemStack originalStack = slot.getStack();
         newStack = originalStack.copy();
 

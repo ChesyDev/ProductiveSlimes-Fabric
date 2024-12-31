@@ -1,32 +1,22 @@
 package com.chesy.productiveslimes.block.custom;
 
-import com.chesy.productiveslimes.block.entity.DnaSynthesizerBlockEntity;
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
-import com.chesy.productiveslimes.handler.CustomEnergyStorage;
-import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
-import com.chesy.productiveslimes.screen.custom.GuidebookMenu;
 import com.mojang.serialization.MapCodec;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -88,9 +78,8 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        if (blockEntity instanceof EnergyGeneratorBlockEntity) {
+        if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
             ItemStack stack = new ItemStack(this);
-            EnergyGeneratorBlockEntity energyGeneratorBlockEntity = (EnergyGeneratorBlockEntity) blockEntity;
 
             stack.set(ModDataComponents.ENERGY, energyGeneratorBlockEntity.getEnergyHandler().getAmountStored());
 
@@ -127,7 +116,7 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         }
 
         return ((world, pos, state, blockEntity) -> {
-            if(blockEntity != null && blockEntity instanceof EnergyGeneratorBlockEntity) {
+            if(blockEntity instanceof EnergyGeneratorBlockEntity) {
                 ((EnergyGeneratorBlockEntity) blockEntity).tick(world, pos, state);
             }
         });

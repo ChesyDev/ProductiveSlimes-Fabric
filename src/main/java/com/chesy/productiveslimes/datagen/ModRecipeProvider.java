@@ -9,9 +9,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.DataOutput;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
@@ -22,12 +20,8 @@ import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -37,7 +31,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
     private final RegistryEntryLookup<Item> items;
-    private RecipeGenerator recipeGenerator;
 
     public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
@@ -49,12 +42,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-        this.recipeGenerator = new RecipeGenerator(registries, exporter) {
+        RecipeGenerator recipeGenerator = new RecipeGenerator(registries, exporter) {
             @Override
-            public void generate() {
-
-            }
+            public void generate() {}
         };
+
         for (Tier tier : Tier.values()) {
             ModTiers tiers = ModTierLists.getTierByName(tier);
             meltingRecipe(exporter, ModTierLists.getBlockByName(tiers.name()).asItem(), ModTierLists.getBucketItemByName(tiers.name()), 2, 5);

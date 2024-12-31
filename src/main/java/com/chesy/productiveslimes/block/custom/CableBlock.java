@@ -6,6 +6,7 @@ import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -174,5 +175,14 @@ public class CableBlock extends Block implements BlockEntityProvider {
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (wrld, pos, blockState, t) -> {
+            if (t instanceof CableBlockEntity blockEntity) {
+                CableBlockEntity.tick(wrld, pos, blockState, blockEntity);
+            }
+        };
     }
 }

@@ -7,7 +7,6 @@ import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorScreen;
 import com.chesy.productiveslimes.screen.custom.GuidebookScreen;
-import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
 import com.chesy.productiveslimes.screen.custom.MeltingStationScreen;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;

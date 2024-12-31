@@ -9,7 +9,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -18,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.registry.Registries;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -107,9 +105,8 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        if (blockEntity instanceof MeltingStationBlockEntity) {
+        if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity) {
             ItemStack stack = new ItemStack(this);
-            MeltingStationBlockEntity meltingStationBlockEntity = (MeltingStationBlockEntity) blockEntity;
 
             stack.set(ModDataComponents.ENERGY, meltingStationBlockEntity.getEnergyHandler().getAmountStored());
 
@@ -141,7 +138,7 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
         }
 
         return ((world, pos, state, blockEntity) -> {
-            if(blockEntity != null && blockEntity instanceof MeltingStationBlockEntity) {
+            if(blockEntity instanceof MeltingStationBlockEntity) {
                 ((MeltingStationBlockEntity) blockEntity).tick(world, pos, state);
             }
         });
