@@ -7,6 +7,7 @@ import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -31,8 +32,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -169,6 +173,32 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         } else {
             resetProgress();
         }
+
+        /*if (!world.isClient) {
+            for (Direction direction : Direction.values()) {
+
+                EnergyStorage neighborStorage = EnergyStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
+
+                if (neighborStorage != null) {
+                    if (neighborStorage.supportsExtraction()) {
+                        try(Transaction transaction = Transaction.openOuter()) {
+                            long energyExtracted = EnergyStorageUtil.move(
+                                    neighborStorage,
+                                    energyHandler,
+                                    Math.min(neighborStorage.getAmount() >= 1000 ? 1000 : neighborStorage.getAmount(), energyHandler.getCapacity() - energyHandler.getAmountStored()),
+                                    transaction
+                            );
+
+                            if (energyExtracted > 0) {
+                                transaction.commit();
+                            } else {
+                                transaction.abort();
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
     }
 
     private void resetProgress() {

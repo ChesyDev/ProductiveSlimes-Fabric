@@ -64,7 +64,12 @@ public class ModBlockEntities {
             if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity) {
                 return meltingStationBlockEntity.getEnergyHandler();
             }
+
+            if (blockEntity instanceof CableBlockEntity cableBlockEntity) {
+                return cableBlockEntity;
+            }
+
             return null;
-        }, ModBlockEntities.ENERGY_GENERATOR, ModBlockEntities.MELTING_STATION);
+        }, ModBlockEntities.ENERGY_GENERATOR, ModBlockEntities.MELTING_STATION, ModBlockEntities.CABLE);
     }
 }

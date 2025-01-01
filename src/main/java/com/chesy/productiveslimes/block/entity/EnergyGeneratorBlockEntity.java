@@ -32,6 +32,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -41,21 +42,31 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
 
     protected final PropertyDelegate data;
 
-    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0){
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 0, 100, 0) {
         @Override
         protected void onFinalCommit() {
             markDirty();
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return false;
+        }
+
+        @Override
+        public boolean supportsExtraction() {
+            return true;
         }
     };
 
     private int progress = 0;
     private int maxProgress = 100;
 
-    public CustomEnergyStorage getEnergyHandler(){
+    public CustomEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 
-    public PropertyDelegate getData(){
+    public PropertyDelegate getData() {
         return data;
     }
 
@@ -64,7 +75,7 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
         this.data = new PropertyDelegate() {
             @Override
             public int get(int index) {
-                return switch(index){
+                return switch (index) {
                     case 0 -> EnergyGeneratorBlockEntity.this.energyHandler.getAmountStored();
                     case 1 -> EnergyGeneratorBlockEntity.this.energyHandler.getMaxAmountStored();
                     case 2 -> EnergyGeneratorBlockEntity.this.progress;
@@ -75,7 +86,7 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
 
             @Override
             public void set(int index, int value) {
-                switch(index){
+                switch (index) {
                     case 0 -> EnergyGeneratorBlockEntity.this.energyHandler.setAmount(value);
                     case 2 -> EnergyGeneratorBlockEntity.this.progress = value;
                     case 3 -> EnergyGeneratorBlockEntity.this.maxProgress = value;
@@ -140,15 +151,27 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
         if (!this.world.isClient) {
             for (Direction direction : Direction.values()) {
                 World world = this.world;
-                Optional<EnergyStorage> neighborEnergy = new EnergyAccessingBlock(world).getNeighborEnergyStorage(pos, direction);
 
-                if (neighborEnergy.isPresent()) {
-                    EnergyStorage neighborStorage = neighborEnergy.get();
+                EnergyStorage neighborStorage = EnergyStorage.SIDED.find(world, pPos.offset(direction), direction.getOpposite());
+
+                if (neighborStorage != null) {
                     if (neighborStorage.supportsInsertion()) {
-                        int energyToExtract = (int) Math.min(this.energyHandler.extract(1000, Transaction.openOuter()), neighborStorage.insert(1000, Transaction.openOuter()));
+                        try (Transaction transaction = Transaction.openOuter()) {
+                            long energyToExtract = EnergyStorageUtil.move(
+                                    energyHandler,
+                                    neighborStorage,
+                                    Math.min(energyHandler.amount >= 1000 ? 1000 : energyHandler.amount, neighborStorage.getCapacity() - neighborStorage.getAmount()),
+                                    transaction
+                            );
 
-                        this.energyHandler.extract(energyToExtract, Transaction.openOuter());
-                        neighborStorage.insert(energyToExtract, Transaction.openOuter());
+                            if (energyToExtract > 0) {
+                                transaction.commit();
+                                isDirty.set(true);
+                            }
+                            else {
+                                transaction.abort();
+                            }
+                        }
                     }
                 }
             }
@@ -187,24 +210,24 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
 
     public void drops() {
         SimpleInventory inventory = new SimpleInventory(this.inventory.size());
-        for(int i = 0; i < this.inventory.size(); i++) {
+        for (int i = 0; i < this.inventory.size(); i++) {
             inventory.setStack(i, this.inventory.get(i));
         }
-        ContainerUtils.dropContents(this.world, this.pos, inventory);
+        assert world != null;
+        ContainerUtils.dropContents(world, this.pos, inventory);
     }
 
     private void sendUpdate() {
         markDirty();
 
-        if(this.world != null)
+        if (this.world != null)
             this.world.updateListeners(this.pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
     }
 
     public int getBurnTime(ItemStack stack) {
-        if(stack.getItem() == ModBlocks.ENERGY_SLIME_BLOCK.asItem()){
+        if (stack.getItem() == ModBlocks.ENERGY_SLIME_BLOCK.asItem()) {
             return 1000;
-        }
-        else if (stack.getItem() == ProductiveSlimes.ENERGY_SLIME_BALL) {
+        } else if (stack.getItem() == ProductiveSlimes.ENERGY_SLIME_BALL) {
             return 100;
         }
 

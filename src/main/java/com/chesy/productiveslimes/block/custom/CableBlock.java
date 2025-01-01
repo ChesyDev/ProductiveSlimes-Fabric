@@ -3,6 +3,8 @@ package com.chesy.productiveslimes.block.custom;
 import com.chesy.productiveslimes.block.entity.CableBlockEntity;
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
+import com.chesy.productiveslimes.handler.NetworkManager;
+import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,6 +13,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -32,6 +35,9 @@ import org.apache.logging.log4j.core.Core;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 public class CableBlock extends Block implements BlockEntityProvider {
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
@@ -63,10 +69,12 @@ public class CableBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if(world instanceof World pWorld) {
+        if(world instanceof ServerWorld pWorld) {
             boolean canConnect = this.canConnectTo(pWorld, neighborPos, direction);
+            NetworkManager.rebuildNetwork(pWorld, pos);
             return state.with(getPropertyForDirection(direction), canConnect);
         }
+
         return state;
     }
 
@@ -82,30 +90,32 @@ public class CableBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        VoxelShape SHAPE = CORE_SHAPE;
+        List<VoxelShape> shapes = Lists.newArrayList(CORE_SHAPE);
         if (state.get(UP)) {
-            SHAPE = UP_SHAPE;
+            shapes.add(UP_SHAPE);
         }
         if (state.get(DOWN)) {
-            SHAPE = DOWN_SHAPE;
+            shapes.add(DOWN_SHAPE);
         }
         if (state.get(NORTH)) {
-            SHAPE = NORTH_SHAPE;
+            shapes.add(NORTH_SHAPE);
         }
         if (state.get(SOUTH)) {
-            SHAPE = SOUTH_SHAPE;
+            shapes.add(SOUTH_SHAPE);
         }
         if (state.get(EAST)) {
-            SHAPE = EAST_SHAPE;
+            shapes.add(EAST_SHAPE);
         }
         if (state.get(WEST)) {
-            SHAPE = WEST_SHAPE;
+            shapes.add(WEST_SHAPE);
         }
-        return SHAPE;
-    }
 
-    public BlockEntityType<?> getBlockEntityType() {
-        return ModBlockEntities.CABLE;  // Point to your block entity registration
+        VoxelShape SHAPE = Stream.of(CORE_SHAPE).reduce(VoxelShapes::union).get();
+        for (VoxelShape shape : shapes) {
+            SHAPE = VoxelShapes.union(SHAPE, shape);
+        }
+
+        return SHAPE;
     }
 
     @Override
@@ -185,4 +195,15 @@ public class CableBlock extends Block implements BlockEntityProvider {
             }
         };
     }
+    /*@Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity == null) {
+            return;
+        }
+
+        if (blockEntity instanceof CableBlockEntity cableBlockEntity) {
+            cableBlockEntity.onRemoved();
+        }
+    }*/
 }

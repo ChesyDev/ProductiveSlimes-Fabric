@@ -13,6 +13,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -64,13 +65,14 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+    protected void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool, boolean dropExperience) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
+
         if (blockEntity instanceof EnergyGeneratorBlockEntity) {
             ((EnergyGeneratorBlockEntity) blockEntity).drops();
         }
 
-        super.onBroken(world, pos, state);
+        super.onStacksDropped(state, world, pos, tool, dropExperience);
     }
 
     @Override
