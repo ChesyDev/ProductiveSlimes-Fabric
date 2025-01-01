@@ -91,16 +91,6 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof EnergyGeneratorBlockEntity) {
-            ((EnergyGeneratorBlockEntity) blockEntity).drops();
-        }
-
-        super.onBroken(world, pos, state);
-    }
-
-    @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
@@ -111,6 +101,11 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
             stack.set(ModDataComponents.ENERGY, meltingStationBlockEntity.getEnergyHandler().getAmountStored());
 
             drops.clear();
+
+            for (int i = 0; i < meltingStationBlockEntity.size(); i++) {
+                drops.add(meltingStationBlockEntity.getStack(i));
+            }
+
             drops.add(stack);
         }
 

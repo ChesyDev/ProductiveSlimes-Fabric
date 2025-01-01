@@ -65,17 +65,6 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool, boolean dropExperience) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-
-        if (blockEntity instanceof EnergyGeneratorBlockEntity) {
-            ((EnergyGeneratorBlockEntity) blockEntity).drops();
-        }
-
-        super.onStacksDropped(state, world, pos, tool, dropExperience);
-    }
-
-    @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
@@ -86,6 +75,12 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
             stack.set(ModDataComponents.ENERGY, energyGeneratorBlockEntity.getEnergyHandler().getAmountStored());
 
             drops.clear();
+
+            for (int i = 0; i < energyGeneratorBlockEntity.size(); i++) {
+                drops.add(energyGeneratorBlockEntity.getStack(i));
+            }
+
+
             drops.add(stack);
         }
 

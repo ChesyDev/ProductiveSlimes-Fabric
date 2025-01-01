@@ -208,15 +208,6 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
         return BlockEntityUpdateS2CPacket.create(this);
     }
 
-    public void drops() {
-        SimpleInventory inventory = new SimpleInventory(this.inventory.size());
-        for (int i = 0; i < this.inventory.size(); i++) {
-            inventory.setStack(i, this.inventory.get(i));
-        }
-        assert world != null;
-        ContainerUtils.dropContents(world, this.pos, inventory);
-    }
-
     private void sendUpdate() {
         markDirty();
 
