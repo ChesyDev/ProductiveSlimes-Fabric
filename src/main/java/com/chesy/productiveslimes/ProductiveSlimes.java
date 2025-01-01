@@ -14,7 +14,6 @@ import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -22,11 +21,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.WorldSavePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MOD_ID = "productiveslimes";

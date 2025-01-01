@@ -1,13 +1,8 @@
 package com.chesy.productiveslimes.handler;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class CableNetwork {
@@ -19,22 +14,19 @@ public class CableNetwork {
     public CableNetwork() {}
 
     public void addCable(BlockPos pos, long cableCapacity) {
-        cablePositions.add(pos);
-        // Increase the network’s total capacity by this cable’s capacity
-        this.totalCapacity += cableCapacity;
+        if (cablePositions.add(pos)) {
+            totalCapacity += 10000;
+            if (totalEnergy > totalCapacity) {
+                totalEnergy = totalCapacity;
+            }
+        }
     }
 
     public void removeCable(BlockPos pos, long cableCapacity) {
-        cablePositions.remove(pos);
-        // Decrease total capacity
-        this.totalCapacity -= cableCapacity;
-        // Clamp to avoid going negative in edge cases
-        if (this.totalCapacity < 0) {
-            this.totalCapacity = 0;
-        }
-        // If totalEnergy now exceeds totalCapacity (e.g., removing cables from a big network), clamp it:
-        if (this.totalEnergy > this.totalCapacity) {
-            this.totalEnergy = this.totalCapacity;
+        if (cablePositions.remove(pos)) {
+            totalCapacity -= 10000;
+            if (totalCapacity < 0) totalCapacity = 0;
+            if (totalEnergy > totalCapacity) totalEnergy = totalCapacity;
         }
     }
 
@@ -72,41 +64,5 @@ public class CableNetwork {
         long extracted = Math.min(totalEnergy, amount);
         totalEnergy -= extracted;
         return extracted;
-    }
-
-    // NBT Save method
-    public NbtCompound writeNbt(NbtCompound nbt) {
-        nbt.putLong("totalEnergy", totalEnergy);
-        nbt.putLong("totalCapacity", totalCapacity);
-        int i = 0;
-        // Save cable positions
-        NbtList positionsList = new NbtList();
-        for (BlockPos pos : cablePositions) {
-            NbtCompound posCompound = new NbtCompound();
-            NbtHelper.toBlockPos(posCompound, "pos" + i);
-            positionsList.add(posCompound);
-            i++;
-        }
-        nbt.put("cablePositions", positionsList);
-
-        return nbt;
-    }
-
-    // NBT Load method
-    public void readNbt(NbtCompound nbt) {
-        totalEnergy = nbt.getLong("totalEnergy");
-        totalCapacity = nbt.getLong("totalCapacity");
-
-        // Load cable positions
-        cablePositions.clear();
-        NbtList positionsList = nbt.getList("cablePositions", 10); // 10 is the ID for compound tags
-        for (int i = 0; i < positionsList.size(); i++) {
-            NbtCompound posCompound = positionsList.getCompound(i);
-            Optional<BlockPos> pos = NbtHelper.toBlockPos(posCompound, "pos" + i);
-            if (!pos.isPresent()) {
-                continue;
-            }
-            cablePositions.add(pos.get());
-        }
     }
 }

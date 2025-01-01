@@ -195,15 +195,4 @@ public class CableBlock extends Block implements BlockEntityProvider {
             }
         };
     }
-    /*@Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity == null) {
-            return;
-        }
-
-        if (blockEntity instanceof CableBlockEntity cableBlockEntity) {
-            cableBlockEntity.onRemoved();
-        }
-    }*/
 }

@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CableBlockEntity extends BlockEntity implements EnergyStorage {
     public static final long CAPACITY_PER_CABLE = 10_000;
     private boolean initialized = false;
+    public int energyStoredToLoad = -1;
+    private boolean newlyPlaced = true;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CABLE, pos, state);
@@ -47,6 +49,16 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
                 // Rebuild the network for this cable on load
                 NetworkManager.rebuildNetwork(serverWorld, pos);
             }
+        }
+        else{
+            blockEntity.newlyPlaced = false;
+        }
+
+        if (blockEntity.energyStoredToLoad >= 0){
+            CableNetwork net = NetworkManager.getNetwork(pos);
+            net.setTotalEnergy(blockEntity.energyStoredToLoad);
+
+            blockEntity.energyStoredToLoad = -1;
         }
 
         if (!world.isClient) {
@@ -114,28 +126,21 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        CableNetwork network = NetworkManager.getNetwork(pos);
-        if (network != null) {
-            NbtCompound networkNbt = new NbtCompound();
-            network.writeNbt(networkNbt);
-            nbt.put("network", networkNbt);
-        }
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+        super.writeNbt(nbt, registries);
 
-        super.writeNbt(nbt, registryLookup);
+        long energyStored = getAmount();
+        nbt.putLong("EnergyStored", energyStored == 0 ? -1 : energyStored);
+        nbt.putBoolean("NewlyPlaced", newlyPlaced);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+        super.readNbt(nbt, registries);
 
-        if (nbt.contains("network")) {
-            CableNetwork network = new CableNetwork();
-            network.readNbt(nbt.getCompound("network"));
-            if (!world.isClient && world instanceof ServerWorld serverWorld) {
-                NetworkManager.addExistingNetwork(serverWorld, network);
-            }
+        if (nbt.contains("EnergyStored") && nbt.getLong("EnergyStored") != -1) {
+            energyStoredToLoad = (int) nbt.getLong("EnergyStored");
         }
+        newlyPlaced = nbt.getBoolean("NewlyPlaced");
     }
-
 }
