@@ -56,7 +56,9 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
 
         if (blockEntity.energyStoredToLoad >= 0){
             CableNetwork net = NetworkManager.getNetwork(pos);
-            net.setTotalEnergy(blockEntity.energyStoredToLoad);
+            if (net != null){
+                net.setTotalEnergy(blockEntity.energyStoredToLoad);
+            }
 
             blockEntity.energyStoredToLoad = -1;
         }
