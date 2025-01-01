@@ -6,6 +6,9 @@ import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.fluid.ModFluids;
+import com.chesy.productiveslimes.handler.CableNetwork;
+import com.chesy.productiveslimes.handler.MyNetworkState;
+import com.chesy.productiveslimes.handler.MyNetworkStateManager;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
@@ -14,15 +17,20 @@ import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.WorldSavePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MOD_ID = "productiveslimes";
@@ -47,6 +55,16 @@ public class ProductiveSlimes implements ModInitializer {
 
 		ModMenuTypes.registerScreenHandlers();
 		ModRecipes.register();
+
+		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
+			ServerWorld overworld = minecraftServer.getOverworld();
+			MyNetworkState state = MyNetworkStateManager.getOrCreate(overworld);
+		});
+
+		ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
+			ServerWorld overworld = minecraftServer.getOverworld();
+			MyNetworkStateManager.forceSave(overworld);
+		});
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 	}

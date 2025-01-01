@@ -1,8 +1,13 @@
 package com.chesy.productiveslimes.handler;
 
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class CableNetwork {
@@ -64,5 +69,38 @@ public class CableNetwork {
         long extracted = Math.min(totalEnergy, amount);
         totalEnergy -= extracted;
         return extracted;
+    }
+
+    public static void writeToNbt(CableNetwork net, NbtCompound nbt) {
+        nbt.putLong("TotalEnergy", net.totalEnergy);
+        nbt.putLong("TotalCapacity", net.totalCapacity);
+
+        NbtList posList = new NbtList();
+        for (BlockPos pos : net.cablePositions) {
+            NbtCompound posTag = new NbtCompound();
+            posTag.putInt("x", pos.getX());
+            posTag.putInt("y", pos.getY());
+            posTag.putInt("z", pos.getZ());
+            posList.add(posTag);
+        }
+        nbt.put("Positions", posList);
+    }
+
+    public static CableNetwork readFromNbt(NbtCompound nbt) {
+        CableNetwork net = new CableNetwork();
+        net.totalEnergy = nbt.getLong("TotalEnergy");
+        net.totalCapacity = nbt.getLong("TotalCapacity");
+
+        if (nbt.contains("Positions", NbtElement.LIST_TYPE)) {
+            NbtList list = nbt.getList("Positions", NbtElement.COMPOUND_TYPE);
+            for (int i = 0; i < list.size(); i++) {
+                NbtCompound posTag = list.getCompound(i);
+                int x = posTag.getInt("x");
+                int y = posTag.getInt("y");
+                int z = posTag.getInt("z");
+                net.cablePositions.add(new BlockPos(x, y, z));
+            }
+        }
+        return net;
     }
 }
