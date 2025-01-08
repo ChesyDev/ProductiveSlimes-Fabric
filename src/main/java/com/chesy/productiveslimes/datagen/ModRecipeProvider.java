@@ -15,6 +15,7 @@ import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
@@ -51,6 +52,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             ModTiers tiers = ModTierLists.getTierByName(tier);
             meltingRecipe(exporter, ModTierLists.getBlockByName(tiers.name()).asItem(), ModTierLists.getBucketItemByName(tiers.name()), 2, 5);
             meltingRecipe(exporter, ModTierLists.getSlimeballItemByName(tiers.name()), ModTierLists.getBucketItemByName(tiers.name()), 4, 1);
+
+            solidingRecipe(exporter, ModTierLists.getBucketItemByName(tiers.name()), ModTierLists.getItemByKey(tiers.growthItemKey()), 1, tiers.solidingOutputAmount());
         }
 
         return recipeGenerator;
@@ -69,6 +72,17 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .setEnergy(200)
                 .criterion(getHasName(pIngredient), has(pIngredient))
                 .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MOD_ID, "melting/" + getItemName(pIngredient) + "_melting").toString());
+    }
+
+    protected void solidingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
+        MeltingRecipeBuilder.meltingRecipe()
+                .addIngredient(Ingredient.ofItem(pIngredient))
+                .setInputCount(pInputCount)
+                .addOutput(new ItemStack(pResult, outputCount))
+                .addOutput(new ItemStack(Items.BUCKET, pInputCount))
+                .setEnergy(200)
+                .criterion(getHasName(pIngredient), has(pIngredient))
+                .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MOD_ID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());
     }
 
     private static String getItemName(Item item) {

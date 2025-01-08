@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.handler.ContainerUtils;
 import com.chesy.productiveslimes.handler.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
+import com.chesy.productiveslimes.recipe.SolidingRecipe;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -116,7 +117,6 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         ContainerUtils.dropContents(this.world, this.pos, inventory);
     }
 
-
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
@@ -173,32 +173,6 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         } else {
             resetProgress();
         }
-
-        /*if (!world.isClient) {
-            for (Direction direction : Direction.values()) {
-
-                EnergyStorage neighborStorage = EnergyStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
-
-                if (neighborStorage != null) {
-                    if (neighborStorage.supportsExtraction()) {
-                        try(Transaction transaction = Transaction.openOuter()) {
-                            long energyExtracted = EnergyStorageUtil.move(
-                                    neighborStorage,
-                                    energyHandler,
-                                    Math.min(neighborStorage.getAmount() >= 1000 ? 1000 : neighborStorage.getAmount(), energyHandler.getCapacity() - energyHandler.getAmountStored()),
-                                    transaction
-                            );
-
-                            if (energyExtracted > 0) {
-                                transaction.commit();
-                            } else {
-                                transaction.abort();
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     private void resetProgress() {
@@ -206,13 +180,12 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
             List<ItemStack> results = recipe.get().value().getOutputs();
 
             // Extract the input item from the input slot
             getInputHandler().decrement(recipe.get().value().getInputCount());
-            getBucketHandler().decrement(recipe.get().value().getOutputs().get(0).getCount());
 
             // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
@@ -289,7 +262,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<MeltingRecipe>> getCurrentRecipe(){
+    private Optional<RecipeEntry<SolidingRecipe>> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
         return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(getInputHandler()), world);
     }

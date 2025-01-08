@@ -20,6 +20,12 @@ public class ModRecipes {
     public static final RecipeType<MeltingRecipe> MELTING_TYPE =
             registerType("melting");
 
+    public static final RecipeSerializer<?> SOLIDING_SERIALIZER =
+            registerSerializer("soliding", SolidingRecipe.Serializer.INSTANCE);
+
+    public static final RecipeType<SolidingRecipe> SOLIDING_TYPE =
+            registerType("soliding");
+
     private static RecipeSerializer registerSerializer(String name, RecipeSerializer<?> recipe) {
         return RecipeSerializer.register(name, recipe);
     }

@@ -4,7 +4,9 @@ import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
 import com.chesy.productiveslimes.screen.custom.GuidebookMenu;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
+import com.chesy.productiveslimes.screen.custom.SolidingStationMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandler;
@@ -24,6 +26,10 @@ public class ModMenuTypes {
     public static final ScreenHandlerType<EnergyGeneratorMenu> ENERGY_GENERATOR_MENU_HANDLER =
             Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MOD_ID, "energy_generator_menu_handler"),
                     new ExtendedScreenHandlerType<>(EnergyGeneratorMenu::new, BlockPos.PACKET_CODEC));
+
+    public static final ScreenHandlerType<SolidingStationMenu> SOLIDING_STATION_MENU_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MOD_ID, "soliding_station_menu_handler"),
+                    new ExtendedScreenHandlerType<>(SolidingStationMenu::new, BlockPos.PACKET_CODEC));
 
     public static void registerScreenHandlers() {
         ProductiveSlimes.LOGGER.info("Registering Screen Handlers for " + ProductiveSlimes.MOD_ID);
