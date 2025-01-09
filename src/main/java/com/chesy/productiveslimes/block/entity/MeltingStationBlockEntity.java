@@ -180,7 +180,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
             List<ItemStack> results = recipe.get().value().getOutputs();
 
@@ -262,7 +262,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<SolidingRecipe>> getCurrentRecipe(){
+    private Optional<RecipeEntry<MeltingRecipe>> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
         return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(getInputHandler()), world);
     }
