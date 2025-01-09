@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:melting",
+  "energy": 200,
+  "ingredients": [
+    "productiveslimes:molten_soul_sand_bucket"
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 2,
+      "id": "minecraft:soul_sand"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:bucket"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:melting",
+  "energy": 200,
+  "ingredients": [
+    "productiveslimes:molten_gold_bucket"
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 1,
+      "id": "minecraft:gold_block"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:bucket"
+    }
+  ]
+}
