@@ -65,11 +65,18 @@ public class ModBlockEntities {
                 return meltingStationBlockEntity.getEnergyHandler();
             }
 
+            if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity) {
+                return solidingStationBlockEntity.getEnergyHandler();
+            }
+
             if (blockEntity instanceof CableBlockEntity cableBlockEntity) {
                 return cableBlockEntity;
             }
 
             return null;
-        }, ModBlockEntities.ENERGY_GENERATOR, ModBlockEntities.MELTING_STATION, ModBlockEntities.CABLE);
+        }, ModBlockEntities.ENERGY_GENERATOR
+                , ModBlockEntities.MELTING_STATION
+                , ModBlockEntities.SOLIDING_STATION
+                , ModBlockEntities.CABLE);
     }
 }

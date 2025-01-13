@@ -78,7 +78,7 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     public ItemStack getInputHandler() {
-        return this.inventory.get(0);
+        return this.inventory.getFirst();
     }
 
     public ItemStack getBucketHandler() {
@@ -140,8 +140,9 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
+        System.out.println(hasRecipe());
 
-        if(hasRecipe() && getBucketHandler().getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
@@ -167,11 +168,12 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
             // Extract the input item from the input slot
             getInputHandler().decrement(recipe.get().value().getInputCount());
 
+            //Rewrite this
             // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
                 if (outputSlot != -1) {
-                    this.inventory.set(OUTPUT_SLOT, new ItemStack(result.getItem(),
+                    this.inventory.set(outputSlot + 1, new ItemStack(result.getItem(),
                             getOutputHandler().getCount() + result.getCount()));
                 } else {
                     // Handle the case where no suitable output slot is found
@@ -225,6 +227,7 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
 
         for (int i = 0; i < outputHandlerCount(); i++) {
             ItemStack stackInSlot = getOutputHandler();
+            ItemStack bucketInSlot = getBucketHandler();
             if(!stackInSlot.isEmpty()){
                 for (ItemStack result : results){
                     if(stackInSlot.getItem() == result.getItem()){
@@ -237,7 +240,22 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
             else {
                 emptyCount++;
             }
+
+            if(!bucketInSlot.isEmpty()){
+                for (ItemStack result : results){
+                    if(bucketInSlot.getItem() == result.getItem()){
+                        if(bucketInSlot.getCount() + result.getCount() <= 64){
+                            emptyCount++;
+                        }
+                    }
+                }
+            } else {
+                emptyCount++;
+            }
         }
+
+        System.out.println(emptyCount);
+        System.out.println(count);
 
         return emptyCount >= count;
     }

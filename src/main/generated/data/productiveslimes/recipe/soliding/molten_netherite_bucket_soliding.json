@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:melting",
+  "type": "minecraft:soliding",
   "energy": 200,
   "ingredients": [
     "productiveslimes:molten_netherite_bucket"

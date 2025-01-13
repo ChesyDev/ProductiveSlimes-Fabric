@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.datagen;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.datagen.builder.MeltingRecipeBuilder;
+import com.chesy.productiveslimes.datagen.builder.SolidingRecipeBuilder;
 import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.Tier;
@@ -75,7 +76,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     protected void solidingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
-        MeltingRecipeBuilder.meltingRecipe()
+        SolidingRecipeBuilder.solidingRecipe()
                 .addIngredient(Ingredient.ofItem(pIngredient))
                 .setInputCount(pInputCount)
                 .addOutput(new ItemStack(pResult, outputCount))
