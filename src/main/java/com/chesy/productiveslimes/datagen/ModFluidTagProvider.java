@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.datagen;
 
-import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -20,8 +20,8 @@ public class ModFluidTagProvider extends FabricTagProvider.FluidTagProvider {
         FabricTagProvider<Fluid>.FabricTagBuilder tag =  getOrCreateTagBuilder(FluidTags.WATER);
 
         for (Tier tier : Tier.values()){
-            tag.add(ModTierLists.getSourceByName(ModTierLists.getTierByName(tier).name()));
-            tag.add(ModTierLists.getFlowByName(ModTierLists.getTierByName(tier).name()));
+            tag.add(ModTiers.getSourceByName(ModTiers.getTierByName(tier).name()));
+            tag.add(ModTiers.getFlowByName(ModTiers.getTierByName(tier).name()));
         }
     }
 }

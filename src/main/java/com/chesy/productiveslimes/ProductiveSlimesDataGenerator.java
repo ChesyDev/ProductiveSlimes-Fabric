@@ -12,6 +12,7 @@ public class ProductiveSlimesDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModBlockTagProvider::new);
+		pack.addProvider(ModLootTableProvider::new);
 		pack.addProvider(ModFluidTagProvider::new);
 		pack.addProvider(ModRecipeProvider::new);
 	}

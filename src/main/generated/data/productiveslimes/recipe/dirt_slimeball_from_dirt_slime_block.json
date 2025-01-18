@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "productiveslimes:dirt_slime_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "productiveslimes:dirt_slimeball"
+  }
+}

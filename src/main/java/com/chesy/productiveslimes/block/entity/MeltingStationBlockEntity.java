@@ -1,33 +1,27 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.handler.ContainerUtils;
-import com.chesy.productiveslimes.handler.CustomEnergyStorage;
+import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
-import com.chesy.productiveslimes.recipe.SolidingRecipe;
-import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
+import com.chesy.productiveslimes.util.IEnergyBlockEntity;
+import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -36,19 +30,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.List;
 import java.util.Optional;
 
-public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory{
+public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
         @Override
         protected void onFinalCommit() {
+            super.onFinalCommit();
             markDirty();
+            if (world != null){
+                world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+            }
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return true;
+        }
+
+        @Override
+        public boolean supportsExtraction() {
+            return false;
         }
     };
 
@@ -56,6 +62,8 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     private int progress = 0;
     private int maxProgress = 78;
 
+    private final int BUCKET_SLOT = 0;
+    private final int INPUT_SLOT = 1;
     private final int OUTPUT_SLOT = 2;
 
     public MeltingStationBlockEntity(BlockPos pos, BlockState state) {
@@ -88,33 +96,9 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         };
     }
 
-    public ItemStack getBucketHandler() {
-        return this.inventory.get(0);
-    }
-
-    public ItemStack getInputHandler() {
-        return this.inventory.get(1);
-    }
-
-    public ItemStack getOutputHandler() {
-        return this.inventory.get(2);
-    }
-
-    public int outputHandlerCount(){
-        return 1;
-    }
-
+    @Override
     public CustomEnergyStorage getEnergyHandler() {
         return energyHandler;
-    }
-
-    public void drops(){
-        SimpleInventory inventory = new SimpleInventory(3);
-        inventory.setStack(0, this.inventory.get(0));
-        inventory.setStack(1, this.inventory.get(1));
-        inventory.setStack(2, this.inventory.get(2));
-
-        ContainerUtils.dropContents(this.world, this.pos, inventory);
     }
 
     @Override
@@ -150,18 +134,32 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+        super.readNbt(nbt, registries);
+
         Inventories.readNbt(nbt, inventory, registries);
         energyHandler.setAmount(nbt.getInt("EnergyInventory"));
 
         progress = nbt.getInt("melting_station.progress");
+    }
 
-        super.readNbt(nbt, registries);
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        if (slot == BUCKET_SLOT) {
+            return stack.getItem().equals(Items.BUCKET);
+        }
+
+        return slot == INPUT_SLOT;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        return slot == OUTPUT_SLOT;
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
 
-        if(hasRecipe() && getBucketHandler().getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
@@ -184,18 +182,13 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         if (recipe.isPresent()) {
             List<ItemStack> results = recipe.get().value().getOutputs();
 
-            // Extract the input item from the input slot
-            getInputHandler().decrement(recipe.get().value().getInputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().value().getInputCount());
 
-            // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
                 if (outputSlot != -1) {
-                    this.inventory.set(OUTPUT_SLOT, new ItemStack(result.getItem(),
-                            getOutputHandler().getCount() + result.getCount()));
+                    this.inventory.set(OUTPUT_SLOT, new ItemStack(result.getItem(), this.getStack(OUTPUT_SLOT).getCount() + result.getCount()));
                 } else {
-                    // Handle the case where no suitable output slot is found
-                    // This can be logging an error, throwing an exception, or any other handling logic
                     System.err.println("No suitable output slot found for item: " + result);
                 }
             }
@@ -203,14 +196,11 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private int findSuitableOutputSlot(ItemStack result) {
-        // Implement logic to find a suitable output slot for the given result
-        // Return the slot index or -1 if no suitable slot is found
-        for (int i = 0; i < outputHandlerCount(); i++) {
-            ItemStack stackInSlot = getOutputHandler();
-            if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
-                return i;
-            }
+        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
+        if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
+            return OUTPUT_SLOT;
         }
+
         return -1;
     }
 
@@ -221,7 +211,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
 
-        if (getInputHandler().getCount() < recipe.get().value().getInputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().getInputCount()) {
             return false;
         }
 
@@ -243,20 +233,18 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             count++;
         }
 
-        for (int i = 0; i < outputHandlerCount(); i++) {
-            ItemStack stackInSlot = getOutputHandler();
-            if(!stackInSlot.isEmpty()){
-                for (ItemStack result : results){
-                    if(stackInSlot.getItem() == result.getItem()){
-                        if(stackInSlot.getCount() + result.getCount() <= 64){
-                            emptyCount++;
-                        }
+        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
+        if(!stackInSlot.isEmpty()){
+            for (ItemStack result : results){
+                if(stackInSlot.getItem() == result.getItem()){
+                    if(stackInSlot.getCount() + result.getCount() <= 64){
+                        emptyCount++;
                     }
                 }
             }
-            else {
-                emptyCount++;
-            }
+        }
+        else {
+            emptyCount++;
         }
 
         return emptyCount >= count;
@@ -264,27 +252,17 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     private Optional<RecipeEntry<MeltingRecipe>> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
-        return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(getInputHandler()), world);
+        return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(this.getStack(INPUT_SLOT)), world);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        for (int i = 0; i < outputHandlerCount(); i++) {
-            ItemStack stackInSlot = getOutputHandler();
-            if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
-                return true;
-            }
-        }
-        return false;
+        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
+        return stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount());
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
-        for (int i = 0; i < outputHandlerCount(); i++) {
-            ItemStack stackInSlot = getOutputHandler();
-            if (stackInSlot.isEmpty() || stackInSlot.getItem() == item) {
-                return true;
-            }
-        }
-        return false;
+        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
+        return stackInSlot.isEmpty() || stackInSlot.getItem() == item;
     }
 
 

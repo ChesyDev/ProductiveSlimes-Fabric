@@ -2,16 +2,14 @@ package com.chesy.productiveslimes.item;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -34,26 +32,26 @@ public class ModItemGroups {
 
                         entries.add(ModBlocks.ENERGY_SLIME_BLOCK);
                         for(Tier tier : Tier.values()) {
-                            entries.add(ModTierLists.getBlockByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTiers.getBlockByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
 
                         entries.add(ProductiveSlimes.ENERGY_SLIME_BALL);
                         for (Tier tier : Tier.values()){
-                            entries.add(ModTierLists.getSlimeballItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTiers.getSlimeballItemByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
 
                         entries.add(ModItems.SLIME_DNA);
                         for (Tier tier : Tier.values()){
-                            entries.add(ModTierLists.getDnaItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTiers.getDnaItemByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
 
                         for (Tier tier : Tier.values()){
-                            entries.add(ModTierLists.getBucketItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTiers.getBucketItemByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
 
                         entries.add(ModItems.ENERGY_SLIME_SPAWN_EGG);
                         for (Tier tier : Tier.values()){
-                            entries.add(ModTierLists.getSpawnEggItemByName(ModTierLists.getTierByName(tier).name()).asItem());
+                            entries.add(ModTiers.getSpawnEggItemByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
                     }).build());
 

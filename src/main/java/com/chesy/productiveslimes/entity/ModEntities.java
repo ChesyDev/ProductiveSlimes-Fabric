@@ -1,13 +1,11 @@
 package com.chesy.productiveslimes.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.item.ModItems;
-import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -21,13 +19,13 @@ public class ModEntities {
 
     public static void registerTierEntities(){
         for (Tier name : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(name);
+            ModTier tiers = ModTiers.getTierByName(name);
             String slimeName = tiers.name() + "_slime";
-            Item dropItem = ModTierLists.getSlimeballItemByName(tiers.name());
-            Item growthItem = ModTierLists.getItemByKey(tiers.growthItemKey());
+            Item dropItem = ModTiers.getSlimeballItemByName(tiers.name());
+            Item growthItem = ModTiers.getItemByKey(tiers.growthItemKey());
 
             EntityType<BaseSlime> slime = registerSlime(slimeName, tiers.cooldown(), tiers.color(), dropItem, growthItem);
-            ModTierLists.addRegisteredSlime(tiers.name(), slime);
+            ModTiers.addRegisteredSlime(tiers.name(), slime);
         }
     }
 

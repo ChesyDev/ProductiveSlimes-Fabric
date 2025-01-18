@@ -1,9 +1,7 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.CableBlockEntity;
-import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
-import com.chesy.productiveslimes.block.entity.ModBlockEntities;
-import com.chesy.productiveslimes.handler.NetworkManager;
+import com.chesy.productiveslimes.network.ModNetworkManager;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -18,9 +16,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -29,12 +24,9 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.block.WireOrientation;
 import net.minecraft.world.tick.ScheduledTickView;
-import org.apache.logging.log4j.core.Core;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -71,7 +63,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if(world instanceof ServerWorld pWorld) {
             boolean canConnect = this.canConnectTo(pWorld, neighborPos, direction);
-            NetworkManager.rebuildNetwork(pWorld, pos);
+            ModNetworkManager.rebuildNetwork(pWorld, pos);
             return state.with(getPropertyForDirection(direction), canConnect);
         }
 

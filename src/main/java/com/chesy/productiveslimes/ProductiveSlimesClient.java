@@ -9,8 +9,8 @@ import com.chesy.productiveslimes.screen.custom.EnergyGeneratorScreen;
 import com.chesy.productiveslimes.screen.custom.GuidebookScreen;
 import com.chesy.productiveslimes.screen.custom.MeltingStationScreen;
 import com.chesy.productiveslimes.screen.custom.SolidingStationScreen;
-import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -23,7 +23,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
-
     @Override
     public void onInitializeClient() {
         HandledScreens.register(ModMenuTypes.GUIDEBOOK_MENU_HANDLER, GuidebookScreen::new);
@@ -42,16 +41,16 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, RenderLayer.getTranslucent());
 
         for (Tier tier : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(tier);
+            ModTier tiers = ModTiers.getTierByName(tier);
             String name = tiers.name();
 
-            FluidRenderHandlerRegistry.INSTANCE.register(ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name), SimpleFluidRenderHandler.coloredWater(tiers.color()));
-            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModTierLists.getSourceByName(name), ModTierLists.getFlowByName(name));
+            FluidRenderHandlerRegistry.INSTANCE.register(ModTiers.getSourceByName(name), ModTiers.getFlowByName(name), SimpleFluidRenderHandler.coloredWater(tiers.color()));
+            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModTiers.getSourceByName(name), ModTiers.getFlowByName(name));
 
-            BlockRenderLayerMap.INSTANCE.putBlock(ModTierLists.getBlockByName(name), RenderLayer.getTranslucent());
-            ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tiers.color(), ModTierLists.getBlockByName(name));
+            BlockRenderLayerMap.INSTANCE.putBlock(ModTiers.getBlockByName(name), RenderLayer.getTranslucent());
+            ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tiers.color(), ModTiers.getBlockByName(name));
 
-            EntityRendererRegistry.register(ModTierLists.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
+            EntityRendererRegistry.register(ModTiers.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
     }
 }

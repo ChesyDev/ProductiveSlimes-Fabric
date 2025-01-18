@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.MeltingStationBlockEntity;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -33,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
@@ -58,36 +58,40 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
         return new MeltingStationBlockEntity(pos, state);
     }
 
-    public BlockEntityType<?> getBlockEntityType() {
-        return ModBlockEntities.MELTING_STATION;  // Point to your block entity registration
+    @Override
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        Direction facingDirection = state.get(FACING);
-        return state;
-    }
-
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
-    }
-
     protected BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{FACING});
+        builder.add(FACING);
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()){
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity){
+                ContainerUtils.dropContents(world, pos, meltingStationBlockEntity);
+            }
+        }
+
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override
@@ -97,15 +101,9 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
 
         if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity) {
             ItemStack stack = new ItemStack(this);
-
             stack.set(ModDataComponents.ENERGY, meltingStationBlockEntity.getEnergyHandler().getAmountStored());
 
             drops.clear();
-
-            for (int i = 0; i < meltingStationBlockEntity.size(); i++) {
-                drops.add(meltingStationBlockEntity.getStack(i));
-            }
-
             drops.add(stack);
         }
 

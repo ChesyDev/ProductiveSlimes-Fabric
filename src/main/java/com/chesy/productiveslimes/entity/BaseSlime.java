@@ -3,45 +3,64 @@ package com.chesy.productiveslimes.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+
 public class BaseSlime extends SlimeEntity {
-    private static final TrackedData<ItemStack> RESOURCE =
-            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.ITEM_STACK);
-    private static final TrackedData<Integer> ID_SIZE =
-            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Integer> GROWTH_COUNTER =
-            DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<ItemStack> RESOURCE = DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.ITEM_STACK);
+    private static final TrackedData<Integer> ID_SIZE = DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> GROWTH_COUNTER = DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.INTEGER);
 
-    private final Item item;
+    private final Item dropItem;
     private final Item growthItem;
-    public final int growthTime;
+    private final int color;
+    private final int cooldown;
+    private final EntityType<BaseSlime> entityType;
 
-    public BaseSlime(EntityType<? extends SlimeEntity> entityType, World level, int cooldown, int color, Item dropItem, Item growthItem) {
+    public BaseSlime(EntityType<BaseSlime> entityType, World level, int cooldown, int color, Item dropItem, Item growthItem) {
         super(entityType, level);
-        this.item = dropItem;
-        this.growthItem = growthItem;;
+        this.dropItem = dropItem;
+        this.growthItem = growthItem;
+        this.cooldown = cooldown;
+        this.color = color;
+        this.entityType = entityType;
+    }
 
-        growthTime = cooldown;
+    @Override
+    public Text getName() {
+        return super.getName();
+    }
+
+    @Nullable
+    @Override
+    public Text getCustomName() {
+        return super.getCustomName();
+    }
+
+    @Override
+    public boolean canImmediatelyDespawn(double distanceSquared) {
+        return false;
     }
 
     @Override
@@ -85,7 +104,7 @@ public class BaseSlime extends SlimeEntity {
         if (reason == Entity.RemovalReason.KILLED) {
             this.emitGameEvent(GameEvent.ENTITY_DIE);
 
-            if(this.getSize() == 1){
+            if (this.getSize() == 1) {
                 this.dropResource();
             }
         }
@@ -93,10 +112,10 @@ public class BaseSlime extends SlimeEntity {
 
     @Override
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if(hand == Hand.MAIN_HAND) {
-            if(player.isSneaking()){
-                if(!getWorld().isClient()){
-                    if(player.getStackInHand(hand).getItem() == growthItem && this.getSize() < 4 && player.getStackInHand(hand).getCount() > this.getSize()) {
+        if (hand == Hand.MAIN_HAND) {
+            if (player.isSneaking()) {
+                if (!getWorld().isClient()) {
+                    if (player.getStackInHand(hand).getItem() == growthItem && this.getSize() < 4 && player.getStackInHand(hand).getCount() > this.getSize()) {
                         this.growthSlime(player, hand, this);
                     }
                 }
@@ -135,8 +154,8 @@ public class BaseSlime extends SlimeEntity {
         nbt.putInt("size", this.dataTracker.get(ID_SIZE));
     }
 
-    public int getNextDropTime(){
-        return growthTime - this.dataTracker.get(GROWTH_COUNTER);
+    public int getNextDropTime() {
+        return cooldown - this.dataTracker.get(GROWTH_COUNTER);
     }
 
     public void setResource(ItemStack stack) {
@@ -145,7 +164,7 @@ public class BaseSlime extends SlimeEntity {
     }
 
     public ItemStack getResourceItem() {
-        if(!this.dataTracker.get(RESOURCE).isEmpty()) {
+        if (!this.dataTracker.get(RESOURCE).isEmpty()) {
             return this.dataTracker.get(RESOURCE);
         }
 
@@ -153,17 +172,17 @@ public class BaseSlime extends SlimeEntity {
     }
 
     public void dropResource() {
-        ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.item, this.getSize()));
+        ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.dropItem, this.getSize()));
         this.getWorld().spawnEntity(itemEntity);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(!isDead()) {
+        if (!isDead()) {
             countGrowth();
 
-            if(readyForNewResource()) {
+            if (readyForNewResource()) {
                 dropResource();
                 resetGrowthCount();
             }
@@ -171,7 +190,7 @@ public class BaseSlime extends SlimeEntity {
     }
 
     private boolean readyForNewResource() {
-        return this.dataTracker.get(GROWTH_COUNTER) >= growthTime;
+        return this.dataTracker.get(GROWTH_COUNTER) >= cooldown;
     }
 
     private void resetGrowthCount() {
@@ -195,10 +214,25 @@ public class BaseSlime extends SlimeEntity {
         this.dataTracker.set(ID_SIZE, i);
         this.refreshPosition();
         this.calculateDimensions();
-        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue((double)(i * i));
-        this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue((double)(0.2F + 0.1F * (float)i));
-        this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double)i);
+        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue((double) (i * i));
+        this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue((double) (0.2F + 0.1F * (float) i));
+        this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double) i);
 
         this.experiencePoints = i;
+    }
+
+
+    @Override
+    protected boolean isDisallowedInPeaceful() {
+        return false;
+    }
+
+    @Override
+    protected boolean canAttack() {
+        return false;
+    }
+
+    protected int getTicksUntilNextJump() {
+        return this.random.nextInt(20) + 10;
     }
 }
