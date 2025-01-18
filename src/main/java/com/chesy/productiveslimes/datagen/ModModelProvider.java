@@ -8,26 +8,20 @@ import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.item.custom.SpawnEggItem;
-import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
-import net.minecraft.client.render.item.model.ItemModelTypes;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -48,8 +42,8 @@ public class ModModelProvider extends FabricModelProvider {
         slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
 
         for (Tier tier : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(tier);
-            slimeBlock(blockStateModelGenerator, ModTierLists.getBlockByName(tiers.name()));
+            ModTier tiers = ModTiers.getTierByName(tier);
+            slimeBlock(blockStateModelGenerator, ModTiers.getBlockByName(tiers.name()));
         }
     }
 
@@ -64,12 +58,12 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
 
         for (Tier tier : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(tier);
+            ModTier tiers = ModTiers.getTierByName(tier);
 
-            slimeballItem(itemModelGenerator, ModTierLists.getSlimeballItemByName(tiers.name()));
-            bucketItem(itemModelGenerator, ModTierLists.getBucketItemByName(tiers.name()));
-            dnaItem(itemModelGenerator, ModTierLists.getDnaItemByName(tiers.name()));
-            SpawnEggItem spawnEggItem = ModTierLists.getSpawnEggItemByName(tiers.name());
+            slimeballItem(itemModelGenerator, ModTiers.getSlimeballItemByName(tiers.name()));
+            bucketItem(itemModelGenerator, ModTiers.getBucketItemByName(tiers.name()));
+            dnaItem(itemModelGenerator, ModTiers.getDnaItemByName(tiers.name()));
+            SpawnEggItem spawnEggItem = ModTiers.getSpawnEggItemByName(tiers.name());
             itemModelGenerator.registerSpawnEgg(spawnEggItem, spawnEggItem.getBg(), spawnEggItem.getFg());
         }
     }

@@ -1,10 +1,11 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.handler.CableNetwork;
-import com.chesy.productiveslimes.handler.NetworkManager;
+import com.chesy.productiveslimes.network.CableNetwork;
+import com.chesy.productiveslimes.network.ModNetworkManager;
+import com.chesy.productiveslimes.util.CustomEnergyStorage;
+import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -18,13 +19,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.EnergyStorageUtil;
-import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class CableBlockEntity extends BlockEntity implements EnergyStorage {
+@SuppressWarnings("unchecked")
+public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEnergyBlockEntity {
     public static final long CAPACITY_PER_CABLE = 10_000;
     private boolean initialized = false;
     public int energyStoredToLoad = -1;
@@ -38,7 +35,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
     public void markRemoved() {
         super.markRemoved();
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
-            NetworkManager.onCableRemoved(serverWorld, pos);
+            ModNetworkManager.onCableRemoved(serverWorld, pos);
         }
     }
 
@@ -47,7 +44,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
             blockEntity.initialized = true;
             if (!world.isClient && world instanceof ServerWorld serverWorld) {
                 // Rebuild the network for this cable on load
-                NetworkManager.rebuildNetwork(serverWorld, pos);
+                ModNetworkManager.rebuildNetwork(serverWorld, pos);
             }
         }
         else{
@@ -55,7 +52,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
         }
 
         if (blockEntity.energyStoredToLoad >= 0){
-            CableNetwork net = NetworkManager.getNetwork(pos);
+            CableNetwork net = ModNetworkManager.getNetwork(pos);
             if (net != null){
                 net.setTotalEnergy(blockEntity.energyStoredToLoad);
             }
@@ -94,25 +91,25 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
 
     @Override
     public long insert(long maxAmount, TransactionContext transaction) {
-        CableNetwork net = NetworkManager.getNetwork(pos);
+        CableNetwork net = ModNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.insertEnergy(maxAmount);
     }
 
     @Override
     public long extract(long maxAmount, TransactionContext transaction) {
-        CableNetwork net = NetworkManager.getNetwork(pos);
+        CableNetwork net = ModNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.extractEnergy(maxAmount);
     }
 
     @Override
     public long getAmount() {
-        CableNetwork net = NetworkManager.getNetwork(pos);
+        CableNetwork net = ModNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.getTotalEnergy();
     }
 
     @Override
     public long getCapacity() {
-        CableNetwork net = NetworkManager.getNetwork(pos);
+        CableNetwork net = ModNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.getTotalCapacity();
     }
 
@@ -144,5 +141,10 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage {
             energyStoredToLoad = (int) nbt.getLong("EnergyStored");
         }
         newlyPlaced = nbt.getBoolean("NewlyPlaced");
+    }
+
+    @Override
+    public CableBlockEntity getEnergyHandler() {
+        return this;
     }
 }

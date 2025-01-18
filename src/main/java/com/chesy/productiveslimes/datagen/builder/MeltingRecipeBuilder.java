@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.datagen.builder;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
@@ -7,17 +8,15 @@ import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -90,8 +89,6 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
                 this.inputCount,
                 this.energy
         );
-        exporter.accept(recipeKey, recipe, builder.build(recipeKey.getRegistry().withPrefixedPath("recipes/")));
+        exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MOD_ID, "recipes/" + recipeKey.getValue().getPath())));
     }
-
-
 }

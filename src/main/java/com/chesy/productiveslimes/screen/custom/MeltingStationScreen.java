@@ -1,11 +1,9 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.handler.IconButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;

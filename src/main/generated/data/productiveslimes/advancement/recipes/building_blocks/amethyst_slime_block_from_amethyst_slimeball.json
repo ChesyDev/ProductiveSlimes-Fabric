@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_amethyst_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:amethyst_slimeball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:amethyst_slime_block_from_amethyst_slimeball"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_amethyst_slimeball"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:amethyst_slime_block_from_amethyst_slimeball"
+    ]
+  }
+}

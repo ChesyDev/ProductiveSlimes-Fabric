@@ -1,2 +1,3 @@
 // 1.21.4	-999999999-01-01T00:00:00	Productive Slimes/Tags for minecraft:block
-9fd2ad9b888ddc8e0ba06de905b60fcb4c544cb7 data/minecraft/tags/block/mineable/pickaxe.json
+26c17bfacac07c10ae2dcec68ea9f610f9ea5fb3 data/minecraft/tags/block/mineable/pickaxe.json
+26c17bfacac07c10ae2dcec68ea9f610f9ea5fb3 data/minecraft/tags/block/needs_iron_tool.json

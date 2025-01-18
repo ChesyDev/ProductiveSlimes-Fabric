@@ -6,15 +6,14 @@ import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.fluid.ModFluids;
-import com.chesy.productiveslimes.handler.CableNetwork;
-import com.chesy.productiveslimes.handler.MyNetworkState;
-import com.chesy.productiveslimes.handler.MyNetworkStateManager;
+import com.chesy.productiveslimes.network.ModNetworkState;
+import com.chesy.productiveslimes.network.ModNetworkStateManager;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
-import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -26,11 +25,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.WorldSavePath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MOD_ID = "productiveslimes";
@@ -41,7 +37,7 @@ public class ProductiveSlimes implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModTierLists.init();
+		ModTiers.init();
 		ModFluids.register();
 		ModDataComponents.register();
 		ModItemGroups.initialize();
@@ -58,12 +54,12 @@ public class ProductiveSlimes implements ModInitializer {
 
 		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
 			ServerWorld overworld = minecraftServer.getOverworld();
-			MyNetworkState state = MyNetworkStateManager.getOrCreate(overworld);
+			ModNetworkState state = ModNetworkStateManager.getOrCreate(overworld);
 		});
 
 		ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
 			ServerWorld overworld = minecraftServer.getOverworld();
-			MyNetworkStateManager.forceSave(overworld);
+			ModNetworkStateManager.forceSave(overworld);
 		});
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());

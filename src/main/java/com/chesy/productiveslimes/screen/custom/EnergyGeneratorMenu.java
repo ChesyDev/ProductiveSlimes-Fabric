@@ -1,9 +1,9 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
-import com.chesy.productiveslimes.screen.slot.EnergyGeneratorInputSlot;
-import com.chesy.productiveslimes.screen.slot.EnergyGeneratorUpgradeSlot;
+import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
+import com.chesy.productiveslimes.util.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,35 +14,33 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class EnergyGeneratorMenu extends ScreenHandler {
-    public EnergyGeneratorBlockEntity blockEntity;
-    private World world;
-    private PropertyDelegate data;
-    private boolean showExtraSlots = true;
-    private PlayerInventory playerInventory;
+    public final EnergyGeneratorBlockEntity blockEntity;
+    private final PropertyDelegate data;
     private final Inventory inventory;
+    private final PlayerInventory playerInventory;
+    private boolean showExtraSlots = true;
 
     public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
         this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
     }
 
-    public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
+    public EnergyGeneratorMenu(int syncId, PlayerInventory playerInventory, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, syncId);
         this.blockEntity = ((EnergyGeneratorBlockEntity) entity);
         this.data = data;
-        this.playerInventory = inv;
         this.inventory = (Inventory) entity;
+        this.playerInventory = playerInventory;
 
-        addPlayerInventory(inv);
-        addPlayerHotbar(inv);
+        this.addSlot(new SlotItemHandler(inventory, 0, 80, 25, blockEntity::canBurn));
+        this.addSlot(new SlotItemHandler(inventory, 1, 179, 29, this::isEnergyMultiplierUpgrade, 1));
+        this.addSlot(new SlotItemHandler(inventory, 2, 197, 29, this::isEnergyMultiplierUpgrade, 1));
+        this.addSlot(new SlotItemHandler(inventory, 3, 179, 47, this::isEnergyMultiplierUpgrade, 1));
+        this.addSlot(new SlotItemHandler(inventory, 4, 197, 47, this::isEnergyMultiplierUpgrade, 1));
 
-        this.addSlot(new EnergyGeneratorInputSlot(inventory, 0, 80, 25, blockEntity));
-        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 1, 179, 29));
-        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 2, 197, 29));
-        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 3, 179, 47));
-        this.addSlot(new EnergyGeneratorUpgradeSlot(inventory, 4, 197, 47));
+        addPlayerInventory(playerInventory);
+        addPlayerHotbar(playerInventory);
 
         addProperties(data);
     }
@@ -52,13 +50,13 @@ public class EnergyGeneratorMenu extends ScreenHandler {
         this.slots.clear();
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-        addSlot(new EnergyGeneratorInputSlot(inventory, 0, 80, 25, blockEntity));
+        addSlot(new SlotItemHandler(inventory, 0, 80, 25, blockEntity::canBurn));
 
         if (showExtraSlots) {
-            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 1, 179, 29));
-            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 2, 197, 29));
-            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 3, 179, 47));
-            addSlot(new EnergyGeneratorUpgradeSlot(inventory, 4, 197, 47));
+            addSlot(new SlotItemHandler(inventory, 1, 179, 29, this::isEnergyMultiplierUpgrade, 1));
+            addSlot(new SlotItemHandler(inventory, 2, 197, 29, this::isEnergyMultiplierUpgrade, 1));
+            addSlot(new SlotItemHandler(inventory, 3, 179, 47, this::isEnergyMultiplierUpgrade, 1));
+            addSlot(new SlotItemHandler(inventory, 4, 197, 47, this::isEnergyMultiplierUpgrade, 1));
         }
 
         this.sendContentUpdates();
@@ -75,23 +73,6 @@ public class EnergyGeneratorMenu extends ScreenHandler {
 
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
-
-    // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
-    // must assign a slot number to each of the slots used by the GUI.
-    // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.
-    // Each time we add a Slot to the container, it automatically increases the slotIndex, which means
-    //  0 - 8 = hotbar slots (which will map to the InventoryPlayer slot numbers 0 - 8)
-    //  9 - 35 = player inventory slots (which map to the InventoryPlayer slot numbers 9 - 35)
-    //  36 - 44 = TileInventory slots, which map to our TileEntity slot numbers 0 - 8)
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-    // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
@@ -158,5 +139,9 @@ public class EnergyGeneratorMenu extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
+    }
+
+    private boolean isEnergyMultiplierUpgrade(ItemStack stack) {
+        return stack.getItem() == ModItems.ENERGY_MULTIPLIER_UPGRADE;
     }
 }

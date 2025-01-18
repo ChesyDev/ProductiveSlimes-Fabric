@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.datagen.builder;
 
-import com.chesy.productiveslimes.recipe.MeltingRecipe;
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.SolidingRecipe;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
@@ -16,6 +16,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -91,8 +92,6 @@ public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
                 this.inputCount,
                 this.energy
         );
-        exporter.accept(recipeKey, recipe, builder.build(recipeKey.getRegistry().withPrefixedPath("recipes/")));
+        exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MOD_ID, "recipes/" + recipeKey.getValue().getPath())));
     }
-
-
 }

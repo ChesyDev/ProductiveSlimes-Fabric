@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "productiveslimes:prismarine_slime_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "productiveslimes:prismarine_slimeball"
+  }
+}

@@ -3,8 +3,6 @@ package com.chesy.productiveslimes.datagen;
 import com.chesy.productiveslimes.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 
@@ -17,10 +15,20 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-                .add(ModBlocks.MELTING_STATION)
-                .add(ModBlocks.SOLIDING_STATION)
-                .add(ModBlocks.DNA_EXTRACTOR)
-                .add(ModBlocks.DNA_SYNTHESIZER);
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
+                ModBlocks.ENERGY_GENERATOR,
+                ModBlocks.MELTING_STATION,
+                ModBlocks.SOLIDING_STATION,
+                ModBlocks.DNA_EXTRACTOR,
+                ModBlocks.DNA_SYNTHESIZER
+        );
+
+        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL).add(
+                ModBlocks.ENERGY_GENERATOR,
+                ModBlocks.MELTING_STATION,
+                ModBlocks.SOLIDING_STATION,
+                ModBlocks.DNA_EXTRACTOR,
+                ModBlocks.DNA_SYNTHESIZER
+        );
     }
 }

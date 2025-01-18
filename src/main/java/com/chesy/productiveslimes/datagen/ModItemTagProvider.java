@@ -2,9 +2,13 @@ package com.chesy.productiveslimes.datagen;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.item.ModItems;
+import com.chesy.productiveslimes.tier.ModTier;
+import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -16,12 +20,26 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        var slimeballTag = getOrCreateTagBuilder(ConventionalItemTags.SLIME_BALLS);
+
+        slimeballTag.add(ProductiveSlimes.ENERGY_SLIME_BALL);
+
+        for (Tier tier : Tier.values()){
+            ModTier tiers = ModTiers.getTierByName(tier);
+            slimeballTag.add(ModTiers.getSlimeballItemByName(tiers.name()));
+        }
+
+        var dnaTag = getOrCreateTagBuilder(ModTags.Items.DNA_ITEM);
+
+        for (Tier tier : Tier.values()){
+            ModTier tiers = ModTiers.getTierByName(tier);
+            dnaTag.add(ModTiers.getDnaItemByName(tiers.name()));
+        }
+
         getOrCreateTagBuilder(ModTags.Items.TRANSFORMABLE_ITEMS)
                 .add(ModItems.GUIDEBOOK)
                 .add(ModItems.SLIMEBALL_FRAGMENT)
                 .add(ProductiveSlimes.ENERGY_SLIME_BALL)
                 .add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
-        getOrCreateTagBuilder(ModTags.Items.DNA_ITEM)
-                .add(ModItems.SLIME_DNA);
     }
 }

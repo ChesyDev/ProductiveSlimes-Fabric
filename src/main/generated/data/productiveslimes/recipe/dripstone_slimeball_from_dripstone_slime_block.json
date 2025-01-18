@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "productiveslimes:dripstone_slime_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "productiveslimes:dripstone_slimeball"
+  }
+}

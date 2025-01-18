@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.fluid;
 
-import com.chesy.productiveslimes.tier.ModTierLists;
+import com.chesy.productiveslimes.tier.ModTiers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,7 +14,6 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
@@ -27,7 +26,7 @@ public class DynamicFluid extends WaterFluid {
 
     @Override
     public Fluid getStill() {
-        return ModTierLists.getSourceByName(name);
+        return ModTiers.getSourceByName(name);
     }
 
     @Override
@@ -48,17 +47,17 @@ public class DynamicFluid extends WaterFluid {
 
     @Override
     public Fluid getFlowing() {
-        return ModTierLists.getFlowByName(name);
+        return ModTiers.getFlowByName(name);
     }
 
     @Override
     public Item getBucketItem() {
-        return ModTierLists.getBucketItemByName(name);
+        return ModTiers.getBucketItemByName(name);
     }
 
     @Override
     public BlockState toBlockState(FluidState state) {
-        return ModTierLists.getLiquidBlockByName(name).getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+        return ModTiers.getLiquidBlockByName(name).getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
     }
 
     @Override

@@ -3,13 +3,10 @@ package com.chesy.productiveslimes.item;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.item.custom.*;
-import com.chesy.productiveslimes.tier.ModTierLists;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -34,7 +31,7 @@ public class ModItems {
 
     public static void registerTierItems() {
         for (Tier name : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(name);
+            ModTier tiers = ModTiers.getTierByName(name);
             String dnaName = tiers.name() + "_slime_dna";
             String spawnEggName = tiers.name() + "_slime_spawn_egg";
 
@@ -43,11 +40,11 @@ public class ModItems {
             DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, dnaName)))));
 
-            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTierLists.getEntityByName(tiers.name()), color, color, new Item.Settings()
+            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTiers.getEntityByName(tiers.name()), color, color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, spawnEggName)))));
 
-            ModTierLists.addRegisteredDnaItem(tiers.name(), dna);
-            ModTierLists.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
+            ModTiers.addRegisteredDnaItem(tiers.name(), dna);
+            ModTiers.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
         }
     }
 
@@ -62,7 +59,7 @@ public class ModItems {
 
     public static void registerSlimeball(){
         for (Tier name : Tier.values()){
-            ModTiers tiers = ModTierLists.getTierByName(name);
+            ModTier tiers = ModTiers.getTierByName(name);
             String slimeballName = tiers.name() + "_slimeball";
 
             int color = tiers.color();
@@ -70,7 +67,7 @@ public class ModItems {
             SlimeballItem slimeball = ModItems.register(slimeballName, new SlimeballItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
 
-            ModTierLists.addRegisteredSlimeballItem(tiers.name(), slimeball);
+            ModTiers.addRegisteredSlimeballItem(tiers.name(), slimeball);
         }
     }
 }

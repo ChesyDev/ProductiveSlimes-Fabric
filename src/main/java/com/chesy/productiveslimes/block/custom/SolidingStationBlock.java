@@ -1,9 +1,8 @@
 package com.chesy.productiveslimes.block.custom;
 
-import com.chesy.productiveslimes.block.entity.MeltingStationBlockEntity;
-import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -20,7 +19,6 @@ import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
@@ -57,16 +55,6 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
         return new SolidingStationBlockEntity(pos, state);
     }
 
-    public BlockEntityType<?> getBlockEntityType() {
-        return ModBlockEntities.SOLIDING_STATION;  // Point to your block entity registration
-    }
-
-    @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        Direction facingDirection = state.get(FACING);
-        return state;
-    }
-
     protected BlockState rotate(BlockState state, BlockRotation rotation) {
         return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
     }
@@ -77,16 +65,28 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{FACING});
+        builder.add(FACING);
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean moved) {
+        if (pState.getBlock() != pNewState.getBlock()){
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity){
+                ContainerUtils.dropContents(pLevel, pPos, solidingStationBlockEntity);
+            }
+        }
+
+        super.onStateReplaced(pState, pLevel, pPos, pNewState, moved);
     }
 
     @Override
@@ -96,15 +96,8 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
 
         if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity) {
             ItemStack stack = new ItemStack(this);
-
             stack.set(ModDataComponents.ENERGY, solidingStationBlockEntity.getEnergyHandler().getAmountStored());
-
             drops.clear();
-
-            for (int i = 0; i < solidingStationBlockEntity.size(); i++) {
-                drops.add(solidingStationBlockEntity.getStack(i));
-            }
-
             drops.add(stack);
         }
 

@@ -21,8 +21,7 @@ public class SlimeBlock extends TranslucentBlock {
     }
 
     public SlimeBlock(AbstractBlock.Settings settings) {
-        super(settings);
-        this.color = 0x7F7F7F;
+        this(settings, 0x7F7F7F);
     }
 
     public SlimeBlock(AbstractBlock.Settings settings, int color) {

@@ -23,6 +23,9 @@
 		],
 		"client": [
 			"com.chesy.productiveslimes.ProductiveSlimesClient"
+		],
+		"jade": [
+			"com.chesy.productiveslimes.compat.jade.JadePlugin"
 		]
 	},
 	"mixins": [

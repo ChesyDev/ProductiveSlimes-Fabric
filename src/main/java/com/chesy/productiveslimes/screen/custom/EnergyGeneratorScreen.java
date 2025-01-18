@@ -1,20 +1,15 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.handler.IconButton;
+import com.chesy.productiveslimes.util.ModIconButton;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.text2speech.Narrator;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
     public static final Identifier GUI_TEXTURE =
@@ -36,7 +31,7 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
         int x = (width - 176) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        ButtonWidget iconButton = new IconButton(x + 155, y + 62, 16, 16, Text.translatable(""), 0, 0, 16, 0, button -> onButtonPress());
+        ButtonWidget iconButton = new ModIconButton(x + 155, y + 62, 16, 16, Text.translatable(""), 0, 0, 16, 0, button -> onButtonPress());
 
         this.addDrawableChild(iconButton);
     }

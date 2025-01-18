@@ -2,11 +2,11 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.handler.ContainerUtils;
-import com.chesy.productiveslimes.handler.CustomEnergyStorage;
-import com.chesy.productiveslimes.handler.EnergyAccessingBlock;
+import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
+import com.chesy.productiveslimes.util.IEnergyBlockEntity;
+import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
@@ -15,7 +15,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -34,10 +33,9 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
+public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     protected final PropertyDelegate data;
@@ -62,6 +60,7 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     private int progress = 0;
     private int maxProgress = 100;
 
+    @Override
     public CustomEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
@@ -108,6 +107,16 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new EnergyGeneratorMenu(syncId, playerInventory, this, this.data);
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        return false;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        return slot == 0 && canBurn(stack);
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
