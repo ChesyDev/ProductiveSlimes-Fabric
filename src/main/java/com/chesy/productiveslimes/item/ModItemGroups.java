@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroups {
     public static final ItemGroup PRODUCTIVE_SLIME_TAB = Registry.register(Registries.ITEM_GROUP,
-            Identifier.of(ProductiveSlimes.MOD_ID, "productive_slimes"),
+            Identifier.of(ProductiveSlimes.MODID, "productive_slimes"),
             FabricItemGroup.builder().icon(() -> new ItemStack(Items.SLIME_BLOCK))
                     .displayName(Text.translatable("creativetab.productiveslimes"))
                     .entries((displayContext, entries) -> {

@@ -29,11 +29,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProductiveSlimes implements ModInitializer {
-	public static final String MOD_ID = "productiveslimes";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MODID = "productiveslimes";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-	public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MOD_ID,"energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
-			.registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "energy_slimeball")))));
+	public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID,"energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
+			.registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slimeball")))));
 
 	@Override
 	public void onInitialize() {
@@ -59,6 +59,6 @@ public class ProductiveSlimes implements ModInitializer {
 		EntityInteractEvent.init();
 
 		// Register the tint source
-		TintSourceTypes.ID_MAPPER.put(Identifier.of(MOD_ID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
+		TintSourceTypes.ID_MAPPER.put(Identifier.of(MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
 	}
 }

@@ -23,7 +23,6 @@ import net.minecraft.item.Items;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKeys;
@@ -106,7 +105,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .addOutput(new ItemStack(pResult, outputCount))
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))
-                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MOD_ID, "melting/" + getItemName(pIngredient) + "_melting").toString());
+                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "melting/" + getItemName(pIngredient) + "_melting").toString());
             }
 
             private void solidingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
@@ -117,7 +116,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .addOutput(new ItemStack(Items.BUCKET, pInputCount))
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))
-                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MOD_ID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());
+                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());
             }
 
             private String getItemName(ItemConvertible item) {

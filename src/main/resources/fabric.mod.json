@@ -26,6 +26,12 @@
 		],
 		"jade": [
 			"com.chesy.productiveslimes.compat.jade.JadePlugin"
+		],
+		"rei_client": [
+			"com.chesy.productiveslimes.compat.rei.REIPluginClient"
+		],
+		"rei_common": [
+			"com.chesy.productiveslimes.compat.rei.REIPluginServer"
 		]
 	},
 	"mixins": [

@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ModIconButton extends ButtonWidget {
-    public static final Identifier iconTexture = Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/widgets.png");
+    public static final Identifier iconTexture = Identifier.of(ProductiveSlimes.MODID, "textures/gui/widgets.png");
     private final int closedTextureX;
     private final int closedTextureY;
     private final int openTextureX;

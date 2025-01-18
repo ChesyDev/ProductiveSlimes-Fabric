@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class ModTags {
     public static class Blocks {
         private static TagKey<Block> createTag(String id) {
-            return TagKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MOD_ID, id));
+            return TagKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, id));
         }
     }
 
@@ -20,7 +20,7 @@ public class ModTags {
         public static final TagKey<Item> SLIMY_LOG = createTag("slimy_log");
 
         private static TagKey<Item> createTag(String id) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, id));
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, id));
         }
     }
 }

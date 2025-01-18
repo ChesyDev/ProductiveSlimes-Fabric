@@ -27,7 +27,7 @@ public class JadePlugin implements IWailaPlugin {
 
         @Override
         public Identifier getUid() {
-            return Identifier.of(ProductiveSlimes.MOD_ID, "slime_info");
+            return Identifier.of(ProductiveSlimes.MODID, "slime_info");
         }
     }
 }

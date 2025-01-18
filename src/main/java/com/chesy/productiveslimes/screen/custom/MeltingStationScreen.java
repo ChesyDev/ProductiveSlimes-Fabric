@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
     public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/melting_station_gui.png");
+            Identifier.of(ProductiveSlimes.MODID, "textures/gui/melting_station_gui.png");
 
     public MeltingStationScreen(MeltingStationMenu handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class BaseSlimeRenderer extends MobEntityRenderer<SlimeEntity, SlimeEntityRenderState, BaseSlimeModel> {
-    public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MOD_ID, "textures/entity/template_slime_entity.png");
+    public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID, "textures/entity/template_slime_entity.png");
 
     public BaseSlimeRenderer(EntityRendererFactory.Context context, int color) {
         super(context, new BaseSlimeModel(context.getPart(EntityModelLayers.SLIME), color), 0.25F);

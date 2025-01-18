@@ -73,14 +73,14 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
-        Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_dna");
+        Identifier identifier = Identifier.of(ProductiveSlimes.MODID,"item/template_dna");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
     }
 
     private void slimeballItem(ItemModelGenerator itemModelGenerator, SlimeballItem item) {
-        Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_slimeball");
+        Identifier identifier = Identifier.of(ProductiveSlimes.MODID,"item/template_slimeball");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
@@ -88,8 +88,8 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void bucketItem(ItemModelGenerator itemModelGenerator, BucketItem item){
         TextureMap textures = new TextureMap()
-                .put(TextureKey.LAYER0, Identifier.of(ProductiveSlimes.MOD_ID, "item/bucket"))
-                .put(TextureKey.LAYER1, Identifier.of(ProductiveSlimes.MOD_ID, "item/bucket_fluid"));
+                .put(TextureKey.LAYER0, Identifier.of(ProductiveSlimes.MODID, "item/bucket"))
+                .put(TextureKey.LAYER1, Identifier.of(ProductiveSlimes.MODID, "item/bucket_fluid"));
 
         Identifier model = Models.GENERATED_TWO_LAYERS.upload(item, textures, itemModelGenerator.modelCollector);
 
@@ -125,10 +125,10 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private Identifier blockLocation(String modelName){
-        return Identifier.of(ProductiveSlimes.MOD_ID, "block/" + modelName);
+        return Identifier.of(ProductiveSlimes.MODID, "block/" + modelName);
     }
 
     private Identifier itemLocation(String modelName){
-        return Identifier.of(ProductiveSlimes.MOD_ID, "item/" + modelName);
+        return Identifier.of(ProductiveSlimes.MODID, "item/" + modelName);
     }
 }

@@ -14,6 +14,7 @@ repositories {
 	maven {
 		url "https://cursemaven.com"
 	}
+	maven { url "https://maven.shedaniel.me" }
 }
 
 fabricApi {
@@ -30,8 +31,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	include modApi('teamreborn:energy:4.1.0')
-	modImplementation "curse.maven:jade-324717:6011278"
+
+	include modApi("teamreborn:energy:${energy_api_version}")
+
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+
+	modImplementation "curse.maven:jade-324717:${jade_version}"
 }
 
 processResources {

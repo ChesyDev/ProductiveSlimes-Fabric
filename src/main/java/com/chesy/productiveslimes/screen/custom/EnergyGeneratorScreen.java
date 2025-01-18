@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
     public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/energy_generator_gui.png");
+            Identifier.of(ProductiveSlimes.MODID, "textures/gui/energy_generator_gui.png");
 
     public EnergyGeneratorScreen(EnergyGeneratorMenu handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

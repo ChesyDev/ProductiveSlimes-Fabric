@@ -16,21 +16,21 @@ import net.minecraft.util.Identifier;
 public class ModItems {
 
     public static final Item GUIDEBOOK = register("guidebook", new GuidebookItem(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "guidebook")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "guidebook")))));
 
     public static final Item ENERGY_MULTIPLIER_UPGRADE = register("energy_multiplier_upgrade", new EnergyMultiplierUpgrade(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "energy_multiplier_upgrade")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_multiplier_upgrade")))));
     public static final Item SLIMEBALL_FRAGMENT = register("slimeball_fragment", new Item(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slimeball_fragment")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slimeball_fragment")))));
 
     public static final Item SLIME_ITEM = register("slime_item", new SlimeItem(new Item.Settings().maxCount(1)
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slime_item")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slime_item")))));
 
     public static final SpawnEggItem ENERGY_SLIME_SPAWN_EGG = register("energy_slime_spawn_egg", new SpawnEggItem(ModEntities.ENERGY_SLIME, 0xffff70, 0xFFFF00, new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "energy_slime_spawn_egg")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slime_spawn_egg")))));
 
     public static final DnaItem SLIME_DNA = register("slime_dna", new DnaItem(0xFF7BC35C, new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slime_dna")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slime_dna")))));
 
     public static void registerTierItems() {
         for (Tier name : Tier.values()){
@@ -41,10 +41,10 @@ public class ModItems {
             int color = tiers.color();
 
             DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, dnaName)))));
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, dnaName)))));
 
             SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTiers.getEntityByName(tiers.name()), color, color, new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, spawnEggName)))));
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, spawnEggName)))));
 
             ModTiers.addRegisteredDnaItem(tiers.name(), dna);
             ModTiers.addRegisteredSpawnEggItem(tiers.name(), spawnEgg);
@@ -52,7 +52,7 @@ public class ModItems {
     }
 
     public static <T extends Item> T register(String id, T item){
-        Identifier itemID = Identifier.of(ProductiveSlimes.MOD_ID, id);
+        Identifier itemID = Identifier.of(ProductiveSlimes.MODID, id);
         return Registry.register(Registries.ITEM, itemID, item); //returns Registered Item
     }
 
@@ -68,7 +68,7 @@ public class ModItems {
             int color = tiers.color();
 
             SlimeballItem slimeball = ModItems.register(slimeballName, new SlimeballItem(color, new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, slimeballName)))));
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, slimeballName)))));
 
             ModTiers.addRegisteredSlimeballItem(tiers.name(), slimeball);
         }

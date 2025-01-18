@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class SolidingStationScreen extends HandledScreen<SolidingStationMenu> {
     public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/soliding_station_gui.png");
+            Identifier.of(ProductiveSlimes.MODID, "textures/gui/soliding_station_gui.png");
 
     public SolidingStationScreen(SolidingStationMenu handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

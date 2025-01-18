@@ -89,6 +89,6 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
                 this.inputCount,
                 this.energy
         );
-        exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MOD_ID, "recipes/" + recipeKey.getValue().getPath())));
+        exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MODID, "recipes/" + recipeKey.getValue().getPath())));
     }
 }

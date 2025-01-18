@@ -75,39 +75,39 @@ public class ModTiers {
     }
 
     public static void addRegisteredBlock(String name, SlimeBlock block){
-        registeredBlock.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_block"), block);
+        registeredBlock.put(Identifier.of(ProductiveSlimes.MODID, name + "_slime_block"), block);
     }
 
     public static void addRegisteredSlimeballItem(String name, SlimeballItem item){
-        registeredSlimeballItem.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slimeball"), item);
+        registeredSlimeballItem.put(Identifier.of(ProductiveSlimes.MODID, name + "_slimeball"), item);
     }
 
     public static void addRegisteredDnaItem(String name, DnaItem item) {
-        registeredDnaItem.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_dna"), item);
+        registeredDnaItem.put(Identifier.of(ProductiveSlimes.MODID, name + "_slime_dna"), item);
     }
 
     public static void addRegisteredSpawnEggItem(String name, SpawnEggItem item) {
-        registeredSpawnEggItem.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_spawn_egg"), item);
+        registeredSpawnEggItem.put(Identifier.of(ProductiveSlimes.MODID, name + "_slime_spawn_egg"), item);
     }
 
     public static void addRegisteredSlime(String name, EntityType<BaseSlime> slime) {
-        registeredSlimes.put(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime"), slime);
+        registeredSlimes.put(Identifier.of(ProductiveSlimes.MODID, name + "_slime"), slime);
     }
 
     public static void addRegisteredLiquidBlock(String name, FluidBlock liquidBlock){
-        registeredLiquidBlock.put(Identifier.of(ProductiveSlimes.MOD_ID, "molten_" + name + "_block"), liquidBlock);
+        registeredLiquidBlock.put(Identifier.of(ProductiveSlimes.MODID, "molten_" + name + "_block"), liquidBlock);
     }
 
     public static void addRegisteredBucketItem(String name, BucketItem bucketItem){
-        registeredBucketItem.put(Identifier.of(ProductiveSlimes.MOD_ID, "molten_" + name + "_bucket"), bucketItem);
+        registeredBucketItem.put(Identifier.of(ProductiveSlimes.MODID, "molten_" + name + "_bucket"), bucketItem);
     }
 
     public static void addRegisteredSource(String name, FlowableFluid source){
-        registeredSource.put(Identifier.of(ProductiveSlimes.MOD_ID, "source_molten_" + name), source);
+        registeredSource.put(Identifier.of(ProductiveSlimes.MODID, "source_molten_" + name), source);
     }
 
     public static void addRegisteredFlow(String name, FlowableFluid flow){
-        registeredFlow.put(Identifier.of(ProductiveSlimes.MOD_ID, "flowing_molten_" + name), flow);
+        registeredFlow.put(Identifier.of(ProductiveSlimes.MODID, "flowing_molten_" + name), flow);
     }
 
     public static ModTier getTierByName(Tier tier){
@@ -115,39 +115,39 @@ public class ModTiers {
     }
 
     public static SlimeBlock getBlockByName(String name){
-        return registeredBlock.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_block"));
+        return registeredBlock.get(Identifier.of(ProductiveSlimes.MODID, name + "_slime_block"));
     }
 
     public static SlimeballItem getSlimeballItemByName(String name){
-        return registeredSlimeballItem.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slimeball"));
+        return registeredSlimeballItem.get(Identifier.of(ProductiveSlimes.MODID, name + "_slimeball"));
     }
 
     public static DnaItem getDnaItemByName(String name){
-        return registeredDnaItem.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_dna"));
+        return registeredDnaItem.get(Identifier.of(ProductiveSlimes.MODID, name + "_slime_dna"));
     }
 
     public static SpawnEggItem getSpawnEggItemByName(String name){
-        return registeredSpawnEggItem.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime_spawn_egg"));
+        return registeredSpawnEggItem.get(Identifier.of(ProductiveSlimes.MODID, name + "_slime_spawn_egg"));
     }
 
     public static EntityType<BaseSlime> getEntityByName(String name){
-        return registeredSlimes.get(Identifier.of(ProductiveSlimes.MOD_ID, name + "_slime"));
+        return registeredSlimes.get(Identifier.of(ProductiveSlimes.MODID, name + "_slime"));
     }
 
     public static FluidBlock getLiquidBlockByName(String name){
-        return registeredLiquidBlock.get(Identifier.of(ProductiveSlimes.MOD_ID, "molten_" + name + "_block"));
+        return registeredLiquidBlock.get(Identifier.of(ProductiveSlimes.MODID, "molten_" + name + "_block"));
     }
 
     public static BucketItem getBucketItemByName(String name){
-        return registeredBucketItem.get(Identifier.of(ProductiveSlimes.MOD_ID, "molten_" + name + "_bucket"));
+        return registeredBucketItem.get(Identifier.of(ProductiveSlimes.MODID, "molten_" + name + "_bucket"));
     }
 
     public static FlowableFluid getSourceByName(String name){
-        return registeredSource.get(Identifier.of(ProductiveSlimes.MOD_ID, "source_molten_" + name));
+        return registeredSource.get(Identifier.of(ProductiveSlimes.MODID, "source_molten_" + name));
     }
 
     public static FlowableFluid getFlowByName(String name){
-        return registeredFlow.get(Identifier.of(ProductiveSlimes.MOD_ID, "flowing_molten_" + name));
+        return registeredFlow.get(Identifier.of(ProductiveSlimes.MODID, "flowing_molten_" + name));
     }
 
     public static Item getItemByKey(String key){

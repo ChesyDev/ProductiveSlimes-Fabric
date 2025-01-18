@@ -73,6 +73,10 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
         return inputCount;
     }
 
+    public DefaultedList<Ingredient> getInputItems() {
+        return inputItems;
+    }
+
     public int getEnergy() {
         return energy;
     }

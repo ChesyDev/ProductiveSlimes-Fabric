@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class BaseSlimeModel extends EntityModel<EntityRenderState> {
     public final int color;
-    public static final EntityModelLayer SLIME_TEXTURE = new EntityModelLayer(Identifier.of(ProductiveSlimes.MOD_ID, "textures/entity/template_slime_entity.png"), "main");
+    public static final EntityModelLayer SLIME_TEXTURE = new EntityModelLayer(Identifier.of(ProductiveSlimes.MODID, "textures/entity/template_slime_entity.png"), "main");
     private final ModelPart root;
 
     public BaseSlimeModel(ModelPart root, int color) {

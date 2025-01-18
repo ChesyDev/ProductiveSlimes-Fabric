@@ -2,7 +2,6 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.block.custom.SolidingStationBlock;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
@@ -22,7 +21,7 @@ public class ModBlockEntities {
     public static final BlockEntityType<CableBlockEntity> CABLE = register("cable", FabricBlockEntityTypeBuilder.create(CableBlockEntity::new, ModBlocks.CABLE).build());
 
     public static <T extends BlockEntityType<?>> T register(String name, T blockEntityType) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(ProductiveSlimes.MOD_ID, name), blockEntityType);
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, name), blockEntityType);
     }
 
     public static void initialize() {

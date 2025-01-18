@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     public static final Identifier GUI_TEXTURE =
-            Identifier.of(ProductiveSlimes.MOD_ID, "textures/gui/guidebook_gui.png");
+            Identifier.of(ProductiveSlimes.MODID, "textures/gui/guidebook_gui.png");
 
     public GuidebookScreen(GuidebookMenu handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
