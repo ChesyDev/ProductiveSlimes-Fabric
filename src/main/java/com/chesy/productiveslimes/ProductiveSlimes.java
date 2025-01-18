@@ -6,25 +6,24 @@ import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.event.EntityInteractEvent;
+import com.chesy.productiveslimes.event.ModServerLifecycleEvent;
 import com.chesy.productiveslimes.fluid.ModFluids;
-import com.chesy.productiveslimes.network.ModNetworkState;
-import com.chesy.productiveslimes.network.ModNetworkStateManager;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,18 +52,13 @@ public class ProductiveSlimes implements ModInitializer {
 		ModMenuTypes.registerScreenHandlers();
 		ModRecipes.register();
 
-		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
-			ServerWorld overworld = minecraftServer.getOverworld();
-			ModNetworkState state = ModNetworkStateManager.getOrCreate(overworld);
-		});
-
-		ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
-			ServerWorld overworld = minecraftServer.getOverworld();
-			ModNetworkStateManager.forceSave(overworld);
-		});
-
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
+		// Register the event
+		ModServerLifecycleEvent.init();
 		EntityInteractEvent.init();
+
+		// Register the tint source
+		TintSourceTypes.ID_MAPPER.put(Identifier.of(MOD_ID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
 	}
 }
