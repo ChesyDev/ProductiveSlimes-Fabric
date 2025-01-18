@@ -45,6 +45,8 @@ public class BaseSlime extends SlimeEntity {
         this.cooldown = cooldown;
         this.color = color;
         this.entityType = entityType;
+
+        this.goalSelector.add(1, new SlimeFollowGoal(this, growthItem));
     }
 
     public int getColor() {
@@ -254,5 +256,73 @@ public class BaseSlime extends SlimeEntity {
 
     protected int getTicksUntilNextJump() {
         return this.random.nextInt(20) + 10;
+    }
+
+    static class SlimeFollowGoal extends Goal {
+        private final SlimeEntity slime;
+        private int growTiredTimer;
+        private final Item targetItem; // The item to check for
+        public SlimeFollowGoal(SlimeEntity slime, Item targetItem) {
+            this.slime = slime;
+            this.targetItem = targetItem;
+            this.setControls(EnumSet.of(Control.LOOK));
+        }
+        private boolean isPlayerHoldingTargetItem(PlayerEntity player) {
+            return player.getMainHandStack().isOf(targetItem) || player.getOffHandStack().isOf(targetItem);
+        }
+        private boolean isInRange(PlayerEntity player) {
+            return this.slime.distanceTo(player) <= 8.0F;
+        }
+        private PlayerEntity findNearestPlayerWithItem() {
+            return getServerWorld(this.slime).getClosestPlayer(
+                    TargetPredicate.createNonAttackable().setPredicate((livingEntity, level) -> {
+                        if (livingEntity instanceof PlayerEntity player) {
+                            return isPlayerHoldingTargetItem(player) && this.slime.getSize() < 4 && isInRange(player);
+                        }
+                        return false;
+                    }),
+                    this.slime.getX(),
+                    this.slime.getY(),
+                    this.slime.getZ()
+            );
+        }
+        @Override
+        public boolean canStart() {
+            PlayerEntity player = findNearestPlayerWithItem();
+            if (player == null) {
+                return false;
+            }
+            this.slime.setTarget(player);
+            return this.slime.getMoveControl() instanceof SlimeEntity.SlimeMoveControl;
+        }
+        @Override
+        public void start() {
+            this.growTiredTimer = getTickCount(300);
+            super.start();
+        }
+        @Override
+        public boolean shouldContinue() {
+            PlayerEntity player = findNearestPlayerWithItem();
+            if (player == null) {
+                return false;
+            }
+            this.slime.setTarget(player);
+            return --this.growTiredTimer > 0;
+        }
+        @Override
+        public boolean shouldRunEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            PlayerEntity player = findNearestPlayerWithItem();
+            if (player != null) {
+                this.slime.lookAtEntity(player, 10.0F, 10.0F);
+            }
+            if (this.slime.getMoveControl() instanceof BaseSlime.SlimeMoveControl slimeMoveControl) {
+                slimeMoveControl.look(this.slime.getYaw(), false);
+            }
+        }
     }
 }
