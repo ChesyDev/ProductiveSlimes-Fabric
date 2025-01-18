@@ -23,8 +23,11 @@ public class ModItems {
     public static final Item SLIMEBALL_FRAGMENT = register("slimeball_fragment", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slimeball_fragment")))));
 
+    public static final Item SLIME_ITEM = register("slime_item", new SlimeItem(new Item.Settings().maxCount(1)
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slime_item")))));
+
     public static final SpawnEggItem ENERGY_SLIME_SPAWN_EGG = register("energy_slime_spawn_egg", new SpawnEggItem(ModEntities.ENERGY_SLIME, 0xffff70, 0xFFFF00, new Item.Settings()
-    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "energy_slime_spawn_egg")))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "energy_slime_spawn_egg")))));
 
     public static final DnaItem SLIME_DNA = register("slime_dna", new DnaItem(0xFF7BC35C, new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MOD_ID, "slime_dna")))));

@@ -47,6 +47,26 @@ public class BaseSlime extends SlimeEntity {
         this.entityType = entityType;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public ItemStack getDropItem() {
+        return dropItem.getDefaultStack();
+    }
+
+    public ItemStack getGrowthItem() {
+        return growthItem.getDefaultStack();
+    }
+
+    public EntityType<BaseSlime> getEntityType() {
+        return entityType;
+    }
+
     @Override
     public Text getName() {
         return super.getName();

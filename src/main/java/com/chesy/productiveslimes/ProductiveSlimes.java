@@ -5,6 +5,7 @@ import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
+import com.chesy.productiveslimes.event.EntityInteractEvent;
 import com.chesy.productiveslimes.fluid.ModFluids;
 import com.chesy.productiveslimes.network.ModNetworkState;
 import com.chesy.productiveslimes.network.ModNetworkStateManager;
@@ -63,5 +64,7 @@ public class ProductiveSlimes implements ModInitializer {
 		});
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
+
+		EntityInteractEvent.init();
 	}
 }

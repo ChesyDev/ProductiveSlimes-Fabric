@@ -11,12 +11,14 @@ import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
+import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
+import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -57,6 +59,8 @@ public class ModModelProvider extends FabricModelProvider {
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
         itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
 
+        slimeItem(itemModelGenerator, ModItems.SLIME_ITEM);
+
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
 
@@ -68,21 +72,21 @@ public class ModModelProvider extends FabricModelProvider {
         }
     }
 
-    private static void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
+    private void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
         Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_dna");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
     }
 
-    private static void slimeballItem(ItemModelGenerator itemModelGenerator, SlimeballItem item) {
+    private void slimeballItem(ItemModelGenerator itemModelGenerator, SlimeballItem item) {
         Identifier identifier = Identifier.of(ProductiveSlimes.MOD_ID,"item/template_slimeball");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
     }
 
-    private static void bucketItem(ItemModelGenerator itemModelGenerator, BucketItem item){
+    private void bucketItem(ItemModelGenerator itemModelGenerator, BucketItem item){
         TextureMap textures = new TextureMap()
                 .put(TextureKey.LAYER0, Identifier.of(ProductiveSlimes.MOD_ID, "item/bucket"))
                 .put(TextureKey.LAYER1, Identifier.of(ProductiveSlimes.MOD_ID, "item/bucket_fluid"));
@@ -92,7 +96,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new ConstantTintSource(-1),new ConstantTintSource(item.getColor()))));
     }
 
-    public static BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {
+    public BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {
         return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
                 .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270))
                 .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180))
@@ -115,7 +119,16 @@ public class ModModelProvider extends FabricModelProvider {
                 );
     }
 
+    private void slimeItem(ItemModelGenerator itemModels, Item item){
+        Identifier model = itemLocation("slime_item");
+        itemModels.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new SlimeItemTint(-1), new SlimeItemTint(-1))));
+    }
+
     private Identifier blockLocation(String modelName){
         return Identifier.of(ProductiveSlimes.MOD_ID, "block/" + modelName);
+    }
+
+    private Identifier itemLocation(String modelName){
+        return Identifier.of(ProductiveSlimes.MOD_ID, "item/" + modelName);
     }
 }
