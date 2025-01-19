@@ -1,11 +1,13 @@
 {
-	"required": true,
-	"package": "com.chesy.productiveslimes.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.chesy.productiveslimes.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CustomMeleeAttackGoal",
+    "CustomMoveTowardsTargetGoalMixin",
+    "SlimeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

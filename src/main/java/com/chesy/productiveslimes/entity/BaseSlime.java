@@ -97,8 +97,7 @@ public class BaseSlime extends SlimeEntity {
         return createLivingAttributes()
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.2D)
                 .add(EntityAttributes.ATTACK_DAMAGE, 0)
-                .add(EntityAttributes.FOLLOW_RANGE, 16.0D)
-                .add(EntityAttributes.MAX_HEALTH, 4.0D);
+                .add(EntityAttributes.FOLLOW_RANGE, 0D);
     }
 
     @Nullable
