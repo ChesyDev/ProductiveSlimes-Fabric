@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -31,6 +32,11 @@ public class ModBlockEntities {
                 ModBlockEntities.MELTING_STATION,
                 ModBlockEntities.SOLIDING_STATION,
                 ModBlockEntities.CABLE
+        );
+
+        FluidStorage.SIDED.registerForBlockEntities(
+                (blockEntity, direction) -> blockEntity instanceof FluidTankBlockEntity fluidTankBlockEntity? fluidTankBlockEntity.getFluidStorage() : null,
+                ModBlockEntities.FLUID_TANK
         );
     }
 }

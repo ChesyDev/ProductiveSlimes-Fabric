@@ -42,5 +42,9 @@ public enum Tier {
     CACTUS,
     COAL,
     GRAVEL,
-    OAK_LEAVES
+    OAK_LEAVES;
+
+    public String getTierName() {
+        return this.name().toLowerCase();
+    }
 }

@@ -11,13 +11,17 @@ import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
+import com.chesy.productiveslimes.util.FluidTankTint;
 import com.chesy.productiveslimes.util.SlimeItemTint;
+import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
+import net.minecraft.client.render.item.model.SpecialItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
+import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -38,10 +42,11 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_EXTRACTOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_SYNTHESIZER);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.ENERGY_GENERATOR);
-        registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.FLUID_TANK);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
 
         slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
+
+        fluidTank(blockStateModelGenerator, ModBlocks.FLUID_TANK);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
@@ -94,6 +99,91 @@ public class ModModelProvider extends FabricModelProvider {
         Identifier model = Models.GENERATED_TWO_LAYERS.upload(item, textures, itemModelGenerator.modelCollector);
 
         itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new ConstantTintSource(-1),new ConstantTintSource(item.getColor()))));
+    }
+
+    private void fluidTank(BlockStateModelGenerator blockModels, Block block){
+        registerNorthDefaultHorizontalRotationInverted(blockModels, block);
+
+        Identifier fluidTankEmpty = itemLocation("fluid_tank/fluid_tank_empty");
+        Identifier fluidTank3k = itemLocation("fluid_tank/fluid_tank_1");
+        Identifier fluidTank6k = itemLocation("fluid_tank/fluid_tank_2");
+        Identifier fluidTank9k = itemLocation("fluid_tank/fluid_tank_3");
+        Identifier fluidTank12k = itemLocation("fluid_tank/fluid_tank_4");
+        Identifier fluidTank15k = itemLocation("fluid_tank/fluid_tank_5");
+        Identifier fluidTank18k = itemLocation("fluid_tank/fluid_tank_6");
+        Identifier fluidTank21k = itemLocation("fluid_tank/fluid_tank_7");
+        Identifier fluidTank24k = itemLocation("fluid_tank/fluid_tank_8");
+        Identifier fluidTank27k = itemLocation("fluid_tank/fluid_tank_9");
+        Identifier fluidTank30k = itemLocation("fluid_tank/fluid_tank_10");
+        Identifier fluidTank33k = itemLocation("fluid_tank/fluid_tank_11");
+        Identifier fluidTank36k = itemLocation("fluid_tank/fluid_tank_12");
+        Identifier fluidTank40k = itemLocation("fluid_tank/fluid_tank_13");
+        Identifier fluidTank45k = itemLocation("fluid_tank/fluid_tank_14");
+        Identifier fluidTankFull = itemLocation("fluid_tank/fluid_tank_full");
+
+        List<TintSource> tintSources = List.of(ItemModels.constantTintSource(-1), new FluidTankTint(16777215));
+
+        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.condition(
+                new FluidTankProperty(),
+                new BasicItemModel.Unbaked(fluidTankEmpty, tintSources),
+                ItemModels.condition(
+                        new FluidTankProperty3k(),
+                        new BasicItemModel.Unbaked(fluidTank3k, tintSources),
+                        ItemModels.condition(
+                                new FluidTankProperty6k(),
+                                new BasicItemModel.Unbaked(fluidTank6k, tintSources),
+                                ItemModels.condition(
+                                        new FluidTankProperty9k(),
+                                        new BasicItemModel.Unbaked(fluidTank9k, tintSources),
+                                        ItemModels.condition(
+                                                new FluidTankProperty12k(),
+                                                new BasicItemModel.Unbaked(fluidTank12k, tintSources),
+                                                ItemModels.condition(
+                                                        new FluidTankProperty15k(),
+                                                        new BasicItemModel.Unbaked(fluidTank15k, tintSources),
+                                                        ItemModels.condition(
+                                                                new FluidTankProperty18k(),
+                                                                new BasicItemModel.Unbaked(fluidTank18k, tintSources),
+                                                                ItemModels.condition(
+                                                                        new FluidTankProperty21k(),
+                                                                        new BasicItemModel.Unbaked(fluidTank21k, tintSources),
+                                                                        ItemModels.condition(
+                                                                                new FluidTankProperty24k(),
+                                                                                new BasicItemModel.Unbaked(fluidTank24k, tintSources),
+                                                                                ItemModels.condition(
+                                                                                        new FluidTankProperty27k(),
+                                                                                        new BasicItemModel.Unbaked(fluidTank27k, tintSources),
+                                                                                        ItemModels.condition(
+                                                                                                new FluidTankProperty30k(),
+                                                                                                new BasicItemModel.Unbaked(fluidTank30k, tintSources),
+                                                                                                ItemModels.condition(
+                                                                                                        new FluidTankProperty33k(),
+                                                                                                        new BasicItemModel.Unbaked(fluidTank33k, tintSources),
+                                                                                                        ItemModels.condition(
+                                                                                                                new FluidTankProperty36k(),
+                                                                                                                new BasicItemModel.Unbaked(fluidTank36k, tintSources),
+                                                                                                                ItemModels.condition(
+                                                                                                                        new FluidTankProperty40k(),
+                                                                                                                        new BasicItemModel.Unbaked(fluidTank40k, tintSources),
+                                                                                                                        ItemModels.condition(
+                                                                                                                                new FluidTankProperty45k(),
+                                                                                                                                new BasicItemModel.Unbaked(fluidTank45k, tintSources),
+                                                                                                                                new BasicItemModel.Unbaked(fluidTankFull, tintSources)
+                                                                                                                        )
+                                                                                                                )
+                                                                                                        )
+                                                                                                )
+                                                                                        )
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        ));
     }
 
     public BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {

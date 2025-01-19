@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.block.entity;
 
+import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.ModRecipes;
@@ -8,6 +9,7 @@ import com.chesy.productiveslimes.screen.custom.SolidingStationMenu;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -17,6 +19,9 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
@@ -47,7 +52,6 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         }
     };
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-
 
     public static final int INPUT_SLOT = 0;
     public static final int[] OUTPUT_SLOT = {1, 2};
@@ -264,7 +268,6 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         return false;
     }
 
-
     private boolean hasProgressFinished() {
         return progress >= maxProgress;
     }
@@ -275,5 +278,25 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
 
     public PropertyDelegate getData() {
         return data;
+    }
+
+    public FluidVariant getRenderStack() {
+        if (inventory.get(INPUT_SLOT).getItem() instanceof BucketItem bucketItem) {
+            return bucketItem.getFluidStack();
+        }
+        return FluidVariant.blank();
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+        var nbt = super.toInitialChunkDataNbt(registries);
+        writeNbt(nbt, registries);
+        return nbt;
     }
 }

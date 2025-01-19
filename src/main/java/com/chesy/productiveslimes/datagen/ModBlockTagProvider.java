@@ -20,7 +20,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 ModBlocks.MELTING_STATION,
                 ModBlocks.SOLIDING_STATION,
                 ModBlocks.DNA_EXTRACTOR,
-                ModBlocks.DNA_SYNTHESIZER
+                ModBlocks.DNA_SYNTHESIZER,
+                ModBlocks.FLUID_TANK
         );
 
         getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL).add(
@@ -28,7 +29,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 ModBlocks.MELTING_STATION,
                 ModBlocks.SOLIDING_STATION,
                 ModBlocks.DNA_EXTRACTOR,
-                ModBlocks.DNA_SYNTHESIZER
+                ModBlocks.DNA_SYNTHESIZER,
+                ModBlocks.FLUID_TANK
         );
     }
 }
