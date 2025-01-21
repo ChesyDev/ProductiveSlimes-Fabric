@@ -78,18 +78,6 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStateReplaced(BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean moved) {
-        if (pState.getBlock() != pNewState.getBlock()){
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity){
-                ContainerUtils.dropContents(pLevel, pPos, solidingStationBlockEntity);
-            }
-        }
-
-        super.onStateReplaced(pState, pLevel, pPos, pNewState, moved);
-    }
-
-    @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);

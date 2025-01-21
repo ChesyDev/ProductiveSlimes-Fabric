@@ -83,18 +83,6 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()){
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity){
-                ContainerUtils.dropContents(world, pos, meltingStationBlockEntity);
-            }
-        }
-
-        super.onStateReplaced(state, world, pos, newState, moved);
-    }
-
-    @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);

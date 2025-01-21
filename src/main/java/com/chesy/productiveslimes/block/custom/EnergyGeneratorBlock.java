@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -62,18 +63,6 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()){
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity){
-                ContainerUtils.dropContents(world, pos, energyGeneratorBlockEntity);
-            }
-        }
-
-        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override

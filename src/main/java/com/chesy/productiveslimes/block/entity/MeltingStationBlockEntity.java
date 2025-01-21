@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.block.entity;
 
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
@@ -276,5 +277,11 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     public PropertyDelegate getData() {
         return data;
+    }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
     }
 }
