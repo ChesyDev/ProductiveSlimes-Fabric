@@ -47,7 +47,7 @@ public class MeltingRecipe implements Recipe<SingleStackRecipeInput> {
 
     @Override
     public RecipeSerializer<? extends Recipe<SingleStackRecipeInput>> getSerializer() {
-        return (RecipeSerializer<? extends Recipe<SingleStackRecipeInput>>) ModRecipes.MELTING_SERIALIZER;
+        return ModRecipes.MELTING_SERIALIZER;
     }
 
     @Override

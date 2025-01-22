@@ -47,7 +47,7 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
 
     @Override
     public RecipeSerializer<? extends Recipe<SingleStackRecipeInput>> getSerializer() {
-        return (RecipeSerializer<? extends Recipe<SingleStackRecipeInput>>) ModRecipes.SOLIDING_SERIALIZER;
+        return ModRecipes.SOLIDING_SERIALIZER;
     }
 
     @Override
