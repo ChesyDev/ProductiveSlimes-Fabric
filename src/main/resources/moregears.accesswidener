@@ -1,3 +1,4 @@
 accessWidener v2 named
 accessible class net/minecraft/entity/mob/SlimeEntity$SlimeMoveControl
 accessible field net/minecraft/item/BucketItem fluid Lnet/minecraft/fluid/Fluid;
+accessible field net/minecraft/resource/ResourcePackManager providers Ljava/util/Set;

@@ -1,10 +1,11 @@
 package com.chesy.productiveslimes;
 
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.block.entity.renderer.FluidTankBlockEntityRenderer;
 import com.chesy.productiveslimes.block.entity.renderer.SolidingStationBlockEntityRenderer;
+import com.chesy.productiveslimes.config.CustomVariant;
+import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
@@ -18,6 +19,7 @@ import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -60,5 +62,21 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
             EntityRendererRegistry.register(ModTiers.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
+
+        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+            String name = variant.name();
+
+            FluidRenderHandlerRegistry.INSTANCE.register(CustomVariantRegistry.getSourceFluidForVariant(name), CustomVariantRegistry.getFlowingFluidForVariant(name), SimpleFluidRenderHandler.coloredWater(variant.getColor()));
+            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), CustomVariantRegistry.getSourceFluidForVariant(name), CustomVariantRegistry.getFlowingFluidForVariant(name));
+
+            BlockRenderLayerMap.INSTANCE.putBlock(CustomVariantRegistry.getSlimeBlockForVariant(name), RenderLayer.getTranslucent());
+            ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> variant.getColor(), CustomVariantRegistry.getSlimeBlockForVariant(name));
+
+            EntityRendererRegistry.register(CustomVariantRegistry.getSlimeForVariant(name), ctx -> new BaseSlimeRenderer(ctx, variant.getColor()));
+        }
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            CustomVariantRegistry.handleResourcePack();
+        });
     }
 }

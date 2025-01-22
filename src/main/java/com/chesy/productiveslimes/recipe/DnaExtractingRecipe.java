@@ -54,7 +54,7 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<DnaExtractingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("inputItems").forGetter(DnaExtractingRecipe::inputItems),
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaExtractingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(DnaExtractingRecipe::output),
                         Codec.INT.fieldOf("inputCount").forGetter(DnaExtractingRecipe::inputCount),
                         Codec.INT.fieldOf("energy").forGetter(DnaExtractingRecipe::energy),

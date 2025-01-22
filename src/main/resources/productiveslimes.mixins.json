@@ -5,6 +5,7 @@
   "mixins": [
     "CustomMeleeAttackGoal",
     "CustomMoveTowardsTargetGoalMixin",
+    "ResourcePackManagerMixin",
     "SlimeMixin"
   ],
   "injectors": {

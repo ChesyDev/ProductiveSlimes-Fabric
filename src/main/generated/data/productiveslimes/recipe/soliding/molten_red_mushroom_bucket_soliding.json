@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:soliding",
+  "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": [
     "productiveslimes:molten_red_mushroom_bucket"

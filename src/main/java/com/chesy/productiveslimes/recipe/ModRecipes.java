@@ -1,8 +1,12 @@
 package com.chesy.productiveslimes.recipe;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 
 
 public class ModRecipes {
@@ -23,11 +27,16 @@ public class ModRecipes {
     public static final RecipeType<SqueezingRecipe> SQUEEZING_TYPE = registerType("squeezing");
 
     private static <T extends Recipe<?>> RecipeSerializer<T> registerSerializer(String name, RecipeSerializer<T> recipe) {
-        return RecipeSerializer.register(name, recipe);
+        return Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(ProductiveSlimes.MODID, name), recipe);
     }
 
     private static <T extends Recipe<?>> RecipeType<T> registerType(String name) {
-        return RecipeType.register(name);
+        return Registry.register(Registries.RECIPE_TYPE, Identifier.of(ProductiveSlimes.MODID, name), new RecipeType<T>() {
+            @Override
+            public String toString() {
+                return name;
+            }
+        });
     }
 
     public static void register() {

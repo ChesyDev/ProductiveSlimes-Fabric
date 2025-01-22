@@ -54,7 +54,7 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<SqueezingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("inputItems").forGetter(SqueezingRecipe::inputItems),
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(SqueezingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(SqueezingRecipe::output),
                         Codec.INT.fieldOf("energy").forGetter(SqueezingRecipe::energy)
                 ).apply(instance, SqueezingRecipe::new)

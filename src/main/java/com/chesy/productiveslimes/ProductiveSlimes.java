@@ -2,6 +2,7 @@ package com.chesy.productiveslimes;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
+import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
@@ -54,6 +55,8 @@ public class ProductiveSlimes implements ModInitializer {
 
 		ModMenuTypes.registerScreenHandlers();
 		ModRecipes.register();
+
+		CustomVariantRegistry.initialize();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 

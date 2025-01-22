@@ -81,7 +81,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<DnaSynthesizingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("inputItems").forGetter(DnaSynthesizingRecipe::inputItems),
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(DnaSynthesizingRecipe::output),
                         Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipe::energy),
                         Codec.INT.fieldOf("inputCount").forGetter(DnaSynthesizingRecipe::inputCount)

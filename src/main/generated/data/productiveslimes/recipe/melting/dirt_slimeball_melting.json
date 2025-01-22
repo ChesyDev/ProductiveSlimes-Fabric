@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:melting",
+  "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
     "productiveslimes:dirt_slimeball"

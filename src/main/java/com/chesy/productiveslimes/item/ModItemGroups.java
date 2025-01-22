@@ -2,9 +2,18 @@ package com.chesy.productiveslimes.item;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.config.CustomVariant;
+import com.chesy.productiveslimes.config.CustomVariantRegistry;
+import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.Tier;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -34,24 +43,44 @@ public class ModItemGroups {
                         for(Tier tier : Tier.values()) {
                             entries.add(ModTiers.getBlockByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
+                        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+                            String name = variant.name();
+                            entries.add(CustomVariantRegistry.getSlimeBlockForVariant(name));
+                        }
 
                         entries.add(ProductiveSlimes.ENERGY_SLIME_BALL);
                         for (Tier tier : Tier.values()){
                             entries.add(ModTiers.getSlimeballItemByName(ModTiers.getTierByName(tier).name()).asItem());
+                        }
+                        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+                            String name = variant.name();
+                            entries.add(CustomVariantRegistry.getSlimeballItemForVariant(name));
                         }
 
                         entries.add(ModItems.SLIME_DNA);
                         for (Tier tier : Tier.values()){
                             entries.add(ModTiers.getDnaItemByName(ModTiers.getTierByName(tier).name()).asItem());
                         }
+                        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+                            String name = variant.name();
+                            entries.add(CustomVariantRegistry.getDnaItemForVariant(name));
+                        }
 
                         for (Tier tier : Tier.values()){
                             entries.add(ModTiers.getBucketItemByName(ModTiers.getTierByName(tier).name()).asItem());
+                        }
+                        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+                            String name = variant.name();
+                            entries.add(CustomVariantRegistry.getBucketItemForVariant(name));
                         }
 
                         entries.add(ModItems.ENERGY_SLIME_SPAWN_EGG);
                         for (Tier tier : Tier.values()){
                             entries.add(ModTiers.getSpawnEggItemByName(ModTiers.getTierByName(tier).name()).asItem());
+                        }
+                        for (CustomVariant variant : CustomVariantRegistry.getLoadedTiers()){
+                            String name = variant.name();
+                            entries.add(CustomVariantRegistry.getSpawnEggItemForVariant(name));
                         }
                     }).build());
 

@@ -1,4 +1,4 @@
-// 1.21.4	-999999999-01-01T00:00:00	Productive Slimes/Model Definitions
+// 25w03a	-999999999-01-01T00:00:00	Productive Slimes/Model Definitions
 36049d56727b622505e8222a5a47b02a458ab0d8 assets/productiveslimes/blockstates/amethyst_slime_block.json
 36049d56727b622505e8222a5a47b02a458ab0d8 assets/productiveslimes/blockstates/andesite_slime_block.json
 36049d56727b622505e8222a5a47b02a458ab0d8 assets/productiveslimes/blockstates/basalt_slime_block.json
@@ -61,6 +61,7 @@ ad781bec02b8f94e92761a3ae7ef05fd8c0b183b assets/productiveslimes/items/andesite_
 d93fabf32015fde14f952a9db28a11fcd9517e6e assets/productiveslimes/items/basalt_slime_dna.json
 d0baf22157b83ee5d365fdb6b2cd8885c7288266 assets/productiveslimes/items/basalt_slime_spawn_egg.json
 cf256dabdac912f31426eb328ac43978e8d60e99 assets/productiveslimes/items/basalt_slimeball.json
+0f7ea8045b5d33c7d99f4ffb21c26012d4463a55 assets/productiveslimes/items/birch_slime_block.json
 e9f0d74b20dbbd3f7abb315eda9d154103b8965d assets/productiveslimes/items/blackstone_slime_block.json
 fb120ef8d4cf82fcf70d3fe01abe112d96edf2cf assets/productiveslimes/items/blackstone_slime_dna.json
 1351058cb9624208f74f01ab40a904b65f8c0c71 assets/productiveslimes/items/blackstone_slime_spawn_egg.json

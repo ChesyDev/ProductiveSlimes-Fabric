@@ -17,7 +17,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public class DynamicFluid extends WaterFluid {
+public abstract class DynamicFluid extends WaterFluid {
     private final String name;
 
     public DynamicFluid(String name) {
@@ -58,11 +58,6 @@ public class DynamicFluid extends WaterFluid {
     @Override
     public BlockState toBlockState(FluidState state) {
         return ModTiers.getLiquidBlockByName(name).getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
-    }
-
-    @Override
-    public boolean isStill(FluidState state) {
-        return isStill(state);
     }
 
     @Override
