@@ -10,10 +10,7 @@ import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
-import com.chesy.productiveslimes.screen.custom.EnergyGeneratorScreen;
-import com.chesy.productiveslimes.screen.custom.GuidebookScreen;
-import com.chesy.productiveslimes.screen.custom.MeltingStationScreen;
-import com.chesy.productiveslimes.screen.custom.SolidingStationScreen;
+import com.chesy.productiveslimes.screen.custom.*;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
@@ -36,6 +33,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         HandledScreens.register(ModMenuTypes.MELTING_STATION_MENU_HANDLER, MeltingStationScreen::new);
         HandledScreens.register(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, EnergyGeneratorScreen::new);
         HandledScreens.register(ModMenuTypes.SOLIDING_STATION_MENU_HANDLER, SolidingStationScreen::new);
+        HandledScreens.register(ModMenuTypes.DNA_EXTRACTOR_MENU_HANDLER, DnaExtractorScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));

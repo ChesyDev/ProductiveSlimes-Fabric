@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lapis_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:lapis_slimeball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productiveslimes:dna_extracting/lapis_slimeball_dna_extracting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lapis_slimeball"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productiveslimes:dna_extracting/lapis_slimeball_dna_extracting"
+    ]
+  }
+}

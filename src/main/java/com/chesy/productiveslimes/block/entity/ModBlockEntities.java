@@ -31,7 +31,8 @@ public class ModBlockEntities {
                 ModBlockEntities.ENERGY_GENERATOR,
                 ModBlockEntities.MELTING_STATION,
                 ModBlockEntities.SOLIDING_STATION,
-                ModBlockEntities.CABLE
+                ModBlockEntities.CABLE,
+                ModBlockEntities.DNA_EXTRACTOR
         );
 
         FluidStorage.SIDED.registerForBlockEntities(

@@ -1,6 +1,8 @@
 package com.chesy.productiveslimes.datagen;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.datagen.builder.DnaExtractingRecipeBuilder;
 import com.chesy.productiveslimes.datagen.builder.MeltingRecipeBuilder;
 import com.chesy.productiveslimes.datagen.builder.SolidingRecipeBuilder;
 import com.chesy.productiveslimes.tier.ModTiers;
@@ -69,6 +71,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(getHasName(Items.DEEPSLATE), has(Items.LAVA_BUCKET))
                         .offerTo(exporter);
 
+                //Slime Ball Recipe
+                slimeBlockToSlimeBall(exporter, ModBlocks.ENERGY_SLIME_BLOCK, ProductiveSlimes.ENERGY_SLIME_BALL);
+                slimeBallToSlimeBlock(exporter, ProductiveSlimes.ENERGY_SLIME_BALL, ModBlocks.ENERGY_SLIME_BLOCK);
+
                 for (Tier tier : Tier.values()) {
                     ModTier tiers = ModTiers.getTierByName(tier);
                     slimeBlockToSlimeBall(exporter, ModTiers.getBlockByName(tiers.name()), ModTiers.getSlimeballItemByName(tiers.name()));
@@ -78,6 +84,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getBucketItemByName(tiers.name()), 4, 1);
 
                     solidingRecipe(exporter, ModTiers.getBucketItemByName(tiers.name()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1, tiers.solidingOutputAmount());
+
+                    dnaExtractingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()), 1, tiers.dnaOutputChance());
                 }
             }
 
@@ -117,6 +125,23 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());
+            }
+
+            protected void dnaExtractingRecipe(RecipeExporter pRecipeOutput, ItemConvertible pIngredient, ItemConvertible pResult, int outputCount, float outputChance) {
+                var recipeBuilder = DnaExtractingRecipeBuilder.dnaExtractingRecipe()
+                        .addIngredient(Ingredient.ofItem(pIngredient))
+                        .setInputCount(1)
+                        .addOutput(new ItemStack(pResult, outputCount));
+
+                if (pIngredient != Items.SLIME_BALL) {
+                    recipeBuilder.addOutput(new ItemStack(Items.SLIME_BALL, 1));
+                }
+
+                recipeBuilder.setEnergy(400)
+                        .setOutputChance(outputChance)
+                        .criterion(getHasName(pIngredient), has(pIngredient))
+                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "dna_extracting/" + getItemName(pIngredient) + "_dna_extracting").toString());
+
             }
 
             private String getItemName(ItemConvertible item) {

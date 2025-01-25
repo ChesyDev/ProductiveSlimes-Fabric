@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_andesite_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:andesite_slimeball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productiveslimes:dna_extracting/andesite_slimeball_dna_extracting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_andesite_slimeball"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productiveslimes:dna_extracting/andesite_slimeball_dna_extracting"
+    ]
+  }
+}
