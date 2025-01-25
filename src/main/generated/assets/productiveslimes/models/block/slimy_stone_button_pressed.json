@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_pressed",
+  "textures": {
+    "texture": "productiveslimes:block/slimy_stone"
+  }
+}

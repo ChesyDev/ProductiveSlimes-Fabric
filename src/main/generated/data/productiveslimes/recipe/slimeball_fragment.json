@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:slime_ball"
+  ],
+  "result": {
+    "count": 4,
+    "id": "productiveslimes:slimeball_fragment"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "productiveslimes:block/slimy_stone",
+    "side": "productiveslimes:block/slimy_stone",
+    "top": "productiveslimes:block/slimy_stone"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "productiveslimes:block/slimy_sapling"
+  }
+}

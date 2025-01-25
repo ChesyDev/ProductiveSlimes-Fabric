@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "productiveslimes:block/slimy_log",
+    "side": "productiveslimes:block/slimy_log"
+  }
+}

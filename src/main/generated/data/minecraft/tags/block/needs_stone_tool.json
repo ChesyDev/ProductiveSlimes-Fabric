@@ -1,10 +1,12 @@
 {
   "values": [
-    "productiveslimes:energy_generator",
     "productiveslimes:melting_station",
     "productiveslimes:soliding_station",
     "productiveslimes:dna_extractor",
     "productiveslimes:dna_synthesizer",
-    "productiveslimes:fluid_tank"
+    "productiveslimes:energy_generator",
+    "productiveslimes:fluid_tank",
+    "productiveslimes:slime_squeezer",
+    "productiveslimes:cable"
   ]
 }

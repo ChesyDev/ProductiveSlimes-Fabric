@@ -21,6 +21,8 @@ import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.client.render.item.property.bool.BooleanProperties;
 import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.item.Item;
@@ -67,6 +69,18 @@ public class ProductiveSlimes implements ModInitializer {
 		// Register the tint source
 		TintSourceTypes.ID_MAPPER.put(Identifier.of(MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
 		TintSourceTypes.ID_MAPPER.put(Identifier.of(MODID, "fluid_tank_tint"), FluidTankTint.MAP_CODEC);
+
+		// Strippable property
+		StrippableBlockRegistry.register(ModBlocks.SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_LOG);
+		StrippableBlockRegistry.register(ModBlocks.SLIMY_WOOD, ModBlocks.STRIPPED_SLIMY_WOOD);
+
+		// Flammable property
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LOG, 5, 5);
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_SLIMY_LOG, 5, 5);
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_PLANKS, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LEAVES, 30, 60);
 
 		// Register property
 		BooleanProperties.ID_MAPPER.put(Identifier.of(MODID, "fluid_tank_empty"), FluidTankProperty.MAP_CODEC);

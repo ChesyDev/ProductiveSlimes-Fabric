@@ -54,10 +54,10 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> progress;
-                    case 1 -> maxProgress;
-                    case 2 -> energyHandler.getAmountStored();
-                    case 3 -> energyHandler.getMaxAmountStored();
+                    case 0 -> DnaSynthesizerBlockEntity.this.progress;
+                    case 1 -> DnaSynthesizerBlockEntity.this.maxProgress;
+                    case 2 -> DnaSynthesizerBlockEntity.this.energyHandler.getAmountStored();
+                    case 3 -> DnaSynthesizerBlockEntity.this.energyHandler.getMaxAmountStored();
                     default -> 0;
                 };
             }
@@ -65,9 +65,9 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> progress = value;
-                    case 1 -> maxProgress = value;
-                    case 2 -> energyHandler.setAmount(value);
+                    case 0 -> DnaSynthesizerBlockEntity.this.progress = value;
+                    case 1 -> DnaSynthesizerBlockEntity.this.maxProgress = value;
+                    case 2 -> DnaSynthesizerBlockEntity.this.energyHandler.setAmount(value);
                 }
             }
 

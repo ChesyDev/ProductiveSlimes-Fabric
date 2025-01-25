@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "slimy",
+  "key": {
+    "#": "minecraft:stick",
+    "W": "productiveslimes:slimy_planks"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 3,
+    "id": "productiveslimes:slimy_fence"
+  }
+}

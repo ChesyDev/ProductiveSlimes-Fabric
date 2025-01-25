@@ -5,6 +5,7 @@ import com.chesy.productiveslimes.compat.rei.dna_extracting.DnaExtractingRecipeD
 import com.chesy.productiveslimes.compat.rei.dna_synthesizing.DnaSynthesizingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.melting.MeltingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.soliding.SolidingRecipeDisplay;
+import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingRecipeDisplay;
 import com.chesy.productiveslimes.recipe.*;
 import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.plugins.REICommonPlugin;
@@ -18,6 +19,7 @@ public class REIPluginServer implements REICommonPlugin {
         registry.register(Identifier.of(ProductiveSlimes.MODID, "soliding"), SolidingRecipeDisplay.SERIALIZER);
         registry.register(Identifier.of(ProductiveSlimes.MODID, "dna_extracting"), DnaExtractingRecipeDisplay.SERIALIZER);
         registry.register(Identifier.of(ProductiveSlimes.MODID, "dna_synthesizing"), DnaSynthesizingRecipeDisplay.SERIALIZER);
+        registry.register(Identifier.of(ProductiveSlimes.MODID, "squeezing"), SqueezingRecipeDisplay.SERIALIZER);
     }
 
     @Override
@@ -26,5 +28,6 @@ public class REIPluginServer implements REICommonPlugin {
         registry.beginRecipeFiller(SolidingRecipe.class).filterType(ModRecipes.SOLIDING_TYPE).fill(SolidingRecipeDisplay::new);
         registry.beginRecipeFiller(DnaExtractingRecipe.class).filterType(ModRecipes.DNA_EXTRACTING_TYPE).fill(DnaExtractingRecipeDisplay::new);
         registry.beginRecipeFiller(DnaSynthesizingRecipe.class).filterType(ModRecipes.DNA_SYNTHESIZING_TYPE).fill(DnaSynthesizingRecipeDisplay::new);
+        registry.beginRecipeFiller(SqueezingRecipe.class).filterType(ModRecipes.SQUEEZING_TYPE).fill(SqueezingRecipeDisplay::new);
     }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "productiveslimes:squeezing",
+  "energy": 300,
+  "ingredients": [
+    "productiveslimes:slimy_dirt"
+  ],
+  "output": [
+    {
+      "count": 1,
+      "id": "minecraft:dirt"
+    },
+    {
+      "count": 1,
+      "id": "productiveslimes:slimeball_fragment"
+    }
+  ]
+}

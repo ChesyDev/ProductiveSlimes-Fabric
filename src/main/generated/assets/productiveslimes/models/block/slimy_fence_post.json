@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "productiveslimes:block/slimy_planks"
+  }
+}

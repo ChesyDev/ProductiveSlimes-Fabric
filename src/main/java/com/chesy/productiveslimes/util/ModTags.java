@@ -9,6 +9,8 @@ import net.minecraft.util.Identifier;
 
 public class ModTags {
     public static class Blocks {
+        public static final TagKey<Block> SLIMY_LOGS = createTag("slimy_logs");
+
         private static TagKey<Block> createTag(String id) {
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, id));
         }

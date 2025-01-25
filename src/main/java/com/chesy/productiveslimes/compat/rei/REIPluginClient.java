@@ -5,10 +5,8 @@ import com.chesy.productiveslimes.compat.rei.dna_extracting.DnaExtractingCategor
 import com.chesy.productiveslimes.compat.rei.dna_synthesizing.DnaSynthesizingCategory;
 import com.chesy.productiveslimes.compat.rei.melting.MeltingCategory;
 import com.chesy.productiveslimes.compat.rei.soliding.SolidingCategory;
-import com.chesy.productiveslimes.screen.custom.DnaExtractorScreen;
-import com.chesy.productiveslimes.screen.custom.DnaSynthesizerScreen;
-import com.chesy.productiveslimes.screen.custom.MeltingStationScreen;
-import com.chesy.productiveslimes.screen.custom.SolidingStationScreen;
+import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingCategory;
+import com.chesy.productiveslimes.screen.custom.*;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
@@ -22,6 +20,7 @@ public class REIPluginClient implements REIClientPlugin {
         registry.add(new SolidingCategory(), configuration -> configuration.addWorkstations(EntryStacks.of(ModBlocks.SOLIDING_STATION)));
         registry.add(new DnaExtractingCategory(), configuration -> configuration.addWorkstations(EntryStacks.of(ModBlocks.DNA_EXTRACTOR)));
         registry.add(new DnaSynthesizingCategory(), configuration -> configuration.addWorkstations(EntryStacks.of(ModBlocks.DNA_SYNTHESIZER)));
+        registry.add(new SqueezingCategory(), configuration -> configuration.addWorkstations(EntryStacks.of(ModBlocks.SLIME_SQUEEZER)));
     }
 
     @Override
@@ -30,5 +29,6 @@ public class REIPluginClient implements REIClientPlugin {
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SolidingStationScreen.class, SolidingCategory.SOLIDING);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaExtractorScreen.class, DnaExtractingCategory.DNA_EXTRACTING);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaSynthesizerScreen.class, DnaSynthesizingCategory.DNA_SYNTHESIZING);
+        registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SlimeSqueezerScreen.class, SqueezingCategory.SQUEEZING);
     }
 }

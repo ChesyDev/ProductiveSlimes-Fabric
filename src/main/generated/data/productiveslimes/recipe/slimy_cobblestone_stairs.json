@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "slimy_cobblestone",
+  "key": {
+    "#": "productiveslimes:slimy_cobblestone"
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "productiveslimes:slimy_cobblestone_stairs"
+  }
+}

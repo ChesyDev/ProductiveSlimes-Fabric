@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "minecraft:slime_ball",
+    "B": "minecraft:egg",
+    "C": "minecraft:redstone"
+  },
+  "pattern": [
+    "CAC",
+    "ABA",
+    "CAC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productiveslimes:energy_slime_spawn_egg"
+  }
+}

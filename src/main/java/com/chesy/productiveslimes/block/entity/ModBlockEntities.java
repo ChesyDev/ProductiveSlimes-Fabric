@@ -33,7 +33,8 @@ public class ModBlockEntities {
                 ModBlockEntities.SOLIDING_STATION,
                 ModBlockEntities.CABLE,
                 ModBlockEntities.DNA_EXTRACTOR,
-                ModBlockEntities.DNA_SYNTHESIZER
+                ModBlockEntities.DNA_SYNTHESIZER,
+                ModBlockEntities.SLIME_SQUEEZER
         );
 
         FluidStorage.SIDED.registerForBlockEntities(

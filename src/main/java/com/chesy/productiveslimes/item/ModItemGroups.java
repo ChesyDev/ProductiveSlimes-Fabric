@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.block.Block;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -22,6 +23,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.lang.reflect.Field;
+
 public class ModItemGroups {
     public static final ItemGroup PRODUCTIVE_SLIME_TAB = Registry.register(Registries.ITEM_GROUP,
             Identifier.of(ProductiveSlimes.MODID, "productive_slimes"),
@@ -30,16 +33,19 @@ public class ModItemGroups {
                     .entries((displayContext, entries) -> {
                         entries.add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
                         entries.add(ModItems.SLIMEBALL_FRAGMENT);
-                        entries.add(ModBlocks.MELTING_STATION);
-                        entries.add(ModBlocks.SOLIDING_STATION);
-                        entries.add(ModBlocks.DNA_EXTRACTOR);
-                        entries.add(ModBlocks.DNA_SYNTHESIZER);
-                        entries.add(ModBlocks.ENERGY_GENERATOR);
-                        entries.add(ModBlocks.SLIME_SQUEEZER);
-                        entries.add(ModBlocks.FLUID_TANK);
-                        entries.add(ModBlocks.CABLE);
 
-                        entries.add(ModBlocks.ENERGY_SLIME_BLOCK);
+                        for (Field field : ModBlocks.class.getFields()) {
+                            try {
+                                // Ensure the field is a Supplier of Block (for blocks)
+                                if (Block.class.isAssignableFrom(field.getType())) {
+                                    Block block = (Block) field.get(null);
+                                    if (block != null) entries.add(block);
+                                }
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         for(Tier tier : Tier.values()) {
                             entries.add(ModTiers.getBlockByName(ModTiers.getTierByName(tier).name()).asItem());
                         }

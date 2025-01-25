@@ -489,6 +489,7 @@ public class CustomVariantRegistry {
         dataPackResources.clear();
         addPackMcmeta();
         generateSlimeballTag();
+        generateWaterTag();
         generateDnaTag();
         generateSlimeBlockLootTable();
         generateCraftingRecipe();
@@ -503,6 +504,25 @@ public class CustomVariantRegistry {
                 "  }\n" +
                 "}";
         dataPackResources.put("pack.mcmeta", packMcmetaContent.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static void generateWaterTag(){
+        List<String> itemIds = new ArrayList<>();
+
+        for (CustomVariant variants : getLoadedTiers()){
+            itemIds.add("productiveslimes:still_" + variants.name());
+            itemIds.add("productiveslimes:flowing_" + variants.name());
+        }
+
+        Map<String, Object> tagJson = new HashMap<>();
+        tagJson.put("replace", false);
+        tagJson.put("values", itemIds);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonContent = gson.toJson(tagJson);
+
+        String tagPath = "data/minecraft/tags/fluid/water.json";
+        dataPackResources.put(tagPath, jsonContent.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void generateSlimeballTag(){

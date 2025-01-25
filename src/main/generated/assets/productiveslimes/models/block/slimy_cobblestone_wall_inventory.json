@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "productiveslimes:block/slimy_cobblestone"
+  }
+}
