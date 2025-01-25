@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.block.custom;
 
+import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.util.ContainerUtils;
@@ -75,6 +76,16 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity) {
+            ContainerUtils.dropContents(world, pos, solidingStationBlockEntity);
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override

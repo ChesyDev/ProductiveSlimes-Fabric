@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.melting;
 
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
@@ -77,4 +76,4 @@ public class MeltingRecipeDisplay extends BasicDisplay {
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;
     }
-}*/
+}

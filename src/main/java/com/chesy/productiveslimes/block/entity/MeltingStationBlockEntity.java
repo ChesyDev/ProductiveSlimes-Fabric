@@ -278,10 +278,4 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     public PropertyDelegate getData() {
         return data;
     }
-
-    @Override
-    public void onStateReplaced(BlockPos pos, BlockState oldState) {
-        ContainerUtils.dropContents(world, pos, this);
-        super.onStateReplaced(pos, oldState);
-    }
 }

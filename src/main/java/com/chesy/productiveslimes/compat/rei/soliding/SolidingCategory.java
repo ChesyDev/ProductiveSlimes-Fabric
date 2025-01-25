@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -94,4 +93,4 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
     public int getDisplayHeight() {
         return 83;
     }
-}*/
+}
