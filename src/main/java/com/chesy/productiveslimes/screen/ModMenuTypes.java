@@ -30,6 +30,10 @@ public class ModMenuTypes {
             Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MODID, "dna_extractor_menu_handler"),
                     new ExtendedScreenHandlerType<>(DnaExtractorMenu::new, BlockPos.PACKET_CODEC));
 
+    public static final ScreenHandlerType<DnaSynthesizerMenu> DNA_SYNTHESIZER_MENU_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MODID, "dna_synthesizer_menu_handler"),
+                    new ExtendedScreenHandlerType<>(DnaSynthesizerMenu::new, BlockPos.PACKET_CODEC));
+
     public static void registerScreenHandlers() {
         ProductiveSlimes.LOGGER.info("Registering Screen Handlers for " + ProductiveSlimes.MODID);
     }

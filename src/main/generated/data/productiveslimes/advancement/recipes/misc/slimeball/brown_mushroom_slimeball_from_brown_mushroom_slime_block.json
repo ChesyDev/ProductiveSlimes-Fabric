@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_brown_mushroom_slime_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:brown_mushroom_slime_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:slimeball/brown_mushroom_slimeball_from_brown_mushroom_slime_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_brown_mushroom_slime_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:slimeball/brown_mushroom_slimeball_from_brown_mushroom_slime_block"
+    ]
+  }
+}

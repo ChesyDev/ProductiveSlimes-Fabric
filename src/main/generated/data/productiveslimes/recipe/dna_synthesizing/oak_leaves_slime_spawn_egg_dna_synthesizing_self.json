@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    "productiveslimes:oak_leaves_slime_dna",
+    "productiveslimes:oak_leaves_slime_dna",
+    "minecraft:oak_leaves"
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:oak_leaves_slime_spawn_egg"
+    }
+  ]
+}

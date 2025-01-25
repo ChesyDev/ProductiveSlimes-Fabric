@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    "productiveslimes:dirt_slime_dna",
+    "productiveslimes:dirt_slime_dna",
+    "minecraft:moss_block"
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:moss_slime_spawn_egg"
+    }
+  ]
+}

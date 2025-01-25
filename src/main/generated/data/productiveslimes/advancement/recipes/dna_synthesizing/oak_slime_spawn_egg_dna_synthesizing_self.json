@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_Egg": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:egg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productiveslimes:dna_synthesizing/oak_slime_spawn_egg_dna_synthesizing_self"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_Egg"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productiveslimes:dna_synthesizing/oak_slime_spawn_egg_dna_synthesizing_self"
+    ]
+  }
+}

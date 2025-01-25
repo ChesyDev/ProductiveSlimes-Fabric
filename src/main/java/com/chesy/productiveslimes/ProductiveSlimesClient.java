@@ -3,6 +3,7 @@ package com.chesy.productiveslimes;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.block.entity.renderer.DnaExtractorBlockEntityRenderer;
+import com.chesy.productiveslimes.block.entity.renderer.DnaSynthesizerBlockEntityRenderer;
 import com.chesy.productiveslimes.block.entity.renderer.FluidTankBlockEntityRenderer;
 import com.chesy.productiveslimes.block.entity.renderer.SolidingStationBlockEntityRenderer;
 import com.chesy.productiveslimes.config.CustomVariant;
@@ -35,6 +36,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         HandledScreens.register(ModMenuTypes.ENERGY_GENERATOR_MENU_HANDLER, EnergyGeneratorScreen::new);
         HandledScreens.register(ModMenuTypes.SOLIDING_STATION_MENU_HANDLER, SolidingStationScreen::new);
         HandledScreens.register(ModMenuTypes.DNA_EXTRACTOR_MENU_HANDLER, DnaExtractorScreen::new);
+        HandledScreens.register(ModMenuTypes.DNA_SYNTHESIZER_MENU_HANDLER, DnaSynthesizerScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
@@ -49,6 +51,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.SOLIDING_STATION, SolidingStationBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.FLUID_TANK, FluidTankBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_EXTRACTOR, DnaExtractorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.DNA_SYNTHESIZER, DnaSynthesizerBlockEntityRenderer::new);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);

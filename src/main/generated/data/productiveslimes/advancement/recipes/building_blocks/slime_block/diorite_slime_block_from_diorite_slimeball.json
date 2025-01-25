@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diorite_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:diorite_slimeball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:slime_block/diorite_slime_block_from_diorite_slimeball"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_diorite_slimeball"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:slime_block/diorite_slime_block_from_diorite_slimeball"
+    ]
+  }
+}

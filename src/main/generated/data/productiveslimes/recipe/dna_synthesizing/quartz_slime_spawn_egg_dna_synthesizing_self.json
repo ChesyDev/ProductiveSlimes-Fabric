@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    "productiveslimes:quartz_slime_dna",
+    "productiveslimes:quartz_slime_dna",
+    "minecraft:quartz"
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:quartz_slime_spawn_egg"
+    }
+  ]
+}

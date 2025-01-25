@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron_slime_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "productiveslimes:iron_slime_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:slimeball/iron_slimeball_from_iron_slime_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_iron_slime_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:slimeball/iron_slimeball_from_iron_slime_block"
+    ]
+  }
+}

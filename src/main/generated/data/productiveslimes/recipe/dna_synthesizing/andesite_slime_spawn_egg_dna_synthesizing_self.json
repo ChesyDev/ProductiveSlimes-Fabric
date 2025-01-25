@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    "productiveslimes:andesite_slime_dna",
+    "productiveslimes:andesite_slime_dna",
+    "minecraft:andesite"
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:andesite_slime_spawn_egg"
+    }
+  ]
+}

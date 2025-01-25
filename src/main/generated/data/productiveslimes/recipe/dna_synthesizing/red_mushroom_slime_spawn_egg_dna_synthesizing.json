@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    "productiveslimes:mud_slime_dna",
+    "productiveslimes:cactus_slime_dna",
+    "minecraft:red_mushroom"
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "id": "productiveslimes:red_mushroom_slime_spawn_egg"
+    }
+  ]
+}
