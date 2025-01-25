@@ -2,6 +2,7 @@ package com.chesy.productiveslimes;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
+import com.chesy.productiveslimes.block.entity.renderer.DnaExtractorBlockEntityRenderer;
 import com.chesy.productiveslimes.block.entity.renderer.FluidTankBlockEntityRenderer;
 import com.chesy.productiveslimes.block.entity.renderer.SolidingStationBlockEntityRenderer;
 import com.chesy.productiveslimes.config.CustomVariant;
@@ -47,6 +48,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, RenderLayer.getTranslucent());
         BlockEntityRendererFactories.register(ModBlockEntities.SOLIDING_STATION, SolidingStationBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.FLUID_TANK, FluidTankBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.DNA_EXTRACTOR, DnaExtractorBlockEntityRenderer::new);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
