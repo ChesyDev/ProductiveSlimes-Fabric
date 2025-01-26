@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 16031520,
+    "separation": 5,
+    "spacing": 15,
+    "spread_type": "triangular"
+  },
+  "structures": [
+    {
+      "structure": "productiveslimes:molten_dirt_lake",
+      "weight": 40
+    }
+  ]
+}

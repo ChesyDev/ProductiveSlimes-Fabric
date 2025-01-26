@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "productiveslimes:item/slime_nest_speed_upgrade_1"
+  }
+}

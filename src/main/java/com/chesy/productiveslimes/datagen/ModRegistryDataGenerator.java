@@ -16,6 +16,7 @@ public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider {
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, Entries entries) {
         entries.addAll(wrapperLookup.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
         entries.addAll(wrapperLookup.getOrThrow(RegistryKeys.PLACED_FEATURE));
+        entries.addAll(wrapperLookup.getOrThrow(RegistryKeys.BIOME));
     }
 
     @Override

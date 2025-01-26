@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,6 +84,16 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
         enableOutline = nbt.getInt("enableOutline");
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        return true;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        return false;
     }
 
     public void tick(World level, BlockPos pos, BlockState state) {

@@ -21,6 +21,7 @@ public class ModBlockEntities {
     public static final BlockEntityType<FluidTankBlockEntity> FLUID_TANK = register("fluid_tank", FabricBlockEntityTypeBuilder.create(FluidTankBlockEntity::new, ModBlocks.FLUID_TANK).build());
     public static final BlockEntityType<CableBlockEntity> CABLE = register("cable", FabricBlockEntityTypeBuilder.create(CableBlockEntity::new, ModBlocks.CABLE).build());
     public static final BlockEntityType<SlimeballCollectorBlockEntity> SLIMEBALL_COLLECTOR = register("slimeball_collector", FabricBlockEntityTypeBuilder.create(SlimeballCollectorBlockEntity::new, ModBlocks.SLIMEBALL_COLLECTOR).build());
+    public static final BlockEntityType<SlimeNestBlockEntity> SLIME_NEST = register("slime_nest", FabricBlockEntityTypeBuilder.create(SlimeNestBlockEntity::new, ModBlocks.SLIME_NEST).build());
 
     public static <T extends BlockEntityType<?>> T register(String name, T blockEntityType) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, name), blockEntityType);

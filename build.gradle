@@ -15,6 +15,7 @@ repositories {
 		url "https://cursemaven.com"
 	}
 	maven { url "https://maven.shedaniel.me" }
+	maven { url = 'https://maven.minecraftforge.net/' }
 }
 
 fabricApi {
@@ -38,6 +39,7 @@ dependencies {
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
 	modImplementation "curse.maven:jade-324717:${jade_version}"
+	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${project.terrablender_version}"
 }
 
 processResources {

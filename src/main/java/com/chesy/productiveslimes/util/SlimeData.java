@@ -47,13 +47,22 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
     }
 
     public static SlimeData fromTag(NbtCompound tag, RegistryWrapper.WrapperLookup provider) {
-        boolean slime = Registries.ENTITY_TYPE.get(Identifier.of(tag.getString("slime"))).isSummonable();
+        String slimeTagValue = tag.getString("slime");
+        if (slimeTagValue.startsWith("Optional[ResourceKey[")) {
+            // Strip out the unwanted parts
+            int startIndex = slimeTagValue.indexOf('/') + 1; // After '/'
+            int endIndex = slimeTagValue.indexOf(']');
+            if (startIndex > 0 && endIndex > startIndex) {
+                slimeTagValue = slimeTagValue.substring(startIndex, endIndex);
+            }
+        }
+        boolean slime = Registries.ENTITY_TYPE.getEntry(Identifier.of(slimeTagValue.trim())).isPresent();
         EntityType<BaseSlime> entityType;
         if (!slime){
             entityType = null;
         }
         else{
-            entityType = (EntityType<BaseSlime>) Registries.ENTITY_TYPE.get(Identifier.of(tag.getString("slime")));
+            entityType = (EntityType<BaseSlime>) Registries.ENTITY_TYPE.getEntry(Identifier.of(slimeTagValue.trim())).get().value();
         }
         return new SlimeData(
                 tag.getInt("size"),

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "productiveslimes:slimy_grass_block",
+    "B": "minecraft:glass_pane",
+    "C": "#c:slime_balls"
+  },
+  "pattern": [
+    "BBB",
+    "BCB",
+    "AAA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productiveslimes:slime_nest"
+  }
+}

@@ -32,6 +32,9 @@
 		],
 		"rei_common": [
 			"com.chesy.productiveslimes.compat.rei.REIPluginServer"
+		],
+		"terrablender": [
+			"com.chesy.productiveslimes.worldgen.biome.ModTerraBlender"
 		]
 	},
 	"mixins": [

@@ -7,11 +7,13 @@ c3355c0f268b4aab130336c7232ffe92ecfb095f data/minecraft/tags/block/dirt.json
 7714699fa19d75c6fcf72328a2206421c806f245 data/minecraft/tags/block/logs.json
 7714699fa19d75c6fcf72328a2206421c806f245 data/minecraft/tags/block/logs_that_burn.json
 a2e2907f06e47147cb37d3d7f51432a452885618 data/minecraft/tags/block/mineable/axe.json
-ba5659847ec5650126a61b3e0eec108c3fb79b7c data/minecraft/tags/block/mineable/pickaxe.json
+c9e065855cfba3d379fd1ce861f4ed73ff5e3c37 data/minecraft/tags/block/mineable/pickaxe.json
 c3355c0f268b4aab130336c7232ffe92ecfb095f data/minecraft/tags/block/mineable/shovel.json
-996df5e16c090a7c099d07bc26cffa80d3fecc02 data/minecraft/tags/block/needs_stone_tool.json
+2ff5d64e0949b6a434856e7f1542bcdc090ed72c data/minecraft/tags/block/needs_stone_tool.json
 32c236b5ef67be78fd8c72c6660d39c761939a58 data/minecraft/tags/block/planks.json
 9212e131be6142ef14d02662c8eea2508b15a871 data/minecraft/tags/block/saplings.json
 4f14ddc0c347cc8fdbdabdb10f95eb6878c9f60e data/minecraft/tags/block/stone_ore_replaceables.json
 5942a9ace2a0c45c7282d51addfa83fffd6fc0a6 data/minecraft/tags/block/walls.json
+984d093986723d058eb157b2f0f03e3a47fbc440 data/minecraft/tags/block/wooden_doors.json
+e88beefa86bf5c444c4ded0b1344c3f1bbe0b631 data/minecraft/tags/block/wooden_trapdoors.json
 7714699fa19d75c6fcf72328a2206421c806f245 data/productiveslimes/tags/block/slimy_logs.json

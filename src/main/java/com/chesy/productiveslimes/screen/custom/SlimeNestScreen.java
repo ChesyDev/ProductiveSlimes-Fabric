@@ -1,0 +1,86 @@
+package com.chesy.productiveslimes.screen.custom;
+
+import com.chesy.productiveslimes.ProductiveSlimes;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.Identifier;
+
+public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
+    private static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID, "textures/gui/slime_nest_gui.png");
+
+    public SlimeNestScreen(SlimeNestMenu pMenu, PlayerInventory pPlayerInventory, Text pTitle) {
+        super(pMenu, pPlayerInventory, pTitle);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.playerInventoryTitleY = 100000;
+        this.titleX = 35;
+        this.titleY = 5;
+    }
+
+    @Override
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        int x = (width - backgroundWidth) / 2;
+        int y = (height - backgroundHeight) / 2;
+        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+    }
+
+    @Override
+    public void render(DrawContext pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        drawMouseoverTooltip(pGuiGraphics, pMouseX, pMouseY);
+
+        int countdown = handler.getCountdown();
+        Text cd = Text.literal("Cooldown: " + countdown + "s").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text size = Text.literal("Slime Size: " + handler.getSlimeSize()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text multiplier = Text.literal("Multiplier: " + handler.getMultiplier()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text dropItem = Text.literal("Drop Item: ").append(Text.translatable(handler.getDrop().getItem().getTranslationKey())).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+
+        int x = (width - backgroundWidth) / 2;
+        int y = (height - backgroundHeight) / 2;
+
+        if (!(handler.hasSlime() && handler.hasOutputSlot())){
+            if(!handler.hasOutputSlot()){
+                cd = Text.literal("No Output Slot").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xd59c20)));
+            }
+            else {
+                cd = Text.literal("No Slime Found").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc70d0d)));
+            }
+        }
+        pGuiGraphics.getMatrices().push();
+        pGuiGraphics.getMatrices().scale(0.75f, 0.75f, 0.75f);
+        pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, cd, x + 123,  y + 40, 0xFFFFFF);
+        if (handler.hasSlime()){
+            pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, size, x + 123,  y + 52, 0xFFFFFF);
+        }
+        pGuiGraphics.getMatrices().pop();
+        if (handler.hasSlime()){
+            pGuiGraphics.getMatrices().push();
+            if (String.valueOf(handler.getMultiplier()).length() >= 6){
+                pGuiGraphics.getMatrices().scale(0.7f, 0.7f, 0.7f);
+                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, x + 143,  y + 72, 0xFFFFFF);
+            }
+            else{
+                pGuiGraphics.getMatrices().scale(0.75f, 0.75f, 0.75f);
+                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, x + 123,  y + 64, 0xFFFFFF);
+            }
+            pGuiGraphics.getMatrices().pop();
+            pGuiGraphics.getMatrices().push();
+            pGuiGraphics.getMatrices().scale(0.75f, 0.75f, 0.75f);
+            pGuiGraphics.drawWrappedTextWithShadow(MinecraftClient.getInstance().textRenderer, dropItem, x + 123,  y + 76, 85,  0xFFFFFF);
+            pGuiGraphics.getMatrices().pop();
+        }
+    }
+}

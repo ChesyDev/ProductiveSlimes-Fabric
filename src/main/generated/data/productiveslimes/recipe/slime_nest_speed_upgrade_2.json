@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "productiveslimes:slime_nest_speed_upgrade_1",
+    "B": "productiveslimes:gold_slime_block",
+    "C": "#c:ingots/gold"
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productiveslimes:slime_nest_speed_upgrade_2"
+  }
+}

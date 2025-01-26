@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "productiveslimes:slimy_poi",
+      "required": false
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.event.EntityInteractEvent;
 import com.chesy.productiveslimes.event.ModServerLifecycleEvent;
+import com.chesy.productiveslimes.event.ModVillagerTrade;
 import com.chesy.productiveslimes.fluid.ModFluids;
 import com.chesy.productiveslimes.item.ModItemGroups;
 import com.chesy.productiveslimes.item.ModItems;
@@ -18,6 +19,8 @@ import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.util.FluidTankTint;
 import com.chesy.productiveslimes.util.SlimeItemTint;
 import com.chesy.productiveslimes.util.property.*;
+import com.chesy.productiveslimes.villager.ModVillagers;
+import com.chesy.productiveslimes.worldgen.biome.surface.ModSurfaceRules;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -33,6 +36,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import terrablender.api.SurfaceRuleManager;
 
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MODID = "productiveslimes";
@@ -58,13 +62,18 @@ public class ProductiveSlimes implements ModInitializer {
 		ModMenuTypes.registerScreenHandlers();
 		ModRecipes.register();
 
+		ModVillagers.init();
+
 		CustomVariantRegistry.initialize();
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
+		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
+
 		// Register the event
 		ModServerLifecycleEvent.init();
 		EntityInteractEvent.init();
+		ModVillagerTrade.init();
 
 		// Register the tint source
 		TintSourceTypes.ID_MAPPER.put(Identifier.of(MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);

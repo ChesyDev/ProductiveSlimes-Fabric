@@ -59,6 +59,12 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.FENCE_GATES)
                 .add(ModBlocks.SLIMY_FENCE_GATE);
 
+        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
+                .add(ModBlocks.SLIMY_DOOR);
+
+        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
+                .add(ModBlocks.SLIMY_TRAPDOOR);
+
         getOrCreateTagBuilder(BlockTags.WALLS)
                 .add(ModBlocks.SLIMY_COBBLESTONE_WALL)
                 .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL);
@@ -72,8 +78,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.FLUID_TANK)
                 .add(ModBlocks.SLIME_SQUEEZER)
                 .add(ModBlocks.CABLE)
-//                .add(ModBlocks.SLIME_NEST)
-//                .add(ModBlocks.SLIMEBALL_COLLECTOR)
+                .add(ModBlocks.SLIME_NEST)
+                .add(ModBlocks.SLIMEBALL_COLLECTOR)
                 .add(ModBlocks.SLIMY_STONE)
                 .add(ModBlocks.SLIMY_DEEPSLATE)
                 .add(ModBlocks.SLIMY_COBBLESTONE)
@@ -116,8 +122,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.ENERGY_GENERATOR)
                 .add(ModBlocks.FLUID_TANK)
                 .add(ModBlocks.SLIME_SQUEEZER)
-                .add(ModBlocks.CABLE);
-//                .add(ModBlocks.SLIME_NEST)
-//                .add(ModBlocks.SLIMEBALL_COLLECTOR);
+                .add(ModBlocks.CABLE)
+                .add(ModBlocks.SLIME_NEST)
+                .add(ModBlocks.SLIMEBALL_COLLECTOR);
     }
 }

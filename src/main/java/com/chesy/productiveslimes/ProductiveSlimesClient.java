@@ -36,6 +36,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         HandledScreens.register(ModMenuTypes.DNA_SYNTHESIZER_MENU_HANDLER, DnaSynthesizerScreen::new);
         HandledScreens.register(ModMenuTypes.SLIME_SQUEEZER_MENU_HANDLER, SlimeSqueezerScreen::new);
         HandledScreens.register(ModMenuTypes.SLIMEBALL_COLLECTOR_MENU_HANDLER, SlimeballCollectorScreen::new);
+        HandledScreens.register(ModMenuTypes.SLIME_NEST_MENU_HANDLER, SlimeNestScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
@@ -48,6 +49,8 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_SAPLING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_TRAPDOOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMEBALL_COLLECTOR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIME_NEST, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, RenderLayer.getTranslucent());
         BlockEntityRendererFactories.register(ModBlockEntities.SOLIDING_STATION, SolidingStationBlockEntityRenderer::new);
@@ -56,6 +59,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_SYNTHESIZER, DnaSynthesizerBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.SLIME_SQUEEZER, SlimeSqueezerBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.SLIMEBALL_COLLECTOR, SlimeballCollectorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.SLIME_NEST, SlimeNestBlockEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
 

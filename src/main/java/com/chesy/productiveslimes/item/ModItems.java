@@ -20,6 +20,10 @@ public class ModItems {
 
     public static final Item ENERGY_MULTIPLIER_UPGRADE = register("energy_multiplier_upgrade", new EnergyMultiplierUpgrade(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_multiplier_upgrade")))));
+    public static final Item SLIME_NEST_SPEED_UPGRADE_1 = register("slime_nest_speed_upgrade_1", new NestUpgradeItem(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slime_nest_speed_upgrade_1"))), 1.5f));
+    public static final Item SLIME_NEST_SPEED_UPGRADE_2 = register("slime_nest_speed_upgrade_2", new NestUpgradeItem(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slime_nest_speed_upgrade_2"))), 2f));
     public static final Item SLIMEBALL_FRAGMENT = register("slimeball_fragment", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slimeball_fragment")))));
 

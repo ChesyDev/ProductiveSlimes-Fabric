@@ -7,6 +7,8 @@
     "productiveslimes:energy_generator",
     "productiveslimes:fluid_tank",
     "productiveslimes:slime_squeezer",
-    "productiveslimes:cable"
+    "productiveslimes:cable",
+    "productiveslimes:slime_nest",
+    "productiveslimes:slimeball_collector"
   ]
 }

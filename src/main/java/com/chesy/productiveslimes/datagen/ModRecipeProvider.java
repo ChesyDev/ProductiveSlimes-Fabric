@@ -193,7 +193,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(getHasName(ModBlocks.SQUEEZER), has(ModBlocks.SQUEEZER))
                         .offerTo(exporter);
 
-                /*ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.SLIME_NEST, 1)
+                ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.SLIME_NEST, 1)
                         .pattern("BBB")
                         .pattern("BCB")
                         .pattern("AAA")
@@ -210,7 +210,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input('A', Items.IRON_INGOT)
                         .input('B', Items.HOPPER)
                         .input('C', ConventionalItemTags.CHESTS)
-                        .criterion(getHasName(Items.HOPPER), has(Tags.Items.CHESTS))
+                        .criterion(getHasName(Items.HOPPER), has(ConventionalItemTags.CHESTS))
                         .offerTo(exporter);
 
                 ShapedRecipeJsonBuilder.create(items, RecipeCategory.MISC, ModItems.SLIME_NEST_SPEED_UPGRADE_1, 1)
@@ -231,7 +231,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input('B', ModTiers.getBlockByName(Tier.GOLD.getTierName()))
                         .input('C', ConventionalItemTags.GOLD_INGOTS)
                         .criterion(getHasName(ModItems.SLIME_NEST_SPEED_UPGRADE_1), has(ModTiers.getBlockByName(Tier.GOLD.getTierName())))
-                        .offerTo(exporter);*/
+                        .offerTo(exporter);
 
                 offerPlanksRecipe(ModBlocks.SLIMY_PLANKS, ModTags.Items.SLIMY_LOG, 4);
                 offerBarkBlockRecipe(ModBlocks.SLIMY_WOOD, ModBlocks.SLIMY_LOG);

@@ -40,10 +40,6 @@ public class SlimeballCollectorMenu extends ScreenHandler {
         addProperties(data);
     }
 
-    public boolean isCrafting() {
-        return data.get(0) > 0;
-    }
-
     @Override
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
