@@ -138,7 +138,6 @@ public class CustomVariantRegistry {
         // Reload data packs to include your new pack
         List<ResourcePackProfile> packs = new ArrayList<>(server.getDataPackManager().getEnabledProfiles());
         packs.add(pack);
-        server.reloadResources(packs.stream().map(ResourcePackProfile::getId).collect(Collectors.toList()));
     }
 
     public static List<CustomVariant> getLoadedTiers() {

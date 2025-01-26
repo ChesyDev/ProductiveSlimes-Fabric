@@ -136,7 +136,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
         counter = nbt.getInt("counter");
         cooldown = nbt.getInt("cooldown");
         dropItem = ItemStack.fromNbtOrEmpty(registries, nbt.getCompound("dropItem"));
-        slimeData = SlimeData.fromTag(nbt.getCompound("slimedata"), registries);
+        slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"), registries);
         tick = nbt.getInt("tick");
         multiplier = nbt.getFloat("multiplier");
     }

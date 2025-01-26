@@ -83,7 +83,7 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
 
     public static class Serializer implements RecipeSerializer<SolidingRecipe> {
         public static final SolidingRecipe.Serializer INSTANCE = new SolidingRecipe.Serializer();
-        private final MapCodec<SolidingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        public static final MapCodec<SolidingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
                 ItemStack.CODEC.listOf().fieldOf("output").forGetter(recipe -> recipe.output),
                 Codec.INT.fieldOf("inputCount").forGetter(recipe -> recipe.inputCount),
