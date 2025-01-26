@@ -82,7 +82,6 @@ public class DnaSynthesizerBlock extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof DnaSynthesizerBlockEntity dnaSynthesizerBlockEntity) {
             ContainerUtils.dropContents(world, pos, dnaSynthesizerBlockEntity);
-            super.onStateReplaced(state, world, pos, newState, moved);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

@@ -82,7 +82,6 @@ public class SlimeSqueezerBlock extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SlimeSqueezerBlockEntity slimeSqueezerBlockEntity) {
             ContainerUtils.dropContents(world, pos, slimeSqueezerBlockEntity);
-            super.onStateReplaced(state, world, pos, newState, moved);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

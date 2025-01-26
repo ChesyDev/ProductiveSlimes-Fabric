@@ -38,6 +38,10 @@ public class ModMenuTypes {
             Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MODID, "slime_squeezer_menu_handler"),
                     new ExtendedScreenHandlerType<>(SlimeSqueezerMenu::new, BlockPos.PACKET_CODEC));
 
+    public static final ScreenHandlerType<SlimeballCollectorMenu> SLIMEBALL_COLLECTOR_MENU_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ProductiveSlimes.MODID, "slimeball_collector_menu_handler"),
+                    new ExtendedScreenHandlerType<>(SlimeballCollectorMenu::new, BlockPos.PACKET_CODEC));
+
     public static void registerScreenHandlers() {
         ProductiveSlimes.LOGGER.info("Registering Screen Handlers for " + ProductiveSlimes.MODID);
     }

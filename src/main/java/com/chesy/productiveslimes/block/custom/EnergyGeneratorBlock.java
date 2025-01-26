@@ -70,7 +70,6 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
             ContainerUtils.dropContents(world, pos, energyGeneratorBlockEntity);
-            super.onStateReplaced(state, world, pos, newState, moved);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

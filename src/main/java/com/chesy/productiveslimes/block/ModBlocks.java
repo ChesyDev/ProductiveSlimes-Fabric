@@ -42,6 +42,8 @@ public class ModBlocks {
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "cable")))));
     public static final Block SQUEEZER = registerBlock("squeezer", new SqueezerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "squeezer")))));
+    public static final Block SLIMEBALL_COLLECTOR = registerBlock("slimeball_collector", new SlimeballCollectorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimeball_collector")))));
 
     public static final Block SLIMY_GRASS_BLOCK = registerBlock("slimy_grass_block", new SlimyDirt(AbstractBlock.Settings.copy(Blocks.GRASS_BLOCK)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_grass_block")))));

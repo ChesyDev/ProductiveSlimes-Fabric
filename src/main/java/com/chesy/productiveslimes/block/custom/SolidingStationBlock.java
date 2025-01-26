@@ -83,7 +83,6 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity) {
             ContainerUtils.dropContents(world, pos, solidingStationBlockEntity);
-            super.onStateReplaced(state, world, pos, newState, moved);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

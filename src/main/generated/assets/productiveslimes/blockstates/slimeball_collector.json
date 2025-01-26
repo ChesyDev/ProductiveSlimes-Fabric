@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "productiveslimes:block/slimeball_collector",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "productiveslimes:block/slimeball_collector",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "productiveslimes:block/slimeball_collector"
+    },
+    "facing=west": {
+      "model": "productiveslimes:block/slimeball_collector",
+      "y": 90
+    }
+  }
+}

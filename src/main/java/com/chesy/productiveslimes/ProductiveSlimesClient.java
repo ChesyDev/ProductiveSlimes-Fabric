@@ -35,6 +35,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         HandledScreens.register(ModMenuTypes.DNA_EXTRACTOR_MENU_HANDLER, DnaExtractorScreen::new);
         HandledScreens.register(ModMenuTypes.DNA_SYNTHESIZER_MENU_HANDLER, DnaSynthesizerScreen::new);
         HandledScreens.register(ModMenuTypes.SLIME_SQUEEZER_MENU_HANDLER, SlimeSqueezerScreen::new);
+        HandledScreens.register(ModMenuTypes.SLIMEBALL_COLLECTOR_MENU_HANDLER, SlimeballCollectorScreen::new);
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
@@ -54,6 +55,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_EXTRACTOR, DnaExtractorBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_SYNTHESIZER, DnaSynthesizerBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.SLIME_SQUEEZER, SlimeSqueezerBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.SLIMEBALL_COLLECTOR, SlimeballCollectorBlockEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
 

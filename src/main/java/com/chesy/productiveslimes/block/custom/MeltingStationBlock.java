@@ -87,7 +87,6 @@ public class MeltingStationBlock extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity) {
             ContainerUtils.dropContents(world, pos, meltingStationBlockEntity);
-            super.onStateReplaced(state, world, pos, newState, moved);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }

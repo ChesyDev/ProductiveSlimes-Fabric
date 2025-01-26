@@ -43,6 +43,7 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_EXTRACTOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_SYNTHESIZER);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.ENERGY_GENERATOR);
+        registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SLIMEBALL_COLLECTOR);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
         blockStateModelGenerator.itemModelOutput.accept(ModBlocks.SLIME_SQUEEZER.asItem(), new BasicItemModel.Unbaked(itemLocation("slime_squeezer"), Collections.emptyList()));
         simpleBlockWithExistingModel(blockStateModelGenerator, ModBlocks.SQUEEZER);
