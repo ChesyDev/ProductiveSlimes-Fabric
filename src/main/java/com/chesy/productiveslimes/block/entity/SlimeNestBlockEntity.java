@@ -63,7 +63,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
                     case 4:
                         return SlimeNestBlockEntity.this.tick;
                     case 5:
-                        return (int) (SlimeNestBlockEntity.this.multiplier * 10000);
+                        return (int) (SlimeNestBlockEntity.this.multiplier * 1000);
                     default:
                         return 0;
                 }

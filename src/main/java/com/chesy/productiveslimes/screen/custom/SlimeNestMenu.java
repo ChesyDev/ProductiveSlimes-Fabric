@@ -120,7 +120,7 @@ public class SlimeNestMenu extends ScreenHandler {
     }
 
     public float getMultiplier() {
-        return data.get(5) / 10000f;
+        return data.get(5) / 1000f;
     }
 
     public ItemStack getDrop() {
