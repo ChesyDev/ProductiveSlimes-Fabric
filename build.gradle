@@ -89,5 +89,5 @@ publishing {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/moregears.accesswidener")
+	accessWidenerPath = file("src/main/resources/productiveslimes.accesswidener")
 }
