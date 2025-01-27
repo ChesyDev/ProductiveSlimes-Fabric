@@ -262,6 +262,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 slimeBlockToSlimeBall(exporter, ModBlocks.ENERGY_SLIME_BLOCK, ProductiveSlimes.ENERGY_SLIME_BALL);
                 slimeBallToSlimeBlock(exporter, ProductiveSlimes.ENERGY_SLIME_BALL, ModBlocks.ENERGY_SLIME_BLOCK);
 
+                dnaExtractingRecipe(exporter, Items.SLIME_BALL, ModItems.SLIME_DNA, 1, 0.9f);
+
                 for (Tier tier : Tier.values()) {
                     ModTier tiers = ModTiers.getTierByName(tier);
                     slimeBlockToSlimeBall(exporter, ModTiers.getBlockByName(tiers.name()), ModTiers.getSlimeballItemByName(tiers.name()));
@@ -396,6 +398,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             }
 
             private String getItemName(ItemConvertible item) {
+                if (item.asItem() == Items.SLIME_BALL) return "slimeball";
                 String name = item.asItem().getName().getString();
                 return name.substring(name.lastIndexOf('.') + 1);
             }

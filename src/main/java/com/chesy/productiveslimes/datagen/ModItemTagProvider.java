@@ -32,6 +32,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         }
 
         var dnaTag = getOrCreateTagBuilder(ModTags.Items.DNA_ITEM);
+        dnaTag.add(ModItems.SLIME_DNA);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
