@@ -8,6 +8,8 @@ import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
+import com.chesy.productiveslimes.network.ClientRecipeManager;
+import com.chesy.productiveslimes.network.RecipeSyncPayload;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.screen.custom.*;
 import com.chesy.productiveslimes.tier.ModTiers;
@@ -19,6 +21,7 @@ import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -117,6 +120,12 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             CustomVariantRegistry.handleResourcePack();
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.TYPE, (recipeSyncPayload, context) -> {
+            context.client().execute(() -> {
+                ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes());
+            });
         });
     }
 }

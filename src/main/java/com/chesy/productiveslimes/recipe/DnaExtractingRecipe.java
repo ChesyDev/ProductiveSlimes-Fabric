@@ -81,13 +81,13 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
                     int inputItemsSize = buf.readVarInt();
                     List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
                     for (int i = 0; i < inputItemsSize; i++) {
-                        inputItems.set(i, Ingredient.PACKET_CODEC.decode(buf));
+                        inputItems.add(Ingredient.PACKET_CODEC.decode(buf));
                     }
 
                     int outputSize = buf.readVarInt();
                     List<ItemStack> output = new ArrayList<>(outputSize);
                     for (int i = 0; i < outputSize; i++) {
-                        output.set(i, ItemStack.PACKET_CODEC.decode(buf));
+                        output.add(ItemStack.PACKET_CODEC.decode(buf));
                     }
 
                     int inputCount = buf.readVarInt();
