@@ -31,6 +31,7 @@ public class ModItemGroups {
             FabricItemGroup.builder().icon(() -> new ItemStack(Items.SLIME_BLOCK))
                     .displayName(Text.translatable("creativetab.productiveslimes"))
                     .entries((displayContext, entries) -> {
+                        entries.add(ModItems.GUIDEBOOK);
                         entries.add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
                         entries.add(ModItems.SLIME_NEST_SPEED_UPGRADE_1);
                         entries.add(ModItems.SLIME_NEST_SPEED_UPGRADE_2);

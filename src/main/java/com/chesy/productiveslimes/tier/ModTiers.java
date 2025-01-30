@@ -14,11 +14,14 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModTiers {
     public static final Map<Tier , ModTier> TIERS = new HashMap<>();
+    private static final Map<String , ModTier> REGISTERED_TIERS = new HashMap<>();
     private static final Map<Identifier, SlimeBlock> registeredBlock = new HashMap<>();
     private static final Map<Identifier, SlimeballItem> registeredSlimeballItem = new HashMap<>();
     private static final Map<Identifier, DnaItem> registeredDnaItem = new HashMap<>();
@@ -72,6 +75,8 @@ public class ModTiers {
         TIERS.put(Tier.COAL, new ModTier("coal", 0xFF3b3d3b, 29, 1800, "minecraft:coal_block", "minecraft:coal", 2, "minecraft:coal_block", "productiveslimes:stone_slime_dna", "productiveslimes:stone_slime_dna", 0.65f));
         TIERS.put(Tier.GRAVEL, new ModTier("gravel", 0xFF4a444b, 21, 1500, "minecraft:gravel", "minecraft:gravel", 2, "minecraft:gravel", "productiveslimes:sand_slime_dna", "productiveslimes:stone_slime_dna", 0.6f));
         TIERS.put(Tier.OAK_LEAVES, new ModTier("oak_leaves", 0xFF48b518, 27, 1500, "minecraft:oak_leaves", "minecraft:oak_leaves", 2, "minecraft:oak_leaves", "productiveslimes:dirt_slime_dna", "productiveslimes:slime_dna", 0.7f));
+
+        TIERS.forEach((tier, modTiers) -> REGISTERED_TIERS.put(tier.toString(), modTiers));
     }
 
     public static void addRegisteredBlock(String name, SlimeBlock block){
@@ -148,6 +153,13 @@ public class ModTiers {
 
     public static FlowableFluid getFlowByName(String name){
         return registeredFlow.get(Identifier.of(ProductiveSlimes.MODID, "flowing_molten_" + name));
+    }
+
+    public static void addRegisteredTier(String key, ModTier value){
+        REGISTERED_TIERS.put(key, value);
+    }
+    public static List<ModTier> getRegisteredTiers(){
+        return REGISTERED_TIERS.values().stream().sorted(Comparator.comparing(ModTier::name)).toList();
     }
 
     public static Item getItemByKey(String key){

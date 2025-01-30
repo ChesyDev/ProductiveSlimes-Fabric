@@ -8,6 +8,8 @@ import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.item.custom.SpawnEggItem;
+import com.chesy.productiveslimes.tier.ModTier;
+import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.util.MixinAdditionMethod;
 import com.chesy.productiveslimes.util.CustomVariantDataPack;
 import com.chesy.productiveslimes.util.CustomVariantResourcePack;
@@ -214,6 +216,9 @@ public class CustomVariantRegistry {
                     registerSlime(variant);
                     registerSpawnEggItem(variant);
                     registerFluid(variant);
+
+                    ModTier registerTier = new ModTier(variant.name(), variant.getColor(), variant.mapColorId(), variant.cooldown(), variant.growthItem(), variant.solidingOutput(), variant.solidingOutputCount(), variant.synthesizingInputItem(), variant.synthesizingInputDna1(), variant.synthesizingInputDna2(), (float) variant.dnaOutputChance());
+                    ModTiers.addRegisteredTier(variant.name(), registerTier);
                 }
 
                 LOGGER.info("Loaded " + loadedVariants.size() + " custom tiers");
@@ -764,7 +769,7 @@ public class CustomVariantRegistry {
     }
 
     private static void dnaSynthesizing(CustomVariant variant){
-        String recipePath = "data/productiveslimes/recipe/dna_synthesizer/" + variant.name() + "_slime_spawn_egg_synthesizing.json";
+        String recipePath = "data/productiveslimes/recipe/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
