@@ -38,6 +38,11 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+        BlockStateModelGenerator.BlockTexturePool slimyWoodSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_PLANKS);
+        BlockStateModelGenerator.BlockTexturePool slimyStoneSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_STONE);
+        BlockStateModelGenerator.BlockTexturePool slimyCobblestoneSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_COBBLESTONE);
+        BlockStateModelGenerator.BlockTexturePool slimyCobbledDeepslateSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_COBBLED_DEEPSLATE);
+
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.MELTING_STATION);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SOLIDING_STATION);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_EXTRACTOR);
@@ -54,37 +59,38 @@ public class ModModelProvider extends FabricModelProvider {
         simpleBlockWithExistingModel(blockStateModelGenerator, ModBlocks.SLIMY_GRASS_BLOCK);
 
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.SLIMY_DIRT);
-        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_STONE, ModBlocks.SLIMY_STONE_SLAB);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.SLIMY_DEEPSLATE);
-        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE, ModBlocks.SLIMY_COBBLESTONE_SLAB);
-        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE, ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB);
 
         logBlock(blockStateModelGenerator, ModBlocks.SLIMY_LOG, ModBlocks.SLIMY_WOOD);
         logBlock(blockStateModelGenerator, ModBlocks.STRIPPED_SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_WOOD);
 
-        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_PLANKS, ModBlocks.SLIMY_SLAB);
+        slimyStoneSet.slab(ModBlocks.SLIMY_STONE_SLAB);
+        slimyStoneSet.stairs(ModBlocks.SLIMY_STONE_STAIRS);
+        slimyStoneSet.pressurePlate(ModBlocks.SLIMY_STONE_PRESSURE_PLATE);
+        slimyStoneSet.button(ModBlocks.SLIMY_STONE_BUTTON);
+
+        slimyCobblestoneSet.slab(ModBlocks.SLIMY_COBBLESTONE_SLAB);
+        slimyCobblestoneSet.stairs(ModBlocks.SLIMY_COBBLESTONE_STAIRS);
+        slimyCobblestoneSet.wall(ModBlocks.SLIMY_COBBLESTONE_WALL);
+
+        slimyCobbledDeepslateSet.slab(ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB);
+        slimyCobbledDeepslateSet.stairs(ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS);
+        slimyCobbledDeepslateSet.wall(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL);
+
+        slimyWoodSet.slab(ModBlocks.SLIMY_SLAB);
+        slimyWoodSet.stairs(ModBlocks.SLIMY_STAIRS);
+        slimyWoodSet.pressurePlate(ModBlocks.SLIMY_PRESSURE_PLATE);
+        slimyWoodSet.button(ModBlocks.SLIMY_BUTTON);
+        slimyWoodSet.fence(ModBlocks.SLIMY_FENCE);
+        slimyWoodSet.fenceGate(ModBlocks.SLIMY_FENCE_GATE);
 
         leavesBlock(blockStateModelGenerator, ModBlocks.SLIMY_LEAVES);
         saplingBlock(blockStateModelGenerator, ModBlocks.SLIMY_SAPLING);
 
-        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_STAIRS, ModBlocks.SLIMY_PLANKS);
-        pressurePlateBlock(blockStateModelGenerator, ModBlocks.SLIMY_PRESSURE_PLATE, ModBlocks.SLIMY_PLANKS);
-        buttonBlock(blockStateModelGenerator, ModBlocks.SLIMY_BUTTON, ModBlocks.SLIMY_PLANKS);
-        fenceBlock(blockStateModelGenerator, ModBlocks.SLIMY_FENCE, ModBlocks.SLIMY_PLANKS);
-        fenceGateBlock(blockStateModelGenerator, ModBlocks.SLIMY_FENCE_GATE, ModBlocks.SLIMY_PLANKS);
         blockStateModelGenerator.registerTrapdoor(ModBlocks.SLIMY_TRAPDOOR);
         blockStateModelGenerator.registerDoor(ModBlocks.SLIMY_DOOR);
 
-        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_STAIRS, ModBlocks.SLIMY_STONE);
-        pressurePlateBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_PRESSURE_PLATE, ModBlocks.SLIMY_STONE);
-        buttonBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_BUTTON, ModBlocks.SLIMY_STONE);
-
-        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE_STAIRS, ModBlocks.SLIMY_COBBLESTONE);
-        wallBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE_WALL, ModBlocks.SLIMY_COBBLESTONE);
-
-        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS, ModBlocks.SLIMY_COBBLED_DEEPSLATE);
-        wallBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL, ModBlocks.SLIMY_COBBLED_DEEPSLATE);
-
+        //Slime Blocks
         slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
 
         for (Tier tier : Tier.values()){
@@ -141,35 +147,6 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void saplingBlock(BlockStateModelGenerator blockModels, Block block){
         blockModels.registerTintableCrossBlockState(block, BlockStateModelGenerator.CrossType.NOT_TINTED);
-    }
-
-    private void pressurePlateBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).pressurePlate(block);
-    }
-
-    private void stairsBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        Identifier texture = blockLocation(getBlockName(materialBlock));
-        blockModels.new BlockTexturePool(TextureMap.texture(texture)
-                .put(TextureKey.BOTTOM, texture)
-                .put(TextureKey.TOP, texture)
-                .put(TextureKey.SIDE, texture)
-        ).stairs(block);
-    }
-
-    private void buttonBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).button(block);
-    }
-
-    private void fenceBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).fence(block);
-    }
-
-    private void fenceGateBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).fenceGate(block);
-    }
-
-    private void wallBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
-        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock).put(TextureKey.WALL, blockLocation(getBlockName(materialBlock)))).wall(block);
     }
 
     private void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
