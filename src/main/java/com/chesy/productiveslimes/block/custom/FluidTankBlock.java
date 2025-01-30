@@ -12,15 +12,16 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -188,5 +189,15 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+        if (stack.getOrDefault(ModDataComponents.FLUID_VARIANT, FluidVariant.blank()) != FluidVariant.blank()) {
+            ImmutableFluidVariant immutableFluidStack = stack.get(ModDataComponents.FLUID_VARIANT);
+            FluidVariant fluidStack = (immutableFluidStack != null) ? FluidVariant.of(immutableFluidStack.fluid()) : FluidVariant.blank();
+            tooltip.add(Text.translatable("tooltip.productiveslimes.fluid_stored").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable(fluidStack.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
+            tooltip.add(Text.translatable("tooltip.productiveslimes.stored_amount").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable("tooltip.productiveslimes.fluid_amount", immutableFluidStack.amount() / FluidConstants.BUCKET).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
+        }
     }
 }
