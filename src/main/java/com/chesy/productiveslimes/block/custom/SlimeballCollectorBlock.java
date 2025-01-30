@@ -313,15 +313,6 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof SlimeballCollectorBlockEntity slimeballCollectorBlockEntity) {
-            ContainerUtils.dropContents(world, pos, slimeballCollectorBlockEntity);
-        }
-        super.onStateReplaced(state, world, pos, newState, moved);
-    }
-
-    @Override
     protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             BlockEntity entity = world.getBlockEntity(pos);

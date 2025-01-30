@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
 import com.chesy.productiveslimes.screen.custom.DnaSynthesizerMenu;
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
@@ -290,5 +291,11 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
             rotation = 0;
         }
         return rotation;
+    }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
     }
 }

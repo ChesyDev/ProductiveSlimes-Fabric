@@ -11,13 +11,14 @@ import org.jetbrains.annotations.Nullable;
 
 public record FluidTankProperty() implements BooleanProperty {
     public static final MapCodec<FluidTankProperty> MAP_CODEC = MapCodec.unit(new FluidTankProperty());
-    @Override
-    public boolean getValue(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed, ModelTransformationMode modelTransformationMode) {
-        return !stack.contains(ModDataComponents.FLUID_VARIANT);
-    }
 
     @Override
     public MapCodec<? extends BooleanProperty> getCodec() {
         return MAP_CODEC;
+    }
+
+    @Override
+    public boolean test(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity entity, int seed, ModelTransformationMode transformationMode) {
+        return !stack.contains(ModDataComponents.FLUID_VARIANT);
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 public class SolidingStationBlockEntityRenderer implements BlockEntityRenderer<SolidingStationBlockEntity> {
     public SolidingStationBlockEntityRenderer(BlockEntityRendererFactory.Context pContext) {
@@ -18,7 +19,7 @@ public class SolidingStationBlockEntityRenderer implements BlockEntityRenderer<S
     }
 
     @Override
-    public void render(SolidingStationBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay) {
+    public void render(SolidingStationBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay, Vec3d vec3d) {
         FluidVariant fluidStack = pBlockEntity.getRenderStack();
         if (fluidStack.isBlank()) return;
 

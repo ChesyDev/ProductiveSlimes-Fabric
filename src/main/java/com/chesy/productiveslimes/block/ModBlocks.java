@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.custom.*;
 import com.chesy.productiveslimes.block.custom.SlimeBlock;
+import com.chesy.productiveslimes.block.item.ModBlockItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
@@ -71,7 +72,7 @@ public class ModBlocks {
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "stripped_slimy_wood")))));
     public static final Block SLIMY_PLANKS = registerBlock("slimy_planks", new SlimeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_planks")))));
-    public static final LeavesBlock SLIMY_LEAVES = registerBlock("slimy_leaves", new ModLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+    public static final LeavesBlock SLIMY_LEAVES = registerBlock("slimy_leaves", new ModLeavesBlock(0.5f, AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_leaves")))));
     public static final SaplingBlock SLIMY_SAPLING = registerBlock("slimy_sapling", new ModSaplingBlock(ModTreeGrowers.SLIMY, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_sapling")))));
@@ -119,12 +120,12 @@ public class ModBlocks {
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_cobbled_deepslate_slab")))));
     public static final WallBlock SLIMY_COBBLED_DEEPSLATE_WALL = registerBlock("slimy_cobbled_deepslate_wall", new ModWallBlock(AbstractBlock.Settings.copy(Blocks.COBBLED_DEEPSLATE_WALL)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_cobbled_deepslate_wall")))));
-    
+
     public static final SlimeBlock ENERGY_SLIME_BLOCK = registerSlimeBlock("energy_slime_block", 0xFFffff70);
 
     public static <T extends Block> T registerBlock(String name, T block){
         Identifier id = Identifier.of(ProductiveSlimes.MODID, name);
-        registerItem(name, new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, name)))));
+        registerItem(name, new ModBlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, name)))));
         return Registry.register(Registries.BLOCK, id, block);
     }
 

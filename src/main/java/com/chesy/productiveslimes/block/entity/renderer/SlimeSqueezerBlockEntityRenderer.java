@@ -18,6 +18,7 @@ import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ public class SlimeSqueezerBlockEntityRenderer implements BlockEntityRenderer<Sli
     }
 
     @Override
-    public void render(SlimeSqueezerBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider buffer, int light, int overlay) {
+    public void render(SlimeSqueezerBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider buffer, int light, int overlay, Vec3d vec3d) {
         var squeezer = MinecraftClient.getInstance().getBlockRenderManager().getModels().getModel(ModBlocks.SQUEEZER.getDefaultState());
 
         float progressRatio = (float) blockEntity.getData().get(0) / (float) blockEntity.getData().get(1);

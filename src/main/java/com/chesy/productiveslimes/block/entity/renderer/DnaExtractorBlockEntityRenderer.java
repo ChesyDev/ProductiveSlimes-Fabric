@@ -12,13 +12,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 public class DnaExtractorBlockEntityRenderer implements BlockEntityRenderer<DnaExtractorBlockEntity> {
     public DnaExtractorBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     }
 
     @Override
-    public void render(DnaExtractorBlockEntity pBlockEntity, float tickDelta, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int light, int overlay) {
+    public void render(DnaExtractorBlockEntity pBlockEntity, float tickDelta, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int light, int overlay, Vec3d vec3d) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack itemStack = pBlockEntity.getRenderStack();
 

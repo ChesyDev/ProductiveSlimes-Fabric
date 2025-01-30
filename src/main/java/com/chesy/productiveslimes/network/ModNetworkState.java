@@ -1,5 +1,8 @@
 package com.chesy.productiveslimes.network;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.class_10741;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -7,27 +10,49 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.PersistentState;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ModNetworkState extends PersistentState {
     private final Map<Integer, CableNetwork> networks = new HashMap<>();
 
     private int nextId = 1;
 
-    public static final PersistentState.Type<ModNetworkState> MY_TYPE =
-            new PersistentState.Type<>(
+    public static final class_10741<ModNetworkState> MY_TYPE =
+            new class_10741<>(
+                    "productiveslimes_cable_networks",
                     ModNetworkState::new,
-                    (nbt, registry) -> {
-                        ModNetworkState state = new ModNetworkState();
-                        state.readNbt(nbt, registry);
-                        return state;
-                    },
+                    ctx -> RecordCodecBuilder.create(instance -> instance.group(
+                                    Codec.list(
+                                            RecordCodecBuilder.<Map.Entry<Integer, CableNetwork>>create(entryInstance ->
+                                                    entryInstance.group(
+                                                            Codec.INT.fieldOf("NetId").forGetter(Map.Entry::getKey),
+                                                            CableNetwork.CODEC.fieldOf("Network").forGetter(Map.Entry::getValue)
+                                                    ).apply(entryInstance, AbstractMap.SimpleEntry::new)
+                                            )
+                                    ).xmap(
+                                            entries -> entries.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)),
+                                            map -> new ArrayList<>(map.entrySet())
+                                    ).fieldOf("Networks").forGetter(ModNetworkState::getAllNetworks),
+                                    Codec.INT.fieldOf("NextId").forGetter(ModNetworkState::getNextId)
+                            ).apply(instance, ModNetworkState::new)
+                    ),
                     DataFixTypes.LEVEL
             );
 
     public ModNetworkState() {
         super();
+    }
+
+    private ModNetworkState(Map<Integer, CableNetwork> networks, int nextId) {
+        this.networks.putAll(networks);
+        this.nextId = nextId;
+    }
+
+    public ModNetworkState(class_10740 class10740) {
     }
 
     public CableNetwork getNetwork(int netId) {
@@ -51,42 +76,7 @@ public class ModNetworkState extends PersistentState {
         return networks;
     }
 
-    @Override
-    public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registry) {
-        NbtList list = new NbtList();
-        for (Map.Entry<Integer, CableNetwork> entry : networks.entrySet()) {
-            int netId = entry.getKey();
-            CableNetwork net = entry.getValue();
-
-            NbtCompound netTag = new NbtCompound();
-            netTag.putInt("NetId", netId);
-            CableNetwork.writeToNbt(net, netTag);
-            list.add(netTag);
-        }
-        nbt.put("Networks", list);
-
-        nbt.putInt("NextId", this.nextId);
-
-        return nbt;
-    }
-
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registry) {
-        networks.clear();
-
-        if (nbt.contains("Networks", NbtElement.LIST_TYPE)) {
-            NbtList list = nbt.getList("Networks", NbtElement.COMPOUND_TYPE);
-            for (int i = 0; i < list.size(); i++) {
-                NbtCompound netTag = list.getCompound(i);
-                int netId = netTag.getInt("NetId");
-                CableNetwork net = CableNetwork.readFromNbt(netTag);
-                networks.put(netId, net);
-
-                if (netId >= nextId) {
-                    nextId = netId + 1;
-                }
-            }
-        }
-
-        this.nextId = Math.max(this.nextId, nbt.getInt("NextId"));
+    public int getNextId() {
+        return nextId;
     }
 }

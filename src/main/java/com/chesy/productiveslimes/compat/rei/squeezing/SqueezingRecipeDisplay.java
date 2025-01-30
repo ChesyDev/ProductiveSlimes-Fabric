@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
 import com.chesy.productiveslimes.recipe.SqueezingRecipe;
@@ -68,4 +69,4 @@ public class SqueezingRecipeDisplay extends BasicDisplay {
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;
     }
-}
+}*/

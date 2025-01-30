@@ -248,4 +248,10 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     public DefaultedList<ItemStack> getItems() {
         return inventory;
     }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
+    }
 }

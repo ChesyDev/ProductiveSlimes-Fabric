@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.dna_extracting;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -100,4 +101,4 @@ public class DnaExtractingCategory implements DisplayCategory<DnaExtractingRecip
     public int getDisplayHeight() {
         return 83;
     }
-}
+}*/

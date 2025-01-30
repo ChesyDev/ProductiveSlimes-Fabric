@@ -22,6 +22,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTankBlockEntity> {
@@ -32,7 +33,7 @@ public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTa
     }
 
     @Override
-    public void render(FluidTankBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay) {
+    public void render(FluidTankBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay, Vec3d vec3d) {
         FluidVariant fluidStack = pBlockEntity.getFluidVariant();
         if (pBlockEntity.getFluidStorage().isResourceBlank() || pBlockEntity.getFluidStorage().amount <= 0) return;
 

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public record FluidTankProperty21k() implements BooleanProperty {
     public static final MapCodec<FluidTankProperty21k> MAP_CODEC = MapCodec.unit(new FluidTankProperty21k());
     @Override
-    public boolean getValue(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed, ModelTransformationMode modelTransformationMode) {
+    public boolean test(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed, ModelTransformationMode modelTransformationMode) {
         ImmutableFluidVariant immutableFluidVariant = stack.getOrDefault(ModDataComponents.FLUID_VARIANT, null);
         long amount = immutableFluidVariant == null ? 0 : immutableFluidVariant.amount();
         return amount <= FluidConstants.BUCKET * 21;

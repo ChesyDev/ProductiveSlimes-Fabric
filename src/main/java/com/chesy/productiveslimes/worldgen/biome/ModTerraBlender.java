@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.worldgen.biome;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -12,3 +13,4 @@ public class ModTerraBlender implements TerraBlenderApi {
         Regions.register(new ModOverworldRegion(Identifier.of(ProductiveSlimes.MODID, "slimy_land"), RegionType.OVERWORLD, 5));
     }
 }
+*/

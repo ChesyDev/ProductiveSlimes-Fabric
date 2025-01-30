@@ -7,6 +7,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -18,7 +19,7 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     @Override
-    public void render(SlimeballCollectorBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int light, int overlay) {
+    public void render(SlimeballCollectorBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int light, int overlay, Vec3d vec3d) {
         if (blockEntity.getWorld() == null) return;
         if (blockEntity.getData().get(0) == 0) return;
         // Define the collection area AABB (match this with your logic).

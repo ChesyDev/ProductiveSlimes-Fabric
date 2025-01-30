@@ -12,7 +12,7 @@ import net.minecraft.village.TradedItem;
 
 public class ModVillagerTrade {
     public static void init(){
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST, 1, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST_KEY, 1, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new TradedItem(ModTiers.getSlimeballItemByName("dirt"), 10),
                     new ItemStack(Items.EMERALD, 1), 8, 2, 0.05f
@@ -31,7 +31,7 @@ public class ModVillagerTrade {
             ));
         });
 
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST, 2, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST_KEY, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 1),
                     new ItemStack(ProductiveSlimes.ENERGY_SLIME_BALL, 4), 4, 10, 0.05f
@@ -46,7 +46,7 @@ public class ModVillagerTrade {
             ));
         });
 
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST, 3, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST_KEY, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new TradedItem(ModTiers.getBucketItemByName("dirt"), 16),
                     new ItemStack(Items.EMERALD, 1), 4, 15, 0.05f
@@ -61,7 +61,7 @@ public class ModVillagerTrade {
             ));
         });
 
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST, 4, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST_KEY, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 32),
                     new ItemStack(ModTiers.getDnaItemByName("iron"), 1), 4, 20, 0.05f
@@ -76,7 +76,7 @@ public class ModVillagerTrade {
             ));
         });
 
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST, 5, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.SCIENTIST_KEY, 5, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 64),
                     new ItemStack(ModTiers.getSpawnEggItemByName("diamond"), 1), 2, 30, 0.05f

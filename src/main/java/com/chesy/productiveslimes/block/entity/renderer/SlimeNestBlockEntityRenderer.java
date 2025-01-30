@@ -17,6 +17,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
     }
 
     @Override
-    public void render(SlimeNestBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
+    public void render(SlimeNestBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay, Vec3d vec3d) {
         if (blockEntity.getSlime() == null) return;
         if (blockEntity.getSlime().isEmpty()) return;
 

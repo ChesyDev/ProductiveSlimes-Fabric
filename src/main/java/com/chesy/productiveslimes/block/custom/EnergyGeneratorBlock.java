@@ -2,21 +2,21 @@ package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.ComponentsAccess;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -37,6 +37,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
@@ -63,15 +64,6 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
-            ContainerUtils.dropContents(world, pos, energyGeneratorBlockEntity);
-        }
-        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override
@@ -149,18 +141,5 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        super.appendTooltip(stack, context, tooltip, options);
-
-        if (stack.getOrDefault(ModDataComponents.ENERGY, 0) != 0) {
-            int energy = stack.getOrDefault(ModDataComponents.ENERGY, 0);
-            tooltip.add(Text.translatable("tooltip.productiveslimes.energy_stored")
-                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00)))
-                    .append(Text.translatable("tooltip.productiveslimes.energy_amount", energy)
-                            .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
-        }
     }
 }

@@ -299,4 +299,10 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         writeNbt(nbt, registries);
         return nbt;
     }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
+    }
 }

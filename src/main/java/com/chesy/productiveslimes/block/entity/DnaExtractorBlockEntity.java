@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block.entity;
 import com.chesy.productiveslimes.recipe.DnaExtractingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.custom.DnaExtractorMenu;
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
@@ -323,5 +324,11 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             rotation = 0;
         }
         return rotation;
+    }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
     }
 }

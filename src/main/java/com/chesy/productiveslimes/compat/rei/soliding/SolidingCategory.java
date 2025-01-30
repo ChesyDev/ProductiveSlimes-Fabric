@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -94,3 +95,4 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
         return 83;
     }
 }
+*/

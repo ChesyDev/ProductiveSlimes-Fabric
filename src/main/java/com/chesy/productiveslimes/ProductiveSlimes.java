@@ -16,18 +16,12 @@ import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
-import com.chesy.productiveslimes.util.FluidTankTint;
-import com.chesy.productiveslimes.util.SlimeItemTint;
-import com.chesy.productiveslimes.util.property.*;
 import com.chesy.productiveslimes.villager.ModVillagers;
-import com.chesy.productiveslimes.worldgen.biome.surface.ModSurfaceRules;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.minecraft.client.render.item.property.bool.BooleanProperties;
-import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -36,7 +30,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import terrablender.api.SurfaceRuleManager;
 
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MODID = "productiveslimes";
@@ -68,7 +61,7 @@ public class ProductiveSlimes implements ModInitializer {
 
 		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
-		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
+//		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
 
 		// Register the event
 		ModServerLifecycleEvent.init();

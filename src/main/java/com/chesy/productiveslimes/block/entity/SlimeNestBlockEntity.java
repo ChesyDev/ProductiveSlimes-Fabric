@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block.entity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.screen.custom.SlimeNestMenu;
+import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.ImplementedInventory;
 import com.chesy.productiveslimes.util.SlimeData;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -245,5 +246,11 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new SlimeNestMenu(syncId, playerInventory, this, data);
+    }
+
+    @Override
+    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+        ContainerUtils.dropContents(world, pos, this);
+        super.onStateReplaced(pos, oldState);
     }
 }

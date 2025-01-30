@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.dna_extracting;
 
 import com.chesy.productiveslimes.recipe.DnaExtractingRecipe;
@@ -83,4 +84,4 @@ public class DnaExtractingRecipeDisplay extends BasicDisplay {
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;
     }
-}
+}*/
