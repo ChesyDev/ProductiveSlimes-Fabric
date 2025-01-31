@@ -1,9 +1,12 @@
 package com.chesy.productiveslimes.network;
 
 import com.chesy.productiveslimes.block.entity.CableBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import team.reborn.energy.api.EnergyStorage;
 
 import java.util.*;
 
@@ -215,4 +218,83 @@ public class ModNetworkManager {
             networkByPos.put(pos, network);
         }
     }
+
+    public static void tickAllNetworks(ServerWorld world) {
+        ModNetworkState state = ModNetworkStateManager.getOrCreate(world);
+
+        for (CableNetwork network : state.getAllNetworks().values()) {
+            Set<EnergyStorage> consumers = findAllConsumersForNetwork(world, network);
+            if (!consumers.isEmpty() && network.getTotalEnergy() > 0) {
+                distributeEnergyFairly(network, consumers);
+            }
+        }
+    }
+
+    private static Set<EnergyStorage> findAllConsumersForNetwork(ServerWorld world, CableNetwork network) {
+        Set<EnergyStorage> consumers = new HashSet<>();
+
+        for (BlockPos cablePos : network.getCablePositions()) {
+            for (Direction dir : Direction.values()) {
+                BlockPos neighborPos = cablePos.offset(dir);
+                if (world.getBlockEntity(neighborPos) instanceof CableBlockEntity) {
+                    continue;
+                }
+
+                EnergyStorage maybeStorage = EnergyStorage.SIDED.find(world, neighborPos, dir.getOpposite());
+                if (maybeStorage != null && maybeStorage.supportsInsertion()) {
+                    consumers.add(maybeStorage);
+                }
+            }
+        }
+        return consumers;
+    }
+
+    private static void distributeEnergyFairly(CableNetwork net, Set<EnergyStorage> consumers) {
+        long cableEnergy = net.getTotalEnergy();
+        long maxSend = Math.min(cableEnergy, 1000);
+
+        if (maxSend <= 0) return;
+
+        long totalFree = 0;
+        Map<EnergyStorage, Long> spaceMap = new HashMap<>();
+        for (EnergyStorage consumer : consumers) {
+            long space = consumer.getCapacity() - consumer.getAmount();
+            if (space > 0) {
+                totalFree += space;
+                spaceMap.put(consumer, space);
+            }
+        }
+        if (spaceMap.isEmpty()) return;
+
+        long toDistribute = Math.min(maxSend, net.getTotalEnergy());
+        net.setTotalEnergy(net.getTotalEnergy() - toDistribute);
+
+        long leftover = toDistribute;
+        for (Iterator<Map.Entry<EnergyStorage, Long>> it = spaceMap.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<EnergyStorage, Long> entry = it.next();
+            EnergyStorage consumer = entry.getKey();
+            long space = entry.getValue();
+
+            if (leftover <= 0) break;
+
+            try(Transaction context = Transaction.openOuter()) {
+                if (totalFree <= leftover) {
+                    long accepted = consumer.insert(space, context);
+                    leftover -= accepted;
+                    totalFree -= space;
+                } else {
+                    double fraction = (double) space / (double) totalFree;
+                    long portion = (long) Math.floor(fraction * toDistribute);
+                    if (!it.hasNext()) {
+                        portion = leftover;
+                    }
+                    long accepted = consumer.insert(portion, context);
+                    leftover -= accepted;
+                    totalFree -= space;
+                }
+                context.commit();
+            }
+        }
+    }
+
 }
