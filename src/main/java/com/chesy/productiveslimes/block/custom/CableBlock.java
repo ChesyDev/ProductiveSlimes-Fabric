@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 public class CableBlock extends Block implements BlockEntityProvider {
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
@@ -102,7 +102,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
             shapes.add(WEST_SHAPE);
         }
 
-        VoxelShape SHAPE = Stream.of(CORE_SHAPE).reduce(VoxelShapes::union).get();
+        VoxelShape SHAPE = Optional.of(CORE_SHAPE).get();
         for (VoxelShape shape : shapes) {
             SHAPE = VoxelShapes.union(SHAPE, shape);
         }
@@ -141,15 +141,14 @@ public class CableBlock extends Block implements BlockEntityProvider {
     }
 
     private BooleanProperty getPropertyForDirection(Direction direction) {
-        switch (direction) {
-            case UP: return UP;
-            case DOWN: return DOWN;
-            case NORTH: return NORTH;
-            case SOUTH: return SOUTH;
-            case EAST: return EAST;
-            case WEST: return WEST;
-            default: throw new IllegalArgumentException("Invalid direction: " + direction);
-        }
+        return switch (direction) {
+            case UP -> UP;
+            case DOWN -> DOWN;
+            case NORTH -> NORTH;
+            case SOUTH -> SOUTH;
+            case EAST -> EAST;
+            case WEST -> WEST;
+        };
     }
 
     private boolean canConnectTo(World world, BlockPos pos, Direction direction) {
@@ -165,7 +164,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         World world = ctx.getWorld();
         BlockPos pos = ctx.getBlockPos();
-        return (BlockState)this.getDefaultState()
+        return this.getDefaultState()
                 .with(UP, this.canConnectToBlock(world, pos.up()))
                 .with(DOWN, this.canConnectToBlock(world, pos.down()))
                 .with(NORTH, this.canConnectToBlock(world, pos.north()))
@@ -183,7 +182,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return (wrld, pos, blockState, t) -> {
             if (t instanceof CableBlockEntity blockEntity) {
-                CableBlockEntity.tick(wrld, pos, blockState, blockEntity);
+                CableBlockEntity.tick(wrld, pos, blockEntity);
             }
         };
     }

@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.compat.rei.melting;
 
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
@@ -17,8 +18,6 @@ import net.minecraft.recipe.RecipeEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-
-import static net.minecraft.client.option.InactivityFpsLimit.Codec;
 
 public class MeltingRecipeDisplay extends BasicDisplay {
     private final int energy;

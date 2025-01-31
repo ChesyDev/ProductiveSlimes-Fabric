@@ -4,11 +4,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentStateManager;
 
 public class ModNetworkStateManager {
-    private static final String KEY = "my_network_state";
+    private static final String KEY = "productiveslimes_cable_networks";
 
     public static ModNetworkState getOrCreate(ServerWorld world) {
         PersistentStateManager manager = world.getPersistentStateManager();
-
         ModNetworkState existing = manager.get(
                 ModNetworkState.MY_TYPE,
                 KEY
@@ -28,7 +27,20 @@ public class ModNetworkStateManager {
     }
 
     public static void forceSave(ServerWorld world) {
-        PersistentStateManager manager = world.getPersistentStateManager();
-        manager.save();
+        world.getPersistentStateManager().save();
+    }
+
+    /**
+     * Call this once (e.g. on server/world load) to re-register all stored networks
+     * into ModNetworkManager’s in-memory map.
+     */
+    public static void loadAllNetworksToManager(ServerWorld world) {
+        ModNetworkState state = getOrCreate(world);
+        // Clear the manager's current map if you prefer a fresh load
+        // ModNetworkManager.clear(); // <-- optionally clear your static map
+
+        for (CableNetwork net : state.getAllNetworks().values()) {
+            ModNetworkManager.addExistingNetwork(world, net);
+        }
     }
 }
