@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class ModNetworkState extends PersistentState {
     private final Map<Integer, CableNetwork> networks = new HashMap<>();
-
     private int nextId = 1;
 
     public static final PersistentState.Type<ModNetworkState> MY_TYPE =
@@ -37,6 +36,7 @@ public class ModNetworkState extends PersistentState {
     public int createNetwork() {
         int id = nextId++;
         CableNetwork net = new CableNetwork();
+        net.setNetworkId(id);
         networks.put(id, net);
         this.setDirty(true);
         return id;
@@ -60,13 +60,12 @@ public class ModNetworkState extends PersistentState {
 
             NbtCompound netTag = new NbtCompound();
             netTag.putInt("NetId", netId);
-            CableNetwork.writeToNbt(net, netTag);
+            netTag.put("CableNetwork", CableNetwork.writeToNbt(net, new NbtCompound()));
             list.add(netTag);
         }
         nbt.put("Networks", list);
 
         nbt.putInt("NextId", this.nextId);
-
         return nbt;
     }
 
@@ -78,9 +77,12 @@ public class ModNetworkState extends PersistentState {
             for (int i = 0; i < list.size(); i++) {
                 NbtCompound netTag = list.getCompound(i);
                 int netId = netTag.getInt("NetId");
-                CableNetwork net = CableNetwork.readFromNbt(netTag);
-                networks.put(netId, net);
+                CableNetwork net = CableNetwork.readFromNbt(netTag.getCompound("CableNetwork"));
 
+                // Make sure the CableNetwork’s own ID is set:
+                net.setNetworkId(netId);
+
+                networks.put(netId, net);
                 if (netId >= nextId) {
                     nextId = netId + 1;
                 }
