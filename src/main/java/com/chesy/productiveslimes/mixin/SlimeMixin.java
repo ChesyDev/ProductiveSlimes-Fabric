@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.mixin;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.util.ModTags;
 import com.chesy.productiveslimes.worldgen.biome.ModBiomes;
 import net.minecraft.entity.EntityType;
@@ -25,13 +26,14 @@ public class SlimeMixin {
      */
     @Overwrite
     public boolean canAttack() {
-        return false;
+        return ProductiveSlimes.vanillaSlimeCanAttackPlayer;
     }
 
     @Redirect(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 1))
     private void redirectSlimeAttackGoal(GoalSelector instance, int priority, Goal goal) {
-        // This effectively skips the addition of the SlimeAttackGoal
-        // No operation (NOP), we do nothing here to skip adding the goal
+        if (ProductiveSlimes.vanillaSlimeCanAttackPlayer) {
+            instance.add(priority, goal);
+        }
     }
 
     @Inject(method = "canSpawn", at = @At("HEAD"), cancellable = true)

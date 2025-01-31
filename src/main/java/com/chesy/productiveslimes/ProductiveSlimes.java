@@ -17,11 +17,13 @@ import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.villager.ModVillagers;
+import com.electronwill.nightconfig.core.file.FileConfig;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -31,9 +33,16 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class ProductiveSlimes implements ModInitializer {
 	public static final String MODID = "productiveslimes";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+	private static final Path CONFIG_PATH = Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "productiveslimes.toml");
+	private static FileConfig config;
+	public static boolean vanillaSlimeCanAttackPlayer;
+	public static boolean ironGolemCanAttackSlime;
 
 	public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID,"energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
 			.registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slimeball")))));
@@ -79,5 +88,26 @@ public class ProductiveSlimes implements ModInitializer {
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_PLANKS, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LEAVES, 30, 60);
+
+		config = FileConfig.builder(CONFIG_PATH)
+				.concurrent()
+				.defaultResource("/productiveslimes.toml")
+				.autosave()
+				.build();
+
+		config.load();
+
+		if (!config.contains("slime_settings.vanilla_slime_can_attack_player")){
+			config.add("slime_settings.vanilla_slime_can_attack_player", false);
+		}
+
+		if (!config.contains("iron_golem_settings.iron_golem_can_attack_slime")){
+			config.add("iron_golem_settings.iron_golem_can_attack_slime", false);
+		}
+
+		config.save();
+
+		vanillaSlimeCanAttackPlayer = config.get("slime_settings.vanilla_slime_can_attack_player");
+		ironGolemCanAttackSlime = config.get("iron_golem_settings.iron_golem_can_attack_slime");
 	}
 }

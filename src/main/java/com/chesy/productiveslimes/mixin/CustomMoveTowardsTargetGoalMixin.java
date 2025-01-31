@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.mixin;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.entity.ai.goal.WanderNearTargetGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -19,19 +20,19 @@ public abstract class CustomMoveTowardsTargetGoalMixin {
     public abstract PathAwareEntity getMob();
     @Inject(method = "start", at = @At("HEAD"), cancellable = true)
     private void start(CallbackInfo ci) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             ci.cancel();
         }
     }
     @Inject(method = "canStart", at = @At("HEAD"), cancellable = true)
     private void canUse(CallbackInfoReturnable<Boolean> cir) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             cir.setReturnValue(false);
         }
     }
     @Inject(method = "shouldContinue", at = @At("HEAD"), cancellable = true)
     private void canContinueToUse(CallbackInfoReturnable<Boolean> cir) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             cir.setReturnValue(false);
         }
     }
