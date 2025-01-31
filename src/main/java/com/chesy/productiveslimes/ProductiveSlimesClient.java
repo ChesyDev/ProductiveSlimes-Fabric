@@ -16,6 +16,7 @@ import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.FluidTankTint;
+import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.SlimeItemTint;
 import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.api.ClientModInitializer;
@@ -27,12 +28,19 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.property.bool.BooleanProperties;
 import net.minecraft.client.render.item.tint.TintSourceTypes;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
     @Override
@@ -126,6 +134,35 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             context.client().execute(() -> {
                 ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes());
             });
+        });
+
+        HudRenderCallback.EVENT.register((drawContext, renderTickCounter) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+
+            if (client == null || client.world == null || client.player == null) {
+                return; // Prevent crashes when world is null
+            }
+
+            // Get what the player is looking at
+            HitResult hitResult = client.crosshairTarget;
+
+            if (hitResult instanceof BlockHitResult blockHit) {
+                World world = client.world;
+                BlockEntity blockEntity = world.getBlockEntity(blockHit.getBlockPos());
+
+                if (blockEntity instanceof IEnergyBlockEntity energyStorage) {
+                    long energyStored = energyStorage.getEnergyHandler().getAmount();
+                    long maxEnergy = energyStorage.getEnergyHandler().getCapacity();
+
+                    // Draw the text on screen
+                    int x = 10; // Position on screen (X)
+                    int y = 10; // Position on screen (Y)
+
+                    drawContext.drawTextWithShadow(client.textRenderer,
+                            Text.of("Energy: " + energyStored + " / " + maxEnergy),
+                            x, y, 0xFFFFFF); // White text
+                }
+            }
         });
     }
 }
