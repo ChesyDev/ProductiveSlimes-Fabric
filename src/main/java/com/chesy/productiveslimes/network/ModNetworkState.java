@@ -2,13 +2,13 @@ package com.chesy.productiveslimes.network;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.class_10741;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.PersistentState;
+import net.minecraft.world.PersistentStateType;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -18,11 +18,10 @@ import java.util.stream.Collectors;
 
 public class ModNetworkState extends PersistentState {
     private final Map<Integer, CableNetwork> networks = new HashMap<>();
-
     private int nextId = 1;
 
-    public static final class_10741<ModNetworkState> MY_TYPE =
-            new class_10741<>(
+    public static final PersistentStateType<ModNetworkState> MY_TYPE =
+            new PersistentStateType<>(
                     "productiveslimes_cable_networks",
                     ModNetworkState::new,
                     ctx -> RecordCodecBuilder.create(instance -> instance.group(
@@ -30,7 +29,7 @@ public class ModNetworkState extends PersistentState {
                                             RecordCodecBuilder.<Map.Entry<Integer, CableNetwork>>create(entryInstance ->
                                                     entryInstance.group(
                                                             Codec.INT.fieldOf("NetId").forGetter(Map.Entry::getKey),
-                                                            CableNetwork.CODEC.fieldOf("Network").forGetter(Map.Entry::getValue)
+                                                            CableNetwork.CODEC.fieldOf("CableNetwork").forGetter(Map.Entry::getValue)
                                                     ).apply(entryInstance, AbstractMap.SimpleEntry::new)
                                             )
                                     ).xmap(
@@ -52,7 +51,11 @@ public class ModNetworkState extends PersistentState {
         this.nextId = nextId;
     }
 
-    public ModNetworkState(class_10740 class10740) {
+    public ModNetworkState(Context context) {
+    }
+
+    public int getNextId() {
+        return nextId;
     }
 
     public CableNetwork getNetwork(int netId) {
@@ -62,6 +65,7 @@ public class ModNetworkState extends PersistentState {
     public int createNetwork() {
         int id = nextId++;
         CableNetwork net = new CableNetwork();
+        net.setNetworkId(id);
         networks.put(id, net);
         this.setDirty(true);
         return id;
@@ -74,9 +78,5 @@ public class ModNetworkState extends PersistentState {
 
     public Map<Integer, CableNetwork> getAllNetworks() {
         return networks;
-    }
-
-    public int getNextId() {
-        return nextId;
     }
 }

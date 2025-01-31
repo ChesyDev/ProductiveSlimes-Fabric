@@ -20,11 +20,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
-@SuppressWarnings("unchecked")
 public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEnergyBlockEntity {
     public static final long CAPACITY_PER_CABLE = 10_000;
     private boolean initialized = false;
-    public int energyStoredToLoad = -1;
     private boolean newlyPlaced = true;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
@@ -34,30 +32,26 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
     @Override
     public void markRemoved() {
         super.markRemoved();
+        assert world != null;
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
-            ModNetworkManager.onCableRemoved(serverWorld, pos);
+            if (shouldRemoveCableEntity(serverWorld)) {
+                ModNetworkManager.onCableRemoved(serverWorld, pos);
+            }
         }
     }
+    private boolean shouldRemoveCableEntity(ServerWorld serverWorld) {
+        if (serverWorld.isChunkLoaded(this.pos)) {
+            return !(serverWorld.getBlockEntity(pos) instanceof CableBlockEntity);
+        }
+        return false;
+    }
 
-    public static void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+    public static void tick(World world, BlockPos pos, CableBlockEntity blockEntity) {
         if (!blockEntity.initialized) {
             blockEntity.initialized = true;
-            if (!world.isClient && world instanceof ServerWorld serverWorld) {
-                // Rebuild the network for this cable on load
+            if (!world.isClient && world instanceof ServerWorld serverWorld && blockEntity.newlyPlaced) {
                 ModNetworkManager.rebuildNetwork(serverWorld, pos);
             }
-        }
-        else{
-            blockEntity.newlyPlaced = false;
-        }
-
-        if (blockEntity.energyStoredToLoad >= 0){
-            CableNetwork net = ModNetworkManager.getNetwork(pos);
-            if (net != null){
-                net.setTotalEnergy(blockEntity.energyStoredToLoad);
-            }
-
-            blockEntity.energyStoredToLoad = -1;
         }
 
         if (!world.isClient) {
@@ -127,19 +121,12 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.writeNbt(nbt, registries);
-
-        long energyStored = getAmount();
-        nbt.putLong("EnergyStored", energyStored == 0 ? -1 : energyStored);
         nbt.putBoolean("NewlyPlaced", newlyPlaced);
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
-
-        if (nbt.contains("EnergyStored") && nbt.getLong("EnergyStored") != -1) {
-            energyStoredToLoad = (int) nbt.getLong("EnergyStored");
-        }
         newlyPlaced = nbt.getBoolean("NewlyPlaced");
     }
 
