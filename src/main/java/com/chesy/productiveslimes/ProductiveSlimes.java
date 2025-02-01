@@ -16,18 +16,14 @@ import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
-import com.chesy.productiveslimes.util.FluidTankTint;
-import com.chesy.productiveslimes.util.SlimeItemTint;
-import com.chesy.productiveslimes.util.property.*;
 import com.chesy.productiveslimes.villager.ModVillagers;
 import com.chesy.productiveslimes.worldgen.biome.surface.ModSurfaceRules;
+import com.electronwill.nightconfig.core.file.FileConfig;
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.minecraft.client.render.item.property.bool.BooleanProperties;
-import net.minecraft.client.render.item.tint.TintSourceTypes;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -38,53 +34,81 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import terrablender.api.SurfaceRuleManager;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class ProductiveSlimes implements ModInitializer {
-	public static final String MODID = "productiveslimes";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+    public static final String MODID = "productiveslimes";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+    private static final Path CONFIG_PATH = Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "productiveslimes.toml");
+    private static FileConfig config;
+    public static boolean vanillaSlimeCanAttackPlayer;
+    public static boolean ironGolemCanAttackSlime;
 
-	public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID,"energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
-			.registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slimeball")))));
+    public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID, "energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slimeball")))));
 
-	@Override
-	public void onInitialize() {
-		ModTiers.init();
-		ModFluids.register();
-		ModDataComponents.register();
-		ModItemGroups.initialize();
+    @Override
+    public void onInitialize() {
+        ModTiers.init();
+        ModFluids.register();
+        ModDataComponents.register();
+        ModItemGroups.initialize();
 
-		ModItems.registerSlimeball();
-		ModEntities.initialize();
-		ModItems.initialize();
+        ModItems.registerSlimeball();
+        ModEntities.initialize();
+        ModItems.initialize();
 
-		ModBlocks.initialize();
-		ModBlockEntities.initialize();
+        ModBlocks.initialize();
+        ModBlockEntities.initialize();
 
-		ModMenuTypes.registerScreenHandlers();
-		ModRecipes.register();
+        ModMenuTypes.registerScreenHandlers();
+        ModRecipes.register();
 
-		ModVillagers.init();
+        ModVillagers.init();
 
-		CustomVariantRegistry.initialize();
+        CustomVariantRegistry.initialize();
 
-		FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
+        FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
-		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
+        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
 
-		// Register the event
-		ModServerLifecycleEvent.init();
-		EntityInteractEvent.init();
-		ModVillagerTrade.init();
+        // Register the event
+        ModServerLifecycleEvent.init();
+        EntityInteractEvent.init();
+        ModVillagerTrade.init();
 
-		// Strippable property
-		StrippableBlockRegistry.register(ModBlocks.SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_LOG);
-		StrippableBlockRegistry.register(ModBlocks.SLIMY_WOOD, ModBlocks.STRIPPED_SLIMY_WOOD);
+        // Strippable property
+        StrippableBlockRegistry.register(ModBlocks.SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_LOG);
+        StrippableBlockRegistry.register(ModBlocks.SLIMY_WOOD, ModBlocks.STRIPPED_SLIMY_WOOD);
 
-		// Flammable property
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LOG, 5, 5);
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_SLIMY_LOG, 5, 5);
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_PLANKS, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LEAVES, 30, 60);
-	}
+        // Flammable property
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LOG, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_SLIMY_LOG, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_PLANKS, 5, 20);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LEAVES, 30, 60);
+
+        config = FileConfig.builder(CONFIG_PATH)
+                .concurrent()
+                .defaultResource("/productiveslimes.toml")
+                .autosave()
+                .build();
+
+        config.load();
+
+        if (!config.contains("slime_settings.vanilla_slime_can_attack_player")) {
+            config.add("slime_settings.vanilla_slime_can_attack_player", false);
+        }
+
+        if (!config.contains("iron_golem_settings.iron_golem_can_attack_slime")) {
+            config.add("iron_golem_settings.iron_golem_can_attack_slime", false);
+        }
+
+        config.save();
+
+        vanillaSlimeCanAttackPlayer = config.get("slime_settings.vanilla_slime_can_attack_player");
+        ironGolemCanAttackSlime = config.get("iron_golem_settings.iron_golem_can_attack_slime");
+    }
 }

@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.mixin;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -20,25 +21,25 @@ public abstract class CustomMeleeAttackGoal {
     public abstract PathAwareEntity getMob();
     @Inject(method = "canAttack", at = @At("HEAD"))
     private void canPerformAttack(LivingEntity entity, CallbackInfoReturnable<Boolean> info) {
-        if (entity instanceof SlimeEntity) {
+        if (entity instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             stop();
         }
     }
     @Inject(method = "start", at = @At("HEAD"), cancellable = true)
     private void start(CallbackInfo ci) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             ci.cancel();
         }
     }
     @Inject(method = "stop", at = @At("HEAD"))
     private void stop(CallbackInfo ci) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             getMob().setTarget(null);
         }
     }
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     private void tick(CallbackInfo ci) {
-        if (getMob().getTarget() instanceof SlimeEntity) {
+        if (getMob().getTarget() instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             getMob().setTarget(null);
             ci.cancel();
         }
