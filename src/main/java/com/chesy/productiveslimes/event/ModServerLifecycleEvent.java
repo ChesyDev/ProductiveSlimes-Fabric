@@ -1,9 +1,11 @@
 package com.chesy.productiveslimes.event;
 
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
+import com.chesy.productiveslimes.network.ModNetworkManager;
 import com.chesy.productiveslimes.network.ModNetworkStateManager;
 import com.chesy.productiveslimes.network.RecipeSyncPayload;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -21,6 +23,13 @@ public class ModServerLifecycleEvent {
         ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
             ServerWorld overworld = minecraftServer.getOverworld();
             ModNetworkStateManager.forceSave(overworld);
+        });
+
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            // For each loaded ServerWorld
+            for (ServerWorld world : server.getWorlds()) {
+                ModNetworkManager.tickAllNetworks(world);
+            }
         });
 
         ServerWorldEvents.LOAD.register((minecraftServer, serverWorld) -> {

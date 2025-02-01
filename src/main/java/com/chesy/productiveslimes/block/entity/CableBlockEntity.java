@@ -54,34 +54,6 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
                 ModNetworkManager.rebuildNetwork(serverWorld, pos);
             }
         }
-
-        if (!world.isClient) {
-            for (Direction direction : Direction.values()) {
-                EnergyStorage neighbor = EnergyStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
-                BlockEntity neighborBlockEntity = world.getBlockEntity(pos.offset(direction));
-
-                if (neighborBlockEntity instanceof CableBlockEntity) {
-                    continue;
-                }
-
-                if (neighbor != null) {
-                    if (!neighbor.supportsInsertion()) continue;
-
-                    try (Transaction transaction = Transaction.openOuter()) {
-                        long amount = Math.min(blockEntity.getAmount() >= 1000 ? 1000 : blockEntity.getAmount(), neighbor.getCapacity() - neighbor.getAmount());
-
-                        if (amount > 0) {
-                            blockEntity.extract(amount,transaction);
-                            neighbor.insert(amount,transaction);
-                            transaction.commit();
-                        }
-                        else{
-                            transaction.abort();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     @Override
