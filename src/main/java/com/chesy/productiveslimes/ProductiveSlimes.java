@@ -95,6 +95,10 @@ public class ProductiveSlimes implements ModInitializer {
 				.autosave()
 				.build();
 
+		if (!config.getFile().exists()) {
+			config.save();
+		}
+
 		config.load();
 
 		if (!config.contains("slime_settings.vanilla_slime_can_attack_player")){
