@@ -25,7 +25,7 @@ public class SlimeballCollectorScreen extends HandledScreen<SlimeballCollectorMe
         this.titleY = 5;
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        this.addDrawableChild(new ButtonWidget.Builder(Text.literal("Toggle Area"), button -> {
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("gui.productiveslimes.toggle_area"), button -> {
             this.handler.inventory.setEnableOutline(this.handler.inventory.getData().get(0) == 0 ? 1 : 0);
         }).position(x + 88, y + 65).size(80, 16).build());
     }

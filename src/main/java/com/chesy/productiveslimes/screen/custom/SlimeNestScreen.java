@@ -43,10 +43,10 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
         drawMouseoverTooltip(pGuiGraphics, pMouseX, pMouseY);
 
         int countdown = handler.getCountdown();
-        Text cd = Text.literal("Cooldown: " + countdown + "s").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
-        Text size = Text.literal("Slime Size: " + handler.getSlimeSize()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
-        Text multiplier = Text.literal("Multiplier: " + handler.getMultiplier()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
-        Text dropItem = Text.literal("Drop Item: ").append(Text.translatable(handler.getDrop().getItem().getTranslationKey())).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text cd = Text.translatable("slimenest.productiveslimes.cooldown", countdown).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text size = Text.translatable("slimenest.productiveslimes.slime_size", handler.getSlimeSize()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text multiplier = Text.translatable("slimenest.productiveslimes.multiplier", handler.getMultiplier()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
+        Text dropItem = Text.translatable("slimenest.productiveslimes.drop_item").append(Text.translatable(handler.getDrop().getItem().getTranslationKey())).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xa5f5a6)));
 
         int guiLeft = (width - backgroundWidth) / 2;
         int guiTop = (height - backgroundHeight) / 2;
@@ -56,10 +56,10 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
 
         if (!(handler.hasSlime() && handler.hasOutputSlot())){
             if(!handler.hasOutputSlot()){
-                cd = Text.literal("No Output Slot").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xd59c20)));
+                cd = Text.translatable("slimenest.productiveslimes.no_output_slot").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xd59c20)));
             }
             else {
-                cd = Text.literal("No Slime Found").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc70d0d)));
+                cd = Text.translatable("slimenest.productiveslimes.no_slime_found").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc70d0d)));
             }
         }
         pGuiGraphics.getMatrices().push();

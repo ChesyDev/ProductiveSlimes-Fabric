@@ -39,7 +39,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     private static int ENERGY_GENERATION_INFO_HEIGHT = 150;
     private static int WORLD_GEN_INFO_HEIGHT = 150;
     private static final Identifier CRAFTING_TEXTURE = Identifier.of(ProductiveSlimes.MODID, "textures/gui/guidebook/crafting_table_gui.png");
-    private final List<String> sections = List.of("Welcome", "Slime & Slimeball", "Energy Generation", "World Gen", "Dna Extracting", "Dna Synthesizing", "Melting", "Soliding", "Squeezing");
+    private final List<Text> sections = List.of(
+            Text.translatable("guidebook.productiveslimes.nav.welcome"),
+            Text.translatable("guidebook.productiveslimes.slime_and_slimeball"),
+            Text.translatable("guidebook.productiveslimes.energy_generation"),
+            Text.translatable("guidebook.productiveslimes.nav.world_gen"),
+            Text.translatable("guidebook.productiveslimes.dna_extracting"),
+            Text.translatable("guidebook.productiveslimes.dna_synthesizing"),
+            Text.translatable("guidebook.productiveslimes.nav.melting"),
+            Text.translatable("guidebook.productiveslimes.soliding"),
+            Text.translatable("guidebook.productiveslimes.squeezing")
+    );
     private int selectedSection = 0;
 
     public static final int RECIPE_WIDTH = 153;
@@ -247,11 +257,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
 
         // Render the info section
-        Text title = Text.literal("DNA Extracting");
+        Text title = Text.translatable("guidebook.productiveslimes.dna_extracting");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Slime DNA's can be extracted from slime balls using the DNA Extractor.");
+        Text description = Text.translatable("guidebook.productiveslimes.dna_extracting.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
         pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -339,11 +349,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
 
         // Render the info section
-        Text title = Text.literal("DNA Synthesizing");
+        Text title = Text.translatable("guidebook.productiveslimes.dna_synthesizing");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Slime Spawn Eggs can be obtained from DNA synthesizing using the DNA Synthesizer.");
+        Text description = Text.translatable("guidebook.productiveslimes.dna_synthesizing.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 30, 0xAAAAAA);
 
         pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -445,11 +455,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
 
         // Render the info section
-        Text title = Text.literal("Slimeball Melting");
+        Text title = Text.translatable("guidebook.productiveslimes.slimeball_melting");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Slimeball can be melted into liquid using the Melting Station.");
+        Text description = Text.translatable("guidebook.productiveslimes.slimeball_melting.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
         pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -524,11 +534,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
 
         // Render the info section
-        Text title = Text.literal("Soliding");
+        Text title = Text.translatable("guidebook.productiveslimes.soliding");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Molten slimes can be solidified into resources using the Soliding Station.");
+        Text description = Text.translatable("guidebook.productiveslimes.soliding.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
         pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -602,11 +612,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
 
         // Render the info section
-        Text title = Text.literal("Squeezing");
+        Text title = Text.translatable("guidebook.productiveslimes.squeezing");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Some of the slimy blocks can be squeezed into vanilla block and slimeball fragment using the Slime Squeezer.");
+        Text description = Text.translatable("guidebook.productiveslimes.squeezing.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
         pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -695,21 +705,21 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         int infoY = contentY - contentScrollOffset;
         int wordWarpLength = (int) (contentWidth * 0.85f);
 
-        Text title = Text.literal("Slime & Slimeball");
+        Text title = Text.translatable("guidebook.productiveslimes.slime_and_slimeball");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("In Productive Slimes, there are many different types of slimes and slimeballs. Each slime has its own Slimeball and Growth Item (Will be explained later).");
+        Text description = Text.translatable("guidebook.productiveslimes.slime_and_slimeball.description1");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, wordWarpLength, 0xAAAAAA);
 
-        Text description2 = Text.literal("In this mod, vanilla slime will not attack any entities, Iron Golem will not attack vanilla slime, and vanilla slime will not attack Iron Golem. (This is toggleable in the config file)");
+        Text description2 = Text.translatable("guidebook.productiveslimes.slime_and_slimeball.description2");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + 25, (int) (contentWidth * 0.85f), 0xAAAAAA);
 
-        Text title2 = Text.literal("Slime Growing");
+        Text title2 = Text.translatable("guidebook.productiveslimes.slime_growing");
         int fontX2 = textRenderer.getWidth(title2);
         pGuiGraphics.drawTextWithShadow(textRenderer, title2, (int) (contentX + (contentWidth - fontX2) / 2 * 0.8f), infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + 30, 0xFFFFFF);
 
-        Text description3 = Text.literal("The maximum size of a slime is 4. When the slime size is smaller than 4 and player holding their growth item, the slime will follow the player. To grow a slime, hold their growth item and sneak right click on them.");
+        Text description3 = Text.translatable("guidebook.productiveslimes.slime_growing.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + textRenderer.getWrappedLinesHeight(title2, wordWarpLength) + 35, (int) (contentWidth * 0.85f), 0xAAAAAA);
 
         SLIME_AND_SLIMEBALL_INFO_HEIGHT = contentY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + textRenderer.getWrappedLinesHeight(title2, wordWarpLength) + textRenderer.getWrappedLinesHeight(description3, wordWarpLength) + 40;
@@ -758,17 +768,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int infoY2 = contentY - contentScrollOffset + SLIME_AND_SLIMEBALL_INFO_HEIGHT + totalRecipeHeight;
 
-        Text title3 = Text.literal("Slimeball Obtaining");
+        Text title3 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining");
         int fontX3 = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title3, (int) (contentX + (contentWidth - fontX3) / 2 * 0.8f), infoY2 + 5, 0xFFFFFF);
 
-        Text description4 = Text.literal("Slimeball can be obtained from squeezing slimy blocks into slimeball fragment or dropping from slimes. Every slime (Except vanilla slime) will drop slimeball every x Seconds (Different for every slime). Install Jade to view next drop time of the slime. The amount of slimeball drop based on their size.");
+        Text description4 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY2 + 20, wordWarpLength, 0xAAAAAA);
 
-        Text description5 = Text.literal("Player can let slime randomly walk around in the world and use a Slimeball Collector to collect their drops or put them into Slime Simulation Chamber.");
+        Text description5 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining.description2");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description5, contentX + 5, infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength), wordWarpLength, 0xAAAAAA);
 
-        Text title4 = Text.literal("Slime Cooldown Time");
+        Text title4 = Text.translatable("guidebook.productiveslimes.slime_cooldown_time");
         int fontX4 = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title4, (int) (contentX + (contentWidth - fontX4) / 2 * 0.8f), infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength) + textRenderer.getWrappedLinesHeight(description5, wordWarpLength) + 5, 0xFFFFFF);
 
@@ -797,7 +807,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 29, yPos + 15, slimeItem, textRenderer);
 
-            Text cooldownText = Text.literal("Cooldown: " + tiers.cooldown() / 20 + "s");
+            Text cooldownText = Text.translatable("guidebook.productiveslimes.cooldown", tiers.cooldown() / 20);
             pGuiGraphics.drawText(textRenderer, cooldownText, xPos + 55, yPos + 19, 0x555555, false);
 
             index2++;
@@ -805,11 +815,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int infoY3 = contentY - contentScrollOffset + SLIME_AND_SLIMEBALL_INFO_HEIGHT + totalRecipeHeight + SLIME_AND_SLIMEBALL_SECOND_INFO_HEIGHT + totalCooldownHeight;
 
-        Text title5 = Text.literal("Slimeball Collector");
+        Text title5 = Text.translatable("block.productiveslimes.slimeball_collector");
         int fontX5 = textRenderer.getWidth(title5);
         pGuiGraphics.drawTextWithShadow(textRenderer, title5, (int) (contentX + (contentWidth - fontX5) / 2 * 0.8f), infoY3 + 5, 0xFFFFFF);
 
-        Text description6 = Text.literal("Slimeball Collector is a block that can collect dropped slimeball within a certain radius. The collected slimeball will be stored in the block and can be extracted using a hopper or a pipe.");
+        Text description6 = Text.translatable("guidebook.productiveslimes.slimeball_collector.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description6, contentX + 5, infoY3 + 20, wordWarpLength, 0xAAAAAA);
 
         Optional<RecipeEntry<?>> slimeballCollectorHolder = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slimeball_collector"));
@@ -831,17 +841,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         ItemStack output = ModBlocks.SLIMEBALL_COLLECTOR.asItem().getDefaultStack();
         GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f) + 95 + 18, textureY + 17 + 18, output, textRenderer);
 
-        Text note = Text.literal("Note: It accept any input with chest tag.");
+        Text note = Text.translatable("guidebook.productiveslimes.slimeball_collector.note");
         pGuiGraphics.drawText(textRenderer, note, (int) (contentX + (contentWidth - textRenderer.getWidth(note)) / 2 * 0.8f), infoY3 + 110 + 18 + 26, 0x555555, false);
 
-        Text title6 = Text.literal("Slime Simulation Chamber & Upgrades");
+        Text title6 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades");
         int fontX6 = textRenderer.getWidth(title6);
         pGuiGraphics.drawTextWithShadow(textRenderer, title6, (int) (contentX + (contentWidth - fontX6) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + 15, 0xFFFFFF);
 
-        Text description7 = Text.literal("Slime Simulation Chamber is a block entity that can simulate slimeball dropping from slime. Sneak + Right Click a slime to pickup a slime and put it in to the chamber.");
+        Text description7 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description7, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + 20, wordWarpLength, 0xAAAAAA);
 
-        Text description8 = Text.literal("There are 2 speed uprgades for the chamber, Speed Upgrade 1 and Speed Upgrade 2. Speed Upgrade 1 will increase the speed of the chamber by 1.5x and Speed Upgrade 2 will increase the speed of the chamber by 2x. They are stackable.");
+        Text description8 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades.description2");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description8, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + 25, wordWarpLength, 0xAAAAAA);
 
         Optional<RecipeEntry<?>> slimeNestHolder = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slime_nest"));
@@ -901,11 +911,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         ItemStack output4 = ModItems.SLIME_NEST_SPEED_UPGRADE_2.getDefaultStack();
         GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f) + 95 + 18, textureY4 + 17 + 18, output4, textRenderer);
 
-        Text title7 = Text.literal("Slimeball Fragment");
+        Text title7 = Text.translatable("guidebook.productiveslimes.slimeball_fragment");
         int fontX7 = textRenderer.getWidth(title7);
         pGuiGraphics.drawTextWithShadow(textRenderer, title7, (int) (contentX + (contentWidth - fontX7) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 5, 0xFFFFFF);
 
-        Text description9 = Text.literal("Slimeball Fragment can be crafted into slimeball. It can be obtained by squeezing slimy blocks in a Slimeball Squeezer.");
+        Text description9 = Text.translatable("guidebook.productiveslimes.slimeball_fragment.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description9, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + 5, wordWarpLength, 0xAAAAAA);
 
         Optional<RecipeEntry<?>> slimeball = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slimeball_from_fragment"));
@@ -946,23 +956,23 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int infoY = contentY - contentScrollOffset;
 
-        Text title = Text.literal("Welcome to Productive Slimes");
+        Text title = Text.translatable("guidebook.productiveslimes.welcome");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("Productive Slimes is a mod that adds a lot of new slimes, slimeballs, and slimy blocks. In this mod, you can collect slimes, grow them, and use them to produce items. This mod also adds a lot of new blocks that can help you to automate the process of collecting slimeballs.");
+        Text description = Text.translatable("guidebook.productiveslimes.welcome.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
 
-        Text description2 = Text.literal("This guidebook will help you to understand the mod and how to use it. You can navigate through the guidebook using the navigation bar on the left side of the screen.");
+        Text description2 = Text.translatable("guidebook.productiveslimes.welcome.description2");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xAAAAAA);
 
-        Text description3 = Text.literal("If you have any questions or suggestions, feel free to create an issue on our GitHub repository.");
+        Text description3 = Text.translatable("guidebook.productiveslimes.welcome.description3");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xAAAAAA);
 
-        Text description4 = Text.literal("For more information, you can visit our wiki page.");
+        Text description4 = Text.translatable("guidebook.productiveslimes.welcome.description4");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + 15, contentWidth, 0xAAAAAA);
 
-        Text wikiLink = Text.literal("https://coolerproyt.github.io/ProductiveSlimes-Wiki/#/Home");
+        Text wikiLink = Text.translatable("guidebook.productiveslimes.welcome.wiki_link");
         int wikiLinkWidth = textRenderer.getWidth(wikiLink);
         pGuiGraphics.drawTextWithShadow(textRenderer, wikiLink, contentX + (contentWidth - wikiLinkWidth) / 2, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + textRenderer.getWrappedLinesHeight(description4, contentWidth) + 20, 0x5555FF);
     }
@@ -974,11 +984,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int infoY = contentY - contentScrollOffset;
 
-        Text title = Text.literal("Energy Generation");
+        Text title = Text.translatable("guidebook.productiveslimes.energy_generation");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("In Productive Slimes, Energy Slimeball/Block can be used to generate energy. Energy Slimeball is a drop from Energy Slime, Energy Slime Spawn Egg cna be crafted in Crafting Table. To use Energy Slimeball/Block to generate energy, Energy Generator is needed.");
+        Text description = Text.translatable("guidebook.productiveslimes.energy_generation.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
 
         int recipeBaseY = infoY + textRenderer.fontHeight + textRenderer.getWrappedLinesHeight(description, contentWidth) + 25;
@@ -1073,17 +1083,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int infoY = contentY - contentScrollOffset;
 
-        Text title = Text.literal("World Generation");
+        Text title = Text.translatable("guidebook.productiveslimes.world_generation");
         int fontX = textRenderer.getWidth(title);
         pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
 
-        Text description = Text.literal("In Productive Slimes, there is a new biome called Slimy Land. Slimy Land is a biome that is filled with slimy blocks and slimes. In this biome, you can find different types of slimes and slimy blocks. Slimy Land can be found in the Overworld. There is a small chance to find Slimy Village in Slimy Land.");
+        Text description = Text.translatable("guidebook.productiveslimes.world_generation.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
 
-        Text description2 = Text.literal("There is a chance for Scientist Villager to spawn in Slimy Village. Scientist Villager can trade you some items related to Productive Slimes.");
+        Text description2 = Text.translatable("guidebook.productiveslimes.world_generation.description2");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xAAAAAA);
 
-        Text description3 = Text.literal("Entities will walk slower than usual on any Slimy Blocks. Have fun exploring Slimy Land!");
+        Text description3 = Text.translatable("guidebook.productiveslimes.world_generation.description3");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xAAAAAA);
     }
 }
