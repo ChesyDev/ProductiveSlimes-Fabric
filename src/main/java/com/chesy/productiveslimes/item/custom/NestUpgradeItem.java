@@ -27,7 +27,6 @@ public class NestUpgradeItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
-        textConsumer.accept(Text.literal("Increases the speed of the slime nest by " + String.format("%.2f", multiplier) + "x").setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
-
+        textConsumer.accept(Text.translatable("tooltip.productiveslimes.nest_upgrade", String.format("%.2f", multiplier)));
     }
 }
