@@ -1,29 +1,18 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
-import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
-import com.chesy.productiveslimes.util.ImmutableFluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.item.model.special.SimpleSpecialModelRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
 public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTankBlockEntity> {
     private final BlockEntityRendererFactory.Context context;
@@ -35,13 +24,17 @@ public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTa
     @Override
     public void render(FluidTankBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay, Vec3d vec3d) {
         FluidVariant fluidStack = pBlockEntity.getFluidVariant();
-        if (pBlockEntity.getFluidStorage().isResourceBlank() || pBlockEntity.getFluidStorage().amount <= 0) return;
+        renderFluid(pPoseStack, pBufferSource, pPackedLight, pPackedOverlay, fluidStack, pBlockEntity.getFluidStorage().getAmount());
+    }
 
-        int color = FluidVariantRendering.getColor(fluidStack);
-        Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];
+    public static void renderFluid(MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay, FluidVariant fluidVariant, long amount){
+        if (fluidVariant.isBlank()) return;
+
+        int color = FluidVariantRendering.getColor(fluidVariant);
+        Sprite sprite = FluidVariantRendering.getSprites(fluidVariant)[0];
         RenderLayer renderLayer = RenderLayer.getEntityTranslucent(sprite.getAtlasId());
 
-        float height = ((float) pBlockEntity.getFluidStorage().amount / pBlockEntity.getFluidStorage().getCapacity()) * 0.90f;
+        float height = ((float) amount / (FluidConstants.BUCKET * 50)) * 0.90f;
         height += 0.05f;
 
         VertexConsumer builder = pBufferSource.getBuffer(renderLayer);
