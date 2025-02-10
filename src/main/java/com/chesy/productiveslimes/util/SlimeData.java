@@ -40,8 +40,8 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
         tag.putInt("size", size);
         tag.putInt("color", color);
         tag.putInt("cooldown", cooldown);
-        tag.put("drop", dropItem.toNbt(provider));
-        tag.put("growth_item", growthItem.toNbt(provider));
+        tag.put("drop", dropItem.encode(provider));
+        tag.put("growth_item", growthItem.encode(provider));
         tag.putString("slime", Objects.requireNonNull(Registries.ENTITY_TYPE.getKey(slime).toString()));
         return tag;
     }

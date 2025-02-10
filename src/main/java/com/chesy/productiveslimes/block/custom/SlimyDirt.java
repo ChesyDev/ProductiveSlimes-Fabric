@@ -7,6 +7,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
@@ -29,8 +30,8 @@ public class SlimyDirt extends Block implements Fertilizable {
     }
 
     @Override
-    protected boolean isTransparent(BlockState state) {
-        return !state.isOpaqueFullCube();
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+        return !state.isOpaqueFullCube(world, pos);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class SlimyDirt extends Block implements Fertilizable {
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         BlockPos blockPos = pos.up();
         BlockState blockState = Blocks.SHORT_GRASS.getDefaultState();
-        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager().getOrThrow(RegistryKeys.PLACED_FEATURE).getOptional(VegetationPlacedFeatures.GRASS_BONEMEAL);
+        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager().getWrapperOrThrow(RegistryKeys.PLACED_FEATURE).getOptional(VegetationPlacedFeatures.GRASS_BONEMEAL);
 
         label51:
         for(int i = 0; i < 128; ++i) {

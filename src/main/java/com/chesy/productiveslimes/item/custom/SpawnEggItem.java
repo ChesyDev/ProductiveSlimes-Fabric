@@ -8,7 +8,7 @@ public class SpawnEggItem extends net.minecraft.item.SpawnEggItem {
     private final int fg;
 
     public SpawnEggItem(EntityType<? extends MobEntity> type, int bg, int fg, Settings settings) {
-        super(type, settings);
+        super(type, bg, fg, settings);
         this.bg = bg;
         this.fg = fg;
     }

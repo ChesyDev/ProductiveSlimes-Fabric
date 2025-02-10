@@ -16,6 +16,10 @@ repositories {
 	}
 	maven { url "https://maven.shedaniel.me" }
 	maven { url = 'https://maven.minecraftforge.net/' }
+	maven {
+		name = "Jared's maven"
+		url = "https://maven.blamejared.com/"
+	}
 }
 
 fabricApi {
@@ -37,10 +41,12 @@ dependencies {
 
 	include modApi("teamreborn:energy:${energy_api_version}")
 
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+	modImplementation("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${project.jei_version}")
 
-	modImplementation "curse.maven:jade-324717:${jade_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+//	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+	modImplementation "curse.maven:jade-324717:${project.jade_version}"
 	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${project.terrablender_version}"
 }
 

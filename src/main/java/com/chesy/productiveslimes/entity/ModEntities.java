@@ -32,7 +32,7 @@ public class ModEntities {
     public static EntityType<BaseSlime> registerSlime(String name, int cooldown, int color, Item dropItem, Item growthItem) {
         return Registry.register(Registries.ENTITY_TYPE,
                 Identifier.of(ProductiveSlimes.MODID, name),
-                EntityType.Builder.<BaseSlime>create((type, world) -> new BaseSlime(type, world, cooldown, color, dropItem, growthItem), SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, name))));
+                EntityType.Builder.<BaseSlime>create((type, world) -> new BaseSlime(type, world, cooldown, color, dropItem, growthItem), SpawnGroup.CREATURE).build());
     }
 
 

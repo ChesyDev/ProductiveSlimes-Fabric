@@ -95,9 +95,9 @@ public class BaseSlime extends SlimeEntity {
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.2D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 0)
-                .add(EntityAttributes.FOLLOW_RANGE, 0D);
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 0D);
     }
 
     @Nullable
@@ -235,9 +235,9 @@ public class BaseSlime extends SlimeEntity {
         this.dataTracker.set(ID_SIZE, i);
         this.refreshPosition();
         this.calculateDimensions();
-        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue((double) (i * i));
-        this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue((double) (0.2F + 0.1F * (float) i));
-        this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double) i);
+        this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((double) (i * i));
+        this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue((double) (0.2F + 0.1F * (float) i));
+        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue((double) i);
 
         this.experiencePoints = i;
     }
@@ -266,20 +266,24 @@ public class BaseSlime extends SlimeEntity {
         private final SlimeEntity slime;
         private int growTiredTimer;
         private final Item targetItem; // The item to check for
+
         public SlimeFollowGoal(SlimeEntity slime, Item targetItem) {
             this.slime = slime;
             this.targetItem = targetItem;
             this.setControls(EnumSet.of(Control.LOOK));
         }
+
         private boolean isPlayerHoldingTargetItem(PlayerEntity player) {
             return player.getMainHandStack().isOf(targetItem) || player.getOffHandStack().isOf(targetItem);
         }
+
         private boolean isInRange(PlayerEntity player) {
             return this.slime.distanceTo(player) <= 8.0F;
         }
+
         private PlayerEntity findNearestPlayerWithItem() {
-            return getServerWorld(this.slime).getClosestPlayer(
-                    TargetPredicate.createNonAttackable().setPredicate((livingEntity, level) -> {
+            return this.slime.getWorld().getClosestPlayer(
+                    TargetPredicate.createNonAttackable().setPredicate((livingEntity) -> {
                         if (livingEntity instanceof PlayerEntity player) {
                             return isPlayerHoldingTargetItem(player) && this.slime.getSize() < 4 && isInRange(player);
                         }
@@ -290,6 +294,7 @@ public class BaseSlime extends SlimeEntity {
                     this.slime.getZ()
             );
         }
+
         @Override
         public boolean canStart() {
             PlayerEntity player = findNearestPlayerWithItem();
@@ -299,11 +304,13 @@ public class BaseSlime extends SlimeEntity {
             this.slime.setTarget(player);
             return this.slime.getMoveControl() instanceof SlimeEntity.SlimeMoveControl;
         }
+
         @Override
         public void start() {
             this.growTiredTimer = getTickCount(300);
             super.start();
         }
+
         @Override
         public boolean shouldContinue() {
             PlayerEntity player = findNearestPlayerWithItem();
@@ -313,6 +320,7 @@ public class BaseSlime extends SlimeEntity {
             this.slime.setTarget(player);
             return --this.growTiredTimer > 0;
         }
+
         @Override
         public boolean shouldRunEveryTick() {
             return true;

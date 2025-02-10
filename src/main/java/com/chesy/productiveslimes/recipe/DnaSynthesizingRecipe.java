@@ -8,8 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
@@ -58,6 +56,16 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
     }
 
     @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<MultipleRecipeInput>> getSerializer() {
         return ModRecipes.DNA_SYNTHESIZING_SERIALIZER;
     }
@@ -67,21 +75,11 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
         return ModRecipes.DNA_SYNTHESIZING_TYPE;
     }
 
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return null;
-    }
-
     public static class Serializer implements RecipeSerializer<DnaSynthesizingRecipe>{
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<DnaSynthesizingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipe::inputItems),
+                        Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(DnaSynthesizingRecipe::output),
                         Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipe::energy),
                         Codec.INT.fieldOf("inputCount").forGetter(DnaSynthesizingRecipe::inputCount)

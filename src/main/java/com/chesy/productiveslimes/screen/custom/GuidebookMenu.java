@@ -6,8 +6,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class GuidebookMenu extends ScreenHandler {
+    public final World world;
 
     public GuidebookMenu(int syncId, PlayerInventory inventory, BlockPos pos) {
         this(syncId, inventory);
@@ -15,6 +17,7 @@ public class GuidebookMenu extends ScreenHandler {
 
     public GuidebookMenu(int syncId, PlayerInventory playerInventory) {
         super(ModMenuTypes.GUIDEBOOK_MENU_HANDLER, syncId);
+        this.world = playerInventory.player.getWorld();
     }
 
     @Override

@@ -2,14 +2,21 @@ package com.chesy.productiveslimes.compat.rei;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.compat.rei.dna_extracting.DnaExtractingCategory;
+import com.chesy.productiveslimes.compat.rei.dna_extracting.DnaExtractingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.dna_synthesizing.DnaSynthesizingCategory;
+import com.chesy.productiveslimes.compat.rei.dna_synthesizing.DnaSynthesizingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.melting.MeltingCategory;
+import com.chesy.productiveslimes.compat.rei.melting.MeltingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.soliding.SolidingCategory;
+import com.chesy.productiveslimes.compat.rei.soliding.SolidingRecipeDisplay;
 import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingCategory;
+import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingRecipeDisplay;
+import com.chesy.productiveslimes.recipe.*;
 import com.chesy.productiveslimes.screen.custom.*;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
+import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.screen.ScreenRegistry;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 
@@ -30,5 +37,14 @@ public class REIPluginClient implements REIClientPlugin {
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaExtractorScreen.class, DnaExtractingCategory.DNA_EXTRACTING);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaSynthesizerScreen.class, DnaSynthesizingCategory.DNA_SYNTHESIZING);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SlimeSqueezerScreen.class, SqueezingCategory.SQUEEZING);
+    }
+
+    @Override
+    public void registerDisplays(DisplayRegistry registry) {
+        registry.registerRecipeFiller(MeltingRecipe.class, ModRecipes.MELTING_TYPE, MeltingRecipeDisplay::new);
+        registry.registerRecipeFiller(SolidingRecipe.class, ModRecipes.SOLIDING_TYPE, SolidingRecipeDisplay::new);
+        registry.registerRecipeFiller(DnaExtractingRecipe.class, ModRecipes.DNA_EXTRACTING_TYPE, DnaExtractingRecipeDisplay::new);
+        registry.registerRecipeFiller(DnaSynthesizingRecipe.class, ModRecipes.DNA_SYNTHESIZING_TYPE, DnaSynthesizingRecipeDisplay::new);
+        registry.registerRecipeFiller(SqueezingRecipe.class, ModRecipes.SQUEEZING_TYPE, SqueezingRecipeDisplay::new);
     }
 }

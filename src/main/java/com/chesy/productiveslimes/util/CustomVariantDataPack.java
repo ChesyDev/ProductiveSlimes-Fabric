@@ -2,9 +2,8 @@ package com.chesy.productiveslimes.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.resource.*;
-import net.minecraft.resource.metadata.ResourceMetadataSerializer;
+import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -81,18 +80,14 @@ public class CustomVariantDataPack implements ResourcePack {
 
     @Nullable
     @Override
-    public <T> T parseMetadata(ResourceMetadataSerializer<T> metadataSerializer) throws IOException {
-        if ("pack".equals(metadataSerializer.name())) { // Use name() method to get the section name
+    public <T> T parseMetadata(ResourceMetadataReader<T> metaReader) throws IOException {
+        if ("pack".equals(metaReader.getKey())) { // Use name() method to get the section name
             InputSupplier<InputStream> supplier = openRoot("pack.mcmeta");
             if (supplier != null) {
                 try (InputStream stream = supplier.get()) {
                     JsonObject json = new Gson().fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), JsonObject.class);
                     // Use the Codec from the sectionType to deserialize the JSON object
-                    return metadataSerializer.codec().parse(JsonOps.INSTANCE, json.getAsJsonObject("pack"))
-                            .resultOrPartial(error -> {
-                                System.err.println("Failed to parse metadata section: " + error);
-                            })
-                            .orElse(null);
+                    return metaReader.fromJson(json.getAsJsonObject("pack"));
                 }
             }
         }

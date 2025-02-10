@@ -6,8 +6,8 @@ import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -71,7 +71,7 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     @Override
-    public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
+    public void offerTo(RecipeExporter exporter, Identifier recipeKey) {
         Advancement.Builder advancement = exporter.getAdvancementBuilder()
                 .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
                 .rewards(AdvancementRewards.Builder.recipe(recipeKey))
@@ -84,6 +84,6 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
                 this.energy
         );
         // Pass the recipe and advancement to the output
-        exporter.accept(recipeKey, recipe, advancement.build(Identifier.of(recipeKey.getValue().getNamespace(), "recipes/" + recipeKey.getValue().getPath())));
+        exporter.accept(recipeKey, recipe, advancement.build(Identifier.of(recipeKey.getNamespace(), "recipes/" + recipeKey.getPath())));
     }
 }

@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
@@ -31,6 +30,16 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
     }
 
     @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<SingleStackRecipeInput>> getSerializer() {
         return ModRecipes.SQUEEZING_SERIALIZER;
     }
@@ -40,21 +49,11 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
         return ModRecipes.SQUEEZING_TYPE;
     }
 
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return null;
-    }
-
     public static class Serializer implements RecipeSerializer<SqueezingRecipe>{
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<SqueezingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(SqueezingRecipe::inputItems),
+                        Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(SqueezingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(SqueezingRecipe::output),
                         Codec.INT.fieldOf("energy").forGetter(SqueezingRecipe::energy)
                 ).apply(instance, SqueezingRecipe::new)

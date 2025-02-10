@@ -24,17 +24,14 @@
 		"client": [
 			"com.chesy.productiveslimes.ProductiveSlimesClient"
 		],
+		"terrablender": [
+			"com.chesy.productiveslimes.worldgen.biome.ModTerraBlender"
+		],
 		"jade": [
 			"com.chesy.productiveslimes.compat.jade.JadePlugin"
 		],
 		"rei_client": [
 			"com.chesy.productiveslimes.compat.rei.REIPluginClient"
-		],
-		"rei_common": [
-			"com.chesy.productiveslimes.compat.rei.REIPluginServer"
-		],
-		"terrablender": [
-			"com.chesy.productiveslimes.worldgen.biome.ModTerraBlender"
 		]
 	},
 	"mixins": [
@@ -42,11 +39,11 @@
 	],
 	"depends": {
 		"fabric-transfer-api-v1": "*",
-		"fabricloader": ">=0.16.9",
-		"minecraft": "~1.21.4",
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.21.1",
 		"java": ">=21",
 		"fabric-api": "*",
-		"terrablender": ">=4.3.0.2"
+		"terrablender": "4.1.0.8"
 	},
 	"suggests": {
 		"another-mod": "*"

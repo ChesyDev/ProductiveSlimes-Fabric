@@ -22,22 +22,7 @@ import java.util.List;
 public class SqueezingRecipeDisplay extends BasicDisplay {
     private final int energy;
     private final EntryStack<ItemStack> inputItem;
-    public static final DisplaySerializer<SqueezingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
-            RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(SqueezingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(SqueezingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("energy").forGetter(SqueezingRecipeDisplay::getEnergy)
-            ).apply(instance, SqueezingRecipeDisplay::new)),
-            PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    SqueezingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    SqueezingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    SqueezingRecipeDisplay::getEnergy,
-                    SqueezingRecipeDisplay::new
-            )
-    );
+
     public SqueezingRecipeDisplay(RecipeEntry<SqueezingRecipe> recipe) {
         super(
                 List.of(EntryIngredients.ofIngredient(recipe.value().inputItems().getFirst())),
@@ -47,25 +32,25 @@ public class SqueezingRecipeDisplay extends BasicDisplay {
                 )
         );
         energy = recipe.value().energy();
-        inputItem = EntryStacks.of(new ItemStack(recipe.value().inputItems().getFirst().getMatchingItems().toList().getFirst()));
+        inputItem = EntryStacks.of(new ItemStack(recipe.value().inputItems().getFirst().getMatchingStacks()[0].getItem()));
     }
+
     public SqueezingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int energy) {
         super(input, output);
         this.energy = energy;
         this.inputItem = (EntryStack<ItemStack>) input.get(0).getFirst();
     }
+
     public int getEnergy() {
         return energy;
     }
+
     public EntryStack<ItemStack> getInputItem() {
         return inputItem;
     }
+
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return SqueezingCategory.SQUEEZING;
-    }
-    @Override
-    public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return SERIALIZER;
     }
 }

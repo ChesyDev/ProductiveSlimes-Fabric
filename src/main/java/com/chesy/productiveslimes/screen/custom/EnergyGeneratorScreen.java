@@ -6,7 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -56,11 +55,11 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
         int x = (width - 176) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
+        context.drawTexture(GUI_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
         int energyScaled = this.handler.getEnergyStoredScaled();
 
         // Drawing the background texture using context.drawTexture
-        context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 232.0f, 57.0f - (float)energyScaled, 9, energyScaled, 256, 256);
+        context.drawTexture(GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 232.0f, 57.0f - (float)energyScaled, 9, energyScaled, 256, 256);
 
         renderProgressArrow(context, x, y);
     }
@@ -68,7 +67,7 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
             int k = handler.getScaledProgress();
-            context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 81, y + 47 + 14 - k, 218.0f, 14.0f - (float)k, 14, k, 256, 256);
+            context.drawTexture(GUI_TEXTURE, x + 81, y + 47 + 14 - k, 218.0f, 14.0f - (float)k, 14, k, 256, 256);
         }
     }
 

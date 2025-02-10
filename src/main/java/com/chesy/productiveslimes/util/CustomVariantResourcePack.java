@@ -4,9 +4,8 @@ import com.chesy.productiveslimes.ProductiveSlimes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.resource.*;
-import net.minecraft.resource.metadata.ResourceMetadataSerializer;
+import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -88,23 +87,14 @@ public class CustomVariantResourcePack implements ResourcePack {
 
     @Nullable
     @Override
-    public <T> T parseMetadata(ResourceMetadataSerializer<T> metadataSerializer) throws IOException {
-        if ("pack".equals(metadataSerializer.name())) { // Check the section name
-            LOGGER.info("Parsing metadata section: {}", metadataSerializer.name());
+    public <T> T parseMetadata(ResourceMetadataReader<T> metaReader) throws IOException {
+        if ("pack".equals(metaReader.getKey())) { // Check the section name
+            LOGGER.info("Parsing metadata section: {}", metaReader.getKey());
             InputSupplier<InputStream> supplier = openRoot("pack.mcmeta");
             if (supplier != null) {
                 try (InputStream stream = supplier.get()) {
-                    // Parse the JSON using Gson
                     JsonObject json = new Gson().fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), JsonObject.class);
-
-                    // Deserialize the JSON using the Codec from the MetadataSectionType
-                    return metadataSerializer.codec()
-                            .parse(JsonOps.INSTANCE, json.getAsJsonObject("pack"))
-                            .resultOrPartial(error -> {
-                                // Log or handle errors here
-                                System.err.println("Error parsing metadata section: " + error);
-                            })
-                            .orElse(null); // Return null if parsing fails
+                    return metaReader.fromJson(json.getAsJsonObject("pack"));
                 }
             }
         }

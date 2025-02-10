@@ -1,19 +1,18 @@
 package com.chesy.productiveslimes.entity.model;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.entity.BaseSlime;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.Identifier;
 
-public class BaseSlimeModel extends EntityModel<EntityRenderState> {
+public class BaseSlimeModel<T extends BaseSlime> extends SinglePartEntityModel<T> {
     public final int color;
     public static final EntityModelLayer SLIME_TEXTURE = new EntityModelLayer(Identifier.of(ProductiveSlimes.MODID, "textures/entity/template_slime_entity.png"), "main");
     private final ModelPart root;
 
     public BaseSlimeModel(ModelPart root, int color) {
-        super(root);
         this.root = root;
         this.color = color;
     }
@@ -35,7 +34,13 @@ public class BaseSlimeModel extends EntityModel<EntityRenderState> {
         return TexturedModelData.of(modelData, 64, 32);
     }
 
-    public ModelPart getRoot() {
+    @Override
+    public ModelPart getPart() {
         return root;
+    }
+
+    @Override
+    public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+
     }
 }

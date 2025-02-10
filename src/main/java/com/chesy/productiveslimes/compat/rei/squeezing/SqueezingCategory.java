@@ -56,11 +56,11 @@ public class SqueezingCategory implements DisplayCategory<SqueezingRecipeDisplay
                 // Arrow
                 tickCount++;
                 int arrowWidth = (tickCount % 600) * 26 / 600;
-                guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 69, startPoint.y + 38, 153, 0, arrowWidth, 8, 256, 256);
+                guiGraphics.drawTexture(TEXTURE, startPoint.x + 69, startPoint.y + 38, 153, 0, arrowWidth, 8, 256, 256);
                 // Energy bar
                 int energyScaled = (int) Math.ceil((double) display.getEnergy() / 10000 * 57);
                 energyScaled = arrowWidth >= 25 ? 0 : energyScaled;
-                guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 9, (startPoint.y + 18) + (52 - energyScaled), 153, 65 - energyScaled, 9, energyScaled, 256, 256);
+                guiGraphics.drawTexture(TEXTURE, startPoint.x + 9, (startPoint.y + 18) + (52 - energyScaled), 153, 65 - energyScaled, 9, energyScaled, 256, 256);
             }
             @Override
             public List<? extends Element> children() {

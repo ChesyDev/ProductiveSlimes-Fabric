@@ -22,44 +22,18 @@ public class DnaSynthesizingRecipeDisplay extends BasicDisplay {
     private final int energy;
     private final int inputCount;
 
-    public static final DisplaySerializer<DnaSynthesizingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
-            RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(DnaSynthesizingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("inputCount").forGetter(DnaSynthesizingRecipeDisplay::getInputCount),
-                    Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipeDisplay::getEnergy)
-            ).apply(instance, DnaSynthesizingRecipeDisplay::new)),
-            PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaSynthesizingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaSynthesizingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    DnaSynthesizingRecipeDisplay::getInputCount,
-                    PacketCodecs.INTEGER,
-                    DnaSynthesizingRecipeDisplay::getEnergy,
-                    DnaSynthesizingRecipeDisplay::new
-            )
-    );
-
     public DnaSynthesizingRecipeDisplay(RecipeEntry<DnaSynthesizingRecipe> recipe) {
         super(
                 List.of(
                         EntryIngredients.ofIngredient(recipe.value().inputItems().get(0)),
                         EntryIngredients.ofIngredient(recipe.value().inputItems().get(1)),
-                        EntryIngredients.of(new ItemStack(recipe.value().inputItems().get(2).getMatchingItems().toList().getFirst(), recipe.value().inputCount()))
+                        EntryIngredients.of(new ItemStack(recipe.value().inputItems().get(2).getMatchingStacks()[0].getItem(), recipe.value().inputCount()))
                 ),
                 List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().getFirst())))
         );
 
         energy = recipe.value().energy();
         inputCount = recipe.value().inputCount();
-    }
-
-    public DnaSynthesizingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {
-        super(input, output);
-        this.energy = energy;
-        this.inputCount = inputCount;
     }
 
     public int getEnergy() {
@@ -73,10 +47,5 @@ public class DnaSynthesizingRecipeDisplay extends BasicDisplay {
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return DnaSynthesizingCategory.DNA_SYNTHESIZING;
-    }
-
-    @Override
-    public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return SERIALIZER;
     }
 }

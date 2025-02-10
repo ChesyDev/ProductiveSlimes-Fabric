@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
@@ -46,6 +45,16 @@ public class MeltingRecipe implements Recipe<SingleStackRecipeInput> {
     }
 
     @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<SingleStackRecipeInput>> getSerializer() {
         return ModRecipes.MELTING_SERIALIZER;
     }
@@ -53,16 +62,6 @@ public class MeltingRecipe implements Recipe<SingleStackRecipeInput> {
     @Override
     public RecipeType<? extends Recipe<SingleStackRecipeInput>> getType() {
         return ModRecipes.MELTING_TYPE;
-    }
-
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return null;
     }
 
     public List<ItemStack> getOutputs() {
@@ -84,7 +83,7 @@ public class MeltingRecipe implements Recipe<SingleStackRecipeInput> {
     public static class Serializer implements RecipeSerializer<MeltingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         private static final MapCodec<MeltingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
+                Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
                 ItemStack.CODEC.listOf().fieldOf("output").forGetter(recipe -> recipe.output),
                 Codec.INT.fieldOf("inputCount").forGetter(recipe -> recipe.inputCount),
                 Codec.INT.fieldOf("energy").forGetter(recipe -> recipe.energy)

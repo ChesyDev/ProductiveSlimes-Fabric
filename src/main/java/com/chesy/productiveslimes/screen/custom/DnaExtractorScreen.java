@@ -4,7 +4,6 @@ import com.chesy.productiveslimes.ProductiveSlimes;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -32,17 +31,17 @@ public class DnaExtractorScreen extends HandledScreen<DnaExtractorMenu> {
         int x = (this.width - this.backgroundWidth) / 2;
         int y = (this.height - this.backgroundHeight) / 2;
 
-        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, 256, 256);
+        context.drawTexture(TEXTURE, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, 256, 256);
         int energyScaled = this.handler.getEnergyStoredScaled();
 
-        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
+        context.drawTexture(TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
 
         renderProgressArrow(context, x, y);
     }
 
     private void renderProgressArrow(DrawContext guiGraphics, int x, int y) {
         if(handler.isCrafting()) {
-            guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 77, y + 38, 176, 0, handler.getScaledProgress(), 8, 256, 256);
+            guiGraphics.drawTexture(TEXTURE, x + 77, y + 38, 176, 0, handler.getScaledProgress(), 8, 256, 256);
         }
     }
 

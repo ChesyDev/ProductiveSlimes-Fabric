@@ -245,7 +245,7 @@ public class CustomVariantRegistry {
         String itemName = variant.name() + "_slimeball";
         Identifier itemId = Identifier.of(ProductiveSlimes.MODID, itemName);
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, itemId);
-        Item item = Registry.register(Registries.ITEM, itemId, new SlimeballItem(variant.getColor(), new Item.Settings().registryKey(key)));
+        Item item = Registry.register(Registries.ITEM, itemId, new SlimeballItem(variant.getColor(), new Item.Settings()));
 
         registeredItems.put(itemId, item);
     }
@@ -254,7 +254,7 @@ public class CustomVariantRegistry {
         String itemName = variant.name() + "_slime_dna";
         Identifier itemId = Identifier.of(ProductiveSlimes.MODID, itemName);
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, itemId);
-        Item item = Registry.register(Registries.ITEM, itemId, new DnaItem(variant.getColor(), new Item.Settings().registryKey(key)));
+        Item item = Registry.register(Registries.ITEM, itemId, new DnaItem(variant.getColor(), new Item.Settings()));
 
         registeredDnaItems.put(itemId, item);
     }
@@ -264,8 +264,8 @@ public class CustomVariantRegistry {
         Identifier blockId = Identifier.of(ProductiveSlimes.MODID, blockName);
         RegistryKey<Block> key = RegistryKey.of(RegistryKeys.BLOCK, blockId);
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, blockId);
-        Block block = Registry.register(Registries.BLOCK, blockId, new SlimeBlock(AbstractBlock.Settings.copy(Blocks.SLIME_BLOCK).registryKey(key), variant.getColor()));
-        Registry.register(Registries.ITEM, blockId, new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(itemKey)));
+        Block block = Registry.register(Registries.BLOCK, blockId, new SlimeBlock(AbstractBlock.Settings.copy(Blocks.SLIME_BLOCK), variant.getColor()));
+        Registry.register(Registries.ITEM, blockId, new BlockItem(block, new Item.Settings()));
 
         registeredBlocks.put(blockId, block);
     }
@@ -276,7 +276,7 @@ public class CustomVariantRegistry {
 
         EntityType<BaseSlime> slime = Registry.register(Registries.ENTITY_TYPE, slimeId, EntityType.Builder.<BaseSlime>create(
                 (pEntityType, pLevel) -> new BaseSlime(pEntityType, pLevel, variant.cooldown(), variant.getColor(), getSlimeballItemForVariant(variant.name()), Registries.ITEM.get(Identifier.of(variant.growthItem()))),
-                SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, slimeId)));
+                SpawnGroup.CREATURE).build());
 
         registeredSlimes.put(slimeId, slime);
     }
@@ -284,7 +284,7 @@ public class CustomVariantRegistry {
     private static void registerSpawnEggItem(CustomVariant variant){
         String itemName = variant.name() + "_slime_spawn_egg";
         Identifier itemId = Identifier.of(ProductiveSlimes.MODID, itemName);
-        Item item = Registry.register(Registries.ITEM, itemId, new SpawnEggItem(getSlimeForVariant(variant.name()), variant.getColor(), variant.getColor(), new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, itemId))));
+        Item item = Registry.register(Registries.ITEM, itemId, new SpawnEggItem(getSlimeForVariant(variant.name()), variant.getColor(), variant.getColor(), new Item.Settings()));
 
         registeredSpawnEggItems.put(itemId, item);
     }
@@ -299,10 +299,10 @@ public class CustomVariantRegistry {
         registeredFlow.put(Identifier.of(ProductiveSlimes.MODID, "flowing_"  + variants.name()), FLOWING_DYNAMIC_FLUID);
 
         FluidBlock DYNAMIC_FLUID_BLOCK = Registry.register(Registries.BLOCK, Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_block"),
-                new FluidBlock(getSourceFluidForVariant(variants.name()), AbstractBlock.Settings.copy(Blocks.WATER).registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_block")))) {
+                new FluidBlock(getSourceFluidForVariant(variants.name()), AbstractBlock.Settings.copy(Blocks.WATER)) {
                 });
         BucketItem DYNAMIC_FLUID_BUCKET = Registry.register(Registries.ITEM, Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_bucket"),
-                new BucketItem(getSourceFluidForVariant(variants.name()), new Item.Settings().maxCount(64).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_bucket"))), variants.getColor()));
+                new BucketItem(getSourceFluidForVariant(variants.name()), new Item.Settings().maxCount(64), variants.getColor()));
 
         registeredLiquidBlock.put(Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_block"), DYNAMIC_FLUID_BLOCK);
         registeredBucketItem.put(Identifier.of(ProductiveSlimes.MODID, "molten_" + variants.name() + "_bucket"), DYNAMIC_FLUID_BUCKET);
@@ -393,7 +393,7 @@ public class CustomVariantRegistry {
                     "      },\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -406,7 +406,7 @@ public class CustomVariantRegistry {
                     "    \"tints\": [\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -419,7 +419,7 @@ public class CustomVariantRegistry {
                     "    \"tints\": [\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -432,11 +432,11 @@ public class CustomVariantRegistry {
                     "    \"tints\": [\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      },\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -449,7 +449,7 @@ public class CustomVariantRegistry {
                     "    \"tints\": [\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.fullAlpha(variants.getColor()) + "\n" +
+                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +

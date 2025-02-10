@@ -33,7 +33,7 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
             pGuiGraphics.getMatrices().push();
             pGuiGraphics.getMatrices().translate(textX, textY + 24, 0);
             pGuiGraphics.getMatrices().scale(0.75f, 0.75f, 0.75f);
-            pGuiGraphics.drawWrappedTextWithShadow(MinecraftClient.getInstance().textRenderer, dropItem, 0,  0, 85,  0xFFFFFF);
+            pGuiGraphics.drawTextWrapped(MinecraftClient.getInstance().textRenderer, dropItem, 0,  0, 85,  0xFFFFFF);
             pGuiGraphics.getMatrices().pop();
         }
     }

@@ -8,31 +8,25 @@ import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
-import com.chesy.productiveslimes.network.ClientRecipeManager;
-import com.chesy.productiveslimes.network.RecipeSyncPayload;
+import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.screen.custom.*;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import com.chesy.productiveslimes.util.FluidTankTint;
-import com.chesy.productiveslimes.util.SlimeItemTint;
-import com.chesy.productiveslimes.util.property.*;
+import com.chesy.productiveslimes.util.ModBlockEntityWithoutLevelRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.item.property.bool.BooleanProperties;
-import net.minecraft.client.render.item.tint.TintSourceTypes;
-import net.minecraft.util.Identifier;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
     @Override
@@ -70,28 +64,10 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.SLIMEBALL_COLLECTOR, SlimeballCollectorBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.SLIME_NEST, SlimeNestBlockEntityRenderer::new);
 
+        BuiltinItemRendererRegistry.INSTANCE.register(ModBlocks.FLUID_TANK.asItem(), new ModBlockEntityWithoutLevelRenderer());
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
-
-        // Register the tint source
-        TintSourceTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
-        TintSourceTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_tint"), FluidTankTint.MAP_CODEC);
-
-        // Register property
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_empty"), FluidTankProperty.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_3k"), FluidTankProperty3k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_6k"), FluidTankProperty6k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_9k"), FluidTankProperty9k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_12k"), FluidTankProperty12k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_15k"), FluidTankProperty15k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_18k"), FluidTankProperty18k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_21k"), FluidTankProperty21k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_24k"), FluidTankProperty24k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_27k"), FluidTankProperty27k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_30k"), FluidTankProperty30k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_33k"), FluidTankProperty33k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_36k"), FluidTankProperty36k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_40k"), FluidTankProperty40k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_45k"), FluidTankProperty45k.MAP_CODEC);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFF7BC35C, ModItems.SLIME_DNA);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
@@ -102,6 +78,15 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
             BlockRenderLayerMap.INSTANCE.putBlock(ModTiers.getBlockByName(name), RenderLayer.getTranslucent());
             ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tiers.color(), ModTiers.getBlockByName(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tiers.color(), ModTiers.getBlockByName(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tiers.color(), ModTiers.getSlimeballItemByName(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tiers.color(), ModTiers.getDnaItemByName(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+                if(tintIndex == 1){
+                    return tiers.color();
+                }
+                return -1;
+            }, ModTiers.getBucketItemByName(name));
 
             EntityRendererRegistry.register(ModTiers.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
         }
@@ -114,18 +99,21 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
             BlockRenderLayerMap.INSTANCE.putBlock(CustomVariantRegistry.getSlimeBlockForVariant(name), RenderLayer.getTranslucent());
             ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> variant.getColor(), CustomVariantRegistry.getSlimeBlockForVariant(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> variant.getColor(), CustomVariantRegistry.getSlimeBlockForVariant(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> variant.getColor(), CustomVariantRegistry.getSlimeballItemForVariant(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> variant.getColor(), CustomVariantRegistry.getDnaItemForVariant(name));
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+                if(tintIndex == 1){
+                    return variant.getColor();
+                }
+                return -1;
+            }, CustomVariantRegistry.getBucketItemForVariant(name));
 
             EntityRendererRegistry.register(CustomVariantRegistry.getSlimeForVariant(name), ctx -> new BaseSlimeRenderer(ctx, variant.getColor()));
         }
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             CustomVariantRegistry.handleResourcePack();
-        });
-
-        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.TYPE, (recipeSyncPayload, context) -> {
-            context.client().execute(() -> {
-                ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes());
-            });
         });
     }
 }

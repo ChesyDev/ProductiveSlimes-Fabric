@@ -12,7 +12,7 @@ public record MultipleRecipeInput(List<ItemStack> inputItems) implements RecipeI
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         return inputItems.size();
     }
 }

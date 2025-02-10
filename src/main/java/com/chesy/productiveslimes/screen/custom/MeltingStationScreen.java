@@ -34,10 +34,10 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+        context.drawTexture(GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
         int energyScaled = this.handler.getEnergyStoredScaled();
 
-        context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
+        context.drawTexture(GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
 
         renderProgressArrow(context, x, y);
     }
@@ -45,7 +45,7 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
             int k = handler.getScaledProgress();
-            context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 77, y + 38, 176.0f, 0, k, 8, 256, 256);
+            context.drawTexture(GUI_TEXTURE, x + 77, y + 38, 176.0f, 0, k, 8, 256, 256);
         }
     }
 

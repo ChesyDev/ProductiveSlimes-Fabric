@@ -32,16 +32,16 @@ public class SlimeSqueezerScreen extends HandledScreen<SlimeSqueezerMenu> {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+        pGuiGraphics.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 
         int energyScaled = this.handler.getEnergyStoredScaled();
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
+        pGuiGraphics.drawTexture(TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
         renderProgressArrow(pGuiGraphics, x, y);
     }
 
     private void renderProgressArrow(DrawContext guiGraphics, int x, int y) {
         if (handler.isCrafting()) {
-            guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 77, y + 38, 176, 0, handler.getScaledProgress(), 8, 256, 256);
+            guiGraphics.drawTexture(TEXTURE, x + 77, y + 38, 176, 0, handler.getScaledProgress(), 8, 256, 256);
         }
     }
 

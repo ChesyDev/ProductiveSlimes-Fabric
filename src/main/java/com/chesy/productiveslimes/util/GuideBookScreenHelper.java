@@ -22,7 +22,7 @@ public class GuideBookScreenHelper {
 
     public static void renderItemSlot(DrawContext pGuiGraphics, int pMouseX, int pMouseY, int inputX, int inputY, ItemStack inputStack, TextRenderer font) {
         pGuiGraphics.drawItem(inputStack, inputX, inputY);
-        pGuiGraphics.drawStackOverlay(font, inputStack, inputX, inputY);
+        pGuiGraphics.drawItemInSlot(font, inputStack, inputX, inputY);
         if (pMouseX >= inputX && pMouseX < inputX + 16 && pMouseY >= inputY && pMouseY < inputY + 16) {
             pGuiGraphics.drawItemTooltip(font, inputStack, pMouseX, pMouseY);
             pGuiGraphics.fill(RenderLayer.getGui(), inputX, inputY, inputX + 16, inputY + 16, 0x80FFFFFF);

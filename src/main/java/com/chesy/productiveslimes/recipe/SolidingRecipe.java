@@ -46,6 +46,16 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
     }
 
     @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<SingleStackRecipeInput>> getSerializer() {
         return ModRecipes.SOLIDING_SERIALIZER;
     }
@@ -53,16 +63,6 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
     @Override
     public RecipeType<? extends Recipe<SingleStackRecipeInput>> getType() {
         return ModRecipes.SOLIDING_TYPE;
-    }
-
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return null;
     }
 
     public List<ItemStack> getOutputs() {
@@ -84,7 +84,7 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
     public static class Serializer implements RecipeSerializer<SolidingRecipe> {
         public static final SolidingRecipe.Serializer INSTANCE = new SolidingRecipe.Serializer();
         public static final MapCodec<SolidingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
+                Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
                 ItemStack.CODEC.listOf().fieldOf("output").forGetter(recipe -> recipe.output),
                 Codec.INT.fieldOf("inputCount").forGetter(recipe -> recipe.inputCount),
                 Codec.INT.fieldOf("energy").forGetter(recipe -> recipe.energy)

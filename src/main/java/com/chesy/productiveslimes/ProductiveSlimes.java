@@ -27,8 +27,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +43,7 @@ public class ProductiveSlimes implements ModInitializer {
     public static boolean vanillaSlimeCanAttackPlayer;
     public static boolean ironGolemCanAttackSlime;
 
-    public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID, "energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slimeball")))));
+    public static final SlimeballItem ENERGY_SLIME_BALL = Registry.register(Registries.ITEM, Identifier.of(MODID, "energy_slimeball"), new SlimeballItem(0xFFFFFF70, new Item.Settings()));
 
     @Override
     public void onInitialize() {

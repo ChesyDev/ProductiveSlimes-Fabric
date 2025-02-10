@@ -122,7 +122,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
         nbt.putInt("counter", counter);
         nbt.putInt("cooldown", cooldown);
         if (slimeData != null && !dropItem.isEmpty()) {
-            nbt.put("dropItem", dropItem.toNbt(registries));
+            nbt.put("dropItem", dropItem.encode(registries));
             nbt.put("slimeData", slimeData.toTag(new NbtCompound(), registries));
         }
         nbt.putInt("tick", tick);
