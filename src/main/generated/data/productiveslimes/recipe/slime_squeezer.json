@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:squeezer",
-    "B": "productiveslimes:slimy_stone",
-    "C": "productiveslimes:energy_slimeball"
+    "A": {
+      "item": "productiveslimes:squeezer"
+    },
+    "B": {
+      "item": "productiveslimes:slimy_stone"
+    },
+    "C": {
+      "item": "productiveslimes:energy_slimeball"
+    }
   },
   "pattern": [
     "BAB",

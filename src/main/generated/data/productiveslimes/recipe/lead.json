@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": "minecraft:string",
-    "B": "#c:slime_balls"
+    "A": {
+      "item": "minecraft:string"
+    },
+    "B": {
+      "tag": "c:slime_balls"
+    }
   },
   "pattern": [
     "AA ",

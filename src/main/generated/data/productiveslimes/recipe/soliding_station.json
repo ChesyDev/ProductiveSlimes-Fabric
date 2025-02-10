@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:deepslate",
-    "B": "minecraft:water_bucket"
+    "A": {
+      "item": "minecraft:deepslate"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    }
   },
   "pattern": [
     "AAA",

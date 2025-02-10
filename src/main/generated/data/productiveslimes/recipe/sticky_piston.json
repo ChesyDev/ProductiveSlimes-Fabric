@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "#c:slime_balls",
-    "minecraft:piston"
+    {
+      "tag": "c:slime_balls"
+    },
+    {
+      "item": "minecraft:piston"
+    }
   ],
   "result": {
     "count": 1,

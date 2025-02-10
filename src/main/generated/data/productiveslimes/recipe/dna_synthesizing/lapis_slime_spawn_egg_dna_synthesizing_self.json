@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:lapis_slime_dna",
-    "productiveslimes:lapis_slime_dna",
-    "minecraft:lapis_block"
+    {
+      "item": "productiveslimes:lapis_slime_dna"
+    },
+    {
+      "item": "productiveslimes:lapis_slime_dna"
+    },
+    {
+      "item": "minecraft:lapis_block"
+    }
   ],
   "inputCount": 2,
   "output": [

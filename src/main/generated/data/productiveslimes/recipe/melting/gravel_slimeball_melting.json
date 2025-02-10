@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:gravel_slimeball"
+    {
+      "item": "productiveslimes:gravel_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

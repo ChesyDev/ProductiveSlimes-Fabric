@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:granite_slimeball"
+    "A": {
+      "item": "productiveslimes:granite_slimeball"
+    }
   },
   "pattern": [
     "AAA",

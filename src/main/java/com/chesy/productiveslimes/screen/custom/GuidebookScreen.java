@@ -618,7 +618,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 DefaultedList<Ingredient> ingredients = shapedRecipe.getIngredients();
                 for (int i = 0; i < ingredients.size(); i++) {
                     Ingredient ingredient = ingredients.get(i);
-                    GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + 19 + (i % 3) * 18, infoY + 46 + 16 + (i / 3) * 18, ingredient.getMatchingStacks()[0], textRenderer);
+                    GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + 19 + (i % 3) * 18, infoY + 46 + 16 + (i / 3) * 18, ingredient.getMatchingStacks().length > 0 ? ingredient.getMatchingStacks()[0] : ItemStack.EMPTY, textRenderer);
                 }
 
                 GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + 95 + 18, infoY + 46 + 16 + 18, ModBlocks.SQUEEZER.asItem().getDefaultStack(), textRenderer);
@@ -631,7 +631,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 DefaultedList<Ingredient> ingredients = shapedRecipe.getIngredients();
                 for (int i = 0; i < ingredients.size(); i++) {
                     Ingredient ingredient = ingredients.get(i);
-                    GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + RECIPE_WIDTH + V_SPACING + 19 + (i % 3) * 18, infoY + 46 + 16 + (i / 3) * 18, ingredient.getMatchingStacks()[0], textRenderer);
+                    GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + RECIPE_WIDTH + V_SPACING + 19 + (i % 3) * 18, infoY + 46 + 16 + (i / 3) * 18, ingredient.getMatchingStacks().length > 0 ? ingredient.getMatchingStacks()[0] : ItemStack.EMPTY, textRenderer);
                 }
 
                 GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + RECIPE_WIDTH + V_SPACING + 95 + 18, infoY + 46 + 16 + 18, ModBlocks.SLIME_SQUEEZER.asItem().getDefaultStack(), textRenderer);
@@ -1025,7 +1025,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         for (int i = 0; i < ingredients4.size(); i++) {
             Ingredient ingredient = ingredients4.get(i);
-            ItemStack stacks = ingredient.getMatchingStacks()[0];
+            ItemStack stacks = ingredient.getMatchingStacks().length > 0 ? ingredient.getMatchingStacks()[0] : ItemStack.EMPTY;
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, contentX + (contentWidth - RECIPE_WIDTH) / 2 + 19 + (i % 3) * 18, recipeBaseY4 + 17 + (i / 3) * 18, stacks, textRenderer);
         }
 

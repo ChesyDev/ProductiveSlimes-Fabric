@@ -2,7 +2,9 @@
   "type": "productiveslimes:dna_extracting",
   "energy": 400,
   "ingredients": [
-    "productiveslimes:glowstone_slimeball"
+    {
+      "item": "productiveslimes:glowstone_slimeball"
+    }
   ],
   "inputCount": 1,
   "output": [

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:glowstone_slimeball"
+    "A": {
+      "item": "productiveslimes:glowstone_slimeball"
+    }
   },
   "pattern": [
     "AAA",

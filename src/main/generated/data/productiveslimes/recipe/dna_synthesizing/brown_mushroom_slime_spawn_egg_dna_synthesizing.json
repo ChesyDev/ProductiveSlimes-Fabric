@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:mud_slime_dna",
-    "productiveslimes:cactus_slime_dna",
-    "minecraft:brown_mushroom"
+    {
+      "item": "productiveslimes:mud_slime_dna"
+    },
+    {
+      "item": "productiveslimes:cactus_slime_dna"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    }
   ],
   "inputCount": 4,
   "output": [

@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "productiveslimes:item/template_dna"
-  }
+  "parent": "productiveslimes:item/template_dna"
 }

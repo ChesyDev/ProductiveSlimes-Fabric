@@ -3,8 +3,12 @@
   "category": "redstone",
   "group": "slimy",
   "key": {
-    "#": "minecraft:stick",
-    "W": "productiveslimes:slimy_planks"
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "productiveslimes:slimy_planks"
+    }
   },
   "pattern": [
     "#W#",

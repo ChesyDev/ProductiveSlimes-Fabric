@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:calcite_slimeball"
+    "A": {
+      "item": "productiveslimes:calcite_slimeball"
+    }
   },
   "pattern": [
     "AAA",

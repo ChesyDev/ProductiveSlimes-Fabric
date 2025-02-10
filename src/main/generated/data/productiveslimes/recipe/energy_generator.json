@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:energy_slimeball",
-    "B": "minecraft:copper_block",
-    "C": "minecraft:redstone"
+    "A": {
+      "item": "productiveslimes:energy_slimeball"
+    },
+    "B": {
+      "item": "minecraft:copper_block"
+    },
+    "C": {
+      "item": "minecraft:redstone"
+    }
   },
   "pattern": [
     "CAC",

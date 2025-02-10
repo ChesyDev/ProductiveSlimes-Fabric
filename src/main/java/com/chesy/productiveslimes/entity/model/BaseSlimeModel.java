@@ -3,8 +3,10 @@ package com.chesy.productiveslimes.entity.model;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class BaseSlimeModel<T extends BaseSlime> extends SinglePartEntityModel<T> {
@@ -32,6 +34,11 @@ public class BaseSlimeModel<T extends BaseSlime> extends SinglePartEntityModel<T
         modelPartData.addChild("left_eye", ModelPartBuilder.create().uv(32, 4).cuboid(1.25F, 18.0F, -3.5F, 2.0F, 2.0F, 2.0F), ModelTransform.NONE);
         modelPartData.addChild("mouth", ModelPartBuilder.create().uv(32, 8).cuboid(0.0F, 21.0F, -3.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 64, 32);
+    }
+
+    @Override
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+        super.render(matrices, vertices, light, overlay, this.color);
     }
 
     @Override

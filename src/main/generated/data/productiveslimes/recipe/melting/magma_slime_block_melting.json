@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:magma_slime_block"
+    {
+      "item": "productiveslimes:magma_slime_block"
+    }
   ],
   "inputCount": 2,
   "output": [

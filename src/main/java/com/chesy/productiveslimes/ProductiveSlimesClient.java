@@ -5,6 +5,7 @@ import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.block.entity.renderer.*;
 import com.chesy.productiveslimes.config.CustomVariant;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
+import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
@@ -15,6 +16,7 @@ import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.ModBlockEntityWithoutLevelRenderer;
+import com.chesy.productiveslimes.util.SlimeData;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -67,7 +69,16 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BuiltinItemRendererRegistry.INSTANCE.register(ModBlocks.FLUID_TANK.asItem(), new ModBlockEntityWithoutLevelRenderer());
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFF7BC35C, ModItems.SLIME_DNA);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFFFFFF70, ProductiveSlimes.ENERGY_SLIME_BALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            if (!stack.contains(ModDataComponents.SLIME_DATA))
+                return 0xFFFFFFFF;
+
+            SlimeData slimeData = stack.get(ModDataComponents.SLIME_DATA);
+            return slimeData != null ? slimeData.color() : 0xFFFFFFFF;
+        }, ModItems.SLIME_ITEM);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);

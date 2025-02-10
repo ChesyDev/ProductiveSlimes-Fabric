@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:prismarine_slimeball"
+    "A": {
+      "item": "productiveslimes:prismarine_slimeball"
+    }
   },
   "pattern": [
     "AAA",

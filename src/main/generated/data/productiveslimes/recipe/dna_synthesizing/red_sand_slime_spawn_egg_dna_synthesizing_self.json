@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:red_sand_slime_dna",
-    "productiveslimes:red_sand_slime_dna",
-    "minecraft:red_sand"
+    {
+      "item": "productiveslimes:red_sand_slime_dna"
+    },
+    {
+      "item": "productiveslimes:red_sand_slime_dna"
+    },
+    {
+      "item": "minecraft:red_sand"
+    }
   ],
   "inputCount": 2,
   "output": [

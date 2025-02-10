@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:slimy_grass_block",
-    "B": "minecraft:glass_pane",
-    "C": "#c:slime_balls"
+    "A": {
+      "item": "productiveslimes:slimy_grass_block"
+    },
+    "B": {
+      "item": "minecraft:glass_pane"
+    },
+    "C": {
+      "tag": "c:slime_balls"
+    }
   },
   "pattern": [
     "BBB",

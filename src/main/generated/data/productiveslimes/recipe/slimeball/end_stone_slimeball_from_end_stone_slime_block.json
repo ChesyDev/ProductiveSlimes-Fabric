@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "productiveslimes:end_stone_slime_block"
+    {
+      "item": "productiveslimes:end_stone_slime_block"
+    }
   ],
   "result": {
     "count": 9,

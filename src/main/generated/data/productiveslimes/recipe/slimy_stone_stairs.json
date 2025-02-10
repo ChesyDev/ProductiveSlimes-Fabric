@@ -3,7 +3,9 @@
   "category": "building",
   "group": "slimy_stone",
   "key": {
-    "#": "productiveslimes:slimy_stone"
+    "#": {
+      "item": "productiveslimes:slimy_stone"
+    }
   },
   "pattern": [
     "#  ",

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "productiveslimes:lapis_slime_block"
+    {
+      "item": "productiveslimes:lapis_slime_block"
+    }
   ],
   "result": {
     "count": 9,

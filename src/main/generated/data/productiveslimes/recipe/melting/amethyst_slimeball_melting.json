@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:amethyst_slimeball"
+    {
+      "item": "productiveslimes:amethyst_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

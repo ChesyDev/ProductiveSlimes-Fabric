@@ -2,7 +2,9 @@
   "type": "productiveslimes:squeezing",
   "energy": 300,
   "ingredients": [
-    "productiveslimes:slimy_grass_block"
+    {
+      "item": "productiveslimes:slimy_grass_block"
+    }
   ],
   "output": [
     {

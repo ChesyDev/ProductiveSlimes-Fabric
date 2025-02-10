@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:coal_slime_dna",
-    "productiveslimes:coal_slime_dna",
-    "minecraft:coal_block"
+    {
+      "item": "productiveslimes:coal_slime_dna"
+    },
+    {
+      "item": "productiveslimes:coal_slime_dna"
+    },
+    {
+      "item": "minecraft:coal_block"
+    }
   ],
   "inputCount": 2,
   "output": [

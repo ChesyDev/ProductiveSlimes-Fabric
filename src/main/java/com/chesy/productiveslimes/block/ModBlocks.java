@@ -17,24 +17,24 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
-    public static final Block MELTING_STATION = registerBlock("melting_station", new MeltingStationBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block MELTING_STATION = registerBlock("melting_station", new MeltingStationBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block SOLIDING_STATION = registerBlock("soliding_station", new SolidingStationBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block SOLIDING_STATION = registerBlock("soliding_station", new SolidingStationBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block DNA_EXTRACTOR = registerBlock("dna_extractor", new DnaExtratorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block DNA_EXTRACTOR = registerBlock("dna_extractor", new DnaExtratorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block DNA_SYNTHESIZER = registerBlock("dna_synthesizer", new DnaSynthesizerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block DNA_SYNTHESIZER = registerBlock("dna_synthesizer", new DnaSynthesizerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block ENERGY_GENERATOR = registerBlock("energy_generator", new EnergyGeneratorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block ENERGY_GENERATOR = registerBlock("energy_generator", new EnergyGeneratorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block SLIME_SQUEEZER = registerBlock("slime_squeezer", new SlimeSqueezerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block SLIME_SQUEEZER = registerBlock("slime_squeezer", new SlimeSqueezerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block FLUID_TANK = registerBlock("fluid_tank", new FluidTankBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block FLUID_TANK = registerBlock("fluid_tank", new FluidTankBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
-    public static final Block CABLE = registerBlock("cable", new CableBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
-    public static final Block SQUEEZER = registerBlock("squeezer", new SqueezerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
-    public static final Block SLIMEBALL_COLLECTOR = registerBlock("slimeball_collector", new SlimeballCollectorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
-    public static final Block SLIME_NEST = registerBlock("slime_nest", new SlimeNestBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)));
+    public static final Block CABLE = registerBlock("cable", new CableBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
+    public static final Block SQUEEZER = registerBlock("squeezer", new SqueezerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
+    public static final Block SLIMEBALL_COLLECTOR = registerBlock("slimeball_collector", new SlimeballCollectorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
+    public static final Block SLIME_NEST = registerBlock("slime_nest", new SlimeNestBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
 
     public static final Block SLIMY_GRASS_BLOCK = registerBlock("slimy_grass_block", new SlimyDirt(AbstractBlock.Settings.copy(Blocks.GRASS_BLOCK)));
     public static final Block SLIMY_DIRT = registerBlock("slimy_dirt", new SlimyDirt(AbstractBlock.Settings.copy(Blocks.DIRT)));

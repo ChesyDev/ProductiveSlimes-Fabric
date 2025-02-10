@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "productiveslimes:item/template_slimeball"
-  }
+  "parent": "productiveslimes:item/template_slimeball"
 }

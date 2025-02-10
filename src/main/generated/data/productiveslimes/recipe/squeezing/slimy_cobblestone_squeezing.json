@@ -2,7 +2,9 @@
   "type": "productiveslimes:squeezing",
   "energy": 300,
   "ingredients": [
-    "productiveslimes:slimy_cobblestone"
+    {
+      "item": "productiveslimes:slimy_cobblestone"
+    }
   ],
   "output": [
     {

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:slime_ball"
+    {
+      "item": "minecraft:slime_ball"
+    }
   ],
   "result": {
     "count": 4,

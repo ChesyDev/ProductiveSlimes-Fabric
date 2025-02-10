@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": "productiveslimes:slimy_stone"
+    "#": {
+      "item": "productiveslimes:slimy_stone"
+    }
   },
   "pattern": [
     "###"

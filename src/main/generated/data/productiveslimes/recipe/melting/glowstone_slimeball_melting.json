@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:glowstone_slimeball"
+    {
+      "item": "productiveslimes:glowstone_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

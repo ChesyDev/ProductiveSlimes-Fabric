@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "productiveslimes:redstone_slime_block"
+    {
+      "item": "productiveslimes:redstone_slime_block"
+    }
   ],
   "result": {
     "count": 9,

@@ -3,7 +3,9 @@
   "category": "blocks",
   "cookingtime": 200,
   "experience": 0.1,
-  "ingredient": "productiveslimes:slimy_cobblestone",
+  "ingredient": {
+    "item": "productiveslimes:slimy_cobblestone"
+  },
   "result": {
     "id": "productiveslimes:slimy_stone"
   }

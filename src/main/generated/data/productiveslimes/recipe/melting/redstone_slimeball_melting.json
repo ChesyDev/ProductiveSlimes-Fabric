@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:redstone_slimeball"
+    {
+      "item": "productiveslimes:redstone_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

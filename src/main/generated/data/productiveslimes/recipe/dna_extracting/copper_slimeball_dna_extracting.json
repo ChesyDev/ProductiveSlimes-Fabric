@@ -2,7 +2,9 @@
   "type": "productiveslimes:dna_extracting",
   "energy": 400,
   "ingredients": [
-    "productiveslimes:copper_slimeball"
+    {
+      "item": "productiveslimes:copper_slimeball"
+    }
   ],
   "inputCount": 1,
   "output": [

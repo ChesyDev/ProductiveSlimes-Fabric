@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:sand_slimeball"
+    "A": {
+      "item": "productiveslimes:sand_slimeball"
+    }
   },
   "pattern": [
     "AAA",

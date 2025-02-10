@@ -2,7 +2,9 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:molten_mud_bucket"
+    {
+      "item": "productiveslimes:molten_mud_bucket"
+    }
   ],
   "inputCount": 1,
   "output": [

@@ -2,7 +2,9 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:molten_moss_bucket"
+    {
+      "item": "productiveslimes:molten_moss_bucket"
+    }
   ],
   "inputCount": 1,
   "output": [

@@ -3,7 +3,9 @@
   "category": "blocks",
   "cookingtime": 200,
   "experience": 0.1,
-  "ingredient": "productiveslimes:slimy_cobbled_deepslate",
+  "ingredient": {
+    "item": "productiveslimes:slimy_cobbled_deepslate"
+  },
   "result": {
     "id": "productiveslimes:slimy_deepslate"
   }

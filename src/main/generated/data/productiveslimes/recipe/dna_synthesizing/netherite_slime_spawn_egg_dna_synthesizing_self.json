@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:netherite_slime_dna",
-    "productiveslimes:netherite_slime_dna",
-    "minecraft:netherite_block"
+    {
+      "item": "productiveslimes:netherite_slime_dna"
+    },
+    {
+      "item": "productiveslimes:netherite_slime_dna"
+    },
+    {
+      "item": "minecraft:netherite_block"
+    }
   ],
   "inputCount": 2,
   "output": [

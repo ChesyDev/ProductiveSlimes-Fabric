@@ -3,7 +3,9 @@
   "category": "building",
   "group": "slimy_cobbled_deepslate",
   "key": {
-    "#": "productiveslimes:slimy_cobbled_deepslate"
+    "#": {
+      "item": "productiveslimes:slimy_cobbled_deepslate"
+    }
   },
   "pattern": [
     "#  ",

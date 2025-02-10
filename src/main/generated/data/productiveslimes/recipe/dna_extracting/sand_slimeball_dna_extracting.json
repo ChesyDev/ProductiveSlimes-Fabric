@@ -2,7 +2,9 @@
   "type": "productiveslimes:dna_extracting",
   "energy": 400,
   "ingredients": [
-    "productiveslimes:sand_slimeball"
+    {
+      "item": "productiveslimes:sand_slimeball"
+    }
   ],
   "inputCount": 1,
   "output": [

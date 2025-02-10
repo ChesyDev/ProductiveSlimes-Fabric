@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "productiveslimes:ice_slime_block"
+    {
+      "item": "productiveslimes:ice_slime_block"
+    }
   ],
   "result": {
     "count": 9,

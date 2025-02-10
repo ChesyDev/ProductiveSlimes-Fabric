@@ -38,6 +38,7 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SLIMEBALL_COLLECTOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SLIME_NEST);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
+        blockStateModelGenerator.excludeFromSimpleItemModelGeneration(ModBlocks.SLIME_SQUEEZER);
         simpleBlockWithExistingModel(blockStateModelGenerator, ModBlocks.SQUEEZER);
 
         fluidTank(blockStateModelGenerator, ModBlocks.FLUID_TANK);
@@ -109,6 +110,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
         blockModels.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation(getBlockName(block)))));
+        blockModels.excludeFromSimpleItemModelGeneration(block);
     }
 
     private void blockWithSlab(BlockStateModelGenerator blockModels, Block block, Block slab){
@@ -178,7 +180,7 @@ public class ModModelProvider extends FabricModelProvider {
                 .put(TextureKey.LAYER0, Identifier.of(ProductiveSlimes.MODID, "item/bucket"))
                 .put(TextureKey.LAYER1, Identifier.of(ProductiveSlimes.MODID, "item/bucket_fluid"));
 
-        Identifier model = Models.GENERATED_TWO_LAYERS.upload(Registries.ITEM.getId(item), textures, itemModelGenerator.writer);
+        Identifier model = Models.GENERATED_TWO_LAYERS.upload(Registries.ITEM.getId(item).withPrefixedPath("item/"), textures, itemModelGenerator.writer);
     }
 
     private void fluidTank(BlockStateModelGenerator blockModels, Block block){
@@ -194,8 +196,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
-        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation("template_slime_block"))));
-        blockStateModelGenerator.registerItemModel(block);
+        blockStateModelGenerator.registerSingleton(block, new TextureMap(), new Model(Optional.of(Identifier.of(ProductiveSlimes.MODID, "block/template_slime_block")), Optional.empty()));
     }
 
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
@@ -204,6 +205,8 @@ public class ModModelProvider extends FabricModelProvider {
                         VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(block)))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
+
+        blockStateModelGenerator.excludeFromSimpleItemModelGeneration(block);
     }
 
     private Identifier blockLocation(String modelName){

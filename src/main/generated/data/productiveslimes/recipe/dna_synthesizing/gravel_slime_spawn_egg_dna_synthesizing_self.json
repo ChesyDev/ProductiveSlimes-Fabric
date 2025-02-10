@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:gravel_slime_dna",
-    "productiveslimes:gravel_slime_dna",
-    "minecraft:gravel"
+    {
+      "item": "productiveslimes:gravel_slime_dna"
+    },
+    {
+      "item": "productiveslimes:gravel_slime_dna"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
   ],
   "inputCount": 2,
   "output": [

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "productiveslimes:soul_soil_slime_block"
+    {
+      "item": "productiveslimes:soul_soil_slime_block"
+    }
   ],
   "result": {
     "count": 9,

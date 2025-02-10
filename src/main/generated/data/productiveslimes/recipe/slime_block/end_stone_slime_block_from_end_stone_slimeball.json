@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "productiveslimes:end_stone_slimeball"
+    "A": {
+      "item": "productiveslimes:end_stone_slimeball"
+    }
   },
   "pattern": [
     "AAA",

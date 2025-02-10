@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:soul_soil_slime_dna",
-    "productiveslimes:soul_soil_slime_dna",
-    "minecraft:soul_soil"
+    {
+      "item": "productiveslimes:soul_soil_slime_dna"
+    },
+    {
+      "item": "productiveslimes:soul_soil_slime_dna"
+    },
+    {
+      "item": "minecraft:soul_soil"
+    }
   ],
   "inputCount": 2,
   "output": [

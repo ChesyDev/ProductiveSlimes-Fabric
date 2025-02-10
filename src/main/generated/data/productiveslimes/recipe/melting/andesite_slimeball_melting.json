@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:andesite_slimeball"
+    {
+      "item": "productiveslimes:andesite_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

@@ -2,9 +2,15 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:moss_slime_dna",
-    "productiveslimes:moss_slime_dna",
-    "minecraft:moss_block"
+    {
+      "item": "productiveslimes:moss_slime_dna"
+    },
+    {
+      "item": "productiveslimes:moss_slime_dna"
+    },
+    {
+      "item": "minecraft:moss_block"
+    }
   ],
   "inputCount": 2,
   "output": [

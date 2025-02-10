@@ -2,7 +2,9 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": [
-    "productiveslimes:diorite_slimeball"
+    {
+      "item": "productiveslimes:diorite_slimeball"
+    }
   ],
   "inputCount": 4,
   "output": [

@@ -44,7 +44,7 @@ dependencies {
 	modImplementation("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${project.jei_version}")
 
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
-//	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
 	modImplementation "curse.maven:jade-324717:${project.jade_version}"
 	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${project.terrablender_version}"

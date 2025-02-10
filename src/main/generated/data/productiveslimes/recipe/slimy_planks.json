@@ -3,7 +3,9 @@
   "category": "building",
   "group": "planks",
   "ingredients": [
-    "#productiveslimes:slimy_log"
+    {
+      "tag": "productiveslimes:slimy_log"
+    }
   ],
   "result": {
     "count": 4,
