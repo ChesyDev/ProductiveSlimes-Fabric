@@ -287,8 +287,8 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     @Override
-    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
         ContainerUtils.dropContents(world, pos, this);
-        super.onStateReplaced(pos, oldState);
+        super.onBlockReplaced(pos, oldState);
     }
 }

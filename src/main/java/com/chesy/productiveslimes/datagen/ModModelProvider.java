@@ -16,9 +16,12 @@ import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
+import net.minecraft.class_10804;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
+import net.minecraft.client.render.model.json.ModelVariant;
+import net.minecraft.client.render.model.json.WeightedUnbakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
@@ -122,7 +125,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation(getBlockName(block)))));
+        blockModels.blockStateCollector.accept(VariantsBlockStateSupplier.method_67853(block, new WeightedUnbakedModel(List.of(new ModelVariant(blockLocation(getBlockName(block)))))));
     }
 
     private void blockWithSlab(BlockStateModelGenerator blockModels, Block block, Block slab){
@@ -175,17 +178,17 @@ public class ModModelProvider extends FabricModelProvider {
         blockModels.itemModelOutput.accept(block.asItem(), ItemModels.special(blockLocation("fluid_tank"), new FluidTankSpecialRenderer.Unbaked(blockLocation("fluid_tank"))));
     }
 
-    public BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {
-        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
-                .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180))
-                .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                .register(Direction.SOUTH, BlockStateVariant.create());
+    public BlockStateVariantMap<class_10804> createNorthDefaultHorizontalRotationStatesInverted() {
+        return BlockStateVariantMap.method_67869(Properties.HORIZONTAL_FACING)
+                .register(Direction.EAST, BlockStateModelGenerator.field_56787)
+                .register(Direction.SOUTH, BlockStateModelGenerator.field_56780)
+                .register(Direction.WEST, BlockStateModelGenerator.field_56785)
+                .register(Direction.NORTH, BlockStateModelGenerator.field_56786);
     }
 
     private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
         blockStateModelGenerator.blockStateCollector
-                .accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation("template_slime_block")))
+                .accept(VariantsBlockStateSupplier.method_67853(block, new WeightedUnbakedModel(List.of(new ModelVariant(blockLocation("template_slime_block")))))
                 );
         blockStateModelGenerator.registerTintedItemModel(block, blockLocation("template_slime_block"), ItemModels.constantTintSource(block.getColor()));
     }
@@ -193,7 +196,7 @@ public class ModModelProvider extends FabricModelProvider {
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         blockStateModelGenerator.blockStateCollector
                 .accept(
-                        VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(block)))
+                        VariantsBlockStateSupplier.method_67853(block, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
     }

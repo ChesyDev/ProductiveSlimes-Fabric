@@ -68,8 +68,8 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
                 tag.getInt("size"),
                 tag.getInt("color"),
                 tag.getInt("cooldown"),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("drop")),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("growth_item")),
+                ItemStack.fromNbt(provider, tag.getCompound("drop")).isPresent() ? ItemStack.fromNbt(provider, tag.getCompound("drop")).get() : ItemStack.EMPTY,
+                ItemStack.fromNbt(provider, tag.getCompound("growth_item")).isPresent() ? ItemStack.fromNbt(provider, tag.getCompound("growth_item")).get() : ItemStack.EMPTY,
                 entityType
         );
     }

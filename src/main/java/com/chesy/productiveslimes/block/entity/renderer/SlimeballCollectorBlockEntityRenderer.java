@@ -39,15 +39,7 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
 
     private void renderOutline(MatrixStack poseStack, VertexConsumerProvider bufferSource, Box aabb) {
         // Buffer for lines.
-        var buffer = bufferSource.getBuffer(RenderLayer.of("glow_lines", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.LINES, 256,
-                RenderLayer.MultiPhaseParameters.builder()
-                        .program(RenderPhase.LINES_PROGRAM)
-                        .lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2.0))) // Line width
-                        .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
-                        .target(RenderPhase.ITEM_ENTITY_TARGET)
-                        .cull(RenderPhase.DISABLE_CULLING) // Disable culling
-                        .build(false)
-        ));
+        var buffer = bufferSource.getBuffer(RenderLayer.getLines());
         RenderSystem.lineWidth(2.0f);
         RenderSystem.disableCull();
         // Render the outer box.

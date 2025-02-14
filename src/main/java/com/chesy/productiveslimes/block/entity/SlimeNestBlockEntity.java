@@ -136,7 +136,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
         Inventories.readNbt(nbt, inventory, registries);
         counter = nbt.getInt("counter");
         cooldown = nbt.getInt("cooldown");
-        dropItem = ItemStack.fromNbtOrEmpty(registries, nbt.getCompound("dropItem"));
+        dropItem = ItemStack.fromNbt(registries, nbt.getCompound("dropItem")).isPresent() ? ItemStack.fromNbt(registries, nbt.getCompound("dropItem")).get() : ItemStack.EMPTY;
         slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"), registries);
         tick = nbt.getInt("tick");
         multiplier = nbt.getFloat("multiplier");
@@ -249,8 +249,8 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     }
 
     @Override
-    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
         ContainerUtils.dropContents(world, pos, this);
-        super.onStateReplaced(pos, oldState);
+        super.onBlockReplaced(pos, oldState);
     }
 }

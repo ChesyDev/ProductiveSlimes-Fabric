@@ -280,8 +280,8 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     @Override
-    public void onStateReplaced(BlockPos pos, BlockState oldState) {
+    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
         ContainerUtils.dropContents(world, pos, this);
-        super.onStateReplaced(pos, oldState);
+        super.onBlockReplaced(pos, oldState);
     }
 }
