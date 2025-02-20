@@ -128,8 +128,8 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
 
         if (this.energyHandler.getAmountStored() < this.energyHandler.getMaxAmountStored()) {
             if (this.progress <= 0) {
-                if (canBurn(this.inventory.getFirst())) {
-                    this.progress = this.maxProgress = getBurnTime(this.inventory.getFirst());
+                if (canBurn(this.inventory.get(0))) {
+                    this.progress = this.maxProgress = getBurnTime(this.inventory.get(0));
                     this.removeStack(0, 1);
                     isDirty.set(true);
                 }

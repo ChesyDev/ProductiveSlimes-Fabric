@@ -16,7 +16,7 @@ public class DnaExtractingRecipeDisplay extends BasicDisplay {
     private final int inputCount;
 
     public DnaExtractingRecipeDisplay(DnaExtractingRecipe recipe) {
-        super(List.of(EntryIngredients.ofIngredient(recipe.inputItems().getFirst())),
+        super(List.of(EntryIngredients.ofIngredient(recipe.inputItems().get(0))),
                 List.of(EntryIngredient.of(EntryStacks.of(recipe.output().get(0))),
                         EntryIngredient.of(EntryStacks.of(recipe.output().size() > 1 ? recipe.output().get(1) : ItemStack.EMPTY))));
         energy = recipe.energy();

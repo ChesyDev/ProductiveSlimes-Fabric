@@ -255,7 +255,7 @@ public class BaseSlime extends SlimeEntity {
     public void setSize(int pSize, boolean pResetHealth) {
         // Setting the size based on the number of resources
         // int newSize = this.entityData.get(RESOURCE).getCount() * 2 - 1; // INSANE GROWTH (64 -> Size 127)
-        int i = Math.clamp(pSize, 1, 127);
+        int i = Math.max(1, Math.min(pSize, 127));;
         this.dataTracker.set(ID_SIZE, i);
         this.refreshPosition();
         this.calculateDimensions();

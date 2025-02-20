@@ -55,7 +55,7 @@ public class MeltingCategory implements DisplayCategory<MeltingRecipeDisplay> {
                 .entries(display.getInputEntries().get(0)).markInput());
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 128, startPoint.y + 34))
-                .entries(display.getOutputEntries().getFirst()).markOutput());
+                .entries(display.getOutputEntries().get(0)).markOutput());
 
         Text text = Text.translatable("tooltip.productiveslimes.energy_usage", display.getEnergy());
 

@@ -64,7 +64,7 @@ public class DnaSynthesizingCategory implements DisplayCategory<DnaSynthesizingR
                 .entries(Collections.singleton(EntryStacks.of(Items.EGG))).markInput());
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 125, startPoint.y + 34))
-                .entries(display.getOutputEntries().getFirst()).markOutput());
+                .entries(display.getOutputEntries().get(0)).markOutput());
 
         Text text = Text.translatable("tooltip.productiveslimes.energy_usage", display.getEnergy());
 

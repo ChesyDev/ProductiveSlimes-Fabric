@@ -53,7 +53,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
     }
 
     @Override
@@ -63,7 +63,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
     }
 
     @Override

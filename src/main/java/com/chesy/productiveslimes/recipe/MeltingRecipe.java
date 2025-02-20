@@ -42,12 +42,12 @@ public class MeltingRecipe implements Recipe<SimpleInventory> {
             return false;
         }
 
-        return inputItems.getFirst().test(input.getStack(0));
+        return inputItems.get(0).test(input.getStack(0));
     }
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
 
     }
 
@@ -58,7 +58,7 @@ public class MeltingRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
     }
 
     @Override

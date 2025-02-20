@@ -15,7 +15,7 @@ public class SolidingRecipeDisplay extends BasicDisplay {
 
     public SolidingRecipeDisplay(SolidingRecipe recipe) {
         super(
-                List.of(EntryIngredients.ofIngredient(recipe.getInputItems().getFirst())),
+                List.of(EntryIngredients.ofIngredient(recipe.getInputItems().get(0))),
                 List.of(
                         EntryIngredient.of(EntryStacks.of(recipe.getOutputs().get(0))),
                         EntryIngredient.of(EntryStacks.of(recipe.getOutputs().get(1)))

@@ -21,7 +21,7 @@ public class DnaSynthesizingRecipeDisplay extends BasicDisplay {
                         EntryIngredients.ofIngredient(recipe.inputItems().get(1)),
                         EntryIngredients.of(new ItemStack(recipe.inputItems().get(2).getMatchingStacks()[0].getItem(), recipe.inputCount()))
                 ),
-                List.of(EntryIngredient.of(EntryStacks.of(recipe.output().getFirst())))
+                List.of(EntryIngredient.of(EntryStacks.of(recipe.output().get(0))))
         );
 
         energy = recipe.energy();

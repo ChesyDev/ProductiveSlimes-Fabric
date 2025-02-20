@@ -3,15 +3,11 @@ package com.chesy.productiveslimes.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
@@ -26,12 +22,12 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
             return false;
         }
 
-        return inputItems.getFirst().test(input.getStack(0));
+        return inputItems.get(0).test(input.getStack(0));
     }
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
 
     }
 
@@ -42,7 +38,7 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return output.isEmpty() ? ItemStack.EMPTY : output.getFirst().copy();
+        return output.isEmpty() ? ItemStack.EMPTY : output.get(0).copy();
     }
 
     @Override
