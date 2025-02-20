@@ -30,7 +30,7 @@ public class ModItems {
     public static final Item SLIME_ITEM = register("slime_item", new SlimeItem(new Item.Settings().maxCount(1)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "slime_item")))));
 
-    public static final SpawnEggItem ENERGY_SLIME_SPAWN_EGG = register("energy_slime_spawn_egg", new SpawnEggItem(ModEntities.ENERGY_SLIME, 0xffff70, 0xFFFF00, new Item.Settings()
+    public static final SpawnEggItem ENERGY_SLIME_SPAWN_EGG = register("energy_slime_spawn_egg", new SpawnEggItem(ModEntities.ENERGY_SLIME, 0xffff70, new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, "energy_slime_spawn_egg")))));
 
     public static final DnaItem SLIME_DNA = register("slime_dna", new DnaItem(0xFF7BC35C, new Item.Settings()
@@ -47,7 +47,7 @@ public class ModItems {
             DnaItem dna = register(dnaName, new DnaItem(color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, dnaName)))));
 
-            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTiers.getEntityByName(tiers.name()), color, color, new Item.Settings()
+            SpawnEggItem spawnEgg = register(spawnEggName, new SpawnEggItem(ModTiers.getEntityByName(tiers.name()), color, new Item.Settings()
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, spawnEggName)))));
 
             ModTiers.addRegisteredDnaItem(tiers.name(), dna);
