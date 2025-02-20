@@ -1,15 +1,19 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.RotationAxis;
 
 public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTankBlockEntity> {
@@ -25,13 +29,12 @@ public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTa
         if (pBlockEntity.getFluidStorage().isResourceBlank() || pBlockEntity.getFluidStorage().amount <= 0) return;
 
         int color = FluidVariantRendering.getColor(fluidStack);
-        Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];
-        RenderLayer renderLayer = RenderLayer.getEntityTranslucent(sprite.getAtlasId());
+        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(SimpleFluidRenderHandler.WATER_STILL);
 
         float height = ((float) pBlockEntity.getFluidStorage().amount / pBlockEntity.getFluidStorage().getCapacity()) * 0.90f;
         height += 0.05f;
 
-        VertexConsumer builder = pBufferSource.getBuffer(renderLayer);
+        VertexConsumer builder = pBufferSource.getBuffer(RenderLayers.getFluidLayer(fluidStack.getFluid().getDefaultState()));
 
         drawQuad(builder, pPoseStack, 0.2f, height, 0.2f, 0.80f, height, 0.80f, sprite.getMinU(), sprite.getMinV(), sprite.getMaxU(), sprite.getMaxV(), pPackedLight, color, pPackedOverlay);
 
@@ -54,12 +57,18 @@ public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTa
     }
 
     private static void drawVertex(VertexConsumer builder, MatrixStack poseStack, float x, float y, float z, float u, float v, int packedLight, int color, int overlay) {
+        float red = ((color >> 16) & 0xFF) / 255.0F;
+        float green = ((color >> 8) & 0xFF) / 255.0F;
+        float blue = (color & 0xFF) / 255.0F;
+        float alpha = ((color >> 24) & 0xFF) / 255.0F;
+
         builder.vertex(poseStack.peek().getPositionMatrix(), x, y, z)
-                .color(color)
+                .color(red, green, blue, alpha)
                 .texture(u, v)
                 .light(packedLight)
                 .overlay(overlay)
-                .normal(1, 0, 0);
+                .normal(1, 0, 0)
+                .next();
     }
     private static void drawQuad(VertexConsumer builder, MatrixStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color, int overlay) {
         drawVertex(builder, poseStack, x0, y0, z0, u0, v0, packedLight, color, overlay);

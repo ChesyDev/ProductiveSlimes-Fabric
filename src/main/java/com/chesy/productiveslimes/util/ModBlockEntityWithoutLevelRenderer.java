@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.util;
 
 import com.chesy.productiveslimes.block.ModBlocks;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -14,6 +15,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.RotationAxis;
 
 public class ModBlockEntityWithoutLevelRenderer implements BuiltinItemRenderer {
@@ -46,7 +48,7 @@ public class ModBlockEntityWithoutLevelRenderer implements BuiltinItemRenderer {
                 float height = ((float) amount / (FluidConstants.BUCKET * 50)) * 0.95f;
 
                 int color = FluidVariantRendering.getColor(fluidStack);
-                Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];
+                Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(SimpleFluidRenderHandler.WATER_STILL);
 
                 VertexConsumer builder = pBuffer.getBuffer(RenderLayers.getFluidLayer(fluidStack.getFluid().getDefaultState()));
 
@@ -79,7 +81,8 @@ public class ModBlockEntityWithoutLevelRenderer implements BuiltinItemRenderer {
                 .color(color)
                 .texture(u, v)
                 .light(packedLight)
-                .normal(1, 0, 0);
+                .normal(1, 0, 0)
+                .next();
     }
     private static void drawQuad(VertexConsumer builder, MatrixStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color) {
         drawVertex(builder, poseStack, x0, y0, z0, u0, v0, packedLight, color);
