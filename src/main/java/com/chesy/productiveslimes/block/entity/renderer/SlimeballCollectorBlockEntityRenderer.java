@@ -96,7 +96,7 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void drawLine(Matrix4f matrix, VertexConsumer buffer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f);
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f);
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f).next();
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f).next();
     }
 }
