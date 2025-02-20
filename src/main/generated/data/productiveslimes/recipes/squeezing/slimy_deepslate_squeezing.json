@@ -1,0 +1,19 @@
+{
+  "type": "productiveslimes:squeezing",
+  "energy": 300,
+  "ingredients": [
+    {
+      "item": "productiveslimes:slimy_deepslate"
+    }
+  ],
+  "output": [
+    {
+      "count": 1,
+      "item": "minecraft:deepslate"
+    },
+    {
+      "count": 1,
+      "item": "productiveslimes:slimeball_fragment"
+    }
+  ]
+}

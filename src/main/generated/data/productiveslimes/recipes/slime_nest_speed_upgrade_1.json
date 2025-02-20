@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "productiveslimes:iron_slime_block"
+    },
+    "C": {
+      "tag": "c:iron_ingots"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "item": "productiveslimes:slime_nest_speed_upgrade_1"
+  },
+  "show_notification": true
+}

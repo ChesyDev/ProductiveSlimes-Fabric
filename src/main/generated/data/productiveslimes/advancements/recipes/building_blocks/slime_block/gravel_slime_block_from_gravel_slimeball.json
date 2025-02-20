@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gravel_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "productiveslimes:gravel_slimeball"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:slime_block/gravel_slime_block_from_gravel_slimeball"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_gravel_slimeball",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:slime_block/gravel_slime_block_from_gravel_slimeball"
+    ]
+  },
+  "sends_telemetry_event": false
+}

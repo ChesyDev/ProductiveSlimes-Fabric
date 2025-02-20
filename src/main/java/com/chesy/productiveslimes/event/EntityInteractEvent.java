@@ -19,11 +19,9 @@ public class EntityInteractEvent {
             if (!playerEntity.isSneaking()) return ActionResult.PASS;
             if (playerEntity.getStackInHand(hand).getItem() != Items.AIR) return ActionResult.PASS;
 
-            BaseSlime slime = baseSlime;
-
             ItemStack itemStack = new ItemStack(ModItems.SLIME_ITEM);
             NbtCompound tag = new NbtCompound();
-            tag.put("slime_date", SlimeData.fromSlime(slime).toTag(new NbtCompound()));
+            tag.put("slime_data", SlimeData.fromSlime(baseSlime).toTag(new NbtCompound()));
             itemStack.setNbt(tag);
 
             playerEntity.setStackInHand(hand, itemStack);

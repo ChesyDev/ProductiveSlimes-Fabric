@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:melting",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:glowstone_slimeball"
+    }
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:molten_glowstone_bucket"
+    }
+  ]
+}

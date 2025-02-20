@@ -1,0 +1,20 @@
+{
+  "type": "productiveslimes:soliding",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:molten_andesite_bucket"
+    }
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:andesite"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:bucket"
+    }
+  ]
+}

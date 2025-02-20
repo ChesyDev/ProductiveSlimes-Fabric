@@ -101,7 +101,7 @@ public class MeltingRecipe implements Recipe<SimpleInventory> {
             List<Ingredient> inputItems = new ArrayList<>();
 
             for (int i = 0; i < ingredients.size(); i++) {
-                inputItems.set(i, Ingredient.fromJson(ingredients.get(i)));
+                inputItems.add(Ingredient.fromJson(ingredients.get(i)));
             }
 
             JsonArray outputs = JsonHelper.getArray(json, "output");

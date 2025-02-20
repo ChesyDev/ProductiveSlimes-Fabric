@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "productiveslimes:calcite_slime_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "productiveslimes:calcite_slimeball"
+  }
+}

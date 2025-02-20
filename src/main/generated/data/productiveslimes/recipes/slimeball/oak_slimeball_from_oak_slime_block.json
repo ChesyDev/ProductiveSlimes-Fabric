@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "productiveslimes:oak_slime_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "productiveslimes:oak_slimeball"
+  }
+}

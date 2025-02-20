@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:deepslate"
+    },
+    "B": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "productiveslimes:melting_station"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,20 @@
+{
+  "type": "productiveslimes:soliding",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:molten_red_sand_bucket"
+    }
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:red_sand"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:bucket"
+    }
+  ]
+}

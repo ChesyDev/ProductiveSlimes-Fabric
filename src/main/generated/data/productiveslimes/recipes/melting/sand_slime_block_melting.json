@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:melting",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:sand_slime_block"
+    }
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 5,
+      "item": "productiveslimes:molten_sand_bucket"
+    }
+  ]
+}

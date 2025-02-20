@@ -1,0 +1,22 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    {
+      "item": "productiveslimes:deepslate_slime_dna"
+    },
+    {
+      "item": "productiveslimes:deepslate_slime_dna"
+    },
+    {
+      "item": "minecraft:deepslate"
+    }
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:deepslate_slime_spawn_egg"
+    }
+  ]
+}

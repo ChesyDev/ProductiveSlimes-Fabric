@@ -1,0 +1,22 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    {
+      "item": "productiveslimes:tuff_slime_dna"
+    },
+    {
+      "item": "productiveslimes:tuff_slime_dna"
+    },
+    {
+      "item": "minecraft:tuff"
+    }
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:tuff_slime_spawn_egg"
+    }
+  ]
+}

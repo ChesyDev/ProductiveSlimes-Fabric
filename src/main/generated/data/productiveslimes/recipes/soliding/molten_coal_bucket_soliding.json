@@ -1,0 +1,20 @@
+{
+  "type": "productiveslimes:soliding",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:molten_coal_bucket"
+    }
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:coal"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:bucket"
+    }
+  ]
+}

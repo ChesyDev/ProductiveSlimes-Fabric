@@ -1,0 +1,19 @@
+{
+  "type": "productiveslimes:squeezing",
+  "energy": 300,
+  "ingredients": [
+    {
+      "item": "productiveslimes:slimy_cobblestone"
+    }
+  ],
+  "output": [
+    {
+      "count": 1,
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "count": 1,
+      "item": "productiveslimes:slimeball_fragment"
+    }
+  ]
+}

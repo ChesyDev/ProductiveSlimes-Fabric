@@ -22,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.fluid.FlowableFluid;
@@ -32,6 +33,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.*;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -114,6 +117,8 @@ public class CustomVariantRegistry {
         // Reload data packs to include your new pack
         List<ResourcePackProfile> packs = new ArrayList<>(server.getDataPackManager().getEnabledProfiles());
         packs.add(pack);
+        server.reloadResources(packs.stream().map(ResourcePackProfile::getName).collect(Collectors.toList()));
+        MinecraftServer.loadDataPacks(dataManager, DataPackSettings.SAFE_MODE, false, FeatureSet.of(FeatureFlags.BUNDLE));
     }
 
     public static List<CustomVariant> getLoadedTiers() {
@@ -415,7 +420,7 @@ public class CustomVariantRegistry {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonContent = gson.toJson(tagJson);
 
-        String tagPath = "data/minecraft/tags/fluid/water.json";
+        String tagPath = "data/minecraft/tags/fluids/water.json";
         dataPackResources.put(tagPath, jsonContent.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -433,7 +438,7 @@ public class CustomVariantRegistry {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonContent = gson.toJson(tagJson);
 
-        String tagPath = "data/c/tags/item/slime_balls.json";
+        String tagPath = "data/c/tags/items/slime_balls.json";
         dataPackResources.put(tagPath, jsonContent.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -451,13 +456,13 @@ public class CustomVariantRegistry {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonContent = gson.toJson(tagJson);
 
-        String tagPath = "data/productiveslimes/tags/item/dna_item.json";
+        String tagPath = "data/productiveslimes/tags/items/dna_item.json";
         dataPackResources.put(tagPath, jsonContent.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void generateSlimeBlockLootTable(){
         for (CustomVariant variants : getLoadedTiers()){
-            String lootTablePath = "data/productiveslimes/loot_table/blocks/" + variants.name() + "_slime_block.json";
+            String lootTablePath = "data/productiveslimes/loot_tables/blocks/" + variants.name() + "_slime_block.json";
             String lootTable = "{\n" +
                     "  \"type\": \"minecraft:block\",\n" +
                     "  \"pools\": [\n" +
@@ -491,13 +496,15 @@ public class CustomVariantRegistry {
     }
 
     private static void slimeballToSlimeBlock(String name){
-        String recipePath = "data/minecraft/recipe/" + name + "_slimeball_to_block.json";
+        String recipePath = "data/minecraft/recipes/" + name + "_slimeball_to_block.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"minecraft:crafting_shaped\",\n" +
                 "  \"category\": \"building\",\n" +
                 "  \"key\": {\n" +
-                "    \"A\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    \"A\": {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    }\n" +
                 "  },\n" +
                 "  \"pattern\": [\n" +
                 "    \"AAA\",\n" +
@@ -505,26 +512,28 @@ public class CustomVariantRegistry {
                 "    \"AAA\"\n" +
                 "  ],\n" +
                 "  \"result\": {\n" +
-                "    \"count\": 1,\n" +
-                "    \"id\": \"productiveslimes:" + name + "_slime_block\"\n" +
-                "  }\n" +
+                "    \"item\": \"productiveslimes:" + name + "_slime_block\"\n" +
+                "  },\n" +
+                "  \"show_notification\": true\n" +
                 "}";
 
         dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void slimeBlockToSlimeball(String name){
-        String recipePath = "data/minecraft/recipe/" + name + "_slime_block_to_ball.json";
+        String recipePath = "data/minecraft/recipes/" + name + "_slime_block_to_ball.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"minecraft:crafting_shapeless\",\n" +
                 "  \"category\": \"misc\",\n" +
                 "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"result\": {\n" +
                 "    \"count\": 9,\n" +
-                "    \"id\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    \"item\": \"productiveslimes:" + name + "_slimeball\"\n" +
                 "  }\n" +
                 "}";
 
@@ -543,19 +552,21 @@ public class CustomVariantRegistry {
     }
 
     private static void meltingRecipeBlock(String name){
-        String recipePath = "data/productiveslimes/recipe/melting/" + name + "_slime_block_melting.json";
+        String recipePath = "data/productiveslimes/recipes/melting/" + name + "_slime_block_melting.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:melting\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 2,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": 5,\n" +
-                "      \"id\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
+                "      \"item\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -564,19 +575,21 @@ public class CustomVariantRegistry {
     }
 
     private static void meltingRecipeBall(String name){
-        String recipePath = "data/productiveslimes/recipe/melting/" + name + "_slimeball_melting.json";
+        String recipePath = "data/productiveslimes/recipes/melting/" + name + "_slimeball_melting.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:melting\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 4,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
+                "      \"item\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -585,23 +598,25 @@ public class CustomVariantRegistry {
     }
 
     private static void solidingRecipe(CustomVariant variant){
-        String recipePath = "data/productiveslimes/recipe/soliding/molten_" + variant.name() + "_bucket_soliding.json";
+        String recipePath = "data/productiveslimes/recipes/soliding/molten_" + variant.name() + "_bucket_soliding.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:soliding\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:molten_" + variant.name() + "_bucket\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:molten_" + variant.name() + "_bucket\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 1,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": " + variant.solidingOutputCount() + ",\n" +
-                "      \"id\": \"" + variant.solidingOutput() + "\"\n" +
+                "      \"item\": \"" + variant.solidingOutput() + "\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"minecraft:bucket\"\n" +
+                "      \"item\": \"minecraft:bucket\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -610,23 +625,25 @@ public class CustomVariantRegistry {
     }
 
     private static void dnaExtracting(CustomVariant variant){
-        String recipePath = "data/productiveslimes/recipe/dna_extracting/" + variant.name() + "_slimeball_dna_extracting.json";
+        String recipePath = "data/productiveslimes/recipes/dna_extracting/" + variant.name() + "_slimeball_dna_extracting.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:dna_extracting\",\n" +
                 "  \"energy\": 400,\n" +
                 "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + variant.name() + "_slimeball\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slimeball\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 1,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"minecraft:slime_ball\"\n" +
+                "      \"item\": \"minecraft:slime_ball\"\n" +
                 "    }\n" +
                 "  ],\n" +
                 "  \"outputChance\": " + variant.dnaOutputChance() + "\n" +
@@ -636,21 +653,27 @@ public class CustomVariantRegistry {
     }
 
     private static void dnaSynthesizingSelf(CustomVariant variant){
-        String recipePath = "data/productiveslimes/recipe/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing_self.json";
+        String recipePath = "data/productiveslimes/recipes/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing_self.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
                 "  \"energy\": 600,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 2,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -659,21 +682,27 @@ public class CustomVariantRegistry {
     }
 
     private static void dnaSynthesizing(CustomVariant variant){
-        String recipePath = "data/productiveslimes/recipe/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing.json";
+        String recipePath = "data/productiveslimes/recipes/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing.json";
 
         String recipe = "{\n" +
                 "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
                 "  \"energy\": 600,\n" +
                 "  \"ingredients\": [\n" +
-                "  \"" + variant.synthesizingInputDna1() + "\",\n" +
-                "  \"" + variant.synthesizingInputDna2() + "\",\n" +
-                "  \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputDna1() + "\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputDna2() + "\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 4,\n" +
                 "  \"output\": [\n" +
                 "    {\n" +
                 "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";

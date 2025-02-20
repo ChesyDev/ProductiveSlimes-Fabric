@@ -1,0 +1,22 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    {
+      "item": "productiveslimes:diamond_slime_dna"
+    },
+    {
+      "item": "productiveslimes:diamond_slime_dna"
+    },
+    {
+      "item": "minecraft:diamond_block"
+    }
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:diamond_slime_spawn_egg"
+    }
+  ]
+}

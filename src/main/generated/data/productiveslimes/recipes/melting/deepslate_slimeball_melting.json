@@ -1,0 +1,16 @@
+{
+  "type": "productiveslimes:melting",
+  "energy": 200,
+  "ingredients": [
+    {
+      "item": "productiveslimes:deepslate_slimeball"
+    }
+  ],
+  "inputCount": 4,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:molten_deepslate_bucket"
+    }
+  ]
+}

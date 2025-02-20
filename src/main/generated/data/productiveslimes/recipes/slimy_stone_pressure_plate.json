@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": {
+      "item": "productiveslimes:slimy_stone"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "productiveslimes:slimy_stone_pressure_plate"
+  },
+  "show_notification": true
+}

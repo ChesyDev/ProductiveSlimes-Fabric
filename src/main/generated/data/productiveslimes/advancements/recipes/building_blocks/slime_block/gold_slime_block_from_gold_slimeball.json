@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gold_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "productiveslimes:gold_slimeball"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:slime_block/gold_slime_block_from_gold_slimeball"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_slimeball",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:slime_block/gold_slime_block_from_gold_slimeball"
+    ]
+  },
+  "sends_telemetry_event": false
+}

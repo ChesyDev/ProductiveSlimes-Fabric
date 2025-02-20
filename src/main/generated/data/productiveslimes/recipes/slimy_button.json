@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "slimy_planks",
+  "ingredients": [
+    {
+      "item": "productiveslimes:slimy_planks"
+    }
+  ],
+  "result": {
+    "item": "productiveslimes:slimy_button"
+  }
+}

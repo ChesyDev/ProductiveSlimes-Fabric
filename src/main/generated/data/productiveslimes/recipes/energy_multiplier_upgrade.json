@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "productiveslimes:energy_slimeball"
+    },
+    "C": {
+      "item": "minecraft:blue_wool"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "item": "productiveslimes:energy_multiplier_upgrade"
+  },
+  "show_notification": true
+}

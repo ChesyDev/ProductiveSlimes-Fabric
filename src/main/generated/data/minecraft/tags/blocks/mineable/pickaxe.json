@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "productiveslimes:melting_station",
+    "productiveslimes:soliding_station",
+    "productiveslimes:energy_generator",
+    "productiveslimes:dna_extractor",
+    "productiveslimes:dna_synthesizer",
+    "productiveslimes:fluid_tank",
+    "productiveslimes:slime_squeezer",
+    "productiveslimes:cable",
+    "productiveslimes:slime_nest",
+    "productiveslimes:slimeball_collector",
+    "productiveslimes:slimy_stone",
+    "productiveslimes:slimy_deepslate",
+    "productiveslimes:slimy_cobblestone",
+    "productiveslimes:slimy_cobbled_deepslate",
+    "productiveslimes:slimy_cobblestone_slab",
+    "productiveslimes:slimy_cobbled_deepslate_slab",
+    "productiveslimes:slimy_cobblestone_stairs",
+    "productiveslimes:slimy_cobbled_deepslate_stairs",
+    "productiveslimes:slimy_cobblestone_wall",
+    "productiveslimes:slimy_cobbled_deepslate_wall",
+    "productiveslimes:slimy_stone_stairs",
+    "productiveslimes:slimy_stone_slab",
+    "productiveslimes:slimy_stone_button",
+    "productiveslimes:slimy_stone_pressure_plate"
+  ]
+}

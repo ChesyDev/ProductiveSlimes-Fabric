@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "productiveslimes:copper_slime_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "productiveslimes:copper_slimeball"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "productiveslimes:slime_nest_speed_upgrade_1"
+    },
+    "B": {
+      "item": "productiveslimes:gold_slime_block"
+    },
+    "C": {
+      "tag": "c:gold_ingots"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "item": "productiveslimes:slime_nest_speed_upgrade_2"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,22 @@
+{
+  "type": "productiveslimes:dna_synthesizing",
+  "energy": 600,
+  "ingredients": [
+    {
+      "item": "productiveslimes:copper_slime_dna"
+    },
+    {
+      "item": "productiveslimes:copper_slime_dna"
+    },
+    {
+      "item": "minecraft:copper_block"
+    }
+  ],
+  "inputCount": 2,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:copper_slime_spawn_egg"
+    }
+  ]
+}

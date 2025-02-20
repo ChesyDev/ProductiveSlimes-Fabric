@@ -1,0 +1,21 @@
+{
+  "type": "productiveslimes:dna_extracting",
+  "energy": 400,
+  "ingredients": [
+    {
+      "item": "productiveslimes:netherite_slimeball"
+    }
+  ],
+  "inputCount": 1,
+  "output": [
+    {
+      "count": 1,
+      "item": "productiveslimes:netherite_slime_dna"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:slime_ball"
+    }
+  ],
+  "outputChance": 0.3
+}

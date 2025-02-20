@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "productiveslimes:slimy_log",
+    "productiveslimes:stripped_slimy_log",
+    "productiveslimes:slimy_wood",
+    "productiveslimes:stripped_slimy_wood"
+  ]
+}
