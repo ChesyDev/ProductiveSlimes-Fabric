@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class ModDoorBlock extends DoorBlock {
     public ModDoorBlock(BlockSetType type, Settings settings) {
-        super(type, settings);
+        super(settings, type);
     }
 
     @Override

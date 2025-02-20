@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class ModTrapDoorBlock extends TrapdoorBlock {
 
     public ModTrapDoorBlock(BlockSetType type, Settings settings) {
-        super(type, settings);
+        super(settings, type);
     }
 
     @Override

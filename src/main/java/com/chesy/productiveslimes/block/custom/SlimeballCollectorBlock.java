@@ -241,11 +241,6 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
         super(properties);
     }
 
-    @Override
-    protected MapCodec<? extends Block> getCodec() {
-        return createCodec(SlimeballCollectorBlock::new);
-    }
-
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -267,7 +262,7 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState pState, BlockView pLevel, BlockPos pPos, ShapeContext pContext) {
+    public VoxelShape getOutlineShape(BlockState pState, BlockView pLevel, BlockPos pPos, ShapeContext pContext) {
         switch (pState.get(FACING)) {
             case NORTH:
                 return NORTH_SHAPE;
@@ -283,7 +278,7 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -300,17 +295,17 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SlimeballCollectorBlockEntity slimeballCollectorBlockEntity) {
             ContainerUtils.dropContents(world, pos, slimeballCollectorBlockEntity);
@@ -319,7 +314,7 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             BlockEntity entity = world.getBlockEntity(pos);
             if (entity instanceof SlimeballCollectorBlockEntity slimeballCollectorBlockEntity) {
@@ -329,6 +324,6 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
             }
         }
 
-        return ItemActionResult.SUCCESS;
+        return ActionResult.SUCCESS;
     }
 }

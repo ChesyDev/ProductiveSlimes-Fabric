@@ -1,15 +1,16 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.block.entity.SlimeNestBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.item.custom.SlimeItem;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
+import com.chesy.productiveslimes.util.SlimeData;
 import com.chesy.productiveslimes.util.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -22,8 +23,8 @@ public class SlimeNestMenu extends ScreenHandler {
     private final World level;
     private final PropertyDelegate data;
 
-    public SlimeNestMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(6));
+    public SlimeNestMenu(int pContainerId, PlayerInventory inv, PacketByteBuf byteBuf) {
+        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(byteBuf.readBlockPos()), new ArrayPropertyDelegate(6));
     }
 
     public SlimeNestMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
@@ -37,7 +38,7 @@ public class SlimeNestMenu extends ScreenHandler {
         this.addSlot(new SlotItemHandler(blockEntity, 2, 8, 43, itemStack -> itemStack.getItem() instanceof NestUpgradeItem, 1));
         this.addSlot(new SlotItemHandler(blockEntity, 3, 8, 61, itemStack -> itemStack.getItem() instanceof NestUpgradeItem, 1));
 
-        this.addSlot(new SlotItemHandler(blockEntity, 4, 33, 34, itemStack -> itemStack.getItem() instanceof SlimeItem && itemStack.contains(ModDataComponents.SLIME_DATA), 1));
+        this.addSlot(new SlotItemHandler(blockEntity, 4, 33, 34, itemStack -> itemStack.getItem() instanceof SlimeItem && itemStack.getNbt() != null && itemStack.getNbt().contains("slime_data"), 1));
 
         this.addSlot(new SlotItemHandler(blockEntity, 5, 116, 16, itemStack -> false));
         this.addSlot(new SlotItemHandler(blockEntity, 6, 134, 16, itemStack -> false));
@@ -127,6 +128,13 @@ public class SlimeNestMenu extends ScreenHandler {
         if (blockEntity.getItems().get(blockEntity.slimeSlot[0]).isEmpty()) {
             return ItemStack.EMPTY;
         }
-        return blockEntity.getSlime().get(ModDataComponents.SLIME_DATA).dropItem();
+
+        if (blockEntity.getSlime().getNbt() == null || !blockEntity.getSlime().getNbt().contains("slime_data")){
+            return ItemStack.EMPTY;
+        }
+
+        SlimeData slimeData = SlimeData.fromTag(blockEntity.getSlime().getNbt().getCompound("slime_data"));
+
+        return slimeData.dropItem();
     }
 }

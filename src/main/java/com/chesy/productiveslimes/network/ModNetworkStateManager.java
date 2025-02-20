@@ -9,7 +9,7 @@ public class ModNetworkStateManager {
     public static ModNetworkState getOrCreate(ServerWorld world) {
         PersistentStateManager manager = world.getPersistentStateManager();
         ModNetworkState existing = manager.get(
-                ModNetworkState.MY_TYPE,
+                ModNetworkState::readNbt,
                 KEY
         );
 

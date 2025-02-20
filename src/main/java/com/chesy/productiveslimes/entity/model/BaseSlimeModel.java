@@ -37,8 +37,18 @@ public class BaseSlimeModel<T extends BaseSlime> extends SinglePartEntityModel<T
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
-        super.render(matrices, vertices, light, overlay, this.color);
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float r, float g, float b, float a) {
+        int alpha = (this.color >> 24) & 0xFF;
+        int red = (this.color >> 16) & 0xFF;
+        int green = (this.color >> 8) & 0xFF;
+        int blue = this.color & 0xFF;
+
+        float normalizedAlpha = alpha / 255.0f;
+        float normalizedRed = red / 255.0f;
+        float normalizedGreen = green / 255.0f;
+        float normalizedBlue = blue / 255.0f;
+
+        super.render(matrices, vertices, light, overlay, normalizedRed, normalizedGreen, normalizedBlue, normalizedAlpha);
     }
 
     @Override

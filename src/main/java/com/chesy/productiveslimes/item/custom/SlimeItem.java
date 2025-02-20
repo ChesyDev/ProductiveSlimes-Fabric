@@ -1,6 +1,5 @@
 package com.chesy.productiveslimes.item.custom;
 
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.util.SlimeData;
 import net.minecraft.entity.SpawnReason;
@@ -23,16 +22,18 @@ public class SlimeItem extends Item {
         if (context.getWorld() instanceof ServerWorld serverWorld){
             ItemStack itemStack = context.getStack();
 
-            SlimeData slimeData = itemStack.getOrDefault(ModDataComponents.SLIME_DATA, null);
-
-            if (slimeData != null){
-                BaseSlime entity = slimeData.slime().create(serverWorld, null, context.getBlockPos(), SpawnReason.MOB_SUMMONED, true, false);
-
-                assert entity != null;
-                entity.setSize(slimeData.size(), true);
-                context.getWorld().spawnEntity(entity);
-                Objects.requireNonNull(context.getPlayer()).setStackInHand(context.getHand(), ItemStack.EMPTY);
+            if (!itemStack.hasNbt() || itemStack.getNbt() == null || !itemStack.getNbt().contains("slime_data")){
+                return ActionResult.PASS;
             }
+
+            SlimeData slimeData = SlimeData.fromTag(itemStack.getNbt().getCompound("slime_data"));
+
+            BaseSlime entity = slimeData.slime().create(serverWorld, null, null, context.getBlockPos(), SpawnReason.MOB_SUMMONED, true, false);
+
+            assert entity != null;
+            entity.setSize(slimeData.size(), true);
+            context.getWorld().spawnEntity(entity);
+            Objects.requireNonNull(context.getPlayer()).setStackInHand(context.getHand(), ItemStack.EMPTY);
         }
 
         return ActionResult.SUCCESS;
@@ -40,7 +41,11 @@ public class SlimeItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
-        SlimeData slimeData = stack.getOrDefault(ModDataComponents.SLIME_DATA, null);
+        if (!stack.hasNbt() || stack.getNbt() == null || !stack.getNbt().contains("slime_data")){
+            return Text.translatable("item.productiveslimes.slime_item");
+        }
+
+        SlimeData slimeData = SlimeData.fromTag(stack.getNbt().getCompound("slime_data"));
         if (slimeData == null){
             return Text.translatable("item.productiveslimes.slime_item");
         }

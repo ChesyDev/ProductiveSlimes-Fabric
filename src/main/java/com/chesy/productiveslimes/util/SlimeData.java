@@ -1,30 +1,16 @@
 package com.chesy.productiveslimes.util;
 
 import com.chesy.productiveslimes.entity.BaseSlime;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, ItemStack growthItem, EntityType<BaseSlime> slime) {
-    public static final Codec<SlimeData> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    Codec.INT.fieldOf("size").forGetter(SlimeData::size),
-                    Codec.INT.fieldOf("color").forGetter(SlimeData::color),
-                    Codec.INT.fieldOf("cooldown").forGetter(SlimeData::cooldown),
-                    ItemStack.CODEC.fieldOf("dropItem").forGetter(SlimeData::dropItem),
-                    ItemStack.CODEC.fieldOf("growthItem").forGetter(SlimeData::growthItem),
-                    Registries.ENTITY_TYPE.getCodec().fieldOf("slime").forGetter(SlimeData::slime)
-            ).apply(instance, (integer, integer2, integer3, itemStack, itemStack2, entityType) -> new SlimeData(integer, integer2, integer3, itemStack, itemStack2, (EntityType<BaseSlime>) entityType))
-    );
-
     public static SlimeData fromSlime(BaseSlime slime) {
         return new SlimeData(
                 slime.getSize(),
@@ -36,40 +22,29 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
         );
     }
 
-    public NbtCompound toTag(NbtCompound tag, RegistryWrapper.WrapperLookup provider) {
+    public NbtCompound toTag(NbtCompound tag) {
         tag.putInt("size", size);
         tag.putInt("color", color);
         tag.putInt("cooldown", cooldown);
-        tag.put("drop", dropItem.encode(provider));
-        tag.put("growth_item", growthItem.encode(provider));
-        tag.putString("slime", Objects.requireNonNull(Registries.ENTITY_TYPE.getKey(slime).toString()));
+        tag.put("drop", dropItem.writeNbt(new NbtCompound()));
+        tag.put("growth_item", growthItem.writeNbt(new NbtCompound()));
+        if (slime != null){
+            tag.putString("slime", Registries.ENTITY_TYPE.getId(slime).toString());
+        }
         return tag;
     }
 
-    public static SlimeData fromTag(NbtCompound tag, RegistryWrapper.WrapperLookup provider) {
-        String slimeTagValue = tag.getString("slime");
-        if (slimeTagValue.startsWith("Optional[ResourceKey[")) {
-            // Strip out the unwanted parts
-            int startIndex = slimeTagValue.indexOf('/') + 1; // After '/'
-            int endIndex = slimeTagValue.indexOf(']');
-            if (startIndex > 0 && endIndex > startIndex) {
-                slimeTagValue = slimeTagValue.substring(startIndex, endIndex);
-            }
-        }
-        boolean slime = Registries.ENTITY_TYPE.getEntry(Identifier.of(slimeTagValue.trim())).isPresent();
-        EntityType<BaseSlime> entityType;
-        if (!slime){
-            entityType = null;
-        }
-        else{
-            entityType = (EntityType<BaseSlime>) Registries.ENTITY_TYPE.getEntry(Identifier.of(slimeTagValue.trim())).get().value();
+    public static SlimeData fromTag(NbtCompound tag) {
+        EntityType<BaseSlime> entityType = null;
+        if (tag.contains("slime")){
+            entityType = (EntityType<BaseSlime>) Registries.ENTITY_TYPE.get(new Identifier(tag.getString("slime")));
         }
         return new SlimeData(
                 tag.getInt("size"),
                 tag.getInt("color"),
                 tag.getInt("cooldown"),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("drop")),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("growth_item")),
+                ItemStack.fromNbt(tag.getCompound("drop")),
+                ItemStack.fromNbt(tag.getCompound("growth_item")),
                 entityType
         );
     }

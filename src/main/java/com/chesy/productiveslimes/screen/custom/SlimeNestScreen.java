@@ -38,7 +38,7 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
 
     @Override
     public void render(DrawContext pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         drawMouseoverTooltip(pGuiGraphics, pMouseX, pMouseY);
 

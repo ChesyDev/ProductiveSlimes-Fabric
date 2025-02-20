@@ -20,9 +20,14 @@ public class ModTags {
         public static final TagKey<Item> TRANSFORMABLE_ITEMS = createTag("transformable_items");
         public static final TagKey<Item> DNA_ITEM = createTag("dna_item");
         public static final TagKey<Item> SLIMY_LOG = createTag("slimy_log");
+        public static final TagKey<Item> SLIME_BALLS = createCommonTag("slime_balls");
 
         private static TagKey<Item> createTag(String id) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, id));
+        }
+
+        private static TagKey<Item> createCommonTag(String id) {
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", id));
         }
     }
 }

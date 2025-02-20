@@ -3,7 +3,6 @@ package com.chesy.productiveslimes;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.event.EntityInteractEvent;
@@ -49,7 +48,6 @@ public class ProductiveSlimes implements ModInitializer {
     public void onInitialize() {
         ModTiers.init();
         ModFluids.register();
-        ModDataComponents.register();
         ModItemGroups.initialize();
 
         ModItems.registerSlimeball();

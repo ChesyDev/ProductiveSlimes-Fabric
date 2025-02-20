@@ -12,15 +12,14 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -31,13 +30,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SlimeSqueezerBlockEntity extends BlockEntity implements ImplementedInventory, ExtendedScreenHandlerFactory<BlockPos>, IEnergyBlockEntity {
+public class SlimeSqueezerBlockEntity extends BlockEntity implements ImplementedInventory, ExtendedScreenHandlerFactory, IEnergyBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0);
     protected final PropertyDelegate data;
@@ -87,11 +85,6 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return pos;
-    }
-
-    @Override
     public Text getDisplayName() {
         return Text.translatable("block.productiveslimes.slime_squeezer");
     }
@@ -103,18 +96,18 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("energy", energyHandler.serializeNBT(registries));
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        Inventories.writeNbt(nbt, inventory);
+        nbt.put("energy", energyHandler.serializeNBT());
         nbt.putInt("progress", progress);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("energy"));
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        Inventories.readNbt(nbt, inventory);
+        energyHandler.deserializeNBT(nbt.getCompound("energy"));
         progress = nbt.getInt("progress");
     }
 
@@ -125,8 +118,8 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
     }
 
     @Override
@@ -140,13 +133,13 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     public void tick(World pLevel, BlockPos pPos, BlockState pState) {
-        Optional<RecipeEntry<SqueezingRecipe>> recipe = getCurrentRecipe();
-        if (hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy()) {
+        Optional<SqueezingRecipe> recipe = getCurrentRecipe();
+        if (hasRecipe() && energyHandler.getAmountStored() >= recipe.get().energy()) {
             increaseCraftingProgress();
             markDirty(pLevel, pPos, pState);
 
             if (hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().energy());
+                energyHandler.removeAmount(recipe.get().energy());
                 craftItem();
                 resetProgress();
             }
@@ -165,9 +158,9 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<SqueezingRecipe>> recipe = getCurrentRecipe();
+        Optional<SqueezingRecipe> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().output();
+            List<ItemStack> results = recipe.get().output();
             // Extract the input item from the input slot
             this.removeStack(inputSlots[0], 1);
             // Loop through each result item and find suitable output slots
@@ -197,14 +190,14 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     private boolean hasRecipe() {
-        Optional<RecipeEntry<SqueezingRecipe>> recipe = getCurrentRecipe();
+        Optional<SqueezingRecipe> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) {
             return false;
         }
         if (inventory.get(inputSlots[0]).getCount() < 1) {
             return false;
         }
-        List<ItemStack> results = recipe.get().value().output();
+        List<ItemStack> results = recipe.get().output();
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {
                 return false;
@@ -236,9 +229,9 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<SqueezingRecipe>> getCurrentRecipe() {
+    private Optional<SqueezingRecipe> getCurrentRecipe() {
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.SQUEEZING_TYPE, new SingleStackRecipeInput(inventory.get(inputSlots[0])), level);
+        return level.getRecipeManager().getFirstMatch(ModRecipes.SQUEEZING_TYPE, new SimpleInventory(inventory.get(inputSlots[0])), level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
@@ -283,5 +276,10 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
 
     public ItemStack getOutputStack(int slot) {
         return inventory.get(outputSlots[slot]);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 }

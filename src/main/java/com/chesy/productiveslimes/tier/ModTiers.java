@@ -163,6 +163,6 @@ public class ModTiers {
     }
 
     public static Item getItemByKey(String key){
-        return Registries.ITEM.get(Identifier.of(key));
+        return Registries.ITEM.get(new Identifier(key));
     }
 }

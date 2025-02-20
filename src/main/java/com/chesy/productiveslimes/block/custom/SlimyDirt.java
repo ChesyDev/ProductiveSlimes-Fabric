@@ -25,12 +25,12 @@ public class SlimyDirt extends Block implements Fertilizable {
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
-    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return !state.isOpaqueFullCube(world, pos);
     }
 
@@ -47,7 +47,7 @@ public class SlimyDirt extends Block implements Fertilizable {
     }
 
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
         return world.getBlockState(pos.up()).isAir();
     }
 
@@ -59,7 +59,7 @@ public class SlimyDirt extends Block implements Fertilizable {
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         BlockPos blockPos = pos.up();
-        BlockState blockState = Blocks.SHORT_GRASS.getDefaultState();
+        BlockState blockState = Blocks.GRASS.getDefaultState();
         Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager().getWrapperOrThrow(RegistryKeys.PLACED_FEATURE).getOptional(VegetationPlacedFeatures.GRASS_BONEMEAL);
 
         label51:
@@ -76,7 +76,7 @@ public class SlimyDirt extends Block implements Fertilizable {
             BlockState blockState2 = world.getBlockState(blockPos2);
             if (blockState2.isOf(blockState.getBlock()) && random.nextInt(10) == 0) {
                 Fertilizable fertilizable = (Fertilizable)blockState.getBlock();
-                if (fertilizable.isFertilizable(world, blockPos2, blockState2)) {
+                if (fertilizable.isFertilizable(world, blockPos2, blockState2, world.isClient)) {
                     fertilizable.grow(world, random, blockPos2, blockState2);
                 }
             }

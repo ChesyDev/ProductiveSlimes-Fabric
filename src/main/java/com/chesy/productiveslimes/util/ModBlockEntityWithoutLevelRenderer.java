@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.util;
 
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -14,6 +13,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.RotationAxis;
 
 public class ModBlockEntityWithoutLevelRenderer implements BuiltinItemRenderer {
@@ -32,11 +32,18 @@ public class ModBlockEntityWithoutLevelRenderer implements BuiltinItemRenderer {
             MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(state, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
             pPoseStack.pop();
 
-            ImmutableFluidVariant immutableFluidStack = pStack.get(ModDataComponents.FLUID_VARIANT);
-            FluidVariant fluidStack = (immutableFluidStack != null) ? FluidVariant.of(immutableFluidStack.fluid() ): FluidVariant.blank();
+            FluidVariant fluidStack = FluidVariant.blank();
+            long amount = 0;
+
+            if (pStack.hasNbt() && pStack.getNbt() != null && pStack.getNbt().contains("fluid")) {
+                NbtCompound fluidTag = pStack.getNbt().getCompound("fluid");
+                ImmutableFluidVariant immutableFluidVariant = ImmutableFluidVariant.fromNbt(fluidTag);
+                fluidStack = FluidVariant.of(immutableFluidVariant.fluid());
+                amount = immutableFluidVariant.amount();
+            }
 
             if (!fluidStack.isBlank()) {
-                float height = ((float) immutableFluidStack.amount() / (FluidConstants.BUCKET * 50)) * 0.95f;
+                float height = ((float) amount / (FluidConstants.BUCKET * 50)) * 0.95f;
 
                 int color = FluidVariantRendering.getColor(fluidStack);
                 Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];

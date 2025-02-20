@@ -8,7 +8,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.Item;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +15,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
 
 public abstract class CustomDynamicFluid extends WaterFluid {
     private final String name;
@@ -88,11 +86,6 @@ public abstract class CustomDynamicFluid extends WaterFluid {
         }
 
         @Override
-        public int getMaxFlowDistance(WorldView world) {
-            return 5;
-        }
-
-        @Override
         public boolean isStill(FluidState state) {
             return false;
         }
@@ -101,11 +94,6 @@ public abstract class CustomDynamicFluid extends WaterFluid {
     public static class Still extends CustomDynamicFluid {
         public Still(String name) {
             super(name);
-        }
-
-        @Override
-        public int getMaxFlowDistance(WorldView world) {
-            return 4;
         }
 
         @Override

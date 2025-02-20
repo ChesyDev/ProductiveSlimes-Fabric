@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.SlimeNestBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -29,8 +28,9 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
     public void render(SlimeNestBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
         if (blockEntity.getSlime() == null) return;
         if (blockEntity.getSlime().isEmpty()) return;
+        if (blockEntity.getSlime().getNbt() == null) return;
+        if (!blockEntity.getSlime().getNbt().contains("slime_data")) return;
 
-        if (!blockEntity.getSlime().contains(ModDataComponents.SLIME_DATA)) return;
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack slime = blockEntity.getSlime();
         World level = blockEntity.getWorld();

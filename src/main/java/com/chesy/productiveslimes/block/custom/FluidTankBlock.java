@@ -1,21 +1,20 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.util.ImmutableFluidVariant;
-import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -42,26 +41,21 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 
-    @Override
-    protected MapCodec<? extends FluidTankBlock> getCodec() {
-        return createCodec(FluidTankBlock::new);
-    }
-
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new FluidTankBlockEntity(pos, state);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.cuboid(0.125D, 0.0D, 0.125D, 0.875D, 1D, .875D);
     }
 
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
-    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
@@ -75,16 +69,16 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient){
             bucketUsed(world, pos, player);
         }
-        return ItemActionResult.SUCCESS;
+        return ActionResult.SUCCESS;
     }
 
     protected void bucketUsed(World pLevel, BlockPos pPos, PlayerEntity pPlayer){
@@ -153,7 +147,7 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
@@ -162,7 +156,13 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
             ImmutableFluidVariant immutableFluidStack = new ImmutableFluidVariant(fluidTankBlockEntity.getFluidVariant().getFluid(), fluidTankBlockEntity.getFluidStorage().amount);
 
             if (immutableFluidStack.fluid() != Fluids.EMPTY) {
-                stack.set(ModDataComponents.FLUID_VARIANT, immutableFluidStack);
+                NbtCompound nbt = stack.getOrCreateNbt();
+
+                NbtCompound fluidTag = new NbtCompound();
+                immutableFluidStack.toNbt(fluidTag);
+                nbt.put("fluid", fluidTag);
+
+                stack.setNbt(nbt);
             }
 
             drops.clear();
@@ -176,9 +176,10 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof FluidTankBlockEntity fluidTankBlockEntity){
-            ImmutableFluidVariant immutableFluidVariant = itemStack.getOrDefault(ModDataComponents.FLUID_VARIANT, null);
+            if (itemStack.getNbt() != null && itemStack.getNbt().contains("fluid")){
+                NbtCompound nbt = itemStack.getNbt().getCompound("fluid");
+                ImmutableFluidVariant immutableFluidVariant = ImmutableFluidVariant.fromNbt(nbt);
 
-            if (immutableFluidVariant != null){
                 fluidTankBlockEntity.setFluidVariant(FluidVariant.of(immutableFluidVariant.fluid()));
                 fluidTankBlockEntity.getFluidStorage().amount = immutableFluidVariant.amount();
                 fluidTankBlockEntity.markDirty();
@@ -189,10 +190,10 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        if (stack.getOrDefault(ModDataComponents.FLUID_VARIANT, FluidVariant.blank()) != FluidVariant.blank()) {
-            ImmutableFluidVariant immutableFluidStack = stack.get(ModDataComponents.FLUID_VARIANT);
-            FluidVariant fluidStack = (immutableFluidStack != null) ? FluidVariant.of(immutableFluidStack.fluid()) : FluidVariant.blank();
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        if (stack.getNbt() != null && stack.getNbt().contains("fluid") && ImmutableFluidVariant.fromNbt(stack.getNbt().getCompound("fluid")).fluid() != Fluids.EMPTY){
+            ImmutableFluidVariant immutableFluidStack = ImmutableFluidVariant.fromNbt(stack.getNbt().getCompound("fluid"));
+            FluidVariant fluidStack = FluidVariant.of(immutableFluidStack.fluid());
             tooltip.add(Text.translatable("tooltip.productiveslimes.fluid_stored").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable(fluidStack.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
             tooltip.add(Text.translatable("tooltip.productiveslimes.stored_amount").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable("tooltip.productiveslimes.fluid_amount", immutableFluidStack.amount() / FluidConstants.BUCKET).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
         }

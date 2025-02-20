@@ -1,21 +1,19 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.util.ContainerUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -43,12 +41,7 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected MapCodec<? extends EnergyGeneratorBlock> getCodec() {
-        return createCodec(EnergyGeneratorBlock::new);
-    }
-
-    @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape SHAPE = VoxelShapes.cuboid(0.25D, 0.0D, 0D, 0.75D, 1D, 1D);
         if (state.get(FACING) == Direction.WEST || state.get(FACING) == Direction.EAST) {
             SHAPE = VoxelShapes.cuboid(0D, 0.0D, 0.25D, 1D, 1D, 0.75D);
@@ -57,12 +50,12 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
             ContainerUtils.dropContents(world, pos, energyGeneratorBlockEntity);
@@ -71,13 +64,16 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
         if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
             ItemStack stack = new ItemStack(this);
-            stack.set(ModDataComponents.ENERGY, energyGeneratorBlockEntity.getEnergyHandler().getAmountStored());
+
+            NbtCompound nbt = stack.getOrCreateNbt();
+            nbt.putInt("energy", energyGeneratorBlockEntity.getEnergyHandler().getAmountStored());
+            stack.setNbt(nbt);
 
             drops.clear();
             drops.add(stack);
@@ -87,7 +83,7 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             BlockEntity entity = world.getBlockEntity(pos);
             if (entity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
@@ -97,7 +93,7 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
             }
         }
 
-        return ItemActionResult.SUCCESS;
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -118,11 +114,11 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         });
     }
 
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
-    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
@@ -139,20 +135,20 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
-            int energy = itemStack.getOrDefault(ModDataComponents.ENERGY, 0);
-
-            energyGeneratorBlockEntity.getEnergyHandler().setAmount(energy);
+            if(itemStack.hasNbt() && itemStack.getNbt() != null && itemStack.getNbt().contains("energy")){
+                energyGeneratorBlockEntity.getEnergyHandler().setAmount(itemStack.getOrCreateNbt().getInt("energy"));
+            }
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        super.appendTooltip(stack, context, tooltip, options);
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        super.appendTooltip(stack, world, tooltip, options);
 
-        if (stack.getOrDefault(ModDataComponents.ENERGY, 0) != 0) {
-            int energy = stack.getOrDefault(ModDataComponents.ENERGY, 0);
+        if (stack.hasNbt() && stack.getNbt() != null && stack.getNbt().getInt("energy") != 0) {
+            int energy = stack.getNbt().getInt("energy");
             tooltip.add(Text.translatable("tooltip.productiveslimes.energy_stored")
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00)))
                     .append(Text.translatable("tooltip.productiveslimes.energy_amount", energy)

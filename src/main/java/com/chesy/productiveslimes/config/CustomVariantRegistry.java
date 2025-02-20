@@ -76,58 +76,32 @@ public class CustomVariantRegistry {
         ResourcePackManager packManager = MinecraftClient.getInstance().getResourcePackManager();
 
         ResourcePackProfile pack = ResourcePackProfile.create(
-                resourcePack.getInfo(),
-                new ResourcePackProfile.PackFactory() {
-                    @Override
-                    public ResourcePack open(ResourcePackInfo location) {
-                        return resourcePack;
-                    }
-
-                    @Override
-                    public ResourcePack openWithOverlays(ResourcePackInfo location, ResourcePackProfile.Metadata metadata) {
-                        return resourcePack;
-                    }
-                },
+                resourcePack.getName(),
+                Text.literal("productiveslimes resource pack"),
+                true,
+                s -> resourcePack,
                 ResourceType.CLIENT_RESOURCES,
-                new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
+                ResourcePackProfile.InsertionPosition.TOP,
+                ResourcePackSource.BUILTIN
         );
 
         if (packManager instanceof MixinAdditionMethod mixinAdditionMethod){
-            mixinAdditionMethod.addPackFinder((consumer) -> {
-                consumer.accept(pack);
-            });
+            mixinAdditionMethod.addPackFinder((consumer) -> consumer.accept(pack));
         }
         MinecraftClient.getInstance().reloadResources();
     }
 
     public static void handleDatapack(MinecraftServer server) {
         CustomVariantDataPack dataPack = new CustomVariantDataPack(dataPackResources);
+
         ResourcePackProfile pack = ResourcePackProfile.create(
-                new ResourcePackInfo("productiveslimes_datapack", Text.literal("In Memory Pack"),
-                        new ResourcePackSource() {
-                            @Override
-                            public Text decorate(Text name) {
-                                return Text.literal("In Memory Pack");
-                            }
-
-                            @Override
-                            public boolean canBeEnabledLater() {
-                                return true;
-                            }
-                        }, Optional.empty()),
-                new ResourcePackProfile.PackFactory() {
-                    @Override
-                    public ResourcePack open(ResourcePackInfo location) {
-                        return dataPack;
-                    }
-
-                    @Override
-                    public ResourcePack openWithOverlays(ResourcePackInfo location, ResourcePackProfile.Metadata metadata) {
-                        return dataPack;
-                    }
-                },
+                dataPack.getName(),
+                Text.literal("productiveslimes data pack"),
+                true,
+                s -> dataPack,
                 ResourceType.SERVER_DATA,
-                new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
+                ResourcePackProfile.InsertionPosition.TOP,
+                ResourcePackSource.BUILTIN
         );
 
         // Add your pack to the pack repository
@@ -275,8 +249,8 @@ public class CustomVariantRegistry {
         Identifier slimeId = Identifier.of(ProductiveSlimes.MODID, slimeName);
 
         EntityType<BaseSlime> slime = Registry.register(Registries.ENTITY_TYPE, slimeId, EntityType.Builder.<BaseSlime>create(
-                (pEntityType, pLevel) -> new BaseSlime(pEntityType, pLevel, variant.cooldown(), variant.getColor(), getSlimeballItemForVariant(variant.name()), Registries.ITEM.get(Identifier.of(variant.growthItem()))),
-                SpawnGroup.CREATURE).build());
+                (pEntityType, pLevel) -> new BaseSlime(pEntityType, pLevel, variant.cooldown(), variant.getColor(), getSlimeballItemForVariant(variant.name()), Registries.ITEM.get(new Identifier(variant.growthItem()))),
+                SpawnGroup.CREATURE).build(slimeName));
 
         registeredSlimes.put(slimeId, slime);
     }
@@ -333,12 +307,6 @@ public class CustomVariantRegistry {
             String spawnEggModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slime_spawn_egg.json";
             String slimeballModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slimeball.json";
 
-            String itemsBucketPath = "assets/productiveslimes/items/molten_" + variants.name() + "_bucket.json";
-            String itemsSlimeBlockPath = "assets/productiveslimes/items/" + variants.name() + "_slime_block.json";
-            String itemsDnaPath = "assets/productiveslimes/items/" + variants.name() + "_slime_dna.json";
-            String itemsSpawnEggPath = "assets/productiveslimes/items/" + variants.name() + "_slime_spawn_egg.json";
-            String itemsSlimeballPath = "assets/productiveslimes/items/" + variants.name() + "_slimeball.json";
-
             // Generate formatted name
             String formattedName = Arrays.stream(variants.name().split("_")).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.joining(" "));
 
@@ -382,79 +350,6 @@ public class CustomVariantRegistry {
                     "  }\n" +
                     "}";
 
-            String itemsBucketContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/molten_" + variants.name() + "_bucket\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": -1\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSlimeBlockContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_block\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsDnaContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_dna\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSpawnEggContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_spawn_egg\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSlimeballContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slimeball\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
             String blockModelContent = "{\n" +
                     "  \"parent\": \"productiveslimes:block/template_slime_block\"\n" +
                     "}";
@@ -474,11 +369,6 @@ public class CustomVariantRegistry {
             resourceData.put(dnaModelPath, dnaModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(spawnEggModelPath, spawnEggModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(slimeballModelPath, slimeballModelContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsBucketPath, itemsBucketContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSlimeBlockPath, itemsSlimeBlockContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsDnaPath, itemsDnaContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSpawnEggPath, itemsSpawnEggContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSlimeballPath, itemsSlimeballContent.getBytes(StandardCharsets.UTF_8));
         }
 
         // Convert langJson map to JSON string

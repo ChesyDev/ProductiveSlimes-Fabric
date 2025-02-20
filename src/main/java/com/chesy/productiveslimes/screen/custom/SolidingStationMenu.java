@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -19,8 +20,8 @@ public class SolidingStationMenu extends ScreenHandler {
     private final PropertyDelegate data;
     private final Inventory inventory;
 
-    public SolidingStationMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
-        this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
+    public SolidingStationMenu(int syncId, PlayerInventory inv, PacketByteBuf byteBuf) {
+        this(syncId, inv, inv.player.getWorld().getBlockEntity(byteBuf.readBlockPos()),new ArrayPropertyDelegate(4));
     }
 
     public SolidingStationMenu(int syncId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {

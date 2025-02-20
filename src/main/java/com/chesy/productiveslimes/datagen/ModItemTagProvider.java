@@ -9,7 +9,7 @@ import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 
@@ -22,8 +22,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        var slimeballTag = getOrCreateTagBuilder(ConventionalItemTags.SLIME_BALLS);
+        var slimeballTag = getOrCreateTagBuilder(ModTags.Items.SLIME_BALLS);
 
+        slimeballTag.add(Items.SLIME_BALL);
         slimeballTag.add(ProductiveSlimes.ENERGY_SLIME_BALL);
 
         for (Tier tier : Tier.values()){

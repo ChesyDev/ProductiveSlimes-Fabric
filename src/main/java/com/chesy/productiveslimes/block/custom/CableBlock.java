@@ -18,13 +18,11 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -60,7 +58,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if(world instanceof ServerWorld pWorld) {
             boolean canConnect = this.canConnectTo(pWorld, neighborPos, direction);
             ModNetworkManager.rebuildNetwork(pWorld, pos);
@@ -70,18 +68,13 @@ public class CableBlock extends Block implements BlockEntityProvider {
         return state;
     }
 
-    @Override
-    protected MapCodec<? extends CableBlock> getCodec() {
-        return createCodec(CableBlock::new);
-    }
-
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CableBlockEntity(pos, state);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         List<VoxelShape> shapes = Lists.newArrayList(CORE_SHAPE);
         if (state.get(UP)) {
             shapes.add(UP_SHAPE);
@@ -174,7 +167,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 

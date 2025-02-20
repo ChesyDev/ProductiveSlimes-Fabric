@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -20,8 +21,8 @@ public class SlimeballCollectorMenu extends ScreenHandler {
     private final World level;
     private final PropertyDelegate data;
 
-    public SlimeballCollectorMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(2));
+    public SlimeballCollectorMenu(int pContainerId, PlayerInventory inv, PacketByteBuf byteBuf) {
+        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(byteBuf.readBlockPos()), new ArrayPropertyDelegate(2));
     }
 
     public SlimeballCollectorMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {

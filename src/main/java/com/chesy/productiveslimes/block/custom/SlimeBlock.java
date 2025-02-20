@@ -1,9 +1,8 @@
 package com.chesy.productiveslimes.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.TranslucentBlock;
+import net.minecraft.block.TransparentBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -11,14 +10,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class SlimeBlock extends TranslucentBlock {
+public class SlimeBlock extends TransparentBlock {
     public final int color;
-    public static final MapCodec<SlimeBlock> CODEC = createCodec(SlimeBlock::new);
-
-    @Override
-    public MapCodec<SlimeBlock> getCodec() {
-        return CODEC;
-    }
 
     public SlimeBlock(AbstractBlock.Settings settings) {
         this(settings, 0x7F7F7F);

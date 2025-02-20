@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class ModPressurePlateBlock extends PressurePlateBlock {
     public ModPressurePlateBlock(BlockSetType type, Settings settings) {
-        super(type, settings);
+        super(ActivationRule.EVERYTHING, settings, type);
     }
 
     @Override

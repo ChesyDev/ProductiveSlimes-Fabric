@@ -48,15 +48,15 @@ public class ModBlocks {
     public static final PillarBlock STRIPPED_SLIMY_LOG = registerBlock("stripped_slimy_log", new ModPillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
     public static final PillarBlock SLIMY_WOOD = registerBlock("slimy_wood", new ModPillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
     public static final PillarBlock STRIPPED_SLIMY_WOOD = registerBlock("stripped_slimy_wood", new ModPillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
-    public static final Block SLIMY_PLANKS = registerBlock("slimy_planks", new SlimeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+    public static final Block SLIMY_PLANKS = registerBlock("slimy_planks", new SlimyBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
     public static final LeavesBlock SLIMY_LEAVES = registerBlock("slimy_leaves", new ModLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
-    public static final SaplingBlock SLIMY_SAPLING = registerBlock("slimy_sapling", new ModSaplingBlock(ModTreeGrowers.SLIMY, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+    public static final SaplingBlock SLIMY_SAPLING = registerBlock("slimy_sapling", new ModSaplingBlock(new ModTreeGrowers(), AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
     // Slimy Wood
     public static final SlabBlock SLIMY_SLAB = registerBlock("slimy_slab", new ModSlabBlock(AbstractBlock.Settings.copy(Blocks.OAK_SLAB)));
     public static final StairsBlock SLIMY_STAIRS = registerBlock("slimy_stairs", new ModStairBlock(ModBlocks.SLIMY_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(Blocks.OAK_STAIRS)));
     public static final PressurePlateBlock SLIMY_PRESSURE_PLATE = registerBlock("slimy_pressure_plate", new ModPressurePlateBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_PRESSURE_PLATE)));
-    public static final ButtonBlock SLIMY_BUTTON = registerBlock("slimy_button", new ModButtonBlock(BlockSetType.OAK, 20, AbstractBlock.Settings.copy(Blocks.OAK_BUTTON)));
+    public static final ButtonBlock SLIMY_BUTTON = registerBlock("slimy_button", new ModButtonBlock(BlockSetType.OAK, 20, AbstractBlock.Settings.copy(Blocks.OAK_BUTTON), true));
     public static final FenceBlock SLIMY_FENCE = registerBlock("slimy_fence", new ModFenceBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE)));
     public static final FenceGateBlock SLIMY_FENCE_GATE = registerBlock("slimy_fence_gate", new ModFenceGateBlock(WoodType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_FENCE_GATE)));
     public static final DoorBlock SLIMY_DOOR = registerBlock("slimy_door", new ModDoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_DOOR)));
@@ -66,7 +66,7 @@ public class ModBlocks {
     public static final StairsBlock SLIMY_STONE_STAIRS = registerBlock("slimy_stone_stairs", new ModStairBlock(ModBlocks.SLIMY_STONE.getDefaultState(), AbstractBlock.Settings.copy(Blocks.STONE_STAIRS)));
     public static final SlabBlock SLIMY_STONE_SLAB = registerBlock("slimy_stone_slab", new ModSlabBlock(AbstractBlock.Settings.copy(Blocks.STONE_SLAB)));
     public static final PressurePlateBlock SLIMY_STONE_PRESSURE_PLATE = registerBlock("slimy_stone_pressure_plate", new ModPressurePlateBlock(BlockSetType.STONE, AbstractBlock.Settings.copy(Blocks.STONE_PRESSURE_PLATE)));
-    public static final ButtonBlock SLIMY_STONE_BUTTON = registerBlock("slimy_stone_button", new ModButtonBlock(BlockSetType.STONE, 20, AbstractBlock.Settings.copy(Blocks.STONE_BUTTON)));
+    public static final ButtonBlock SLIMY_STONE_BUTTON = registerBlock("slimy_stone_button", new ModButtonBlock(BlockSetType.STONE, 20, AbstractBlock.Settings.copy(Blocks.STONE_BUTTON), false));
 
     // Cobblestone
     public static final StairsBlock SLIMY_COBBLESTONE_STAIRS = registerBlock("slimy_cobblestone_stairs", new ModStairBlock(ModBlocks.SLIMY_COBBLESTONE.getDefaultState(), AbstractBlock.Settings.copy(Blocks.COBBLESTONE_STAIRS)));

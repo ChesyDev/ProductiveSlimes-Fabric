@@ -1,9 +1,7 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.SlimeNestBlockEntity;
-import com.chesy.productiveslimes.block.entity.SlimeSqueezerBlockEntity;
 import com.chesy.productiveslimes.util.ContainerUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -30,11 +28,6 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
         super(properties);
     }
 
-    @Override
-    protected MapCodec<? extends Block> getCodec() {
-        return createCodec(SlimeNestBlock::new);
-    }
-
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -42,7 +35,7 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SlimeNestBlockEntity slimeNestBlockEntity) {
             ContainerUtils.dropContents(world, pos, slimeNestBlockEntity);
@@ -51,7 +44,7 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             BlockEntity entity = world.getBlockEntity(pos);
             if (entity instanceof SlimeNestBlockEntity slimeNestBlockEntity) {
@@ -61,7 +54,7 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
             }
         }
 
-        return ItemActionResult.SUCCESS;
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -78,12 +71,12 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return Block.createCuboidShape(0, 0, 0, 16, 16, 16);
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -100,12 +93,12 @@ public class SlimeNestBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 }

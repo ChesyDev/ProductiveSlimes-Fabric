@@ -87,11 +87,6 @@ public abstract class DynamicFluid extends WaterFluid {
         }
 
         @Override
-        public int getMaxFlowDistance(WorldView world) {
-            return 5;
-        }
-
-        @Override
         public boolean isStill(FluidState state) {
             return false;
         }
@@ -100,11 +95,6 @@ public abstract class DynamicFluid extends WaterFluid {
     public static class Still extends DynamicFluid {
         public Still(String name) {
             super(name);
-        }
-
-        @Override
-        public int getMaxFlowDistance(WorldView world) {
-            return 4;
         }
 
         @Override

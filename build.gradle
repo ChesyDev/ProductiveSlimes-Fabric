@@ -41,8 +41,6 @@ dependencies {
 
 	include modApi("teamreborn:energy:${energy_api_version}")
 
-	modImplementation("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${project.jei_version}")
-
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 

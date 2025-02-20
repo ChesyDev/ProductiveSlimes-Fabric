@@ -102,19 +102,8 @@ public class CustomVariantResourcePack implements ResourcePack {
     }
 
     @Override
-    public ResourcePackInfo getInfo() {
-        return new ResourcePackInfo("productiveslimes_extra", Text.literal("Productive Slimes Resources"),
-                new ResourcePackSource() {
-                    @Override
-                    public Text decorate(Text name) {
-                        return Text.literal("Resource for Productive Slimes custom variant");
-                    }
-
-                    @Override
-                    public boolean canBeEnabledLater() {
-                        return true;
-                    }
-                }, Optional.empty());
+    public String getName() {
+        return "Productive Slimes Resources";
     }
 
     @Override

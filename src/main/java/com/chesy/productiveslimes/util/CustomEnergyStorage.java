@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.util;
 
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 public class CustomEnergyStorage extends SimpleEnergyStorage {
@@ -37,13 +36,13 @@ public class CustomEnergyStorage extends SimpleEnergyStorage {
         setAmount(this.amount - (long)amount);
     }
 
-    public NbtCompound serializeNBT(RegistryWrapper.WrapperLookup registryWrapper) {
+    public NbtCompound serializeNBT() {
         NbtCompound nbt = new NbtCompound();
         nbt.putInt("amount", this.getAmountStored());
         return nbt;
     }
 
-    public void deserializeNBT(RegistryWrapper.WrapperLookup registryWrapper, NbtCompound nbt) {
+    public void deserializeNBT(NbtCompound nbt) {
         setAmount(nbt.getInt("amount"));
     }
 }

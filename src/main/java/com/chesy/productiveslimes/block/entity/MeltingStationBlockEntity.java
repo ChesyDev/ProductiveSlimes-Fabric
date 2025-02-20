@@ -1,6 +1,5 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
@@ -14,13 +13,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
+public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
@@ -108,11 +106,6 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return this.pos;
-    }
-
-    @Override
     public Text getDisplayName() {
         return Text.translatable("block.productiveslimes.melting_station");
     }
@@ -124,20 +117,20 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        Inventories.writeNbt(nbt, inventory, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, inventory);
         nbt.putInt("EnergyInventory", energyHandler.getAmountStored());
 
         nbt.putInt("melting_station.progress", progress);
 
-        super.writeNbt(nbt, registries);
+        super.writeNbt(nbt);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
 
-        Inventories.readNbt(nbt, inventory, registries);
+        Inventories.readNbt(nbt, inventory);
         energyHandler.setAmount(nbt.getInt("EnergyInventory"));
 
         progress = nbt.getInt("melting_station.progress");
@@ -158,14 +151,14 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
-        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        Optional<MeltingRecipe> recipe = getCurrentRecipe();
 
-        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().getEnergy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
             if(hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().getEnergy());
+                energyHandler.removeAmount(recipe.get().getEnergy());
                 craftItem();
                 resetProgress();
             }
@@ -179,11 +172,11 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        Optional<MeltingRecipe> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().getOutputs();
+            List<ItemStack> results = recipe.get().getOutputs();
 
-            this.removeStack(INPUT_SLOT, recipe.get().value().getInputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().getInputCount());
 
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
@@ -206,17 +199,17 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     private boolean hasRecipe() {
-        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        Optional<MeltingRecipe> recipe = getCurrentRecipe();
 
         if (recipe.isEmpty()) {
             return false;
         }
 
-        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().getInputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().getInputCount()) {
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().getOutputs();
+        List<ItemStack> results = recipe.get().getOutputs();
 
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {
@@ -251,9 +244,9 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<MeltingRecipe>> getCurrentRecipe(){
+    private Optional<MeltingRecipe> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
-        return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(this.getStack(INPUT_SLOT)), world);
+        return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
@@ -277,5 +270,10 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     public PropertyDelegate getData() {
         return data;
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 }

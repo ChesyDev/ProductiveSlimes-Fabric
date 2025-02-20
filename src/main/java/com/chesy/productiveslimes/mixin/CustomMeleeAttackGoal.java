@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MeleeAttackGoal.class)
 public abstract class CustomMeleeAttackGoal {
@@ -19,8 +18,8 @@ public abstract class CustomMeleeAttackGoal {
     public abstract void stop();
     @Accessor
     public abstract PathAwareEntity getMob();
-    @Inject(method = "canAttack", at = @At("HEAD"))
-    private void canPerformAttack(LivingEntity entity, CallbackInfoReturnable<Boolean> info) {
+    @Inject(method = "attack", at = @At("HEAD"))
+    private void canPerformAttack(LivingEntity entity, double squaredDistance, CallbackInfo ci) {
         if (entity instanceof SlimeEntity && !ProductiveSlimes.ironGolemCanAttackSlime) {
             stop();
         }

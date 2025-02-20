@@ -95,7 +95,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         slimeballItem(itemModelGenerator, ProductiveSlimes.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
-        itemModelGenerator.register(ModItems.ENERGY_SLIME_SPAWN_EGG, new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
+        itemModelGenerator.register(ModItems.ENERGY_SLIME_SPAWN_EGG, new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
@@ -104,7 +104,7 @@ public class ModModelProvider extends FabricModelProvider {
             bucketItem(itemModelGenerator, ModTiers.getBucketItemByName(tiers.name()));
             dnaItem(itemModelGenerator, ModTiers.getDnaItemByName(tiers.name()));
             SpawnEggItem spawnEggItem = ModTiers.getSpawnEggItemByName(tiers.name());
-            itemModelGenerator.register(spawnEggItem, new Model(Optional.of(Identifier.of("item/template_spawn_egg")), Optional.empty()));
+            itemModelGenerator.register(spawnEggItem, new Model(Optional.of(new Identifier("item/template_spawn_egg")), Optional.empty()));
         }
     }
 

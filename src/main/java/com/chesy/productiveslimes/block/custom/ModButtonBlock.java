@@ -8,8 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ModButtonBlock extends ButtonBlock {
-    public ModButtonBlock(BlockSetType blockSetType, int pressTicks, Settings settings) {
-        super(blockSetType, pressTicks, settings);
+    public ModButtonBlock(BlockSetType blockSetType, int pressTicks, Settings settings, boolean wooden) {
+        super(settings, blockSetType, pressTicks, wooden);
     }
 
     @Override

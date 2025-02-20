@@ -2,7 +2,6 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
@@ -18,6 +17,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
@@ -36,7 +36,7 @@ import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
+public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     protected final PropertyDelegate data;
@@ -193,21 +193,21 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
 
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("Energy", energyHandler.serializeNBT(registries));
+        Inventories.writeNbt(nbt, inventory);
+        nbt.put("Energy", energyHandler.serializeNBT());
         nbt.putInt("Progress", progress);
         nbt.putInt("MaxProgress", maxProgress);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
 
-        Inventories.readNbt(nbt, inventory, registries);
-        this.energyHandler.deserializeNBT(registries, nbt.getCompound("Energy"));
+        Inventories.readNbt(nbt, inventory);
+        this.energyHandler.deserializeNBT(nbt.getCompound("Energy"));
         this.progress = nbt.getInt("Progress");
         this.maxProgress = nbt.getInt("MaxProgress");
     }
@@ -240,12 +240,12 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return this.pos;
+    public DefaultedList<ItemStack> getItems() {
+        return inventory;
     }
 
     @Override
-    public DefaultedList<ItemStack> getItems() {
-        return inventory;
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(this.pos);
     }
 }

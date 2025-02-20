@@ -1,19 +1,21 @@
 package com.chesy.productiveslimes.datagen.builder;
 
+import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.SqueezingRecipe;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
-import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
+import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,12 +23,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
     private final List<Ingredient> ingredients = new ArrayList<>();
     private int energy;
     private final List<ItemStack> outputs = new ArrayList<>();
-    private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
+    private final Map<String, CriterionConditions> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
 
@@ -54,7 +57,7 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     @Override
-    public CraftingRecipeJsonBuilder criterion(String name, AdvancementCriterion<?> criterion) {
+    public CraftingRecipeJsonBuilder criterion(String name, CriterionConditions criterion) {
         this.criteria.put(name, criterion);
         return this;
     }
@@ -71,19 +74,64 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     @Override
-    public void offerTo(RecipeExporter exporter, Identifier recipeKey) {
-        Advancement.Builder advancement = exporter.getAdvancementBuilder()
-                .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
-                .rewards(AdvancementRewards.Builder.recipe(recipeKey))
-                .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
-        this.criteria.forEach(advancement::criterion);
+    public void offerTo(Consumer<RecipeJsonProvider> consumer, Identifier resourceLocation) {
+        consumer.accept(new Result(resourceLocation, ingredients, outputs, energy));
+    }
 
-        SqueezingRecipe recipe = new SqueezingRecipe(
-                this.ingredients,
-                this.outputs,
-                this.energy
-        );
-        // Pass the recipe and advancement to the output
-        exporter.accept(recipeKey, recipe, advancement.build(Identifier.of(recipeKey.getNamespace(), "recipes/" + recipeKey.getPath())));
+    public static class Result implements RecipeJsonProvider{
+        private final Identifier id;
+        private final List<Ingredient> ingredients;
+        private final List<ItemStack> outputs;
+        private final int energy;
+
+        public Result(Identifier id, List<Ingredient> ingredients, List<ItemStack> outputs, int energy) {
+            this.id = id;
+            this.ingredients = ingredients;
+            this.outputs = outputs;
+            this.energy = energy;
+        }
+
+        @Override
+        public void serialize(JsonObject jsonObject) {
+            jsonObject.addProperty("type", "productiveslimes:squeezing");
+            jsonObject.addProperty("energy", energy);
+
+            JsonArray ingredientArray = new JsonArray();
+            for (Ingredient ingredient : ingredients) {
+                ingredientArray.add(ingredient.toJson());
+            }
+            jsonObject.add("ingredients", ingredientArray);
+
+            JsonArray outputArray = new JsonArray();
+            for (ItemStack output : outputs) {
+                JsonObject outputJson = new JsonObject();
+                outputJson.addProperty("item", output.getTranslationKey().substring(output.getTranslationKey().indexOf(".") + 1).replace('.', ':'));
+                outputJson.addProperty("count", output.getCount());
+                outputArray.add(outputJson);
+            }
+            jsonObject.add("output", outputArray);
+        }
+
+        @Override
+        public Identifier getRecipeId() {
+            return id;
+        }
+
+        @Override
+        public RecipeSerializer<?> getSerializer() {
+            return ModRecipes.DNA_EXTRACTING_SERIALIZER;
+        }
+
+        @Nullable
+        @Override
+        public JsonObject toAdvancementJson() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public Identifier getAdvancementId() {
+            return null;
+        }
     }
 }

@@ -5,7 +5,6 @@ import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.block.entity.renderer.*;
 import com.chesy.productiveslimes.config.CustomVariant;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
@@ -56,8 +55,8 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMEBALL_COLLECTOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIME_NEST, RenderLayer.getCutout());
-
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, RenderLayer.getTranslucent());
+
         BlockEntityRendererFactories.register(ModBlockEntities.SOLIDING_STATION, SolidingStationBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.FLUID_TANK, FluidTankBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_EXTRACTOR, DnaExtractorBlockEntityRenderer::new);
@@ -73,11 +72,14 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFF7BC35C, ModItems.SLIME_DNA);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFFFFFF70, ProductiveSlimes.ENERGY_SLIME_BALL);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (!stack.contains(ModDataComponents.SLIME_DATA))
+            if (!stack.hasNbt())
                 return 0xFFFFFFFF;
 
-            SlimeData slimeData = stack.get(ModDataComponents.SLIME_DATA);
-            return slimeData != null ? slimeData.color() : 0xFFFFFFFF;
+            if (stack.getNbt() == null)
+                return 0xFFFFFFFF;
+
+            SlimeData slimeData = SlimeData.fromTag(stack.getNbt().getCompound("slime_data"));
+            return slimeData.color();
         }, ModItems.SLIME_ITEM);
 
         for (Tier tier : Tier.values()){

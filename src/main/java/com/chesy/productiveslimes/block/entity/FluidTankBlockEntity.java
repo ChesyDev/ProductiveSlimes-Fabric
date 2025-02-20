@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.block.entity;
 
+import com.chesy.productiveslimes.util.ImmutableFluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
@@ -41,20 +42,23 @@ public class FluidTankBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        var fluidNbt = new NbtCompound();
-        this.fluidStorage.writeNbt(fluidNbt, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        NbtCompound fluidNbt = new NbtCompound();
+        ImmutableFluidVariant immutableFluidVariant = new ImmutableFluidVariant(this.fluidStorage.variant.getFluid(), this.fluidStorage.amount);
+        immutableFluidVariant.toNbt(fluidNbt);
         nbt.put("FluidTank", fluidNbt);
 
-        super.writeNbt(nbt, registries);
+        super.writeNbt(nbt);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
 
         if(nbt.contains("FluidTank", NbtElement.COMPOUND_TYPE)) {
-            this.fluidStorage.readNbt(nbt.getCompound("FluidTank"), registries);
+            ImmutableFluidVariant fluidVariant = ImmutableFluidVariant.fromNbt(nbt.getCompound("FluidTank"));
+            this.fluidStorage.variant = FluidVariant.of(fluidVariant.fluid());
+            this.fluidStorage.amount = fluidVariant.amount();
         }
     }
 
@@ -65,9 +69,9 @@ public class FluidTankBlockEntity extends BlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        var nbt = super.toInitialChunkDataNbt(registries);
-        writeNbt(nbt, registries);
+    public NbtCompound toInitialChunkDataNbt() {
+        var nbt = super.toInitialChunkDataNbt();
+        writeNbt(nbt);
         return nbt;
     }
 }

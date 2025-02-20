@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.item.custom.BucketItem;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.SolidingRecipe;
@@ -16,15 +15,14 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -40,7 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SolidingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
+public class SolidingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyBlockEntity {
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
         @Override
         protected void onFinalCommit() {
@@ -101,11 +99,6 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return this.pos;
-    }
-
-    @Override
     public Text getDisplayName() {
         return Text.translatable("block.productiveslimes.soliding_station");
     }
@@ -117,20 +110,20 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        Inventories.writeNbt(nbt, inventory, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, inventory);
         nbt.putInt("EnergyInventory", energyHandler.getAmountStored());
 
         nbt.putInt("soliding_station.progress", progress);
 
-        super.writeNbt(nbt, registries);
+        super.writeNbt(nbt);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
 
-        Inventories.readNbt(nbt, inventory, registries);
+        Inventories.readNbt(nbt, inventory);
         energyHandler.setAmount(nbt.getInt("EnergyInventory"));
 
         progress = nbt.getInt("soliding_station.progress");
@@ -147,13 +140,13 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
-        Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
-        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        Optional<SolidingRecipe> recipe = getCurrentRecipe();
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().getEnergy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
             if(hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().getEnergy());
+                energyHandler.removeAmount(recipe.get().getEnergy());
                 craftItem();
                 resetProgress();
                 markDirty(pWorld, pPos, pState);
@@ -169,11 +162,11 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
+        Optional<SolidingRecipe> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().getOutputs();
+            List<ItemStack> results = recipe.get().getOutputs();
 
-            this.removeStack(INPUT_SLOT, recipe.get().value().getInputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().getInputCount());
 
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
@@ -197,17 +190,17 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     private boolean hasRecipe() {
-        Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
+        Optional<SolidingRecipe> recipe = getCurrentRecipe();
 
         if (recipe.isEmpty()) {
             return false;
         }
 
-        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().getInputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().getInputCount()) {
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().getOutputs();
+        List<ItemStack> results = recipe.get().getOutputs();
 
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {
@@ -243,9 +236,9 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<SolidingRecipe>> getCurrentRecipe(){
+    private Optional<SolidingRecipe> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
-        return world.getRecipeManager().getFirstMatch(ModRecipes.SOLIDING_TYPE, new SingleStackRecipeInput(this.getStack(INPUT_SLOT)), world);
+        return world.getRecipeManager().getFirstMatch(ModRecipes.SOLIDING_TYPE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
@@ -294,9 +287,12 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        var nbt = super.toInitialChunkDataNbt(registries);
-        writeNbt(nbt, registries);
-        return nbt;
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 }

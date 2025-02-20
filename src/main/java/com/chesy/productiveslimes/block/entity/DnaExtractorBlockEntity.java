@@ -12,16 +12,15 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,7 +37,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedInventory, IEnergyBlockEntity, ExtendedScreenHandlerFactory<BlockPos> {
+public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedInventory, IEnergyBlockEntity, ExtendedScreenHandlerFactory {
     private float rotation;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final int[] inputSlots = new int[]{0};
@@ -89,8 +88,8 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return pos;
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 
     @Override
@@ -105,21 +104,21 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("Energy", energyHandler.serializeNBT(registries));
+    protected void writeNbt(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, inventory);
+        nbt.put("Energy", energyHandler.serializeNBT());
         nbt.putInt("Progress", progress);
         nbt.putInt("MaxProgress", maxProgress);
 
-        super.writeNbt(nbt, registries);
+        super.writeNbt(nbt);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
 
-        Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("Energy"));
+        Inventories.readNbt(nbt, inventory);
+        energyHandler.deserializeNBT(nbt.getCompound("Energy"));
         progress = nbt.getInt("Progress");
         maxProgress = nbt.getInt("MaxProgress");
     }
@@ -131,8 +130,8 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
     }
 
     @Override
@@ -146,13 +145,13 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     public void tick(World pLevel, BlockPos pPos, BlockState pState) {
-        Optional<RecipeEntry<DnaExtractingRecipe>> recipe = getCurrentRecipe();
-        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy()){
+        Optional<DnaExtractingRecipe> recipe = getCurrentRecipe();
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().energy()){
             increaseCraftingProgress();
             markDirty(pLevel, pPos, pState);
 
             if(hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().energy());
+                energyHandler.removeAmount(recipe.get().energy());
                 craftItem();
                 resetProgress();
             }
@@ -166,12 +165,12 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     private void craftItem() {
-        Optional<RecipeEntry<DnaExtractingRecipe>> recipe = getCurrentRecipe();
+        Optional<DnaExtractingRecipe> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().output();
+            List<ItemStack> results = recipe.get().output();
 
             // Extract the input item from the input slot
-            this.removeStack(inputSlots[0], recipe.get().value().inputCount());
+            this.removeStack(inputSlots[0], recipe.get().inputCount());
 
             // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
@@ -183,7 +182,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
                     }
                     else{
                         Random random = new Random();
-                        float chance = recipe.get().value().outputChance();
+                        float chance = recipe.get().outputChance();
                         if (random.nextFloat() < chance){
                             this.setStack(outputSlot, new ItemStack(result.getItem(),
                                     this.inventory.get(outputSlot).getCount() + result.getCount()));
@@ -212,17 +211,17 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     private boolean hasRecipe() {
-        Optional<RecipeEntry<DnaExtractingRecipe>> recipe = getCurrentRecipe();
+        Optional<DnaExtractingRecipe> recipe = getCurrentRecipe();
 
         if (recipe.isEmpty()) {
             return false;
         }
 
-        if (inventory.get(0).getCount() < recipe.get().value().inputCount()) {
+        if (inventory.get(0).getCount() < recipe.get().inputCount()) {
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().output();
+        List<ItemStack> results = recipe.get().output();
 
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {
@@ -259,9 +258,9 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
         return emptyCount >= count;
     }
 
-    private Optional<RecipeEntry<DnaExtractingRecipe>> getCurrentRecipe(){
+    private Optional<DnaExtractingRecipe> getCurrentRecipe(){
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_EXTRACTING_TYPE, new SingleStackRecipeInput(inventory.get(0)), level);
+        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_EXTRACTING_TYPE, new SimpleInventory(inventory.get(0)), level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

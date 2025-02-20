@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class ModFenceGateBlock extends FenceGateBlock {
 
     public ModFenceGateBlock(WoodType type, Settings settings) {
-        super(type, settings);
+        super(settings, type);
     }
 
     @Override

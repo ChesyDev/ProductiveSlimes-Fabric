@@ -2,8 +2,8 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.screen.custom.SlimeballCollectorMenu;
 import com.chesy.productiveslimes.util.ImplementedInventory;
+import com.chesy.productiveslimes.util.ModTags;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SlimeballCollectorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
+public class SlimeballCollectorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private static final int RANGE_XZ = 8;
     private static final int RANGE_Y = 256;
     private int enableOutline = 0;
@@ -73,16 +73,16 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        Inventories.writeNbt(nbt, inventory);
         nbt.putInt("enableOutline", enableOutline);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        Inventories.readNbt(nbt, inventory);
         enableOutline = nbt.getInt("enableOutline");
     }
 
@@ -107,7 +107,7 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
         // Find all dropped items in the collection area.
         List<ItemEntity> items = this.world.getNonSpectatingEntities(ItemEntity.class, collectionArea);
         for (ItemEntity item : items) {
-            if (!item.isRemoved() && item.getStack().isIn(ConventionalItemTags.SLIME_BALLS)) {
+            if (!item.isRemoved() && item.getStack().isIn(ModTags.Items.SLIME_BALLS)) {
                 collectItem(item);
             }
         }
@@ -149,14 +149,14 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
         return inventory;
     }
 
-    @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return pos;
-    }
-
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new SlimeballCollectorMenu(syncId, playerInventory, this, data);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 }

@@ -25,7 +25,7 @@ public class ModIconButton extends ButtonWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         int textureX = isOpen ? closedTextureX : openTextureX;
         int textureY = isOpen ? closedTextureY : openTextureY;
         context.drawTexture(iconTexture, this.getX(), this.getY(), textureX, textureY, this.width, this.height, 256, 256);

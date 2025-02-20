@@ -95,28 +95,12 @@ public class CustomVariantDataPack implements ResourcePack {
     }
 
     @Override
-    public ResourcePackInfo getInfo() {
-        return new ResourcePackInfo("productiveslimes_datapack", Text.literal("In Memory Pack"),
-                new ResourcePackSource() {
-                    @Override
-                    public Text decorate(Text name) {
-                        return Text.literal("In Memory Pack");
-                    }
-
-                    @Override
-                    public boolean canBeEnabledLater() {
-                        return true;
-                    }
-                }, Optional.empty());
+    public String getName() {
+        return "productiveslimes_datapack";
     }
 
     @Override
     public void close() {
 
-    }
-
-    @Override
-    public String getId() {
-        return "productiveslimes_datapack";
     }
 }

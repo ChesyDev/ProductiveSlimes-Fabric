@@ -1,14 +1,8 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
-import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
-import com.chesy.productiveslimes.util.ImmutableFluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

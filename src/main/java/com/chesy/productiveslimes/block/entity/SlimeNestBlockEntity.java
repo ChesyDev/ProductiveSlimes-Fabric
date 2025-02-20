@@ -1,6 +1,5 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.screen.custom.SlimeNestMenu;
 import com.chesy.productiveslimes.util.ImplementedInventory;
@@ -13,10 +12,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -31,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
+public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private SlimeData slimeData;
     private int cooldown = 0;
     private int counter = 0;
@@ -100,8 +99,8 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
                 dropItem = ItemStack.EMPTY;
             }
             else{
-                if (stack.contains(ModDataComponents.SLIME_DATA)){
-                    slimeData = stack.get(ModDataComponents.SLIME_DATA);
+                if (stack.getNbt() != null &&  stack.getNbt().contains("slime_data")){
+                    slimeData = SlimeData.fromTag(stack.getNbt().getCompound("slime_data"));
                     assert slimeData != null;
                     cooldown = slimeData.cooldown();
                     dropItem = slimeData.dropItem();
@@ -116,27 +115,27 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        Inventories.writeNbt(nbt, inventory);
         nbt.putInt("counter", counter);
         nbt.putInt("cooldown", cooldown);
         if (slimeData != null && !dropItem.isEmpty()) {
-            nbt.put("dropItem", dropItem.encode(registries));
-            nbt.put("slimeData", slimeData.toTag(new NbtCompound(), registries));
+            nbt.put("dropItem", dropItem.writeNbt(new NbtCompound()));
+            nbt.put("slimeData", slimeData.toTag(new NbtCompound()));
         }
         nbt.putInt("tick", tick);
         nbt.putFloat("multiplier", multiplier);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        Inventories.readNbt(nbt, inventory);
         counter = nbt.getInt("counter");
         cooldown = nbt.getInt("cooldown");
-        dropItem = ItemStack.fromNbtOrEmpty(registries, nbt.getCompound("dropItem"));
-        slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"), registries);
+        dropItem = ItemStack.fromNbt(nbt.getCompound("dropItem"));
+        slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"));
         tick = nbt.getInt("tick");
         multiplier = nbt.getFloat("multiplier");
     }
@@ -211,8 +210,8 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
     }
 
     public ItemStack getSlime() {
@@ -236,14 +235,14 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
         return inventory;
     }
 
-    @Override
-    public BlockPos getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-        return pos;
-    }
-
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new SlimeNestMenu(syncId, playerInventory, this, data);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
+        packetByteBuf.writeBlockPos(pos);
     }
 }

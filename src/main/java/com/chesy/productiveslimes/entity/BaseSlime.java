@@ -86,11 +86,11 @@ public class BaseSlime extends SlimeEntity {
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
-        builder.add(RESOURCE, ItemStack.EMPTY);
-        builder.add(ID_SIZE, 1);
-        builder.add(GROWTH_COUNTER, 0);
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(RESOURCE, ItemStack.EMPTY);
+        this.dataTracker.startTracking(ID_SIZE, 1);
+        this.dataTracker.startTracking(GROWTH_COUNTER, 0);
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
@@ -102,7 +102,7 @@ public class BaseSlime extends SlimeEntity {
 
     @Nullable
     @Override
-    public EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute) {
+    public EntityAttributeInstance getAttributeInstance(EntityAttribute attribute) {
         return createAttributes().build().createOverride(EntityAttributeInstance::clearModifiers, attribute);
     }
 
@@ -152,7 +152,7 @@ public class BaseSlime extends SlimeEntity {
     }
 
     @Override
-    public double getAttributeBaseValue(RegistryEntry<EntityAttribute> attribute) {
+    public double getAttributeBaseValue(EntityAttribute attribute) {
         return createAttributes().build().getBaseValue(attribute);
     }
 
