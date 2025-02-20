@@ -1,8 +1,6 @@
 package com.chesy.productiveslimes.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.*;
@@ -21,11 +19,13 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class BaseSlime extends SlimeEntity {
     private static final TrackedData<ItemStack> RESOURCE = DataTracker.registerData(BaseSlime.class, TrackedDataHandlerRegistry.ITEM_STACK);
@@ -165,7 +165,32 @@ public class BaseSlime extends SlimeEntity {
         super.readCustomDataFromNbt(nbt);
         this.dataTracker.set(ID_SIZE, nbt.getInt("size"));
         this.dataTracker.set(GROWTH_COUNTER, nbt.getInt("growth_counter"));
+    }
 
+    @Override
+    public boolean saveNbt(NbtCompound pCompound) {
+        pCompound.putInt("size", this.getSize());
+        pCompound.putInt("growth_counter", this.dataTracker.get(GROWTH_COUNTER));
+        pCompound.put("resource", this.dataTracker.get(RESOURCE).writeNbt(new NbtCompound()));
+
+        return super.saveNbt(pCompound);
+    }
+
+    @Override
+    public void readNbt(NbtCompound pCompound) {
+        super.readNbt(pCompound);
+
+        if (pCompound.contains("size", 99)) {
+            this.setSize(pCompound.getInt("size"), false);
+        }
+
+        if (pCompound.contains("growth_counter", 99)) {
+            this.dataTracker.set(GROWTH_COUNTER, pCompound.getInt("growth_counter"));
+        }
+
+        if (pCompound.contains("resource", 10)) {
+            this.setResource(ItemStack.fromNbt(pCompound.getCompound("resource")));
+        }
     }
 
     @Override
@@ -202,7 +227,6 @@ public class BaseSlime extends SlimeEntity {
         super.tick();
         if (!isDead()) {
             countGrowth();
-
             if (readyForNewResource()) {
                 dropResource();
                 resetGrowthCount();
@@ -242,7 +266,6 @@ public class BaseSlime extends SlimeEntity {
         this.experiencePoints = i;
     }
 
-
     @Override
     protected boolean isDisallowedInPeaceful() {
         return false;
@@ -260,6 +283,53 @@ public class BaseSlime extends SlimeEntity {
     @Override
     protected ParticleEffect getParticles() {
         return new ItemStackParticleEffect(ParticleTypes.ITEM, this.getGrowthItem());
+    }
+
+    @Override
+    public void onDataTrackerUpdate(List<DataTracker.SerializedEntry<?>> dataEntries) {
+        for (DataTracker.SerializedEntry<?> entry : dataEntries) {
+            if (entry.id() == ID_SIZE.getId()) {
+                this.calculateDimensions();
+                this.setYaw(this.headYaw);
+                this.bodyYaw = this.headYaw;
+                if (this.isTouchingWater() && this.random.nextInt(20) == 0) {
+                    this.onSwimmingStart();
+                }
+                break;
+            }
+        }
+        super.onDataTrackerUpdate(dataEntries);
+    }
+
+    @Override
+    public void calculateDimensions() {
+        double prevX = this.getX();
+        double prevY = this.getY();
+        double prevZ = this.getZ();
+        super.calculateDimensions(); // This now uses the overridden getDimensions()
+        // Ensure the bounding box is correctly set based on the current dimensions
+        EntityDimensions dimensions = this.getDimensions(EntityPose.STANDING);
+        this.setBoundingBox(new Box(
+                this.getX() - dimensions.width / 2,
+                this.getY(),
+                this.getZ() - dimensions.width / 2,
+                this.getX() + dimensions.width / 2,
+                this.getY() + dimensions.height,
+                this.getZ() + dimensions.width / 2
+        ));
+        this.setPos(prevX, prevY, prevZ);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(EntityPose pose) {
+        float multiplier = switch (this.getSize()) {
+            case 1 -> 3f;
+            case 2 -> 1.75f;
+            case 3 -> 1.4f;
+            default -> 1f;
+        };
+
+        return super.getDimensions(pose).scaled(this.getSize() * multiplier, 1.1f); // Or adjust to desired scaling
     }
 
     static class SlimeFollowGoal extends Goal {
