@@ -28,6 +28,10 @@ fabricApi {
 	}
 }
 
+runDatagen {
+	jvmArgs "-Dfabric.datagen=true"
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -40,8 +44,7 @@ dependencies {
 	modImplementation "com.electronwill.night-config:toml:3.8.1"
 
 	include modApi("teamreborn:energy:${energy_api_version}")
-
-	modImplementation("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${project.jei_version}")
+	modImplementation "curse.maven:lake-feature-fix-1203911:6210098"
 
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"

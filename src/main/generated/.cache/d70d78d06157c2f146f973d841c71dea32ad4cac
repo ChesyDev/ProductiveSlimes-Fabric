@@ -1,4 +1,8 @@
-// 1.21.1	2025-02-10T15:18:46.3741803	Productive Slimes/
+// 1.21.1	2025-02-21T15:13:07.3832906	Productive Slimes/
+6ef1984d560ef924dd9f69e98848f6ad86b8b15b data\productiveslimes\worldgen\configured_feature\lake_molten_dirt.json
+cea49b7ab771d11bbd07eea822886bf49ded3423 data\productiveslimes\worldgen\placed_feature\lake_molten_stone.json
 26f8aef9801edd96b158a3da02fc8544a8747614 data\productiveslimes\worldgen\placed_feature\slimy_tree.json
 3a5e019e295a95521ef2cdd62264421cc6c873c1 data\productiveslimes\worldgen\configured_feature\slimy_tree.json
-27447e01035fd0c38885ba24be3bb7ac7cd53300 data\productiveslimes\worldgen\biome\slimy_land.json
+2934663dda9c982fa3c5ff936f0541b725cafaf3 data\productiveslimes\worldgen\configured_feature\lake_molten_stone.json
+90a1b0c26248b2f9403e6fd488ad4484ceff3131 data\productiveslimes\worldgen\placed_feature\lake_molten_dirt.json
+4486fdc8d8b9727fd1e37f603e649dca6604c649 data\productiveslimes\worldgen\biome\slimy_land.json
