@@ -333,12 +333,6 @@ public class CustomVariantRegistry {
             String spawnEggModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slime_spawn_egg.json";
             String slimeballModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slimeball.json";
 
-            String itemsBucketPath = "assets/productiveslimes/items/molten_" + variants.name() + "_bucket.json";
-            String itemsSlimeBlockPath = "assets/productiveslimes/items/" + variants.name() + "_slime_block.json";
-            String itemsDnaPath = "assets/productiveslimes/items/" + variants.name() + "_slime_dna.json";
-            String itemsSpawnEggPath = "assets/productiveslimes/items/" + variants.name() + "_slime_spawn_egg.json";
-            String itemsSlimeballPath = "assets/productiveslimes/items/" + variants.name() + "_slimeball.json";
-
             // Generate formatted name
             String formattedName = Arrays.stream(variants.name().split("_")).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.joining(" "));
 
@@ -382,79 +376,6 @@ public class CustomVariantRegistry {
                     "  }\n" +
                     "}";
 
-            String itemsBucketContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/molten_" + variants.name() + "_bucket\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": -1\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSlimeBlockContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_block\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsDnaContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_dna\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSpawnEggContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_spawn_egg\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
-            String itemsSlimeballContent = "{\n" +
-                    "  \"model\": {\n" +
-                    "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slimeball\",\n" +
-                    "    \"tints\": [\n" +
-                    "      {\n" +
-                    "        \"type\": \"minecraft:constant\",\n" +
-                    "        \"value\": " + ColorHelper.Argb.fullAlpha(variants.getColor()) + "\n" +
-                    "      }\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}";
-
             String blockModelContent = "{\n" +
                     "  \"parent\": \"productiveslimes:block/template_slime_block\"\n" +
                     "}";
@@ -474,11 +395,6 @@ public class CustomVariantRegistry {
             resourceData.put(dnaModelPath, dnaModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(spawnEggModelPath, spawnEggModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(slimeballModelPath, slimeballModelContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsBucketPath, itemsBucketContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSlimeBlockPath, itemsSlimeBlockContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsDnaPath, itemsDnaContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSpawnEggPath, itemsSpawnEggContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(itemsSlimeballPath, itemsSlimeballContent.getBytes(StandardCharsets.UTF_8));
         }
 
         // Convert langJson map to JSON string
@@ -607,7 +523,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"minecraft:crafting_shaped\",\n" +
                 "  \"category\": \"building\",\n" +
                 "  \"key\": {\n" +
-                "    \"A\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    \"A\": {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    }\n" +
                 "  },\n" +
                 "  \"pattern\": [\n" +
                 "    \"AAA\",\n" +
@@ -630,7 +548,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"minecraft:crafting_shapeless\",\n" +
                 "  \"category\": \"misc\",\n" +
                 "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"result\": {\n" +
                 "    \"count\": 9,\n" +
@@ -659,7 +579,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:melting\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slime_block\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 2,\n" +
                 "  \"output\": [\n" +
@@ -680,7 +602,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:melting\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + name + "_slimeball\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 4,\n" +
                 "  \"output\": [\n" +
@@ -701,7 +625,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:soliding\",\n" +
                 "  \"energy\": 200,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:molten_" + variant.name() + "_bucket\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:molten_" + variant.name() + "_bucket\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 1,\n" +
                 "  \"output\": [\n" +
@@ -726,7 +652,9 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:dna_extracting\",\n" +
                 "  \"energy\": 400,\n" +
                 "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + variant.name() + "_slimeball\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slimeball\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 1,\n" +
                 "  \"output\": [\n" +
@@ -752,9 +680,15 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
                 "  \"energy\": 600,\n" +
                 "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 2,\n" +
                 "  \"output\": [\n" +
@@ -775,9 +709,15 @@ public class CustomVariantRegistry {
                 "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
                 "  \"energy\": 600,\n" +
                 "  \"ingredients\": [\n" +
-                "  \"" + variant.synthesizingInputDna1() + "\",\n" +
-                "  \"" + variant.synthesizingInputDna2() + "\",\n" +
-                "  \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputDna1() + "\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputDna2() + "\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"" + variant.synthesizingInputItem() + "\"\n" +
+                "    }\n" +
                 "  ],\n" +
                 "  \"inputCount\": 4,\n" +
                 "  \"output\": [\n" +
