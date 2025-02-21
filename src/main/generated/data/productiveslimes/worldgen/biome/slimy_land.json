@@ -16,7 +16,10 @@
   },
   "features": [
     [],
-    [],
+    [
+      "productiveslimes:lake_molten_dirt",
+      "productiveslimes:lake_molten_stone"
+    ],
     [],
     [],
     [],
