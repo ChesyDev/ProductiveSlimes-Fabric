@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:lake",
+  "config": {
+    "barrier": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "productiveslimes:slimy_dirt"
+      }
+    },
+    "fluid": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "productiveslimes:molten_stone_block",
+        "Properties": {
+          "level": "0"
+        }
+      }
+    }
+  }
+}
