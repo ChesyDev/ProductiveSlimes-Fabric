@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.SqueezingRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -20,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SqueezingRecipeDisplay extends BasicDisplay {
+    public static final CategoryIdentifier<? extends SqueezingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "squeezing");
+
     private final int energy;
     private final EntryStack<ItemStack> inputItem;
     public static final DisplaySerializer<SqueezingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
@@ -38,6 +41,7 @@ public class SqueezingRecipeDisplay extends BasicDisplay {
                     SqueezingRecipeDisplay::new
             )
     );
+
     public SqueezingRecipeDisplay(RecipeEntry<SqueezingRecipe> recipe) {
         super(
                 List.of(EntryIngredients.ofIngredient(recipe.value().inputItems().getFirst())),
@@ -49,21 +53,26 @@ public class SqueezingRecipeDisplay extends BasicDisplay {
         energy = recipe.value().energy();
         inputItem = EntryStacks.of(new ItemStack(recipe.value().inputItems().getFirst().getMatchingItems().toList().getFirst()));
     }
+
     public SqueezingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int energy) {
         super(input, output);
         this.energy = energy;
         this.inputItem = (EntryStack<ItemStack>) input.get(0).getFirst();
     }
+
     public int getEnergy() {
         return energy;
     }
+
     public EntryStack<ItemStack> getInputItem() {
         return inputItem;
     }
+
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return SqueezingCategory.SQUEEZING;
+        return CATEGORY;
     }
+
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;

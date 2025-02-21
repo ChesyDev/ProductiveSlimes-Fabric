@@ -24,14 +24,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DnaSynthesizingCategory implements DisplayCategory<DnaSynthesizingRecipeDisplay> {
-    public static final CategoryIdentifier<? extends DnaSynthesizingRecipeDisplay> DNA_SYNTHESIZING = CategoryIdentifier.of(ProductiveSlimes.MODID, "dna_synthesizing");
     public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID,"textures/gui/rei/dna_synthesizer_gui.png");
 
     private int tickCount = 0;
 
     @Override
     public CategoryIdentifier<? extends DnaSynthesizingRecipeDisplay> getCategoryIdentifier() {
-        return DNA_SYNTHESIZING;
+        return DnaSynthesizingRecipeDisplay.CATEGORY;
     }
 
     @Override

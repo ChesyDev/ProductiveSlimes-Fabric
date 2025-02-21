@@ -23,14 +23,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DnaExtractingCategory implements DisplayCategory<DnaExtractingRecipeDisplay> {
-    public static final CategoryIdentifier<? extends DnaExtractingRecipeDisplay> DNA_EXTRACTING = CategoryIdentifier.of(ProductiveSlimes.MODID, "dna_extracting");
     public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID,"textures/gui/rei/dna_extractor_gui.png");
 
     private int tickCount = 0;
 
     @Override
     public CategoryIdentifier<? extends DnaExtractingRecipeDisplay> getCategoryIdentifier() {
-        return DNA_EXTRACTING;
+        return DnaExtractingRecipeDisplay.CATEGORY;
     }
 
     @Override

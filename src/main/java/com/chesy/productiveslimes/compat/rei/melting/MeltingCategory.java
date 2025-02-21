@@ -21,14 +21,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MeltingCategory implements DisplayCategory<MeltingRecipeDisplay> {
-    public static final CategoryIdentifier<? extends MeltingRecipeDisplay> MELTING = CategoryIdentifier.of(ProductiveSlimes.MODID, "melting");
     public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID, "textures/gui/rei/melting_station_gui.png");
 
     private int tickCount = 0;
 
     @Override
     public CategoryIdentifier<? extends MeltingRecipeDisplay> getCategoryIdentifier() {
-        return MELTING;
+        return MeltingRecipeDisplay.CATEGORY;
     }
 
     @Override

@@ -15,8 +15,9 @@ import net.minecraft.server.world.ServerWorld;
 
 public class ModServerLifecycleEvent {
     public static void init() {
-        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
-            CustomVariantRegistry.handleDatapack(minecraftServer);
+        ServerLifecycleEvents.SERVER_STARTING.register(CustomVariantRegistry::handleDatapack);
+
+        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
             minecraftServer.getCommandManager().execute(minecraftServer.getCommandManager().getDispatcher().parse("reload", minecraftServer.getCommandSource()), "reload");
         });
 
@@ -42,6 +43,7 @@ public class ModServerLifecycleEvent {
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerRecipeManager recipeManager = server.getRecipeManager();
+            server.getCommandManager().execute(server.getCommandManager().getDispatcher().parse("reload", server.getCommandSource()), "reload");
 
             ServerPlayNetworking.send(handler.player, new RecipeSyncPayload(recipeManager.values().stream().toList()));
         });
