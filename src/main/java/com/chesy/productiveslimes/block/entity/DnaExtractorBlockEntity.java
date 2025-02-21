@@ -260,7 +260,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
 
     private Optional<DnaExtractingRecipe> getCurrentRecipe(){
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_EXTRACTING_TYPE, new SimpleInventory(inventory.get(0)), level);
+        return level.getRecipeManager().getFirstMatch(DnaExtractingRecipe.Type.INSTANCE, new SimpleInventory(inventory.get(0)), level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

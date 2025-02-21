@@ -119,7 +119,7 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
         @Override
         public RecipeSerializer<?> getSerializer() {
-            return ModRecipes.DNA_EXTRACTING_SERIALIZER;
+            return SqueezingRecipe.Serializer.INSTANCE;
         }
 
         @Nullable

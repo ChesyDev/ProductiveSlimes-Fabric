@@ -231,7 +231,7 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
 
     private Optional<SqueezingRecipe> getCurrentRecipe() {
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.SQUEEZING_TYPE, new SimpleInventory(inventory.get(inputSlots[0])), level);
+        return level.getRecipeManager().getFirstMatch(SqueezingRecipe.Type.INSTANCE, new SimpleInventory(inventory.get(inputSlots[0])), level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

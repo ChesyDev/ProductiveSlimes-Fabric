@@ -68,12 +68,12 @@ public class SolidingRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public RecipeSerializer<? extends Recipe<SimpleInventory>> getSerializer() {
-        return ModRecipes.SOLIDING_SERIALIZER;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<? extends Recipe<SimpleInventory>> getType() {
-        return ModRecipes.SOLIDING_TYPE;
+        return Type.INSTANCE;
     }
 
     public List<ItemStack> getOutputs() {
@@ -92,8 +92,14 @@ public class SolidingRecipe implements Recipe<SimpleInventory> {
         return energy;
     }
 
+    public static class Type implements RecipeType<SolidingRecipe> {
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "soliding";
+    }
+
     public static class Serializer implements RecipeSerializer<SolidingRecipe> {
-        public static final SolidingRecipe.Serializer INSTANCE = new SolidingRecipe.Serializer();
+        public static final Serializer INSTANCE = new Serializer();
+        public static final String ID = "soliding";
 
         @Override
         public SolidingRecipe read(Identifier id, JsonObject jsonObject) {
@@ -119,13 +125,13 @@ public class SolidingRecipe implements Recipe<SimpleInventory> {
 
         @Override
         public SolidingRecipe read(Identifier id, PacketByteBuf buffer) {
-            int ingredientCount = buffer.readVarInt();
+            int ingredientCount = buffer.readInt();
             List<Ingredient> inputItems = new ArrayList<>(ingredientCount);
             for (int i = 0; i < ingredientCount; i++) {
                 inputItems.add(Ingredient.fromPacket(buffer));
             }
 
-            int outputCount = buffer.readVarInt();
+            int outputCount = buffer.readInt();
             List<ItemStack> result = new ArrayList<>(outputCount);
             for (int i = 0; i < outputCount; i++) {
                 result.add(buffer.readItemStack());
@@ -140,12 +146,12 @@ public class SolidingRecipe implements Recipe<SimpleInventory> {
 
         @Override
         public void write(PacketByteBuf buffer, SolidingRecipe recipe) {
-            buffer.writeVarInt(recipe.inputItems.size());
+            buffer.writeInt(recipe.inputItems.size());
             for (Ingredient ingredient : recipe.inputItems) {
                 ingredient.write(buffer);
             }
 
-            buffer.writeVarInt(recipe.output.size());
+            buffer.writeInt(recipe.output.size());
             for (ItemStack itemStack : recipe.output) {
                 buffer.writeItemStack(itemStack);
             }

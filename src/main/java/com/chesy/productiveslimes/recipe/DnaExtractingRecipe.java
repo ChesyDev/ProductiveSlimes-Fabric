@@ -48,16 +48,23 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
 
     @Override
     public RecipeSerializer<? extends Recipe<SimpleInventory>> getSerializer() {
-        return ModRecipes.DNA_EXTRACTING_SERIALIZER;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<? extends Recipe<SimpleInventory>> getType() {
-        return ModRecipes.DNA_EXTRACTING_TYPE;
+        return Type.INSTANCE;
+    }
+
+    public static class Type implements RecipeType<DnaExtractingRecipe>{
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "dna_extracting";
     }
 
     public static class Serializer implements RecipeSerializer<DnaExtractingRecipe>{
         public static final Serializer INSTANCE = new Serializer();
+        public static final String ID = "dna_extracting";
+
         @Override
         public DnaExtractingRecipe read(Identifier id, JsonObject json) {
             JsonArray ingredient = JsonHelper.getArray(json, "ingredients");
@@ -83,20 +90,20 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
 
         @Override
         public DnaExtractingRecipe read(Identifier id, PacketByteBuf buf) {
-            int inputItemsSize = buf.readVarInt();
-            List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
+            int inputItemsSize = buf.readInt();
+            List<Ingredient> inputItems = new ArrayList<>();
             for (int i = 0; i < inputItemsSize; i++) {
-                inputItems.set(i, Ingredient.fromPacket(buf));
+                inputItems.add(Ingredient.fromPacket(buf));
             }
 
-            int outputSize = buf.readVarInt();
+            int outputSize = buf.readInt();
             List<ItemStack> output = new ArrayList<>(outputSize);
             for (int i = 0; i < outputSize; i++) {
                 output.add(buf.readItemStack());
             }
 
-            int inputCount = buf.readVarInt();
-            int energy = buf.readVarInt();
+            int inputCount = buf.readInt();
+            int energy = buf.readInt();
             float outputChance = buf.readFloat();
 
             return new DnaExtractingRecipe(inputItems, output, inputCount, energy, outputChance, id);
@@ -104,18 +111,18 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
 
         @Override
         public void write(PacketByteBuf buf, DnaExtractingRecipe value) {
-            buf.writeVarInt(value.inputItems().size());
+            buf.writeInt(value.inputItems().size());
             for (Ingredient ingredient : value.inputItems()) {
                 ingredient.write(buf);
             }
 
-            buf.writeVarInt(value.output().size());
+            buf.writeInt(value.output().size());
             for (ItemStack itemStack : value.output()) {
                 buf.writeItemStack(itemStack);
             }
 
-            buf.writeVarInt(value.inputCount());
-            buf.writeVarInt(value.energy());
+            buf.writeInt(value.inputCount());
+            buf.writeInt(value.energy());
             buf.writeFloat(value.outputChance());
         }
     }

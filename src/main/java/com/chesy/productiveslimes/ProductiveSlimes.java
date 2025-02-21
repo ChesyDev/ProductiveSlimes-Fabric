@@ -3,6 +3,7 @@ package com.chesy.productiveslimes;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
+import com.chesy.productiveslimes.config.ModConfig;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.event.EntityInteractEvent;
@@ -37,8 +38,8 @@ import java.nio.file.Paths;
 public class ProductiveSlimes implements ModInitializer {
     public static final String MODID = "productiveslimes";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-    private static final Path CONFIG_PATH = Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "productiveslimes.toml");
-    private static FileConfig config;
+    public static final Path CONFIG_PATH = Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "productiveslimes.toml");
+    public static FileConfig config;
     public static boolean vanillaSlimeCanAttackPlayer;
     public static boolean ironGolemCanAttackSlime;
 
@@ -62,7 +63,10 @@ public class ProductiveSlimes implements ModInitializer {
 
         ModVillagers.init();
 
-        CustomVariantRegistry.initialize();
+        if (!Boolean.getBoolean("fabric.datagen")){
+            CustomVariantRegistry.initialize();
+            ModConfig.config();
+        }
 
         FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
@@ -81,33 +85,7 @@ public class ProductiveSlimes implements ModInitializer {
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LOG, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_SLIMY_LOG, 5, 5);
-        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_PLANKS, 5, 20);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LEAVES, 30, 60);
-
-        config = FileConfig.builder(CONFIG_PATH)
-                .concurrent()
-                .defaultResource("/productiveslimes.toml")
-                .autosave()
-                .build();
-
-        if (!config.getFile().exists()) {
-            config.save();
-        }
-
-        config.load();
-
-        if (!config.contains("slime_settings.vanilla_slime_can_attack_player")) {
-            config.add("slime_settings.vanilla_slime_can_attack_player", false);
-        }
-
-        if (!config.contains("iron_golem_settings.iron_golem_can_attack_slime")) {
-            config.add("iron_golem_settings.iron_golem_can_attack_slime", false);
-        }
-
-        config.save();
-
-        vanillaSlimeCanAttackPlayer = config.get("slime_settings.vanilla_slime_can_attack_player");
-        ironGolemCanAttackSlime = config.get("iron_golem_settings.iron_golem_can_attack_slime");
     }
 }

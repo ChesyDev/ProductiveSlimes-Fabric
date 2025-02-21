@@ -246,7 +246,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     private Optional<MeltingRecipe> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
-        return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
+        return world.getRecipeManager().getFirstMatch(MeltingRecipe.Type.INSTANCE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

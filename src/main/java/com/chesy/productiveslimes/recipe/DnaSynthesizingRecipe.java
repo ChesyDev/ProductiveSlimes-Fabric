@@ -73,16 +73,22 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
     @Override
     public RecipeSerializer<? extends Recipe<SimpleInventory>> getSerializer() {
-        return ModRecipes.DNA_SYNTHESIZING_SERIALIZER;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<? extends Recipe<SimpleInventory>> getType() {
-        return ModRecipes.DNA_SYNTHESIZING_TYPE;
+        return Type.INSTANCE;
+    }
+
+    public static class Type implements RecipeType<DnaSynthesizingRecipe>{
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "dna_synthesizing";
     }
 
     public static class Serializer implements RecipeSerializer<DnaSynthesizingRecipe>{
         public static final Serializer INSTANCE = new Serializer();
+        public static final String ID = "dna_synthesizing";
 
         @Override
         public DnaSynthesizingRecipe read(Identifier id, JsonObject json) {
@@ -108,39 +114,39 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
         @Override
         public DnaSynthesizingRecipe read(Identifier id, PacketByteBuf buf) {
-            int inputItemsSize = buf.readVarInt();
+            int inputItemsSize = buf.readInt();
             List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
             for (int i = 0; i < inputItemsSize; i++){
                 inputItems.add(Ingredient.fromPacket(buf));
             }
 
-            int outputSize = buf.readVarInt();
+            int outputSize = buf.readInt();
             List<ItemStack> output = new ArrayList<>(outputSize);
             for (int i = 0; i < outputSize; i++){
                 output.add(buf.readItemStack());
             }
 
-            int energy = buf.readVarInt();
+            int energy = buf.readInt();
 
-            int inputCount = buf.readVarInt();
+            int inputCount = buf.readInt();
 
             return new DnaSynthesizingRecipe(inputItems, output, energy, inputCount, id);
         }
 
         @Override
         public void write(PacketByteBuf buf, DnaSynthesizingRecipe value) {
-            buf.writeVarInt(value.inputItems().size());
+            buf.writeInt(value.inputItems().size());
             for (Ingredient ingredient : value.inputItems()){
                 ingredient.write(buf);
             }
 
-            buf.writeVarInt(value.output().size());
+            buf.writeInt(value.output().size());
             for (ItemStack itemStack : value.output()){
                 buf.writeItemStack(itemStack);
             }
 
-            buf.writeVarInt(value.energy());
-            buf.writeVarInt(value.inputCount());
+            buf.writeInt(value.energy());
+            buf.writeInt(value.inputCount());
         }
     }
 }

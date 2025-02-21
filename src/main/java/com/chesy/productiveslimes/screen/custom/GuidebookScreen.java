@@ -62,11 +62,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
     private int contentScrollOffset = 0;
 
-    private final List<DnaExtractingRecipe> dnaExtractingRecipeList = handler.world.getRecipeManager().listAllOfType(ModRecipes.DNA_EXTRACTING_TYPE);
-    private final List<DnaSynthesizingRecipe> dnaSynthesizingRecipeList = handler.world.getRecipeManager().listAllOfType(ModRecipes.DNA_SYNTHESIZING_TYPE);
-    private final List<MeltingRecipe> meltingRecipeList = handler.world.getRecipeManager().listAllOfType(ModRecipes.MELTING_TYPE);
-    private final List<SolidingRecipe> solidingRecipeList = handler.world.getRecipeManager().listAllOfType(ModRecipes.SOLIDING_TYPE);
-    private final List<SqueezingRecipe> squeezingRecipeList = handler.world.getRecipeManager().listAllOfType(ModRecipes.SQUEEZING_TYPE);
+    private final List<DnaExtractingRecipe> dnaExtractingRecipeList = handler.world.getRecipeManager().listAllOfType(DnaExtractingRecipe.Type.INSTANCE);
+    private final List<DnaSynthesizingRecipe> dnaSynthesizingRecipeList = handler.world.getRecipeManager().listAllOfType(DnaSynthesizingRecipe.Type.INSTANCE);
+    private final List<MeltingRecipe> meltingRecipeList = handler.world.getRecipeManager().listAllOfType(MeltingRecipe.Type.INSTANCE);
+    private final List<SolidingRecipe> solidingRecipeList = handler.world.getRecipeManager().listAllOfType(SolidingRecipe.Type.INSTANCE);
+    private final List<SqueezingRecipe> squeezingRecipeList = handler.world.getRecipeManager().listAllOfType(SqueezingRecipe.Type.INSTANCE);
 
     public GuidebookScreen(GuidebookMenu menu, PlayerInventory playerInventory, Text title) {
         super(menu, playerInventory, title);

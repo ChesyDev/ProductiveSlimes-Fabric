@@ -49,16 +49,22 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
 
     @Override
     public RecipeSerializer<? extends Recipe<SimpleInventory>> getSerializer() {
-        return ModRecipes.SQUEEZING_SERIALIZER;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<? extends Recipe<SimpleInventory>> getType() {
-        return ModRecipes.SQUEEZING_TYPE;
+        return Type.INSTANCE;
+    }
+
+    public static class Type implements RecipeType<SqueezingRecipe>{
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "squeezing";
     }
 
     public static class Serializer implements RecipeSerializer<SqueezingRecipe>{
         public static final Serializer INSTANCE = new Serializer();
+        public static final String ID = "squeezing";
 
         @Override
         public SqueezingRecipe read(Identifier id, JsonObject jsonObject) {
@@ -83,13 +89,13 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
 
         @Override
         public SqueezingRecipe read(Identifier id, PacketByteBuf buf) {
-            int inputItemsSize = buf.readVarInt();
+            int inputItemsSize = buf.readInt();
             List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
             for (int i = 0; i < inputItemsSize; i++) {
                 inputItems.add(Ingredient.fromPacket(buf));
             }
 
-            int outputSize = buf.readVarInt();
+            int outputSize = buf.readInt();
             List<ItemStack> output = new ArrayList<>(outputSize);
             for (int i = 0; i < outputSize; i++) {
                 output.add(buf.readItemStack());
@@ -102,12 +108,12 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
 
         @Override
         public void write(PacketByteBuf buf, SqueezingRecipe value) {
-            buf.writeVarInt(value.inputItems().size());
+            buf.writeInt(value.inputItems().size());
             for (Ingredient ingredient : value.inputItems()) {
                 ingredient.write(buf);
             }
 
-            buf.writeVarInt(value.output().size());
+            buf.writeInt(value.output().size());
             for (ItemStack itemStack : value.output()) {
                 buf.writeItemStack(itemStack);
             }

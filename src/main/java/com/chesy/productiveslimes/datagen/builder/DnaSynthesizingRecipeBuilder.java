@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.datagen.builder;
 
+import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -123,7 +124,7 @@ public class DnaSynthesizingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
         @Override
         public RecipeSerializer<?> getSerializer() {
-            return ModRecipes.DNA_SYNTHESIZING_SERIALIZER;
+            return DnaSynthesizingRecipe.Serializer.INSTANCE;
         }
 
         @Nullable

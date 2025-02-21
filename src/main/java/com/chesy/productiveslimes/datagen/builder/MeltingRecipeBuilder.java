@@ -127,7 +127,7 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
         @Override
         public RecipeSerializer<?> getSerializer() {
-            return ModRecipes.MELTING_SERIALIZER;
+            return MeltingRecipe.Serializer.INSTANCE;
         }
 
         @Nullable

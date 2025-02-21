@@ -238,7 +238,7 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
 
     private Optional<SolidingRecipe> getCurrentRecipe(){
         ServerWorld world = (ServerWorld) this.world;
-        return world.getRecipeManager().getFirstMatch(ModRecipes.SOLIDING_TYPE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
+        return world.getRecipeManager().getFirstMatch(SolidingRecipe.Type.INSTANCE, new SimpleInventory(this.getStack(INPUT_SLOT)), world);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

@@ -241,7 +241,7 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     private Optional<DnaSynthesizingRecipe> getCurrentRecipe(){
         SimpleInventory input = new SimpleInventory(inventory.get(inputSlots[0]), inventory.get(inputSlots[1]), inventory.get(inputSlots[2]));
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_SYNTHESIZING_TYPE, input, level);
+        return level.getRecipeManager().getFirstMatch(DnaSynthesizingRecipe.Type.INSTANCE, input, level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

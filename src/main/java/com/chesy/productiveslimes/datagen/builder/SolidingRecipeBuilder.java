@@ -130,7 +130,7 @@ public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
         @Override
         public RecipeSerializer<?> getSerializer() {
-            return ModRecipes.SOLIDING_SERIALIZER;
+            return SolidingRecipe.Serializer.INSTANCE;
         }
 
         @Nullable
