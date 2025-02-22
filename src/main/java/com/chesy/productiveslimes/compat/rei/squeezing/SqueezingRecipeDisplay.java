@@ -1,6 +1,6 @@
-/*
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.SqueezingRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SqueezingRecipeDisplay extends BasicDisplay {
+    public static final CategoryIdentifier<? extends SqueezingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "squeezing");
     private final int energy;
     private final EntryStack<ItemStack> inputItem;
     public static final DisplaySerializer<SqueezingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
@@ -63,10 +64,10 @@ public class SqueezingRecipeDisplay extends BasicDisplay {
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return SqueezingCategory.SQUEEZING;
+        return CATEGORY;
     }
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;
     }
-}*/
+}

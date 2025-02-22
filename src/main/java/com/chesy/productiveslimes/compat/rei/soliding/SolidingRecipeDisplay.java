@@ -1,6 +1,6 @@
-/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.SolidingRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SolidingRecipeDisplay extends BasicDisplay {
+    public static final CategoryIdentifier<? extends SolidingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "soliding");
     private final int energy;
     private final int inputCount;
 
@@ -71,7 +72,7 @@ public class SolidingRecipeDisplay extends BasicDisplay {
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return SolidingCategory.SOLIDING;
+        return CATEGORY;
     }
 
     @Override
@@ -79,4 +80,3 @@ public class SolidingRecipeDisplay extends BasicDisplay {
         return SERIALIZER;
     }
 }
-*/

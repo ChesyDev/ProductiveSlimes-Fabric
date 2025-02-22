@@ -1,6 +1,6 @@
-/*
 package com.chesy.productiveslimes.compat.rei.dna_extracting;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.DnaExtractingRecipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -20,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class DnaExtractingRecipeDisplay extends BasicDisplay {
+    public static final CategoryIdentifier<? extends DnaExtractingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "dna_extracting");
+
     private final int energy;
     private final float outputChance;
     private final int inputCount;
@@ -77,11 +79,11 @@ public class DnaExtractingRecipeDisplay extends BasicDisplay {
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return DnaExtractingCategory.DNA_EXTRACTING;
+        return CATEGORY;
     }
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;
     }
-}*/
+}

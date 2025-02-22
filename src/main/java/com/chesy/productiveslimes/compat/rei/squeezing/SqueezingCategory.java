@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -23,12 +22,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SqueezingCategory implements DisplayCategory<SqueezingRecipeDisplay> {
-    public static final CategoryIdentifier<? extends SqueezingRecipeDisplay> SQUEEZING = CategoryIdentifier.of(ProductiveSlimes.MODID, "squeezing");
     public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID,"textures/gui/rei/slime_squeezer_gui.png");
     private int tickCount = 0;
     @Override
     public CategoryIdentifier<? extends SqueezingRecipeDisplay> getCategoryIdentifier() {
-        return SQUEEZING;
+        return SqueezingRecipeDisplay.CATEGORY;
     }
     @Override
     public Text getTitle() {
@@ -74,4 +72,4 @@ public class SqueezingCategory implements DisplayCategory<SqueezingRecipeDisplay
     public int getDisplayHeight() {
         return 83;
     }
-}*/
+}

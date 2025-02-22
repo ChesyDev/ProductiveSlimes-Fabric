@@ -1,6 +1,6 @@
-/*
 package com.chesy.productiveslimes.compat.rei.melting;
 
+import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
@@ -22,6 +22,7 @@ import java.util.List;
 import static net.minecraft.client.option.InactivityFpsLimit.Codec;
 
 public class MeltingRecipeDisplay extends BasicDisplay {
+    public static final CategoryIdentifier<? extends MeltingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "melting");
     private final int energy;
     private final int inputCount;
 
@@ -70,7 +71,7 @@ public class MeltingRecipeDisplay extends BasicDisplay {
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return MeltingCategory.MELTING;
+        return CATEGORY;
     }
 
     @Override
@@ -78,4 +79,3 @@ public class MeltingRecipeDisplay extends BasicDisplay {
         return SERIALIZER;
     }
 }
-*/

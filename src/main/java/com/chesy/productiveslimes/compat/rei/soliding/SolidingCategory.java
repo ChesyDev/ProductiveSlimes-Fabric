@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -23,14 +22,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> {
-    public static final CategoryIdentifier<? extends SolidingRecipeDisplay> SOLIDING = CategoryIdentifier.of(ProductiveSlimes.MODID, "soliding");
     public static final Identifier TEXTURE = Identifier.of(ProductiveSlimes.MODID,"textures/gui/rei/soliding_station_gui.png");
 
     private int tickCount = 0;
 
     @Override
     public CategoryIdentifier<? extends SolidingRecipeDisplay> getCategoryIdentifier() {
-        return SOLIDING;
+        return SolidingRecipeDisplay.CATEGORY;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModBlocks.MELTING_STATION);
+        return EntryStacks.of(ModBlocks.SOLIDING_STATION);
     }
 
     @Override
@@ -95,4 +93,3 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
         return 83;
     }
 }
-*/
