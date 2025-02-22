@@ -22,6 +22,10 @@ public class ModServerLifecycleEvent {
     public static void init() {
         ServerLifecycleEvents.SERVER_STARTING.register(CustomVariantRegistry::handleDatapack);
 
+        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
+            minecraftServer.getCommandManager().execute(minecraftServer.getCommandManager().getDispatcher().parse("reload", minecraftServer.getCommandSource()), "reload");
+        });
+
         ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
             ServerWorld overworld = minecraftServer.getOverworld();
             ModNetworkStateManager.forceSave(overworld);
