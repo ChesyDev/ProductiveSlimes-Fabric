@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:sand_slime_dna",
-    "productiveslimes:slime_dna",
-    "minecraft:cactus"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:sand_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:cactus"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

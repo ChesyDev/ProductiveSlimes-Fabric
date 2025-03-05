@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:snow_slime_dna",
-    "productiveslimes:snow_slime_dna",
-    "minecraft:snow"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:snow_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:snow_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:snow"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

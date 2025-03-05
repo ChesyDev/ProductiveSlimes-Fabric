@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:mud_slime_dna",
-    "productiveslimes:mud_slime_dna",
-    "minecraft:mud"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:mud_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:mud_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:mud"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

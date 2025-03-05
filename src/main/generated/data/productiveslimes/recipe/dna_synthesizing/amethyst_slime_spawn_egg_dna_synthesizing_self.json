@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:amethyst_slime_dna",
-    "productiveslimes:amethyst_slime_dna",
-    "minecraft:amethyst_shard"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:amethyst_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:amethyst_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:amethyst_shard"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

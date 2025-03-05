@@ -8,6 +8,7 @@ import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.ModTags;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -276,8 +277,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
                     dnaExtractingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()), 1, tiers.dnaOutputChance());
 
-                    dnaSynthesizingSelfRecipe(exporter, ModTiers.getSpawnEggItemByName(tiers.name()), 2, ModTiers.getDnaItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()), ModTiers.getItemByKey(tiers.synthesizingInputItemKey()));
-                    dnaSynthesizingRecipe(exporter, ModTiers.getSpawnEggItemByName(tiers.name()), 4, ModTiers.getItemByKey(tiers.synthesizingInputDnaKey1()), ModTiers.getItemByKey(tiers.synthesizingInputDnaKey2()), ModTiers.getItemByKey(tiers.synthesizingInputItemKey()));
+                    dnaSynthesizingSelfRecipe(exporter, ModTiers.getSpawnEggItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()).getDefaultStack(), ModTiers.getDnaItemByName(tiers.name()).getDefaultStack(), new ItemStack(ModTiers.getItemByKey(tiers.synthesizingInputItemKey()), 2));
+                    dnaSynthesizingRecipe(exporter, ModTiers.getSpawnEggItemByName(tiers.name()), ModTiers.getItemByKey(tiers.synthesizingInputDnaKey1()).getDefaultStack(), ModTiers.getItemByKey(tiers.synthesizingInputDnaKey2()).getDefaultStack(), new ItemStack(ModTiers.getItemByKey(tiers.synthesizingInputItemKey()), 4));
                 }
 
                 squeezingRecipe(exporter, ModBlocks.SLIMY_DIRT, new ItemStack(Items.DIRT, 1), new ItemStack(ModItems.SLIMEBALL_FRAGMENT, 1));
@@ -343,7 +344,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
             }
 
-            private void dnaSynthesizingSelfRecipe(RecipeExporter pRecipeOutput, ItemConvertible pResult, int inputCount, ItemConvertible... pIngredient) {
+            private void dnaSynthesizingSelfRecipe(RecipeExporter pRecipeOutput, ItemConvertible pResult, ItemStack... pIngredient) {
                 var recipeBuilder = DnaSynthesizingRecipeBuilder.dnaSynthesizingRecipe();
 
                 if (pIngredient.length != 3) {
@@ -351,19 +352,18 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 }
 
                 for (var ingredient : pIngredient) {
-                    recipeBuilder.addIngredient(Ingredient.ofItem(ingredient));
+                    recipeBuilder.addIngredient(SizedIngredient.of(ingredient.getItem(), ingredient.getCount()));
                 }
 
                 recipeBuilder
                         .addOutput(new ItemStack(pResult, 1))
-                        .setInputCount(inputCount)
                         .setEnergy(600)
                         .criterion(getHasName(Items.EGG), has(Items.EGG))
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "dna_synthesizing/" + getItemName(pResult) + "_dna_synthesizing_self").toString());
 
             }
 
-            private void dnaSynthesizingRecipe(RecipeExporter pRecipeOutput, ItemConvertible pResult, int inputCount, ItemConvertible... pIngredient) {
+            private void dnaSynthesizingRecipe(RecipeExporter pRecipeOutput, ItemConvertible pResult, ItemStack... pIngredient) {
                 var recipeBuilder = DnaSynthesizingRecipeBuilder.dnaSynthesizingRecipe();
 
                 if (pIngredient.length != 3) {
@@ -371,12 +371,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 }
 
                 for (var ingredient : pIngredient) {
-                    recipeBuilder.addIngredient(Ingredient.ofItem(ingredient));
+                    recipeBuilder.addIngredient(SizedIngredient.of(ingredient.getItem(), ingredient.getCount()));
                 }
 
                 recipeBuilder
                         .addOutput(new ItemStack(pResult, 1))
-                        .setInputCount(inputCount)
                         .setEnergy(600)
                         .criterion(getHasName(Items.EGG), has(Items.EGG))
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "dna_synthesizing/" + getItemName(pResult) + "_dna_synthesizing").toString());

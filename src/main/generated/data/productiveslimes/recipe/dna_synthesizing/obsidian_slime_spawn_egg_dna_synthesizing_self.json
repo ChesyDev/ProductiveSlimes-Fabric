@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:obsidian_slime_dna",
-    "productiveslimes:obsidian_slime_dna",
-    "minecraft:obsidian"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:obsidian_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:obsidian_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:obsidian"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

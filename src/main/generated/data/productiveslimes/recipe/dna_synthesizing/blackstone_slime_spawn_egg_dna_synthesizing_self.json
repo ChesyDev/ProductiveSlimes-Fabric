@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:blackstone_slime_dna",
-    "productiveslimes:blackstone_slime_dna",
-    "minecraft:blackstone"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:blackstone_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:blackstone_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:blackstone"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

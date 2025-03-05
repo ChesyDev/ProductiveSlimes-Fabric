@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:basalt_slime_dna",
-    "productiveslimes:basalt_slime_dna",
-    "minecraft:basalt"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:basalt_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:basalt_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:basalt"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

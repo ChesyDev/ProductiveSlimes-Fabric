@@ -4,10 +4,7 @@ import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
 import com.chesy.productiveslimes.screen.custom.DnaSynthesizerMenu;
-import com.chesy.productiveslimes.util.ContainerUtils;
-import com.chesy.productiveslimes.util.CustomEnergyStorage;
-import com.chesy.productiveslimes.util.IEnergyBlockEntity;
-import com.chesy.productiveslimes.util.ImplementedInventory;
+import com.chesy.productiveslimes.util.*;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -145,7 +142,7 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     public void tick(World pLevel, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<DnaSynthesizingRecipe>> recipe = getCurrentRecipe();
 
-        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy() && !inventory.get(eggSlots[0]).isEmpty() && inventory.get(inputSlots[2]).getCount() >= recipe.get().value().inputCount()){
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy() && !inventory.get(eggSlots[0]).isEmpty()){
             increaseCraftingProgress();
             markDirty(pLevel, pPos, pState);
 
@@ -166,12 +163,15 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     private void craftItem() {
         Optional<RecipeEntry<DnaSynthesizingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
+            List<SizedIngredient> ingredients = recipe.get().value().inputItems();
             List<ItemStack> results = recipe.get().value().output();
 
             // Extract the input item from the input slot
-            this.removeStack(inputSlots[0], 1);
-            this.removeStack(inputSlots[1], 1);
-            this.removeStack(inputSlots[2], recipe.get().value().inputCount());
+            int i  = 0;
+            for (SizedIngredient ingredient : ingredients) {
+                this.removeStack(inputSlots[i], ingredient.count());
+                i++;
+            }
             this.removeStack(eggSlots[0], 1);
 
             // Loop through each result item and find suitable output slots

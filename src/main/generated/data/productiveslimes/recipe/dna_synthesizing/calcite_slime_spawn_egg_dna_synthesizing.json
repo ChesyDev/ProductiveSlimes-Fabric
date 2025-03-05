@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:stone_slime_dna",
-    "productiveslimes:stone_slime_dna",
-    "minecraft:calcite"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:stone_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:stone_slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:calcite"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

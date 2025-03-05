@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:gold_slime_dna",
-    "productiveslimes:gold_slime_dna",
-    "minecraft:redstone_block"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:gold_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:gold_slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:redstone_block"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

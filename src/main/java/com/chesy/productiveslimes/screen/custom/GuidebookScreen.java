@@ -9,6 +9,7 @@ import com.chesy.productiveslimes.recipe.*;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.util.GuideBookScreenHelper;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import com.chesy.productiveslimes.util.SlimeData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -397,10 +398,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             }
 
             // Render recipe input
-            List<Ingredient> input = recipe.inputItems();
+            List<SizedIngredient> input = recipe.inputItems();
             int ingredientIndex = 0;
-            for (Ingredient ingredient : input) {
-                ItemStack inputStack = new ItemStack(ingredient.getMatchingItems().toList().getFirst().value());
+            for (SizedIngredient ingredient : input) {
+                ItemStack inputStack = new ItemStack(ingredient.ingredient().getMatchingItems().toList().getFirst().value());
                 int inputX = xPos;
                 int inputY = yPos;
                 int inputCount = 1;
@@ -416,7 +417,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                     case 2:
                         inputX += 52;
                         inputY += 34;
-                        inputCount = recipe.inputCount();
+                        inputCount = ingredient.count();
                         break;
                 }
 

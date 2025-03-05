@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:stone_slime_dna",
-    "productiveslimes:netherrack_slime_dna",
-    "minecraft:blackstone"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:stone_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:netherrack_slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:blackstone"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

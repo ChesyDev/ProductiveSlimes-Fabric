@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.datagen.builder;
 
 import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -22,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DnaSynthesizingRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final List<Ingredient> ingredients = new ArrayList<>();
+    private final List<SizedIngredient> ingredients = new ArrayList<>();
     private int energy;
-    private int inputCount;
     private final List<ItemStack> outputs = new ArrayList<>();
     private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
@@ -38,7 +38,7 @@ public class DnaSynthesizingRecipeBuilder implements CraftingRecipeJsonBuilder {
         // Private constructor to enforce the use of the static factory method
     }
 
-    public DnaSynthesizingRecipeBuilder addIngredient(Ingredient ingredient) {
+    public DnaSynthesizingRecipeBuilder addIngredient(SizedIngredient ingredient) {
         this.ingredients.add(ingredient);
         return this;
     }
@@ -50,11 +50,6 @@ public class DnaSynthesizingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
     public DnaSynthesizingRecipeBuilder setEnergy(int energy) {
         this.energy = energy;
-        return this;
-    }
-
-    public DnaSynthesizingRecipeBuilder setInputCount(int inputCount) {
-        this.inputCount = inputCount;
         return this;
     }
 
@@ -87,8 +82,7 @@ public class DnaSynthesizingRecipeBuilder implements CraftingRecipeJsonBuilder {
         DnaSynthesizingRecipe recipe = new DnaSynthesizingRecipe(
                 this.ingredients,
                 this.outputs,
-                this.energy,
-                this.inputCount
+                this.energy
         );
 
         // Pass the recipe and advancement to the output

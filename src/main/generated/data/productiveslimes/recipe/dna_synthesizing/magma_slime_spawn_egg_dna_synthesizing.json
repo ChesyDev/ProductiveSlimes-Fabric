@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:netherite_slime_dna",
-    "productiveslimes:netherite_slime_dna",
-    "minecraft:magma_block"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:netherite_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:netherite_slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:magma_block"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

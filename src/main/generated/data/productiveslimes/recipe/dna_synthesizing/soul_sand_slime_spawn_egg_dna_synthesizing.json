@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:sand_slime_dna",
-    "productiveslimes:netherrack_slime_dna",
-    "minecraft:soul_sand"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:sand_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:netherrack_slime_dna"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:soul_sand"
+    }
   ],
-  "inputCount": 4,
   "output": [
     {
       "count": 1,

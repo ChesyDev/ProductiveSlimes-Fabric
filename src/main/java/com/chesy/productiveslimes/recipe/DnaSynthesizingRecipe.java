@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.recipe;
 
 import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int energy, int inputCount) implements Recipe<MultipleRecipeInput> {
+public record DnaSynthesizingRecipe(List<SizedIngredient> inputItems, List<ItemStack> output, int energy) implements Recipe<MultipleRecipeInput> {
     @Override
     public boolean matches(MultipleRecipeInput input, World world) {
         List<ItemStack> inputItems = input.inputItems();
@@ -24,7 +25,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
             return false;
         }
 
-        List<Ingredient> remainingIngredients = new ArrayList<>(this.inputItems);
+        List<SizedIngredient> remainingIngredients = new ArrayList<>(this.inputItems);
 
         for (ItemStack itemStack : inputItems) {
             if (itemStack.isEmpty()) {
@@ -32,10 +33,10 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
             }
 
             boolean ingredientFound = false;
-            Iterator<Ingredient> iterator = remainingIngredients.iterator();
+            Iterator<SizedIngredient> iterator = remainingIngredients.iterator();
 
             while (iterator.hasNext()) {
-                Ingredient ingredient = iterator.next();
+                SizedIngredient ingredient = iterator.next();
                 if (ingredient.test(itemStack)) {
                     iterator.remove();
                     ingredientFound = true;
@@ -80,17 +81,16 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<DnaSynthesizingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipe::inputItems),
+                        SizedIngredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(DnaSynthesizingRecipe::output),
-                        Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipe::energy),
-                        Codec.INT.fieldOf("inputCount").forGetter(DnaSynthesizingRecipe::inputCount)
+                        Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipe::energy)
                 ).apply(instance, DnaSynthesizingRecipe::new)
         );
         public static final PacketCodec<RegistryByteBuf, DnaSynthesizingRecipe> PACKET_CODEC = PacketCodec.of(
                 (value, buf) -> {
                     buf.writeVarInt(value.inputItems().size());
-                    for (Ingredient ingredient : value.inputItems()){
-                        Ingredient.PACKET_CODEC.encode(buf, ingredient);
+                    for (SizedIngredient ingredient : value.inputItems()){
+                        SizedIngredient.PACKET_CODEC.encode(buf, ingredient);
                     }
 
                     buf.writeVarInt(value.output().size());
@@ -99,13 +99,12 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
                     }
 
                     buf.writeVarInt(value.energy());
-                    buf.writeVarInt(value.inputCount());
                 },
                 buf -> {
                     int inputItemsSize = buf.readVarInt();
-                    List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
+                    List<SizedIngredient> inputItems = new ArrayList<>(inputItemsSize);
                     for (int i = 0; i < inputItemsSize; i++){
-                        inputItems.add(Ingredient.PACKET_CODEC.decode(buf));
+                        inputItems.add(SizedIngredient.PACKET_CODEC.decode(buf));
                     }
 
                     int outputSize = buf.readVarInt();
@@ -116,9 +115,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
                     int energy = buf.readVarInt();
 
-                    int inputCount = buf.readVarInt();
-
-                    return new DnaSynthesizingRecipe(inputItems, output, energy, inputCount);
+                    return new DnaSynthesizingRecipe(inputItems, output, energy);
                 }
         );
 

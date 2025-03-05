@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:prismarine_slime_dna",
-    "productiveslimes:prismarine_slime_dna",
-    "minecraft:prismarine_shard"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:prismarine_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:prismarine_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:prismarine_shard"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,

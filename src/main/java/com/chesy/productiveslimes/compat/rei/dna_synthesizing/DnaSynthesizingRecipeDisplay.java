@@ -47,15 +47,15 @@ public class DnaSynthesizingRecipeDisplay extends BasicDisplay {
     public DnaSynthesizingRecipeDisplay(RecipeEntry<DnaSynthesizingRecipe> recipe) {
         super(
                 List.of(
-                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(0)),
-                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(1)),
-                        EntryIngredients.of(new ItemStack(recipe.value().inputItems().get(2).getMatchingItems().toList().getFirst(), recipe.value().inputCount()))
+                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(0).ingredient()),
+                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(1).ingredient()),
+                        EntryIngredients.of(new ItemStack(recipe.value().inputItems().get(2).ingredient().getMatchingItems().toList().getFirst(), recipe.value().inputItems().get(2).count()))
                 ),
                 List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().getFirst())))
         );
 
         energy = recipe.value().energy();
-        inputCount = recipe.value().inputCount();
+        inputCount = recipe.value().inputItems().get(2).count();
     }
 
     public DnaSynthesizingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {

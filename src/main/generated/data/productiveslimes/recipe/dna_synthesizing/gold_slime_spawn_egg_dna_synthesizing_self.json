@@ -2,11 +2,19 @@
   "type": "productiveslimes:dna_synthesizing",
   "energy": 600,
   "ingredients": [
-    "productiveslimes:gold_slime_dna",
-    "productiveslimes:gold_slime_dna",
-    "minecraft:gold_block"
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:gold_slime_dna"
+    },
+    {
+      "count": 1,
+      "ingredient": "productiveslimes:gold_slime_dna"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:gold_block"
+    }
   ],
-  "inputCount": 2,
   "output": [
     {
       "count": 1,
