@@ -6,6 +6,7 @@ import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
 import com.chesy.productiveslimes.screen.custom.DnaSynthesizerMenu;
 import com.chesy.productiveslimes.util.*;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,7 +38,26 @@ import java.util.Optional;
 
 public class DnaSynthesizerBlockEntity extends BlockEntity implements ImplementedInventory, ExtendedScreenHandlerFactory<BlockPos>, IEnergyBlockEntity {
     private float rotation;
-    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0,0);
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0,0){
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            markDirty();
+            if (world != null){
+                world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+            }
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return true;
+        }
+
+        @Override
+        public boolean supportsExtraction() {
+            return false;
+        }
+    };
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
     protected final PropertyDelegate data;
     private int progress = 0;
@@ -106,7 +126,7 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.writeNbt(nbt, registries);
         Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("energy", energyHandler.serializeNBT(registries));
+        nbt.putInt("energy", energyHandler.getAmountStored());
         nbt.putInt("progress", progress);
     }
 
@@ -114,7 +134,7 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("energy"));
+        energyHandler.setAmount(nbt.getInt("energy"));
         progress = nbt.getInt("progress");
     }
 

@@ -218,6 +218,11 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
         return BlockEntityUpdateS2CPacket.create(this);
     }
 
+    @Override
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+        return createNbt(registries);
+    }
+
     private void sendUpdate() {
         markDirty();
 

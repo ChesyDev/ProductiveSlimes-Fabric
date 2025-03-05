@@ -8,6 +8,7 @@ import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +45,26 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final int[] inputSlots = new int[]{0};
     private final int[] outputSlots = new int[]{1, 2};
-    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0);
+    private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            markDirty();
+            if (world != null){
+                world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+            }
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return true;
+        }
+
+        @Override
+        public boolean supportsExtraction() {
+            return false;
+        }
+    };
     protected final PropertyDelegate data;
     private int progress = 0;
     private int maxProgress = 78;
@@ -108,7 +128,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("Energy", energyHandler.serializeNBT(registries));
+        nbt.putInt("Energy", energyHandler.getAmountStored());
         nbt.putInt("Progress", progress);
         nbt.putInt("MaxProgress", maxProgress);
 
@@ -120,7 +140,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("Energy"));
+        energyHandler.setAmount(nbt.getInt("Energy"));
         progress = nbt.getInt("Progress");
         maxProgress = nbt.getInt("MaxProgress");
     }
