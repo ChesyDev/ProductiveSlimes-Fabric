@@ -308,8 +308,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
             private void meltingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
                 MeltingRecipeBuilder.meltingRecipe()
-                        .addIngredient(Ingredient.ofItem(pIngredient))
-                        .setInputCount(pInputCount)
+                        .addIngredient(SizedIngredient.of(pIngredient, pInputCount))
                         .addOutput(new ItemStack(pResult, outputCount))
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))

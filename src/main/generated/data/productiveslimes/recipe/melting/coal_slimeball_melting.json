@@ -1,10 +1,10 @@
 {
   "type": "productiveslimes:melting",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:coal_slimeball"
-  ],
-  "inputCount": 4,
+  "ingredients": {
+    "count": 4,
+    "ingredient": "productiveslimes:coal_slimeball"
+  },
   "output": [
     {
       "count": 1,

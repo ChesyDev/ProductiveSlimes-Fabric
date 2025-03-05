@@ -1,10 +1,10 @@
 {
   "type": "productiveslimes:melting",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:soul_soil_slime_block"
-  ],
-  "inputCount": 2,
+  "ingredients": {
+    "count": 2,
+    "ingredient": "productiveslimes:soul_soil_slime_block"
+  },
   "output": [
     {
       "count": 5,

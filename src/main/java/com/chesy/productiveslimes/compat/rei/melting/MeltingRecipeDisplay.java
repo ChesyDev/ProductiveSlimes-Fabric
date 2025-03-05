@@ -47,12 +47,12 @@ public class MeltingRecipeDisplay extends BasicDisplay {
     );
 
     public MeltingRecipeDisplay(RecipeEntry<MeltingRecipe> recipe) {
-        super(List.of(EntryIngredients.of(new ItemStack(recipe.value().inputItems().getFirst().getMatchingItems().findFirst().get(), recipe.value().inputCount())),
+        super(List.of(EntryIngredients.of(new ItemStack(recipe.value().inputItems().ingredient().getMatchingItems().findFirst().get(), recipe.value().inputItems().count())),
                         EntryIngredients.of(new ItemStack(Items.BUCKET, recipe.value().output().getFirst().getCount()))),
                 List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().getFirst()))));
 
         energy = recipe.value().energy();
-        inputCount = recipe.value().inputCount();
+        inputCount = recipe.value().inputItems().count();
     }
 
     public MeltingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {

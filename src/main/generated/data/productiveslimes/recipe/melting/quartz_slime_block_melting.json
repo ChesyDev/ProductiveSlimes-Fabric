@@ -1,10 +1,10 @@
 {
   "type": "productiveslimes:melting",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:quartz_slime_block"
-  ],
-  "inputCount": 2,
+  "ingredients": {
+    "count": 2,
+    "ingredient": "productiveslimes:quartz_slime_block"
+  },
   "output": [
     {
       "count": 5,

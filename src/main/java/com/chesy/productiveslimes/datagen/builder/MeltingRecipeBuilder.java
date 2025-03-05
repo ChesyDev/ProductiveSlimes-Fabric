@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.datagen.builder;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -22,8 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final List<Ingredient> ingredients = new ArrayList<>();
-    private int inputCount;
+    private SizedIngredient ingredients;
     private int energy;
     private final List<ItemStack> outputs = new ArrayList<>();
     private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
@@ -38,13 +38,8 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
         // Private constructor to enforce the use of the static method
     }
 
-    public MeltingRecipeBuilder addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        return this;
-    }
-
-    public MeltingRecipeBuilder setInputCount(int count) {
-        this.inputCount = count;
+    public MeltingRecipeBuilder addIngredient(SizedIngredient ingredient) {
+        this.ingredients = ingredient;
         return this;
     }
 
@@ -86,7 +81,6 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
         MeltingRecipe recipe = new MeltingRecipe(
                 this.ingredients,
                 this.outputs,
-                this.inputCount,
                 this.energy
         );
         exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MODID, "recipes/" + recipeKey.getValue().getPath())));

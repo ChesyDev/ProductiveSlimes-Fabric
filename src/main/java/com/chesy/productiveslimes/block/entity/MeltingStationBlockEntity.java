@@ -197,7 +197,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         if (recipe.isPresent()) {
             List<ItemStack> results = recipe.get().value().output();
 
-            this.removeStack(INPUT_SLOT, recipe.get().value().inputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().value().inputItems().count());
 
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
@@ -226,7 +226,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
 
-        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().inputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().inputItems().count()) {
             return false;
         }
 
