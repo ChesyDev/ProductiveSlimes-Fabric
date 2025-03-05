@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int energy) implements Recipe<SingleStackRecipeInput> {
-
     @Override
     public boolean matches(SingleStackRecipeInput input, World world) {
         if (world.isClient){
@@ -42,12 +41,12 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
+        return IngredientPlacement.NONE;
     }
 
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
-        return null;
+        return ModRecipes.SQUEEZING_CATEGORY;
     }
 
     public static class Serializer implements RecipeSerializer<SqueezingRecipe>{

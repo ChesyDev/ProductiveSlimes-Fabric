@@ -42,12 +42,12 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
+        return IngredientPlacement.NONE;
     }
 
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
-        return null;
+        return ModRecipes.DNA_EXTRACTING_CATEGORY;
     }
 
     public static class Serializer implements RecipeSerializer<DnaExtractingRecipe>{

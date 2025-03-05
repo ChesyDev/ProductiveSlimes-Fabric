@@ -9,6 +9,7 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -50,12 +51,12 @@ public class DnaExtractingCategory implements DisplayCategory<DnaExtractingRecip
         widgets.add(Widgets.createTexturedWidget(TEXTURE, new Rectangle(startPoint.x, startPoint.y, 153, 83)));
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 27, startPoint.y + 34))
-                .entries(display.getInputEntries().get(0)).markInput());
+                .entries(display.getInputEntries().getFirst()).markInput());
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 108, startPoint.y + 34))
                 .entries(display.getOutputEntries().get(0)).markOutput());
 
-        if (display.getOutputEntries().get(1) != EntryStacks.of(ItemStack.EMPTY)) {
+        if (display.getOutputEntries().get(1) != EntryIngredient.of(EntryStacks.of(ItemStack.EMPTY))) {
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 128, startPoint.y + 34))
                     .entries(display.getOutputEntries().get(1)).markOutput());
         }

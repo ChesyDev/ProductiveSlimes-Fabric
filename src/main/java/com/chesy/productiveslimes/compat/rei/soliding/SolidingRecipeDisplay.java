@@ -45,15 +45,15 @@ public class SolidingRecipeDisplay extends BasicDisplay {
 
     public SolidingRecipeDisplay(RecipeEntry<SolidingRecipe> recipe) {
         super(
-                List.of(EntryIngredients.ofIngredient(recipe.value().getInputItems().getFirst())),
+                List.of(EntryIngredients.ofIngredient(recipe.value().inputItems().getFirst())),
                 List.of(
-                        EntryIngredient.of(EntryStacks.of(recipe.value().getOutputs().get(0))),
-                        EntryIngredient.of(EntryStacks.of(recipe.value().getOutputs().get(1)))
+                        EntryIngredient.of(EntryStacks.of(recipe.value().output().get(0))),
+                        EntryIngredient.of(EntryStacks.of(recipe.value().output().get(1)))
                 )
         );
 
-        energy = recipe.value().getEnergy();
-        inputCount = recipe.value().getInputCount();
+        energy = recipe.value().energy();
+        inputCount = recipe.value().inputCount();
     }
 
     public SolidingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {

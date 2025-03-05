@@ -160,12 +160,12 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
 
-        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().value().getOutputs().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().value().output().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().energy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
             if(hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().getEnergy());
+                energyHandler.removeAmount(recipe.get().value().energy());
                 craftItem();
                 resetProgress();
             }
@@ -181,9 +181,9 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     private void craftItem() {
         Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().getOutputs();
+            List<ItemStack> results = recipe.get().value().output();
 
-            this.removeStack(INPUT_SLOT, recipe.get().value().getInputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().value().inputCount());
 
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
@@ -212,11 +212,11 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
 
-        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().getInputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().inputCount()) {
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().getOutputs();
+        List<ItemStack> results = recipe.get().value().output();
 
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {

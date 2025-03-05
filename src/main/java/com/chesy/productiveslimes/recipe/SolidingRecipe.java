@@ -10,27 +10,12 @@ import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
-    private final DefaultedList<Ingredient> inputItems;
-    private final List<ItemStack> output;
-    private final int inputCount;
-    private final int energy;
-
-    public SolidingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int inputCount, int energy) {
-        DefaultedList<Ingredient> ingredients = DefaultedList.of();
-        ingredients.addAll(inputItems);
-        this.inputItems = ingredients;
-        this.output = output;
-        this.inputCount = inputCount;
-        this.energy = energy;
-    }
-
+public record SolidingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int inputCount, int energy) implements Recipe<SingleStackRecipeInput> {
     @Override
     public boolean matches(SingleStackRecipeInput input, World world) {
         if (world.isClient()){
@@ -57,28 +42,12 @@ public class SolidingRecipe implements Recipe<SingleStackRecipeInput> {
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
+        return IngredientPlacement.NONE;
     }
 
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
-        return null;
-    }
-
-    public List<ItemStack> getOutputs() {
-        return output;
-    }
-
-    public int getInputCount() {
-        return inputCount;
-    }
-
-    public DefaultedList<Ingredient> getInputItems() {
-        return inputItems;
-    }
-
-    public int getEnergy() {
-        return energy;
+        return ModRecipes.SOLIDING_CATEGORY;
     }
 
     public static class Serializer implements RecipeSerializer<SolidingRecipe> {

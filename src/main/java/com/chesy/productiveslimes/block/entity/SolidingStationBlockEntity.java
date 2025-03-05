@@ -148,12 +148,12 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
         Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
-        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().getEnergy()){
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
             if(hasProgressFinished()) {
-                energyHandler.removeAmount(recipe.get().value().getEnergy());
+                energyHandler.removeAmount(recipe.get().value().energy());
                 craftItem();
                 resetProgress();
                 markDirty(pWorld, pPos, pState);
@@ -171,9 +171,9 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     private void craftItem() {
         Optional<RecipeEntry<SolidingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().getOutputs();
+            List<ItemStack> results = recipe.get().value().output();
 
-            this.removeStack(INPUT_SLOT, recipe.get().value().getInputCount());
+            this.removeStack(INPUT_SLOT, recipe.get().value().inputCount());
 
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
@@ -203,11 +203,11 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
             return false;
         }
 
-        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().getInputCount()) {
+        if (this.getStack(INPUT_SLOT).getCount() < recipe.get().value().inputCount()) {
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().getOutputs();
+        List<ItemStack> results = recipe.get().value().output();
 
         for (ItemStack result : results) {
             if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {

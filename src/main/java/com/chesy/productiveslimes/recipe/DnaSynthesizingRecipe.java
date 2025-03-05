@@ -9,7 +9,6 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
@@ -21,7 +20,7 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
     @Override
     public boolean matches(MultipleRecipeInput input, World world) {
         List<ItemStack> inputItems = input.inputItems();
-        if (inputItems.size() != inputItems.size()) {
+        if (inputItems.size() != this.inputItems.size()) {
             return false;
         }
 
@@ -69,12 +68,12 @@ public record DnaSynthesizingRecipe(List<Ingredient> inputItems, List<ItemStack>
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forShapeless(inputItems);
+        return IngredientPlacement.NONE;
     }
 
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
-        return null;
+        return ModRecipes.DNA_SYNTHESIZING_CATEGORY;
     }
 
     public static class Serializer implements RecipeSerializer<DnaSynthesizingRecipe>{
