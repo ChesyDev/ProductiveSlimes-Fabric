@@ -16,56 +16,57 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class SqueezingRecipeDisplay extends BasicDisplay {
+public record SqueezingRecipeDisplay(RecipeEntry<SqueezingRecipe> recipe) implements Display {
     public static final CategoryIdentifier<? extends SqueezingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "squeezing");
-    private final int energy;
-    private final EntryStack<ItemStack> inputItem;
+
     public static final DisplaySerializer<SqueezingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(SqueezingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(SqueezingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("energy").forGetter(SqueezingRecipeDisplay::getEnergy)
-            ).apply(instance, SqueezingRecipeDisplay::new)),
+                    Identifier.CODEC.fieldOf("recipeId").forGetter(display -> display.recipe.id().getValue()),
+                    SqueezingRecipe.Serializer.CODEC.fieldOf("ingredients").forGetter(display -> display.recipe.value())
+            ).apply(instance, (identifier, recipe) -> new SqueezingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), recipe)))),
             PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    SqueezingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    SqueezingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    SqueezingRecipeDisplay::getEnergy,
-                    SqueezingRecipeDisplay::new
+                    Identifier.PACKET_CODEC,
+                    squeezingRecipeDisplay -> squeezingRecipeDisplay.recipe.id().getValue(),
+                    SqueezingRecipe.Serializer.PACKET_CODEC,
+                    squeezingRecipeDisplay -> squeezingRecipeDisplay.recipe.value(),
+                    (identifier, recipe) -> new SqueezingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), recipe))
             )
     );
-    public SqueezingRecipeDisplay(RecipeEntry<SqueezingRecipe> recipe) {
-        super(
-                List.of(EntryIngredients.ofIngredient(recipe.value().inputItems().getFirst())),
-                List.of(
-                        EntryIngredient.of(EntryStacks.of(recipe.value().output().get(0))),
-                        EntryIngredient.of(EntryStacks.of(recipe.value().output().get(1)))
-                )
-        );
-        energy = recipe.value().energy();
-        inputItem = EntryStacks.of(new ItemStack(recipe.value().inputItems().getFirst().getMatchingItems().toList().getFirst()));
+
+    @Override
+    public List<EntryIngredient> getInputEntries() {
+        return EntryIngredients.ofIngredients(recipe.value().inputItems());
     }
-    public SqueezingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int energy) {
-        super(input, output);
-        this.energy = energy;
-        this.inputItem = (EntryStack<ItemStack>) input.get(0).getFirst();
+
+    @Override
+    public List<EntryIngredient> getOutputEntries() {
+        List<ItemStack> outputs = recipe.value().output();
+        List<EntryIngredient> entryIngredients = new ArrayList<>();
+        for (ItemStack output : outputs) {
+            entryIngredients.add(EntryIngredients.of(output));
+        }
+        return entryIngredients;
     }
-    public int getEnergy() {
-        return energy;
-    }
-    public EntryStack<ItemStack> getInputItem() {
-        return inputItem;
-    }
+
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return CATEGORY;
     }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.of(recipe.id().getValue());
+    }
+
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
         return SERIALIZER;

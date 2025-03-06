@@ -53,7 +53,7 @@ public record MeltingRecipe(SizedIngredient inputItems, List<ItemStack> output, 
 
     public static class Serializer implements RecipeSerializer<MeltingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        private static final MapCodec<MeltingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        public static final MapCodec<MeltingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 SizedIngredient.CODEC.fieldOf("ingredients").forGetter(recipe -> recipe.inputItems),
                 ItemStack.CODEC.listOf().fieldOf("output").forGetter(recipe -> recipe.output),
                 Codec.INT.fieldOf("energy").forGetter(recipe -> recipe.energy)

@@ -56,7 +56,7 @@ public class MeltingCategory implements DisplayCategory<MeltingRecipeDisplay> {
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 128, startPoint.y + 34))
                 .entries(display.getOutputEntries().getFirst()).markOutput());
 
-        Text text = Text.translatable("tooltip.productiveslimes.energy_usage", display.getEnergy());
+        Text text = Text.translatable("tooltip.productiveslimes.energy_usage", display.recipe().value().energy());
 
         widgets.add(Widgets.createTooltip(new Rectangle(startPoint.x + 8, startPoint.y + 12, 10, 58), text));
 
@@ -77,7 +77,7 @@ public class MeltingCategory implements DisplayCategory<MeltingRecipeDisplay> {
                 guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 77, startPoint.y + 38, 153, 0, arrowWidth, 8, 256, 256);
 
                 // Energy bar
-                int energyScaled = (int) Math.ceil((double) display.getEnergy() / 10000 * 57);
+                int energyScaled = (int) Math.ceil((double) display.recipe().value().energy() / 10000 * 57);
                 energyScaled = arrowWidth >= 25 ? 0 : energyScaled;
 
                 guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 9, (startPoint.y + 18) + (52 - energyScaled), 153, 65 - energyScaled, 9, energyScaled, 256, 256);

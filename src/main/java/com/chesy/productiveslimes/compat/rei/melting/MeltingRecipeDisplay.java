@@ -6,72 +6,59 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
-import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static net.minecraft.client.option.InactivityFpsLimit.Codec;
-
-public class MeltingRecipeDisplay extends BasicDisplay {
+public record MeltingRecipeDisplay(RecipeEntry<MeltingRecipe> recipe) implements Display {
     public static final CategoryIdentifier<? extends MeltingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "melting");
-    private final int energy;
-    private final int inputCount;
 
     public static final DisplaySerializer<MeltingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(MeltingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(MeltingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("inputCount").forGetter(MeltingRecipeDisplay::getInputCount),
-                    Codec.INT.fieldOf("energy").forGetter(MeltingRecipeDisplay::getEnergy)
-            ).apply(instance, MeltingRecipeDisplay::new)),
+                    Identifier.CODEC.fieldOf("recipeId").forGetter(display -> display.recipe.id().getValue()),
+                    MeltingRecipe.Serializer.CODEC.fieldOf("ingredients").forGetter(display -> display.recipe.value())
+            ).apply(instance, (identifier, meltingRecipe) -> new MeltingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), meltingRecipe)))),
             PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    MeltingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    MeltingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    MeltingRecipeDisplay::getInputCount,
-                    PacketCodecs.INTEGER,
-                    MeltingRecipeDisplay::getEnergy,
-                    MeltingRecipeDisplay::new
+                    Identifier.PACKET_CODEC,
+                    meltingRecipeDisplay -> meltingRecipeDisplay.recipe.id().getValue(),
+                    MeltingRecipe.Serializer.STREAM_CODEC,
+                    meltingRecipeDisplay -> meltingRecipeDisplay.recipe.value(),
+                    (identifier, meltingRecipe) -> new MeltingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), meltingRecipe))
             )
     );
 
-    public MeltingRecipeDisplay(RecipeEntry<MeltingRecipe> recipe) {
-        super(List.of(EntryIngredients.of(new ItemStack(recipe.value().inputItems().ingredient().getMatchingItems().findFirst().get(), recipe.value().inputItems().count())),
-                        EntryIngredients.of(new ItemStack(Items.BUCKET, recipe.value().output().getFirst().getCount()))),
-                List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().getFirst()))));
-
-        energy = recipe.value().energy();
-        inputCount = recipe.value().inputItems().count();
+    @Override
+    public List<EntryIngredient> getInputEntries() {
+        List<EntryIngredient> entryIngredients = new ArrayList<>();
+        entryIngredients.add(EntryIngredients.of(new ItemStack(recipe.value().inputItems().ingredient().getMatchingItems().toList().getFirst(), recipe.value().inputItems().count())));
+        entryIngredients.add(EntryIngredients.of(new ItemStack(Items.BUCKET, recipe.value().output().getFirst().getCount())));
+        return entryIngredients;
     }
 
-    public MeltingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {
-        super(input, output);
-        this.energy = energy;
-        this.inputCount = inputCount;
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public int getInputCount() {
-        return inputCount;
+    @Override
+    public List<EntryIngredient> getOutputEntries() {
+        return List.of(EntryIngredients.ofItemStacks(recipe.value().output()));
     }
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return CATEGORY;
+    }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.of(recipe.id().getValue());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.compat.rei.dna_synthesizing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
+import com.chesy.productiveslimes.util.SizedIngredient;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
@@ -15,66 +16,50 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class DnaSynthesizingRecipeDisplay extends BasicDisplay {
+public record DnaSynthesizingRecipeDisplay(RecipeEntry<DnaSynthesizingRecipe> recipe) implements Display {
     public static final CategoryIdentifier<? extends DnaSynthesizingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "dna_synthesizing");
-    private final int energy;
-    private final int inputCount;
 
     public static final DisplaySerializer<DnaSynthesizingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(DnaSynthesizingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(DnaSynthesizingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("inputCount").forGetter(DnaSynthesizingRecipeDisplay::getInputCount),
-                    Codec.INT.fieldOf("energy").forGetter(DnaSynthesizingRecipeDisplay::getEnergy)
-            ).apply(instance, DnaSynthesizingRecipeDisplay::new)),
+                    Identifier.CODEC.fieldOf("recipeId").forGetter(display -> display.recipe.id().getValue()),
+                    DnaSynthesizingRecipe.Serializer.CODEC.fieldOf("ingredient").forGetter(display -> display.recipe.value())
+            ).apply(instance, (identifier, dnaSynthesizingRecipe) -> new DnaSynthesizingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), dnaSynthesizingRecipe)))),
             PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaSynthesizingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaSynthesizingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    DnaSynthesizingRecipeDisplay::getInputCount,
-                    PacketCodecs.INTEGER,
-                    DnaSynthesizingRecipeDisplay::getEnergy,
-                    DnaSynthesizingRecipeDisplay::new
+                    Identifier.PACKET_CODEC,
+                    dnaSynthesizingRecipeDisplay -> dnaSynthesizingRecipeDisplay.recipe.id().getValue(),
+                    DnaSynthesizingRecipe.Serializer.PACKET_CODEC,
+                    dnaSynthesizingRecipeDisplay -> dnaSynthesizingRecipeDisplay.recipe.value(),
+                    (identifier, dnaSynthesizingRecipe) -> new DnaSynthesizingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), dnaSynthesizingRecipe))
             )
     );
 
-    public DnaSynthesizingRecipeDisplay(RecipeEntry<DnaSynthesizingRecipe> recipe) {
-        super(
-                List.of(
-                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(0).ingredient()),
-                        EntryIngredients.ofIngredient(recipe.value().inputItems().get(1).ingredient()),
-                        EntryIngredients.of(new ItemStack(recipe.value().inputItems().get(2).ingredient().getMatchingItems().toList().getFirst(), recipe.value().inputItems().get(2).count()))
-                ),
-                List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().getFirst())))
-        );
-
-        energy = recipe.value().energy();
-        inputCount = recipe.value().inputItems().get(2).count();
+    @Override
+    public List<EntryIngredient> getInputEntries() {
+        return EntryIngredients.ofIngredients(recipe.value().inputItems().stream().map(SizedIngredient::ingredient).collect(Collectors.toList()));
     }
 
-    public DnaSynthesizingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy) {
-        super(input, output);
-        this.energy = energy;
-        this.inputCount = inputCount;
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public int getInputCount() {
-        return inputCount;
+    @Override
+    public List<EntryIngredient> getOutputEntries() {
+        return List.of(EntryIngredients.ofItemStacks(recipe.value().output()));
     }
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return CATEGORY;
+    }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.of(recipe.id().getValue());
     }
 
     @Override

@@ -15,71 +15,56 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class DnaExtractingRecipeDisplay extends BasicDisplay {
+public record DnaExtractingRecipeDisplay(RecipeEntry<DnaExtractingRecipe> recipe) implements Display {
     public static final CategoryIdentifier<? extends DnaExtractingRecipeDisplay> CATEGORY = CategoryIdentifier.of(ProductiveSlimes.MODID, "dna_extracting");
-
-    private final int energy;
-    private final float outputChance;
-    private final int inputCount;
 
     public static final DisplaySerializer<DnaExtractingRecipeDisplay> SERIALIZER = DisplaySerializer.of(
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    EntryIngredient.codec().listOf().fieldOf("ingredients").forGetter(DnaExtractingRecipeDisplay::getInputEntries),
-                    EntryIngredient.codec().listOf().fieldOf("output").forGetter(DnaExtractingRecipeDisplay::getOutputEntries),
-                    Codec.INT.fieldOf("inputCount").forGetter(DnaExtractingRecipeDisplay::getInputCount),
-                    Codec.INT.fieldOf("energy").forGetter(DnaExtractingRecipeDisplay::getEnergy),
-                    Codec.FLOAT.fieldOf("output_chance").forGetter(DnaExtractingRecipeDisplay::getOutputChance)
-            ).apply(instance, DnaExtractingRecipeDisplay::new)),
+                    Identifier.CODEC.fieldOf("recipeId").forGetter(display -> display.recipe.id().getValue()),
+                    DnaExtractingRecipe.Serializer.CODEC.fieldOf("ingredients").forGetter(display -> display.recipe.value())
+            ).apply(instance, (identifier, dnaExtractingRecipe) -> new DnaExtractingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, identifier), dnaExtractingRecipe)))),
             PacketCodec.tuple(
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaExtractingRecipeDisplay::getInputEntries,
-                    EntryIngredient.streamCodec().collect(PacketCodecs.toList()),
-                    DnaExtractingRecipeDisplay::getOutputEntries,
-                    PacketCodecs.INTEGER,
-                    DnaExtractingRecipeDisplay::getInputCount,
-                    PacketCodecs.INTEGER,
-                    DnaExtractingRecipeDisplay::getEnergy,
-                    PacketCodecs.FLOAT,
-                    DnaExtractingRecipeDisplay::getOutputChance,
-                    DnaExtractingRecipeDisplay::new
+                    Identifier.PACKET_CODEC,
+                    display -> display.recipe.id().getValue(),
+                    DnaExtractingRecipe.Serializer.STREAM_CODEC,
+                    display -> display.recipe.value(),
+                    (recipeId, dnaExtractingRecipe) -> new DnaExtractingRecipeDisplay(new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeId), dnaExtractingRecipe))
             )
     );
 
-    public DnaExtractingRecipeDisplay(RecipeEntry<DnaExtractingRecipe> recipe) {
-        super(List.of(EntryIngredients.ofIngredient(recipe.value().inputItems().getFirst())),
-                List.of(EntryIngredient.of(EntryStacks.of(recipe.value().output().get(0))),
-                        EntryIngredient.of(EntryStacks.of(recipe.value().output().size() > 1 ? recipe.value().output().get(1) : ItemStack.EMPTY))));
-        energy = recipe.value().energy();
-        outputChance = recipe.value().outputChance();
-        inputCount = recipe.value().inputCount();
+    @Override
+    public List<EntryIngredient> getInputEntries() {
+        return EntryIngredients.ofIngredients(recipe.value().inputItems());
     }
 
-    public DnaExtractingRecipeDisplay(List<EntryIngredient> input, List<EntryIngredient> output, int inputCount, int energy, float outputChance) {
-        super(input, output);
-        this.energy = energy;
-        this.outputChance = outputChance;
-        this.inputCount = inputCount;
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public float getOutputChance() {
-        return outputChance;
-    }
-
-    public int getInputCount() {
-        return inputCount;
+    @Override
+    public List<EntryIngredient> getOutputEntries() {
+        List<ItemStack> output = recipe().value().output();
+        List<EntryIngredient> entries = new ArrayList<>();
+        for (ItemStack itemStack : output) {
+            entries.add(EntryIngredients.of(itemStack));
+        }
+        return entries;
     }
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return CATEGORY;
+    }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.of(recipe.id().getValue());
     }
 
     @Override
