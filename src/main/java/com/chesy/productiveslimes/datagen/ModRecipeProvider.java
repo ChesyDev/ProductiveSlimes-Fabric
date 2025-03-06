@@ -329,7 +329,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             private void dnaExtractingRecipe(RecipeExporter pRecipeOutput, ItemConvertible pIngredient, ItemConvertible pResult, int outputCount, float outputChance) {
                 var recipeBuilder = DnaExtractingRecipeBuilder.dnaExtractingRecipe()
                         .addIngredient(Ingredient.ofItem(pIngredient))
-                        .setInputCount(1)
                         .addOutput(new ItemStack(pResult, outputCount));
 
                 if (pIngredient != Items.SLIME_BALL) {

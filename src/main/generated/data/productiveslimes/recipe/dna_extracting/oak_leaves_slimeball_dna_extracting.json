@@ -1,10 +1,7 @@
 {
   "type": "productiveslimes:dna_extracting",
   "energy": 400,
-  "ingredients": [
-    "productiveslimes:oak_leaves_slimeball"
-  ],
-  "inputCount": 1,
+  "ingredients": "productiveslimes:oak_leaves_slimeball",
   "output": [
     {
       "count": 1,

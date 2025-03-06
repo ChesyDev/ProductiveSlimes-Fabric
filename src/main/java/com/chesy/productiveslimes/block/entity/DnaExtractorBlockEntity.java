@@ -192,7 +192,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             List<ItemStack> results = recipe.get().value().output();
 
             // Extract the input item from the input slot
-            this.removeStack(inputSlots[0], recipe.get().value().inputCount());
+            this.removeStack(inputSlots[0], 1);
 
             // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
@@ -239,7 +239,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             return false;
         }
 
-        if (inventory.get(0).getCount() < recipe.get().value().inputCount()) {
+        if (inventory.get(0).getCount() < 1) {
             return false;
         }
 

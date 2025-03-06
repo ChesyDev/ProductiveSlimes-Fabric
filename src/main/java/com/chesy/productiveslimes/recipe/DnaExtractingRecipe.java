@@ -15,14 +15,14 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int inputCount, int energy, float outputChance) implements Recipe<SingleStackRecipeInput> {
+public record DnaExtractingRecipe(Ingredient inputItems, List<ItemStack> output, int energy, float outputChance) implements Recipe<SingleStackRecipeInput> {
     @Override
     public boolean matches(SingleStackRecipeInput input, World world) {
         if (world.isClient()){
             return false;
         }
 
-        return inputItems.getFirst().test(input.getStackInSlot(0));
+        return inputItems.test(input.getStackInSlot(0));
     }
 
     @Override
@@ -54,35 +54,26 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<DnaExtractingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(DnaExtractingRecipe::inputItems),
+                        Ingredient.CODEC.fieldOf("ingredients").forGetter(DnaExtractingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(DnaExtractingRecipe::output),
-                        Codec.INT.fieldOf("inputCount").forGetter(DnaExtractingRecipe::inputCount),
                         Codec.INT.fieldOf("energy").forGetter(DnaExtractingRecipe::energy),
                         Codec.FLOAT.fieldOf("outputChance").forGetter(DnaExtractingRecipe::outputChance)
                 ).apply(instance, DnaExtractingRecipe::new)
         );
         public static final PacketCodec<RegistryByteBuf, DnaExtractingRecipe> STREAM_CODEC = PacketCodec.of(
                 (value, buf) -> {
-                    buf.writeVarInt(value.inputItems().size());
-                    for (Ingredient ingredient : value.inputItems()) {
-                        Ingredient.PACKET_CODEC.encode(buf, ingredient);
-                    }
+                    Ingredient.PACKET_CODEC.encode(buf, value.inputItems());
 
                     buf.writeVarInt(value.output().size());
                     for (ItemStack itemStack : value.output()) {
                         ItemStack.PACKET_CODEC.encode(buf, itemStack);
                     }
 
-                    buf.writeVarInt(value.inputCount());
                     buf.writeVarInt(value.energy());
                     buf.writeFloat(value.outputChance());
                 },
                 buf -> {
-                    int inputItemsSize = buf.readVarInt();
-                    List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
-                    for (int i = 0; i < inputItemsSize; i++) {
-                        inputItems.add(Ingredient.PACKET_CODEC.decode(buf));
-                    }
+                    Ingredient inputItems = Ingredient.PACKET_CODEC.decode(buf);
 
                     int outputSize = buf.readVarInt();
                     List<ItemStack> output = new ArrayList<>(outputSize);
@@ -90,11 +81,10 @@ public record DnaExtractingRecipe(List<Ingredient> inputItems, List<ItemStack> o
                         output.add(ItemStack.PACKET_CODEC.decode(buf));
                     }
 
-                    int inputCount = buf.readVarInt();
                     int energy = buf.readVarInt();
                     float outputChance = buf.readFloat();
 
-                    return new DnaExtractingRecipe(inputItems, output, inputCount, energy, outputChance);
+                    return new DnaExtractingRecipe(inputItems, output, energy, outputChance);
                 }
         );
 

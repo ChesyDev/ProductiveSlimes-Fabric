@@ -308,7 +308,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             }
 
             // Render recipe input
-            Ingredient input = recipe.inputItems().getFirst();
+            Ingredient input = recipe.inputItems();
             ItemStack inputStack = new ItemStack(input.getMatchingItems().toList().getFirst());
             int inputX = xPos + 27;
             int inputY = yPos + 34;

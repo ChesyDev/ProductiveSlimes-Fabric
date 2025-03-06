@@ -1,10 +1,7 @@
 {
   "type": "productiveslimes:dna_extracting",
   "energy": 400,
-  "ingredients": [
-    "minecraft:slime_ball"
-  ],
-  "inputCount": 1,
+  "ingredients": "minecraft:slime_ball",
   "output": [
     {
       "count": 1,

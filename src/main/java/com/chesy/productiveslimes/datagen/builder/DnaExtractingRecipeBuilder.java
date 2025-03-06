@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DnaExtractingRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final List<Ingredient> ingredients = new ArrayList<>();
-    private int inputCount;
+    private Ingredient ingredients;
     private int energy;
     private float outputChance;
     private final List<ItemStack> outputs = new ArrayList<>();
@@ -42,12 +41,7 @@ public class DnaExtractingRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     public DnaExtractingRecipeBuilder addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        return this;
-    }
-
-    public DnaExtractingRecipeBuilder setInputCount(int count) {
-        this.inputCount = count;
+        this.ingredients = ingredient;
         return this;
     }
 
@@ -94,7 +88,6 @@ public class DnaExtractingRecipeBuilder implements CraftingRecipeJsonBuilder {
         DnaExtractingRecipe recipe = new DnaExtractingRecipe(
                 this.ingredients,
                 this.outputs,
-                this.inputCount,
                 this.energy,
                 this.outputChance
         );
