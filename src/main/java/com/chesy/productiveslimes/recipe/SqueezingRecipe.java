@@ -15,13 +15,13 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> output, int energy) implements Recipe<SingleStackRecipeInput> {
+public record SqueezingRecipe(Ingredient inputItems, List<ItemStack> output, int energy) implements Recipe<SingleStackRecipeInput> {
     @Override
     public boolean matches(SingleStackRecipeInput input, World world) {
         if (world.isClient){
             return false;
         }
-        return inputItems.getFirst().test(input.getStackInSlot(0));
+        return inputItems.test(input.getStackInSlot(0));
     }
 
     @Override
@@ -53,17 +53,14 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<SqueezingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(SqueezingRecipe::inputItems),
+                        Ingredient.CODEC.fieldOf("ingredients").forGetter(SqueezingRecipe::inputItems),
                         ItemStack.CODEC.listOf().fieldOf("output").forGetter(SqueezingRecipe::output),
                         Codec.INT.fieldOf("energy").forGetter(SqueezingRecipe::energy)
                 ).apply(instance, SqueezingRecipe::new)
         );
         public static final PacketCodec<RegistryByteBuf, SqueezingRecipe> PACKET_CODEC = PacketCodec.of(
                 (value, buf) -> {
-                    buf.writeVarInt(value.inputItems().size());
-                    for (Ingredient ingredient : value.inputItems()) {
-                        Ingredient.PACKET_CODEC.encode(buf, ingredient);
-                    }
+                    Ingredient.PACKET_CODEC.encode(buf, value.inputItems());
 
                     buf.writeVarInt(value.output().size());
                     for (ItemStack itemStack : value.output()) {
@@ -73,11 +70,7 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
                     buf.writeInt(value.energy());
                 },
                 buf -> {
-                    int inputItemsSize = buf.readVarInt();
-                    List<Ingredient> inputItems = new ArrayList<>(inputItemsSize);
-                    for (int i = 0; i < inputItemsSize; i++) {
-                        inputItems.add(Ingredient.PACKET_CODEC.decode(buf));
-                    }
+                    Ingredient inputItems = Ingredient.PACKET_CODEC.decode(buf);
 
                     int outputSize = buf.readVarInt();
                     List<ItemStack> output = new ArrayList<>(outputSize);

@@ -1,9 +1,7 @@
 {
   "type": "productiveslimes:squeezing",
   "energy": 300,
-  "ingredients": [
-    "productiveslimes:slimy_cobbled_deepslate"
-  ],
+  "ingredients": "productiveslimes:slimy_cobbled_deepslate",
   "output": [
     {
       "count": 1,

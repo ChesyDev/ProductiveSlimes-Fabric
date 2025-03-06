@@ -679,7 +679,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
             }
 
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 26, yPos + 34, new ItemStack(recipe.inputItems().getFirst().getMatchingItems().toList().getFirst().value()), textRenderer);
+            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 26, yPos + 34, new ItemStack(recipe.inputItems().getMatchingItems().toList().getFirst().value()), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.output().getFirst(), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 107 + 20, yPos + 34, recipe.output().get(1), textRenderer);
 

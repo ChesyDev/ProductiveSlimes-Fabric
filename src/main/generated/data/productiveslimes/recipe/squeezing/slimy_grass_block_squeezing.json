@@ -1,9 +1,7 @@
 {
   "type": "productiveslimes:squeezing",
   "energy": 300,
-  "ingredients": [
-    "productiveslimes:slimy_grass_block"
-  ],
+  "ingredients": "productiveslimes:slimy_grass_block",
   "output": [
     {
       "count": 1,

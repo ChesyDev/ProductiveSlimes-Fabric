@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final List<Ingredient> ingredients = new ArrayList<>();
+    private Ingredient ingredients;
     private int energy;
     private final List<ItemStack> outputs = new ArrayList<>();
     private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
@@ -39,7 +39,7 @@ public class SqueezingRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     public SqueezingRecipeBuilder addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
+        this.ingredients = ingredient;
         return this;
     }
 
