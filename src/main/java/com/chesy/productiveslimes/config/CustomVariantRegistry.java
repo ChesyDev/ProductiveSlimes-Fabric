@@ -16,6 +16,8 @@ import com.chesy.productiveslimes.util.CustomVariantResourcePack;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -562,28 +564,36 @@ public class CustomVariantRegistry {
     private static void generateSlimeBlockLootTable(){
         for (CustomVariant variants : getLoadedTiers()){
             String lootTablePath = "data/productiveslimes/loot_table/blocks/" + variants.name() + "_slime_block.json";
-            String lootTable = "{\n" +
-                    "  \"type\": \"minecraft:block\",\n" +
-                    "  \"pools\": [\n" +
-                    "    {\n" +
-                    "      \"bonus_rolls\": 0.0,\n" +
-                    "      \"conditions\": [\n" +
-                    "        {\n" +
-                    "          \"condition\": \"minecraft:survives_explosion\"\n" +
-                    "        }\n" +
-                    "      ],\n" +
-                    "      \"entries\": [\n" +
-                    "        {\n" +
-                    "          \"type\": \"minecraft:item\",\n" +
-                    "          \"name\": \"productiveslimes:" + variants.name() + "_slime_block\"\n" +
-                    "        }\n" +
-                    "      ],\n" +
-                    "      \"rolls\": 1.0\n" +
-                    "    }\n" +
-                    "  ],\n" +
-                    "  \"random_sequence\": \"productiveslimes:blocks/" + variants.name() + "_slime_block\"\n" +
-                    "}";
-            dataPackResources.put(lootTablePath, lootTable.getBytes(StandardCharsets.UTF_8));
+            JsonObject lootTableObj = new JsonObject();
+            lootTableObj.addProperty("type", "minecraft:block");
+
+            JsonArray poolsArray = new JsonArray();
+            JsonObject poolObj = new JsonObject();
+
+            poolObj.addProperty("bonus_rolls", 0.0);
+
+            JsonArray conditionsArray = new JsonArray();
+            JsonObject conditionObj = new JsonObject();
+            conditionObj.addProperty("condition", "minecraft:survives_explosion");
+            conditionsArray.add(conditionObj);
+            poolObj.add("conditions", conditionsArray);
+
+            JsonArray entriesArray = new JsonArray();
+            JsonObject entryObj = new JsonObject();
+            entryObj.addProperty("type", "minecraft:item");
+            entryObj.addProperty("name", "productiveslimes:" + variants.name() + "_slime_block");
+            entriesArray.add(entryObj);
+            poolObj.add("entries", entriesArray);
+
+            poolObj.addProperty("rolls", 1.0);
+
+            poolsArray.add(poolObj);
+            lootTableObj.add("pools", poolsArray);
+
+            lootTableObj.addProperty("random_sequence", "productiveslimes:blocks/" + variants.name() + "_slime_block");
+
+            String lootTableJson = new GsonBuilder().setPrettyPrinting().create().toJson(lootTableObj);
+            dataPackResources.put(lootTablePath, lootTableJson.getBytes(StandardCharsets.UTF_8));
         }
     }
 
@@ -597,42 +607,47 @@ public class CustomVariantRegistry {
     private static void slimeballToSlimeBlock(String name){
         String recipePath = "data/minecraft/recipe/" + name + "_slimeball_to_block.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"minecraft:crafting_shaped\",\n" +
-                "  \"category\": \"building\",\n" +
-                "  \"key\": {\n" +
-                "    \"A\": \"productiveslimes:" + name + "_slimeball\"\n" +
-                "  },\n" +
-                "  \"pattern\": [\n" +
-                "    \"AAA\",\n" +
-                "    \"AAA\",\n" +
-                "    \"AAA\"\n" +
-                "  ],\n" +
-                "  \"result\": {\n" +
-                "    \"count\": 1,\n" +
-                "    \"id\": \"productiveslimes:" + name + "_slime_block\"\n" +
-                "  }\n" +
-                "}";
+        JsonObject recipeObject = new JsonObject();
+        recipeObject.addProperty("type", "minecraft:crafting_shaped");
+        recipeObject.addProperty("category", "building");
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonObject keyObject = new JsonObject();
+        keyObject.addProperty("A", "productiveslimes:" + name + "_slimeball");
+        recipeObject.add("key", keyObject);
+
+        JsonArray patternArray = new JsonArray();
+        patternArray.add("AAA");
+        patternArray.add("AAA");
+        patternArray.add("AAA");
+        recipeObject.add("pattern", patternArray);
+
+        JsonObject resultObject = new JsonObject();
+        resultObject.addProperty("count", 1);
+        resultObject.addProperty("id", "productiveslimes:" + name + "_slime_block");
+        recipeObject.add("result", resultObject);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObject);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void slimeBlockToSlimeball(String name){
         String recipePath = "data/minecraft/recipe/" + name + "_slime_block_to_ball.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"minecraft:crafting_shapeless\",\n" +
-                "  \"category\": \"misc\",\n" +
-                "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + name + "_slime_block\"\n" +
-                "  ],\n" +
-                "  \"result\": {\n" +
-                "    \"count\": 9,\n" +
-                "    \"id\": \"productiveslimes:" + name + "_slimeball\"\n" +
-                "  }\n" +
-                "}";
+        JsonObject recipeObject = new JsonObject();
+        recipeObject.addProperty("type", "minecraft:crafting_shapeless");
+        recipeObject.addProperty("category", "misc");
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonArray ingredients = new JsonArray();
+        ingredients.add("productiveslimes:" + name + "_slime_block");
+        recipeObject.add("ingredients", ingredients);
+
+        JsonObject result = new JsonObject();
+        result.addProperty("count", 9);
+        result.addProperty("id", "productiveslimes:" + name + "_slimeball");
+        recipeObject.add("result", result);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObject);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void generateModRecipe(){
@@ -649,139 +664,185 @@ public class CustomVariantRegistry {
     private static void meltingRecipeBlock(String name){
         String recipePath = "data/productiveslimes/recipe/melting/" + name + "_slime_block_melting.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:melting\",\n" +
-                "  \"energy\": 200,\n" +
-                "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slime_block\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 2,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": 5,\n" +
-                "      \"id\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:melting");
+        recipeObj.addProperty("energy", 200);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonObject ingredientsObj = new JsonObject();
+        ingredientsObj.addProperty("count", 2);
+        ingredientsObj.addProperty("ingredient", "productiveslimes:" + name + "_slime_block");
+        recipeObj.add("ingredients", ingredientsObj);
+
+        JsonArray outputArray = new JsonArray();
+        JsonObject outputObj = new JsonObject();
+        outputObj.addProperty("count", 5);
+        outputObj.addProperty("id", "productiveslimes:molten_" + name + "_bucket");
+        outputArray.add(outputObj);
+        recipeObj.add("output", outputArray);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void meltingRecipeBall(String name){
         String recipePath = "data/productiveslimes/recipe/melting/" + name + "_slimeball_melting.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:melting\",\n" +
-                "  \"energy\": 200,\n" +
-                "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + name + "_slimeball\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 4,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:molten_" + name + "_bucket\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:melting");
+        recipeObj.addProperty("energy", 200);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonObject ingredientsObj = new JsonObject();
+        ingredientsObj.addProperty("count", 4);
+        ingredientsObj.addProperty("ingredient", "productiveslimes:" + name + "_slimeball");
+        recipeObj.add("ingredients", ingredientsObj);
+
+        JsonArray outputArray = new JsonArray();
+        JsonObject outputObj = new JsonObject();
+        outputObj.addProperty("count", 1);
+        outputObj.addProperty("id", "productiveslimes:molten_" + name + "_bucket");
+        outputArray.add(outputObj);
+        recipeObj.add("output", outputArray);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void solidingRecipe(CustomVariant variant){
         String recipePath = "data/productiveslimes/recipe/soliding/molten_" + variant.name() + "_bucket_soliding.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:soliding\",\n" +
-                "  \"energy\": 200,\n" +
-                "  \"ingredients\": [\n" +
-                "      \"productiveslimes:molten_" + variant.name() + "_bucket\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 1,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": " + variant.solidingOutputCount() + ",\n" +
-                "      \"id\": \"" + variant.solidingOutput() + "\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"minecraft:bucket\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:soliding");
+        recipeObj.addProperty("energy", 200);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonArray ingredientsArray = new JsonArray();
+        ingredientsArray.add("productiveslimes:molten_" + variant.name() + "_bucket");
+        recipeObj.add("ingredients", ingredientsArray);
+
+        recipeObj.addProperty("inputCount", 1);
+
+        JsonArray outputArray = new JsonArray();
+
+        JsonObject output1 = new JsonObject();
+        output1.addProperty("count", variant.solidingOutputCount());
+        output1.addProperty("id", variant.solidingOutput());
+        outputArray.add(output1);
+
+        JsonObject output2 = new JsonObject();
+        output2.addProperty("count", 1);
+        output2.addProperty("id", "minecraft:bucket");
+        outputArray.add(output2);
+
+        recipeObj.add("output", outputArray);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void dnaExtracting(CustomVariant variant){
         String recipePath = "data/productiveslimes/recipe/dna_extracting/" + variant.name() + "_slimeball_dna_extracting.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:dna_extracting\",\n" +
-                "  \"energy\": 400,\n" +
-                "  \"ingredients\": [\n" +
-                "    \"productiveslimes:" + variant.name() + "_slimeball\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 1,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_dna\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"minecraft:slime_ball\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"outputChance\": " + variant.dnaOutputChance() + "\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:dna_extracting");
+        recipeObj.addProperty("energy", 400);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonArray ingredientsArray = new JsonArray();
+        ingredientsArray.add("productiveslimes:" + variant.name() + "_slimeball");
+        recipeObj.add("ingredients", ingredientsArray);
+
+        recipeObj.addProperty("inputCount", 1);
+
+        JsonArray outputArray = new JsonArray();
+
+        JsonObject output1 = new JsonObject();
+        output1.addProperty("count", 1);
+        output1.addProperty("id", "productiveslimes:" + variant.name() + "_slime_dna");
+        outputArray.add(output1);
+
+        JsonObject output2 = new JsonObject();
+        output2.addProperty("count", 1);
+        output2.addProperty("id", "minecraft:slime_ball");
+        outputArray.add(output2);
+
+        recipeObj.add("output", outputArray);
+
+        recipeObj.addProperty("outputChance", variant.dnaOutputChance());
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void dnaSynthesizingSelf(CustomVariant variant){
         String recipePath = "data/productiveslimes/recipe/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing_self.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
-                "  \"energy\": 600,\n" +
-                "  \"ingredients\": [\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"productiveslimes:" + variant.name() + "_slime_dna\",\n" +
-                "      \"" + variant.synthesizingInputItem() + "\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 2,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:dna_synthesizing");
+        recipeObj.addProperty("energy", 600);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonArray ingredientsArray = new JsonArray();
+
+        JsonObject ingredient1 = new JsonObject();
+        ingredient1.addProperty("count", 1);
+        ingredient1.addProperty("ingredient", "productiveslimes:" + variant.name() + "_slime_dna");
+        ingredientsArray.add(ingredient1);
+
+        JsonObject ingredient2 = new JsonObject();
+        ingredient2.addProperty("count", 1);
+        ingredient2.addProperty("ingredient", "productiveslimes:" + variant.name() + "_slime_dna");
+        ingredientsArray.add(ingredient2);
+
+        JsonObject ingredient3 = new JsonObject();
+        ingredient3.addProperty("count", 2);
+        ingredient3.addProperty("ingredient", variant.synthesizingInputItem());
+        ingredientsArray.add(ingredient3);
+
+        recipeObj.add("ingredients", ingredientsArray);
+
+        JsonArray outputArray = new JsonArray();
+        JsonObject outputObj = new JsonObject();
+        outputObj.addProperty("count", 1);
+        outputObj.addProperty("id", "productiveslimes:" + variant.name() + "_slime_spawn_egg");
+        outputArray.add(outputObj);
+
+        recipeObj.add("output", outputArray);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void dnaSynthesizing(CustomVariant variant){
         String recipePath = "data/productiveslimes/recipe/dna_synthesizing/" + variant.name() + "_slime_spawn_egg_synthesizing.json";
 
-        String recipe = "{\n" +
-                "  \"type\": \"productiveslimes:dna_synthesizing\",\n" +
-                "  \"energy\": 600,\n" +
-                "  \"ingredients\": [\n" +
-                "  \"" + variant.synthesizingInputDna1() + "\",\n" +
-                "  \"" + variant.synthesizingInputDna2() + "\",\n" +
-                "  \"" + variant.synthesizingInputItem() + "\"\n" +
-                "  ],\n" +
-                "  \"inputCount\": 4,\n" +
-                "  \"output\": [\n" +
-                "    {\n" +
-                "      \"count\": 1,\n" +
-                "      \"id\": \"productiveslimes:" + variant.name() + "_slime_spawn_egg\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        JsonObject recipeObj = new JsonObject();
+        recipeObj.addProperty("type", "productiveslimes:dna_synthesizing");
+        recipeObj.addProperty("energy", 600);
 
-        dataPackResources.put(recipePath, recipe.getBytes(StandardCharsets.UTF_8));
+        JsonArray ingredientsArray = new JsonArray();
+
+        JsonObject ingredient1 = new JsonObject();
+        ingredient1.addProperty("count", 1);
+        ingredient1.addProperty("ingredient", variant.synthesizingInputDna1());
+        ingredientsArray.add(ingredient1);
+
+        JsonObject ingredient2 = new JsonObject();
+        ingredient2.addProperty("count", 1);
+        ingredient2.addProperty("ingredient", variant.synthesizingInputDna2());
+        ingredientsArray.add(ingredient2);
+
+        JsonObject ingredient3 = new JsonObject();
+        ingredient3.addProperty("count", 4);
+        ingredient3.addProperty("ingredient", variant.synthesizingInputItem());
+        ingredientsArray.add(ingredient3);
+
+        recipeObj.add("ingredients", ingredientsArray);
+
+        JsonArray outputArray = new JsonArray();
+        JsonObject outputObj = new JsonObject();
+        outputObj.addProperty("count", 1);
+        outputObj.addProperty("id", "productiveslimes:" + variant.name() + "_slime_spawn_egg");
+        outputArray.add(outputObj);
+        recipeObj.add("output", outputArray);
+
+        String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
+        dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
     }
 }
