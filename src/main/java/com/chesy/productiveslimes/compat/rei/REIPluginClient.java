@@ -13,9 +13,11 @@ import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingCategory;
 import com.chesy.productiveslimes.compat.rei.squeezing.SqueezingRecipeDisplay;
 import com.chesy.productiveslimes.screen.custom.*;
 import me.shedaniel.math.Rectangle;
+import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.screen.ScreenRegistry;
+import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 
 public class REIPluginClient implements REIClientPlugin {
@@ -35,5 +37,10 @@ public class REIPluginClient implements REIClientPlugin {
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaExtractorScreen.class, DnaExtractingRecipeDisplay.CATEGORY);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaSynthesizerScreen.class, DnaSynthesizingRecipeDisplay.CATEGORY);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SlimeSqueezerScreen.class, SqueezingRecipeDisplay.CATEGORY);
+    }
+
+    @Override
+    public void registerEntryRenderers(EntryRendererRegistry registry) {
+        registry.register(VanillaEntryTypes.FLUID, new FluidEntryRenderer());
     }
 }
