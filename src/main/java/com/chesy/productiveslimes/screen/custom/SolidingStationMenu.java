@@ -1,6 +1,8 @@
 package com.chesy.productiveslimes.screen.custom;
 
+import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
+import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.util.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
@@ -8,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -30,9 +33,11 @@ public class SolidingStationMenu extends ScreenHandler {
         this.data = data;
         this.inventory = (Inventory) entity;
 
-        this.addSlot(new SlotItemHandler(inventory, 0, 34, 34, itemStack -> true));
-        this.addSlot(new SlotItemHandler(inventory, 1, 115, 34, itemStack -> false));
-        this.addSlot(new SlotItemHandler(inventory, 2, 135, 34, itemStack -> false));
+        this.addSlot(new SlotItemHandler(inventory, 0, 43, 13, itemStack -> itemStack.getItem() instanceof BucketItem || itemStack.getItem() == ModBlocks.FLUID_TANK.asItem()));
+        this.addSlot(new SlotItemHandler(inventory, 1, 63, 13, itemStack -> false));
+        this.addSlot(new SlotItemHandler(inventory, 2, 43, 54, itemStack -> itemStack.getItem() == Items.BUCKET || itemStack.getItem() == ModBlocks.FLUID_TANK.asItem()));
+        this.addSlot(new SlotItemHandler(inventory, 3, 63, 54, itemStack -> false));
+        this.addSlot(new SlotItemHandler(inventory, 4, 135, 34, itemStack -> false));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);

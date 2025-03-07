@@ -1,18 +1,14 @@
 {
   "type": "productiveslimes:soliding",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:molten_stone_bucket"
-  ],
-  "inputCount": 1,
+  "ingredients": {
+    "amount": 81000,
+    "id": "productiveslimes:still_stone"
+  },
   "output": [
     {
       "count": 2,
       "id": "minecraft:stone"
-    },
-    {
-      "count": 1,
-      "id": "minecraft:bucket"
     }
   ]
 }

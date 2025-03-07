@@ -1,18 +1,14 @@
 {
   "type": "productiveslimes:soliding",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:molten_iron_bucket"
-  ],
-  "inputCount": 1,
+  "ingredients": {
+    "amount": 81000,
+    "id": "productiveslimes:still_iron"
+  },
   "output": [
     {
       "count": 1,
       "id": "minecraft:iron_ingot"
-    },
-    {
-      "count": 1,
-      "id": "minecraft:bucket"
     }
   ]
 }

@@ -7,19 +7,18 @@ import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
+import com.chesy.productiveslimes.util.FluidStack;
 import com.chesy.productiveslimes.util.ModTags;
 import com.chesy.productiveslimes.util.SizedIngredient;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.recipe.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
@@ -315,12 +314,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "melting/" + getItemName(pIngredient) + "_melting").toString());
             }
 
-            private void solidingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
+            private void solidingRecipe(RecipeExporter pRecipeOutput, BucketItem pIngredient, Item pResult, int pInputCount, int outputCount) {
                 SolidingRecipeBuilder.solidingRecipe()
-                        .addIngredient(Ingredient.ofItem(pIngredient))
+                        .addIngredient(new FluidStack(pIngredient.fluid, FluidConstants.BUCKET))
                         .setInputCount(pInputCount)
                         .addOutput(new ItemStack(pResult, outputCount))
-                        .addOutput(new ItemStack(Items.BUCKET, pInputCount))
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());

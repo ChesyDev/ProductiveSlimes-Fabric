@@ -1,18 +1,14 @@
 {
   "type": "productiveslimes:soliding",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:molten_end_stone_bucket"
-  ],
-  "inputCount": 1,
+  "ingredients": {
+    "amount": 81000,
+    "id": "productiveslimes:still_end_stone"
+  },
   "output": [
     {
       "count": 2,
       "id": "minecraft:end_stone"
-    },
-    {
-      "count": 1,
-      "id": "minecraft:bucket"
     }
   ]
 }

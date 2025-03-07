@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.datagen.builder;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.SolidingRecipe;
+import com.chesy.productiveslimes.util.FluidStack;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final List<Ingredient> ingredients = new ArrayList<>();
+    private FluidStack ingredients;
     private int inputCount;
     private int energy;
     private final List<ItemStack> outputs = new ArrayList<>();
@@ -41,8 +42,8 @@ public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
         // Private constructor to enforce the use of the static method
     }
 
-    public SolidingRecipeBuilder addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
+    public SolidingRecipeBuilder addIngredient(FluidStack ingredient) {
+        this.ingredients = ingredient;
         return this;
     }
 
@@ -89,7 +90,6 @@ public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
         SolidingRecipe recipe = new SolidingRecipe(
                 this.ingredients,
                 this.outputs,
-                this.inputCount,
                 this.energy
         );
         exporter.accept(recipeKey, recipe, builder.build(Identifier.of(ProductiveSlimes.MODID, "recipes/" + recipeKey.getValue().getPath())));

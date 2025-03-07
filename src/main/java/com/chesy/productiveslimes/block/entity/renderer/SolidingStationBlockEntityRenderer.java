@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
+import com.chesy.productiveslimes.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.render.RenderLayer;
@@ -20,14 +21,14 @@ public class SolidingStationBlockEntityRenderer implements BlockEntityRenderer<S
 
     @Override
     public void render(SolidingStationBlockEntity pBlockEntity, float pPartialTick, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int pPackedLight, int pPackedOverlay, Vec3d vec3d) {
-        FluidVariant fluidStack = pBlockEntity.getRenderStack();
-        if (fluidStack.isBlank()) return;
+        FluidStack fluidStack = new FluidStack(pBlockEntity.getFluidTank().variant.getFluid(), pBlockEntity.getFluidTank().getAmount());
+        if (fluidStack.isEmpty()) return;
 
-        int color = FluidVariantRendering.getColor(fluidStack);
-        Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];
+        int color = FluidVariantRendering.getColor(fluidStack.getFluid());
+        Sprite sprite = FluidVariantRendering.getSprites(fluidStack.getFluid())[0];
         RenderLayer renderLayer = RenderLayer.getEntityTranslucent(sprite.getAtlasId());
 
-        float height = 0.8f;
+        float height = fluidStack.getAmount() / (float) pBlockEntity.getFluidTank().getCapacity() * 0.6f + 0.2f;
 
         VertexConsumer builder = pBufferSource.getBuffer(renderLayer);
 
@@ -55,8 +56,8 @@ public class SolidingStationBlockEntityRenderer implements BlockEntityRenderer<S
         builder.vertex(poseStack.peek().getPositionMatrix(), x, y, z)
                 .color(color)
                 .texture(u, v)
-                .light(packedLight)
-                .overlay(overlay)
+                .light(15728640)
+                .overlay(655360)
                 .normal(1, 0, 0);
     }
     private static void drawQuad(VertexConsumer builder, MatrixStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color, int overlay) {

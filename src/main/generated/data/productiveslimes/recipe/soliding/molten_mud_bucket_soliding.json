@@ -1,18 +1,14 @@
 {
   "type": "productiveslimes:soliding",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:molten_mud_bucket"
-  ],
-  "inputCount": 1,
+  "ingredients": {
+    "amount": 81000,
+    "id": "productiveslimes:still_mud"
+  },
   "output": [
     {
       "count": 2,
       "id": "minecraft:mud"
-    },
-    {
-      "count": 1,
-      "id": "minecraft:bucket"
     }
   ]
 }

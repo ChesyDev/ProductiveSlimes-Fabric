@@ -40,8 +40,19 @@ public class ModBlockEntities {
         );
 
         FluidStorage.SIDED.registerForBlockEntities(
-                (blockEntity, direction) -> blockEntity instanceof FluidTankBlockEntity fluidTankBlockEntity? fluidTankBlockEntity.getFluidStorage() : null,
-                ModBlockEntities.FLUID_TANK
+                (blockEntity, direction) -> {
+                    if (blockEntity instanceof FluidTankBlockEntity fluidTankBlockEntity) {
+                        return fluidTankBlockEntity.getFluidStorage();
+                    }
+
+                    if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity){
+                        return solidingStationBlockEntity.getFluidTank();
+                    }
+
+                    return null;
+                },
+                ModBlockEntities.FLUID_TANK,
+                ModBlockEntities.SOLIDING_STATION
         );
     }
 }

@@ -1,18 +1,14 @@
 {
   "type": "productiveslimes:soliding",
   "energy": 200,
-  "ingredients": [
-    "productiveslimes:molten_red_mushroom_bucket"
-  ],
-  "inputCount": 1,
+  "ingredients": {
+    "amount": 81000,
+    "id": "productiveslimes:still_red_mushroom"
+  },
   "output": [
     {
       "count": 2,
       "id": "minecraft:red_mushroom"
-    },
-    {
-      "count": 1,
-      "id": "minecraft:bucket"
     }
   ]
 }

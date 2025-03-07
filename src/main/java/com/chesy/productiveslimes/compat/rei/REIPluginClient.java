@@ -31,7 +31,7 @@ public class REIPluginClient implements REIClientPlugin {
     @Override
     public void registerScreens(ScreenRegistry registry) {
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), MeltingStationScreen.class, MeltingRecipeDisplay.CATEGORY);
-        registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SolidingStationScreen.class, SolidingRecipeDisplay.CATEGORY);
+        registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 94, ((screen.height - 166) / 2) + 38, 26, 8), SolidingStationScreen.class, SolidingRecipeDisplay.CATEGORY);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaExtractorScreen.class, DnaExtractingRecipeDisplay.CATEGORY);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), DnaSynthesizerScreen.class, DnaSynthesizingRecipeDisplay.CATEGORY);
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 77, ((screen.height - 166) / 2) + 38, 26, 8), SlimeSqueezerScreen.class, SqueezingRecipeDisplay.CATEGORY);

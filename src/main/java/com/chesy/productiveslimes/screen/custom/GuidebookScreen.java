@@ -586,9 +586,8 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
             }
 
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 26, yPos + 34, new ItemStack( recipe.inputItems().getFirst().getMatchingItems().toList().getFirst().value(), recipe.inputCount()), textRenderer);
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.output().getFirst(), textRenderer);
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 107 + 20, yPos + 34, recipe.output().get(1), textRenderer);
+            GuideBookScreenHelper.renderFluidStack(pGuiGraphics, recipe.fluidStack(), recipe.fluidStack().getAmount(), 15, 57, xPos + 22, yPos + 13, pMouseX, pMouseY, textRenderer);
+            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 127, yPos + 34, recipe.output().getFirst(), textRenderer);
 
             pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0x555555, false);
 
