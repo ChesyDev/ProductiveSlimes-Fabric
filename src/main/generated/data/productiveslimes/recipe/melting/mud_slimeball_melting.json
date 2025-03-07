@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:mud_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_mud_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_mud"
+  }
 }

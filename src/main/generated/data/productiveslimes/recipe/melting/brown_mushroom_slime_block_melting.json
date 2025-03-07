@@ -5,10 +5,8 @@
     "count": 2,
     "ingredient": "productiveslimes:brown_mushroom_slime_block"
   },
-  "output": [
-    {
-      "count": 5,
-      "id": "productiveslimes:molten_brown_mushroom_bucket"
-    }
-  ]
+  "output": {
+    "amount": 405000,
+    "id": "productiveslimes:still_brown_mushroom"
+  }
 }

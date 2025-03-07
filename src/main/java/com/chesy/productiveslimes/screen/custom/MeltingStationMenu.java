@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.screen.custom;
 
+import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.MeltingStationBlockEntity;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.util.SlotItemHandler;
@@ -30,9 +31,9 @@ public class MeltingStationMenu extends ScreenHandler {
         this.data = data;
         this.inventory = (Inventory) entity;
 
-        this.addSlot(new SlotItemHandler(inventory, 0, 25, 34, itemStack -> itemStack.getItem() == Items.BUCKET));
-        this.addSlot(new SlotItemHandler(inventory, 1, 45, 34, itemStack -> true));
-        this.addSlot(new SlotItemHandler(inventory, 2, 134, 34, itemStack -> false));
+        this.addSlot(new SlotItemHandler(inventory, 0, 133, 54, itemStack -> itemStack.getItem() == Items.BUCKET || itemStack.getItem() == ModBlocks.FLUID_TANK.asItem()));
+        this.addSlot(new SlotItemHandler(inventory, 1, 113, 54, itemStack -> false));
+        this.addSlot(new SlotItemHandler(inventory, 2, 36, 34, itemStack -> true));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);

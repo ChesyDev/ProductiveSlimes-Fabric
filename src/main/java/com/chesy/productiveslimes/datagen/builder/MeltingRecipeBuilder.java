@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.datagen.builder;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
+import com.chesy.productiveslimes.util.FluidStack;
 import com.chesy.productiveslimes.util.SizedIngredient;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
@@ -25,7 +26,7 @@ import java.util.*;
 public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
     private SizedIngredient ingredients;
     private int energy;
-    private final List<ItemStack> outputs = new ArrayList<>();
+    private FluidStack outputs;
     private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
@@ -43,8 +44,8 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
         return this;
     }
 
-    public MeltingRecipeBuilder addOutput(ItemStack output) {
-        this.outputs.add(output);
+    public MeltingRecipeBuilder addOutput(FluidStack output) {
+        this.outputs = output;
         return this;
     }
 
@@ -67,7 +68,7 @@ public class MeltingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
     @Override
     public Item getOutputItem() {
-        return this.outputs.isEmpty() ? Items.AIR : this.outputs.get(0).getItem();
+        return this.outputs.isEmpty() ? Items.AIR : this.outputs.getFluid().getFluid().getBucketItem();
     }
 
     @Override

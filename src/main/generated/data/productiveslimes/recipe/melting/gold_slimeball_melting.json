@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:gold_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_gold_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_gold"
+  }
 }

@@ -1,13 +1,18 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.screen.renderer.FluidTankRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
     public static final Identifier GUI_TEXTURE =
@@ -40,6 +45,8 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
         context.drawTexture(RenderLayer::getGuiTextured, GUI_TEXTURE, x + 9, y + 13 + (57 - energyScaled), 176, 65 - energyScaled, 9, energyScaled, 256, 256);
 
         renderProgressArrow(context, x, y);
+
+        FluidTankRenderer.renderFluidStack(context, handler.blockEntity.getFluidStack(), handler.blockEntity.getFluidHandler().getCapacity(), 15, 57, x + 153, y + 13);
     }
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
@@ -61,6 +68,13 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
         Text text = Text.translatable("gui.productiveslimes.energy_stored", energyStored, maxEnergy);
         if(isPointWithinBounds(9, 13, 9, 57, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer, text, mouseX, mouseY);
+        }
+
+        List<Text> fluidTankTooltip = new ArrayList<>();
+        fluidTankTooltip.add(Text.translatable(handler.blockEntity.getFluidStack().getDescriptionId()));
+        fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount.with.capacity", handler.blockEntity.getFluidStack().getAmount() / FluidConstants.BUCKET, handler.blockEntity.getFluidHandler().getCapacity() / FluidConstants.BUCKET));
+        if(isPointWithinBounds(153, 13, 15, 57, mouseX, mouseY)) {
+            context.drawTooltip(this.textRenderer, fluidTankTooltip, mouseX, mouseY);
         }
     }
 }

@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:end_stone_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_end_stone_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_end_stone"
+  }
 }

@@ -5,10 +5,8 @@
     "count": 2,
     "ingredient": "productiveslimes:cactus_slime_block"
   },
-  "output": [
-    {
-      "count": 5,
-      "id": "productiveslimes:molten_cactus_bucket"
-    }
-  ]
+  "output": {
+    "amount": 405000,
+    "id": "productiveslimes:still_cactus"
+  }
 }

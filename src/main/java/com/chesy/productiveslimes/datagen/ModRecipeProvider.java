@@ -18,6 +18,7 @@ import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.recipe.*;
+import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
@@ -269,8 +270,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     slimeBlockToSlimeBall(exporter, ModTiers.getBlockByName(tiers.name()), ModTiers.getSlimeballItemByName(tiers.name()));
                     slimeBallToSlimeBlock(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getBlockByName(tiers.name()));
 
-                    meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getBucketItemByName(tiers.name()), 2, 5);
-                    meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getBucketItemByName(tiers.name()), 4, 1);
+                    meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getSourceByName(tiers.name()), 2, FluidConstants.BUCKET * 5);
+                    meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getSourceByName(tiers.name()), 4, FluidConstants.BUCKET);
 
                     solidingRecipe(exporter, ModTiers.getBucketItemByName(tiers.name()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1, tiers.solidingOutputAmount());
 
@@ -305,10 +306,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .offerTo(pRecipeOutput, "slime_block/" + getItemName(pSlimeBlock) + "_from_" + getItemName(pSlimeBall));
             }
 
-            private void meltingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, Item pResult, int pInputCount, int outputCount) {
+            private void meltingRecipe(RecipeExporter pRecipeOutput, Item pIngredient, FlowableFluid pResult, int pInputCount, long outputCount) {
                 MeltingRecipeBuilder.meltingRecipe()
                         .addIngredient(SizedIngredient.of(pIngredient, pInputCount))
-                        .addOutput(new ItemStack(pResult, outputCount))
+                        .addOutput(new FluidStack(pResult, outputCount))
                         .setEnergy(200)
                         .criterion(getHasName(pIngredient), has(pIngredient))
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "melting/" + getItemName(pIngredient) + "_melting").toString());

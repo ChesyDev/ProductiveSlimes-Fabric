@@ -504,14 +504,13 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
             }
 
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 25, yPos + 34, new ItemStack(Items.BUCKET, recipe.output().getFirst().getCount()), textRenderer);
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 45, yPos + 34, new ItemStack(recipe.inputItems().ingredient().getMatchingItems().toList().getFirst().value(), recipe.inputItems().count()), textRenderer);
-            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 108 + 20, yPos + 34, recipe.output().getFirst(), textRenderer);
+            GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 36, yPos + 34, new ItemStack(recipe.inputItems().ingredient().getMatchingItems().toList().getFirst(), recipe.inputItems().count()), textRenderer);
+            GuideBookScreenHelper.renderFluidStack(pGuiGraphics, recipe.output(), recipe.output().getAmount(), 15, 57, xPos + 129, yPos + 13, pMouseX, pMouseY, textRenderer);
 
             pGuiGraphics.getMatrices().push();
             pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4, 0);
             pGuiGraphics.getMatrices().scale(0.8f, 0.8f, 0.8f);
-            pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, Text.translatable(recipe.output().getDescriptionId()), 0, 0, 0x555555, false);
             pGuiGraphics.getMatrices().pop();
 
             index++;

@@ -42,13 +42,12 @@ public record MeltingRecipeDisplay(RecipeEntry<MeltingRecipe> recipe) implements
     public List<EntryIngredient> getInputEntries() {
         List<EntryIngredient> entryIngredients = new ArrayList<>();
         entryIngredients.add(EntryIngredients.of(new ItemStack(recipe.value().inputItems().ingredient().getMatchingItems().toList().getFirst(), recipe.value().inputItems().count())));
-        entryIngredients.add(EntryIngredients.of(new ItemStack(Items.BUCKET, recipe.value().output().getFirst().getCount())));
         return entryIngredients;
     }
 
     @Override
     public List<EntryIngredient> getOutputEntries() {
-        return List.of(EntryIngredients.ofItemStacks(recipe.value().output()));
+        return List.of(EntryIngredients.of(recipe.value().output().getFluid().getFluid(), recipe.value().output().getAmount()));
     }
 
     @Override

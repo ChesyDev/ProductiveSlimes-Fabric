@@ -5,10 +5,8 @@
     "count": 2,
     "ingredient": "productiveslimes:soul_sand_slime_block"
   },
-  "output": [
-    {
-      "count": 5,
-      "id": "productiveslimes:molten_soul_sand_bucket"
-    }
-  ]
+  "output": {
+    "amount": 405000,
+    "id": "productiveslimes:still_soul_sand"
+  }
 }

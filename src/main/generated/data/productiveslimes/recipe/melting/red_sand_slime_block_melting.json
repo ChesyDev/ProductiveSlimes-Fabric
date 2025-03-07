@@ -5,10 +5,8 @@
     "count": 2,
     "ingredient": "productiveslimes:red_sand_slime_block"
   },
-  "output": [
-    {
-      "count": 5,
-      "id": "productiveslimes:molten_red_sand_bucket"
-    }
-  ]
+  "output": {
+    "amount": 405000,
+    "id": "productiveslimes:still_red_sand"
+  }
 }

@@ -5,10 +5,8 @@
     "count": 2,
     "ingredient": "productiveslimes:blackstone_slime_block"
   },
-  "output": [
-    {
-      "count": 5,
-      "id": "productiveslimes:molten_blackstone_bucket"
-    }
-  ]
+  "output": {
+    "amount": 405000,
+    "id": "productiveslimes:still_blackstone"
+  }
 }

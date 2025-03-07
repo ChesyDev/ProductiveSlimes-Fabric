@@ -1,18 +1,23 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.util.ContainerUtils;
-import com.chesy.productiveslimes.util.CustomEnergyStorage;
+import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.util.*;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
-import com.chesy.productiveslimes.util.IEnergyBlockEntity;
-import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -61,14 +66,30 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
     };
+    private final SingleFluidStorage outputHandler = new SingleFluidStorage() {
+        @Override
+        protected long getCapacity(FluidVariant fluidVariant) {
+            return FluidConstants.BUCKET * 16;
+        }
+
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            markDirty();
+            if (world != null) {
+                world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+            }
+        }
+    };
 
     protected final PropertyDelegate data;
     private int progress = 0;
     private int maxProgress = 78;
 
-    private final int BUCKET_SLOT = 0;
-    private final int INPUT_SLOT = 1;
-    private final int OUTPUT_SLOT = 2;
+    private final int DRAIN_INPUT_SLOT = 0;
+    private final int DRAIN_OUTPUT_SLOT = 1;
+    private final int INPUT_SLOT = 2;
+
 
     public MeltingStationBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.MELTING_STATION, pos, state);
@@ -105,6 +126,14 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return energyHandler;
     }
 
+    public SingleFluidStorage getFluidHandler() {
+        return outputHandler;
+    }
+
+    public FluidStack getFluidStack() {
+        return new FluidStack(outputHandler.variant.getFluid(), outputHandler.getAmount());
+    }
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
@@ -130,7 +159,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         Inventories.writeNbt(nbt, inventory, registries);
         nbt.putInt("EnergyInventory", energyHandler.getAmountStored());
-
+        outputHandler.writeNbt(nbt, registries);
         nbt.putInt("melting_station.progress", progress);
 
         super.writeNbt(nbt, registries);
@@ -142,16 +171,12 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
         Inventories.readNbt(nbt, inventory, registries);
         energyHandler.setAmount(nbt.getInt("EnergyInventory"));
-
+        outputHandler.readNbt(nbt, registries);
         progress = nbt.getInt("melting_station.progress");
     }
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
-        if (slot == BUCKET_SLOT) {
-            return stack.getItem().equals(Items.BUCKET);
-        }
-
         return slot == INPUT_SLOT;
     }
 
@@ -168,13 +193,70 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return slot == OUTPUT_SLOT;
+        return slot == DRAIN_OUTPUT_SLOT;
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
-        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        if(this.getStack(DRAIN_INPUT_SLOT).getItem() == Items.BUCKET && outputHandler.amount >= FluidConstants.BUCKET){
+            Fluid fluid = outputHandler.getResource().getFluid();
+            Item bucketItem = fluid.getBucketItem();
 
-        if(hasRecipe() && this.getStack(BUCKET_SLOT).getCount() >= recipe.get().value().output().get(0).getCount() && energyHandler.getAmountStored() >= recipe.get().value().energy()){
+            ItemStack outputStack = this.getStack(DRAIN_OUTPUT_SLOT);
+
+            if (outputStack.isEmpty() || (outputStack.getItem() == bucketItem && outputStack.getCount() < outputStack.getMaxCount())){
+                try(Transaction transaction = Transaction.openOuter()){
+                    long extract = outputHandler.extract(outputHandler.variant, FluidConstants.BUCKET, transaction);
+                    if (extract == FluidConstants.BUCKET){
+                        transaction.commit();
+                        this.removeStack(DRAIN_INPUT_SLOT, 1);
+                        ItemStack result = new ItemStack(bucketItem);
+                        this.inventory.set(DRAIN_OUTPUT_SLOT, new ItemStack(result.getItem(), this.getStack(DRAIN_OUTPUT_SLOT).getCount() + result.getCount()));
+                    }
+                    else{
+                        transaction.abort();
+                    }
+                }
+            }
+        }
+        else if(this.getStack(DRAIN_INPUT_SLOT).getItem() == ModBlocks.FLUID_TANK.asItem() && outputHandler.amount > 0){
+            ItemStack stack = this.getStack(DRAIN_INPUT_SLOT);
+
+            if (stack.contains(ModDataComponents.FLUID_VARIANT)){
+                ImmutableFluidVariant immutableFluidStack = stack.getOrDefault(ModDataComponents.FLUID_VARIANT, new ImmutableFluidVariant(Fluids.EMPTY, 0));
+                FluidStack fluidStack = new FluidStack(immutableFluidStack.fluid(), immutableFluidStack.amount());
+                if (outputHandler.variant.getFluid().matchesType(fluidStack.getFluid().getFluid())){
+                    if(fluidStack.getAmount() < FluidConstants.BUCKET * 50){
+                        try(Transaction transaction = Transaction.openOuter()){
+                            long fluidStack2 = outputHandler.extract(outputHandler.variant, Math.min(outputHandler.amount, Math.min(FluidConstants.BUCKET, FluidConstants.BUCKET * 50 - fluidStack.getAmount())), transaction);
+                            if (fluidStack2 != 0){
+                                transaction.commit();
+                                fluidStack.setAmount(fluidStack.getAmount() + fluidStack2);
+                                stack.set(ModDataComponents.FLUID_VARIANT, new ImmutableFluidVariant(fluidStack.getFluid().getFluid(), fluidStack.getAmount()));
+                            }
+                            else{
+                                transaction.abort();
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                try(Transaction transaction = Transaction.openOuter()){
+                    long fluidStack = outputHandler.extract(outputHandler.variant, Math.min(outputHandler.amount, FluidConstants.BUCKET), transaction);
+                    if (fluidStack != 0){
+                        transaction.commit();
+                        ImmutableFluidVariant immutableFluidStack = new ImmutableFluidVariant(outputHandler.variant.getFluid(), fluidStack);
+                        stack.set(ModDataComponents.FLUID_VARIANT, immutableFluidStack);
+                    }
+                    else{
+                        transaction.abort();
+                    }
+                }
+            }
+        }
+
+        Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
+        if(hasRecipe() && energyHandler.getAmountStored() >= recipe.get().value().energy()){
             increaseCraftingProgress();
             markDirty(pWorld, pPos, pState);
 
@@ -195,28 +277,15 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     private void craftItem() {
         Optional<RecipeEntry<MeltingRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
-            List<ItemStack> results = recipe.get().value().output();
+            FluidStack results = recipe.get().value().output();
 
             this.removeStack(INPUT_SLOT, recipe.get().value().inputItems().count());
 
-            for (ItemStack result : results) {
-                int outputSlot = findSuitableOutputSlot(result);
-                if (outputSlot != -1) {
-                    this.inventory.set(OUTPUT_SLOT, new ItemStack(result.getItem(), this.getStack(OUTPUT_SLOT).getCount() + result.getCount()));
-                } else {
-                    System.err.println("No suitable output slot found for item: " + result);
-                }
+            try(Transaction transaction = Transaction.openOuter()){
+                this.outputHandler.insert(results.getFluid(), results.getAmount(), transaction);
+                transaction.commit();
             }
         }
-    }
-
-    private int findSuitableOutputSlot(ItemStack result) {
-        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
-        if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
-            return OUTPUT_SLOT;
-        }
-
-        return -1;
     }
 
     private boolean hasRecipe() {
@@ -230,39 +299,17 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
 
-        List<ItemStack> results = recipe.get().value().output();
+        FluidStack result = recipe.get().value().output();
 
-        for (ItemStack result : results) {
-            if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result.getItem())) {
-                return false;
-            }
+        if (!canInsertAmountIntoOutputSlot(result) || !canInsertItemIntoOutputSlot(result)) {
+            return false;
         }
 
-        return checkSlot(results);
+        return checkSlot(result);
     }
 
-    private boolean checkSlot(List<ItemStack> results){
-        int count = 0;
-        int emptyCount = 0;
-        for (ItemStack result : results){
-            count++;
-        }
-
-        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
-        if(!stackInSlot.isEmpty()){
-            for (ItemStack result : results){
-                if(stackInSlot.getItem() == result.getItem()){
-                    if(stackInSlot.getCount() + result.getCount() <= 64){
-                        emptyCount++;
-                    }
-                }
-            }
-        }
-        else {
-            emptyCount++;
-        }
-
-        return emptyCount >= count;
+    private boolean checkSlot(FluidStack results){
+        return outputHandler.getResource().isBlank() || outputHandler.getResource().getFluid().matchesType(results.getFluid().getFluid()) && outputHandler.getAmount() + results.getAmount() <= outputHandler.getCapacity();
     }
 
     private Optional<RecipeEntry<MeltingRecipe>> getCurrentRecipe(){
@@ -270,16 +317,13 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return world.getRecipeManager().getFirstMatch(ModRecipes.MELTING_TYPE, new SingleStackRecipeInput(this.getStack(INPUT_SLOT)), world);
     }
 
-    private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
-        return stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount());
+    private boolean canInsertAmountIntoOutputSlot(FluidStack result) {
+        return outputHandler.getAmount() + result.getAmount() <= outputHandler.getCapacity();
     }
 
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        ItemStack stackInSlot = this.getStack(OUTPUT_SLOT);
-        return stackInSlot.isEmpty() || stackInSlot.getItem() == item;
+    private boolean canInsertItemIntoOutputSlot(FluidStack item) {
+        return outputHandler.getResource().isBlank() || outputHandler.getResource().getFluid().matchesType(item.getFluid().getFluid());
     }
-
 
     private boolean hasProgressFinished() {
         return progress >= maxProgress;

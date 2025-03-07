@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:basalt_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_basalt_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_basalt"
+  }
 }

@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:amethyst_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_amethyst_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_amethyst"
+  }
 }

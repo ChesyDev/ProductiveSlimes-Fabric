@@ -49,10 +49,15 @@ public class ModBlockEntities {
                         return solidingStationBlockEntity.getFluidTank();
                     }
 
+                    if (blockEntity instanceof MeltingStationBlockEntity meltingStationBlockEntity){
+                        return meltingStationBlockEntity.getFluidHandler();
+                    }
+
                     return null;
                 },
                 ModBlockEntities.FLUID_TANK,
-                ModBlockEntities.SOLIDING_STATION
+                ModBlockEntities.SOLIDING_STATION,
+                ModBlockEntities.MELTING_STATION
         );
     }
 }

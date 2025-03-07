@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:coal_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_coal_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_coal"
+  }
 }

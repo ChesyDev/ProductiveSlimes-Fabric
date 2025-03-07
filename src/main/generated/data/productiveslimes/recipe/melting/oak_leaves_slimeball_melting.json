@@ -5,10 +5,8 @@
     "count": 4,
     "ingredient": "productiveslimes:oak_leaves_slimeball"
   },
-  "output": [
-    {
-      "count": 1,
-      "id": "productiveslimes:molten_oak_leaves_bucket"
-    }
-  ]
+  "output": {
+    "amount": 81000,
+    "id": "productiveslimes:still_oak_leaves"
+  }
 }
