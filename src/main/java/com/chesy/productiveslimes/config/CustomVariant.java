@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.config;
 
-public record CustomVariant(String name, String color, int mapColorId, int cooldown, String growthItem, String solidingOutput, int solidingOutputCount, String synthesizingInputDna1, String synthesizingInputDna2, String synthesizingInputItem, double dnaOutputChance) {
+public record CustomVariant(String name, String color, int mapColorId, int cooldown, String growthItem, int solidingInputAmount, String solidingOutput, String synthesizingInputDna1, String synthesizingInputDna2, String synthesizingInputItem, double dnaOutputChance) {
     public int getColor(){
         return hexToInt(color);
     }

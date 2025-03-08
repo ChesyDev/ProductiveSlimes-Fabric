@@ -46,11 +46,11 @@ public class CustomVariantRegistry {
 
     private static List<CustomVariant> loadedVariants = new ArrayList<>();
 
-    private static Map<Identifier, Item> registeredItems = new HashMap<>();
-    private static Map<Identifier, Item> registeredDnaItems = new HashMap<>();
-    private static Map<Identifier, Item> registeredSpawnEggItems = new HashMap<>();
-    private static Map<Identifier, Block> registeredBlocks = new HashMap<>();
-    private static Map<Identifier, EntityType<BaseSlime>> registeredSlimes = new HashMap<>();
+    private static final Map<Identifier, Item> registeredItems = new HashMap<>();
+    private static final Map<Identifier, Item> registeredDnaItems = new HashMap<>();
+    private static final Map<Identifier, Item> registeredSpawnEggItems = new HashMap<>();
+    private static final Map<Identifier, Block> registeredBlocks = new HashMap<>();
+    private static final Map<Identifier, EntityType<BaseSlime>> registeredSlimes = new HashMap<>();
     private static final Map<Identifier, FluidBlock> registeredLiquidBlock = new HashMap<>();
     private static final Map<Identifier, BucketItem> registeredBucketItem = new HashMap<>();
     private static final Map<Identifier, FlowableFluid> registeredSource = new HashMap<>();
@@ -110,7 +110,7 @@ public class CustomVariantRegistry {
         File configFile = new File(CONFIG_PATH);
         if (!configFile.exists()) {
             List<CustomVariant> defaultTiers = List.of(
-                    new CustomVariant("birch", "#FFa69d6f", 5, 1500, "minecraft:birch_log", "minecraft:birch_log", 2, "productiveslimes:oak_slime_dna", "productiveslimes:oak_slime_dna", "minecraft:birch_log", 0.75)
+                    new CustomVariant("birch", "#FFa69d6f", 5, 1500, "minecraft:birch_log", 250,"minecraft:birch_log", "productiveslimes:oak_slime_dna", "productiveslimes:oak_slime_dna", "minecraft:birch_log", 0.75)
             );
 
             try {
@@ -141,7 +141,7 @@ public class CustomVariantRegistry {
                     registerSpawnEggItem(variant);
                     registerFluid(variant);
 
-                    ModTier registerTier = new ModTier(variant.name(), variant.getColor(), variant.mapColorId(), variant.cooldown(), variant.growthItem(), 1000, variant.solidingOutput(), variant.synthesizingInputItem(), variant.synthesizingInputDna1(), variant.synthesizingInputDna2(), (float) variant.dnaOutputChance());
+                    ModTier registerTier = new ModTier(variant.name(), variant.getColor(), variant.mapColorId(), variant.cooldown(), variant.growthItem(), variant.solidingInputAmount(), variant.solidingOutput(), variant.synthesizingInputItem(), variant.synthesizingInputDna1(), variant.synthesizingInputDna2(), (float) variant.dnaOutputChance());
                     ModTiers.addRegisteredTier(variant.name(), registerTier);
                 }
 
@@ -591,16 +591,14 @@ public class CustomVariantRegistry {
         recipeObj.addProperty("energy", 200);
 
         JsonObject ingredientsObj = new JsonObject();
-        ingredientsObj.addProperty("count", 2);
+        ingredientsObj.addProperty("count", 1);
         ingredientsObj.addProperty("ingredient", "productiveslimes:" + name + "_slime_block");
         recipeObj.add("ingredients", ingredientsObj);
 
-        JsonArray outputArray = new JsonArray();
         JsonObject outputObj = new JsonObject();
-        outputObj.addProperty("count", 5);
-        outputObj.addProperty("id", "productiveslimes:molten_" + name + "_bucket");
-        outputArray.add(outputObj);
-        recipeObj.add("output", outputArray);
+        outputObj.addProperty("amount", 182250);
+        outputObj.addProperty("id", "productiveslimes:still_" + name);
+        recipeObj.add("output", outputObj);
 
         String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
         dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
@@ -614,16 +612,14 @@ public class CustomVariantRegistry {
         recipeObj.addProperty("energy", 200);
 
         JsonObject ingredientsObj = new JsonObject();
-        ingredientsObj.addProperty("count", 4);
+        ingredientsObj.addProperty("count", 1);
         ingredientsObj.addProperty("ingredient", "productiveslimes:" + name + "_slimeball");
         recipeObj.add("ingredients", ingredientsObj);
 
-        JsonArray outputArray = new JsonArray();
         JsonObject outputObj = new JsonObject();
-        outputObj.addProperty("count", 1);
-        outputObj.addProperty("id", "productiveslimes:molten_" + name + "_bucket");
-        outputArray.add(outputObj);
-        recipeObj.add("output", outputArray);
+        outputObj.addProperty("amount", 20250);
+        outputObj.addProperty("id", "productiveslimes:still_" + name);
+        recipeObj.add("output", outputObj);
 
         String recipeJson = new GsonBuilder().setPrettyPrinting().create().toJson(recipeObj);
         dataPackResources.put(recipePath, recipeJson.getBytes(StandardCharsets.UTF_8));
@@ -636,23 +632,17 @@ public class CustomVariantRegistry {
         recipeObj.addProperty("type", "productiveslimes:soliding");
         recipeObj.addProperty("energy", 200);
 
-        JsonArray ingredientsArray = new JsonArray();
-        ingredientsArray.add("productiveslimes:molten_" + variant.name() + "_bucket");
-        recipeObj.add("ingredients", ingredientsArray);
+        JsonObject ingredientsObj = new JsonObject();
+        ingredientsObj.addProperty("amount", variant.solidingInputAmount());
+        ingredientsObj.addProperty("id", "productiveslimes:still_" + variant.name());
+        recipeObj.add("ingredients", ingredientsObj);
 
-        recipeObj.addProperty("inputCount", 1);
+        JsonObject outputObj = new JsonObject();
+        outputObj.addProperty("count", 1);
+        outputObj.addProperty("id", variant.solidingOutput());
 
         JsonArray outputArray = new JsonArray();
-
-        JsonObject output1 = new JsonObject();
-        output1.addProperty("count", variant.solidingOutputCount());
-        output1.addProperty("id", variant.solidingOutput());
-        outputArray.add(output1);
-
-        JsonObject output2 = new JsonObject();
-        output2.addProperty("count", 1);
-        output2.addProperty("id", "minecraft:bucket");
-        outputArray.add(output2);
+        outputArray.add(outputObj);
 
         recipeObj.add("output", outputArray);
 
