@@ -24,7 +24,7 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
         super.init();
 
         titleY = 5;
-        titleX = 43;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         playerInventoryTitleY = 74;
         backgroundWidth = 217;
 

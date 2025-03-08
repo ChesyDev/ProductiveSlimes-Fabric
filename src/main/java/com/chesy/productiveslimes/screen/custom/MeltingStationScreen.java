@@ -27,7 +27,7 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
         super.init();
 
         this.playerInventoryTitleY = 74;
-        this.titleX = 54;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.titleY = 5;
     }
 

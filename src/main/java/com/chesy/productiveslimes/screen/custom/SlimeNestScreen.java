@@ -23,7 +23,7 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
     protected void init() {
         super.init();
         this.playerInventoryTitleY = 100000;
-        this.titleX = 35;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.titleY = 5;
     }
 

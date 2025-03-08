@@ -21,7 +21,7 @@ public class SlimeballCollectorScreen extends HandledScreen<SlimeballCollectorMe
     protected void init() {
         super.init();
         this.playerInventoryTitleY = 74;
-        this.titleX = 49;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.titleY = 5;
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
