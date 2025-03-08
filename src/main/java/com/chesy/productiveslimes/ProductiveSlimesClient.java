@@ -29,6 +29,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
@@ -38,11 +39,16 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.model.special.SpecialModelTypes;
 import net.minecraft.client.render.item.tint.TintSourceTypes;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductiveSlimesClient implements ClientModInitializer {
     @Override
@@ -113,14 +119,21 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             EntityRendererRegistry.register(CustomVariantRegistry.getSlimeForVariant(name), ctx -> new BaseSlimeRenderer(ctx, variant.getColor()));
         }
 
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-            CustomVariantRegistry.handleResourcePack();
-        });
-
         ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.TYPE, (recipeSyncPayload, context) -> {
             context.client().execute(() -> {
                 ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes());
             });
+        });
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(minecraftClient -> {
+            ResourcePackManager dataPackRepository = minecraftClient.getResourcePackManager();
+            List<String> selectedIds = new ArrayList<>(dataPackRepository.getEnabledIds());
+            String packId = "productiveslimes_resorucepack";
+            if (!selectedIds.contains(packId)) {
+                selectedIds.add(packId);
+                dataPackRepository.setEnabledProfiles(selectedIds);
+                minecraftClient.reloadResources();
+            }
         });
 
         HudRenderCallback.EVENT.register((drawContext, renderTickCounter) -> {

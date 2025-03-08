@@ -10,9 +10,6 @@ import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.ModTiers;
-import com.chesy.productiveslimes.util.MixinAdditionMethod;
-import com.chesy.productiveslimes.config.asset.CustomVariantDataPack;
-import com.chesy.productiveslimes.config.asset.CustomVariantResourcePack;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,7 +20,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.fluid.FlowableFluid;
@@ -33,9 +29,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.resource.*;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.slf4j.Logger;
@@ -62,8 +55,8 @@ public class CustomVariantRegistry {
     private static final Map<Identifier, BucketItem> registeredBucketItem = new HashMap<>();
     private static final Map<Identifier, FlowableFluid> registeredSource = new HashMap<>();
     private static final Map<Identifier, FlowableFluid> registeredFlow = new HashMap<>();
-    private static Map<String, byte[]> resourceData = new HashMap<>();
-    private static Map<String, byte[]> dataPackResources = new HashMap<>();
+    public static Map<String, byte[]> resourceData = new HashMap<>();
+    public static Map<String, byte[]> dataPackResources = new HashMap<>();
 
     public static void initialize(){
         createDefaultConfig();
@@ -71,77 +64,6 @@ public class CustomVariantRegistry {
 
         generateResourcePackInMemory();
         generateDataPackInMemory();
-    }
-
-    public static void handleResourcePack(){
-        CustomVariantResourcePack resourcePack = new CustomVariantResourcePack(resourceData);
-        ResourcePackManager packManager = MinecraftClient.getInstance().getResourcePackManager();
-
-        ResourcePackProfile pack = ResourcePackProfile.create(
-                resourcePack.getInfo(),
-                new ResourcePackProfile.PackFactory() {
-                    @Override
-                    public ResourcePack open(ResourcePackInfo location) {
-                        return resourcePack;
-                    }
-
-                    @Override
-                    public ResourcePack openWithOverlays(ResourcePackInfo location, ResourcePackProfile.Metadata metadata) {
-                        return resourcePack;
-                    }
-                },
-                ResourceType.CLIENT_RESOURCES,
-                new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
-        );
-
-        if (packManager instanceof MixinAdditionMethod mixinAdditionMethod){
-            mixinAdditionMethod.addPackFinder((consumer) -> {
-                consumer.accept(pack);
-            });
-        }
-        MinecraftClient.getInstance().reloadResources();
-    }
-
-    public static void handleDatapack(MinecraftServer server) {
-        CustomVariantDataPack dataPack = new CustomVariantDataPack(dataPackResources);
-        ResourcePackProfile pack = ResourcePackProfile.create(
-                new ResourcePackInfo("productiveslimes_datapack", Text.literal("In Memory Pack"),
-                        new ResourcePackSource() {
-                            @Override
-                            public Text decorate(Text name) {
-                                return Text.literal("In Memory Pack");
-                            }
-
-                            @Override
-                            public boolean canBeEnabledLater() {
-                                return true;
-                            }
-                        }, Optional.empty()),
-                new ResourcePackProfile.PackFactory() {
-                    @Override
-                    public ResourcePack open(ResourcePackInfo location) {
-                        return dataPack;
-                    }
-
-                    @Override
-                    public ResourcePack openWithOverlays(ResourcePackInfo location, ResourcePackProfile.Metadata metadata) {
-                        return dataPack;
-                    }
-                },
-                ResourceType.SERVER_DATA,
-                new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
-        );
-
-        // Add your pack to the pack repository
-        ResourcePackManager dataManager = server.getDataPackManager();
-        if (dataManager instanceof MixinAdditionMethod mixinAdditionMethod){
-            mixinAdditionMethod.addPackFinder((consumer) -> {
-                consumer.accept(pack);
-            });
-        }
-        // Reload data packs to include your new pack
-        List<ResourcePackProfile> packs = new ArrayList<>(server.getDataPackManager().getEnabledProfiles());
-        packs.add(pack);
     }
 
     public static List<CustomVariant> getLoadedTiers() {
