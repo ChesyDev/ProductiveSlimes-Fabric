@@ -2,7 +2,7 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": {
-    "amount": 81000,
+    "amount": 1000,
     "id": "productiveslimes:still_diamond"
   },
   "output": [

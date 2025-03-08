@@ -273,7 +273,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getSourceByName(tiers.name()), 2, FluidConstants.BUCKET * 5);
                     meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getSourceByName(tiers.name()), 4, FluidConstants.BUCKET);
 
-                    solidingRecipe(exporter, ModTiers.getBucketItemByName(tiers.name()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1, tiers.solidingOutputAmount());
+                    solidingRecipe(exporter, new FluidStack(ModTiers.getSourceByName(tiers.name()), tiers.solidingInputAmount()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1);
 
                     dnaExtractingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()), 1, tiers.dnaOutputChance());
 
@@ -315,14 +315,13 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "melting/" + getItemName(pIngredient) + "_melting").toString());
             }
 
-            private void solidingRecipe(RecipeExporter pRecipeOutput, BucketItem pIngredient, Item pResult, int pInputCount, int outputCount) {
+            private void solidingRecipe(RecipeExporter pRecipeOutput, FluidStack pIngredient, ItemConvertible pResult, int outputCount) {
                 SolidingRecipeBuilder.solidingRecipe()
-                        .addIngredient(new FluidStack(pIngredient.fluid, FluidConstants.BUCKET))
-                        .setInputCount(pInputCount)
+                        .addIngredient(pIngredient)
                         .addOutput(new ItemStack(pResult, outputCount))
                         .setEnergy(200)
-                        .criterion(getHasName(pIngredient), has(pIngredient))
-                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "soliding/" + getItemName(pIngredient) + "_soliding").toString());
+                        .criterion(getHasName(pIngredient.fluid.getBucketItem()), has(pIngredient.fluid.getBucketItem()))
+                        .offerTo(pRecipeOutput, Identifier.of(ProductiveSlimes.MODID, "soliding/" + getItemName(pIngredient.fluid.getBucketItem()) + "_soliding").toString());
             }
 
             private void dnaExtractingRecipe(RecipeExporter pRecipeOutput, ItemConvertible pIngredient, ItemConvertible pResult, int outputCount, float outputChance) {

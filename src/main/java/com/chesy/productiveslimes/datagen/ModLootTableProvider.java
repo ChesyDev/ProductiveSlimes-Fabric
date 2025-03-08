@@ -21,6 +21,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.SLIME_SQUEEZER);
         addDrop(ModBlocks.ENERGY_GENERATOR);
         addDrop(ModBlocks.CABLE);
+        addDrop(ModBlocks.PIPE);
         addDrop(ModBlocks.DNA_EXTRACTOR);
         addDrop(ModBlocks.DNA_SYNTHESIZER);
         addDrop(ModBlocks.FLUID_TANK);

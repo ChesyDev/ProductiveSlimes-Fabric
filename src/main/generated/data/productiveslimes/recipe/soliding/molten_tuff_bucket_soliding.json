@@ -2,12 +2,12 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": {
-    "amount": 81000,
+    "amount": 200,
     "id": "productiveslimes:still_tuff"
   },
   "output": [
     {
-      "count": 2,
+      "count": 1,
       "id": "minecraft:tuff"
     }
   ]

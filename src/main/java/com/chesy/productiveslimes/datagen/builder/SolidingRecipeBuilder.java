@@ -26,7 +26,6 @@ import java.util.Map;
 
 public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
     private FluidStack ingredients;
-    private int inputCount;
     private int energy;
     private final List<ItemStack> outputs = new ArrayList<>();
     private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
@@ -43,11 +42,6 @@ public class SolidingRecipeBuilder implements CraftingRecipeJsonBuilder {
 
     public SolidingRecipeBuilder addIngredient(FluidStack ingredient) {
         this.ingredients = ingredient;
-        return this;
-    }
-
-    public SolidingRecipeBuilder setInputCount(int count) {
-        this.inputCount = count;
         return this;
     }
 

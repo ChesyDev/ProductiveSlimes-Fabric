@@ -73,7 +73,7 @@ public class SolidingStationScreen extends HandledScreen<SolidingStationMenu> {
 
         List<Text> fluidTankTooltip = new ArrayList<>();
         fluidTankTooltip.add(Text.translatable(handler.blockEntity.getFluidTank().variant.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-        fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount.with.capacity", handler.blockEntity.getFluidTank().getAmount() / FluidConstants.BUCKET, handler.blockEntity.getFluidTank().getCapacity() / FluidConstants.BUCKET));
+        fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount.with.capacity", String.format("%.3f", (double) handler.blockEntity.getFluidTank().getAmount() / FluidConstants.BUCKET), handler.blockEntity.getFluidTank().getCapacity() / FluidConstants.BUCKET));
         if(isPointWithinBounds(22, 13, 15, 57, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer, fluidTankTooltip, mouseX, mouseY);
         }
