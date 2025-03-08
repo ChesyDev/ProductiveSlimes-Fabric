@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.util;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.screen.renderer.FluidTankRenderer;
 import com.chesy.productiveslimes.tier.ModTier;

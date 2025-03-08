@@ -1,10 +1,8 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.network.CableNetwork;
-import com.chesy.productiveslimes.network.ModNetworkManager;
-import com.chesy.productiveslimes.util.CustomEnergyStorage;
+import com.chesy.productiveslimes.network.cable.CableNetwork;
+import com.chesy.productiveslimes.network.cable.ModCableNetworkManager;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,7 +13,6 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
@@ -35,7 +32,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
         assert world != null;
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             if (shouldRemoveCableEntity(serverWorld)) {
-                ModNetworkManager.onCableRemoved(serverWorld, pos);
+                ModCableNetworkManager.onCableRemoved(serverWorld, pos);
             }
         }
     }
@@ -50,32 +47,32 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
         if (!blockEntity.initialized) {
             blockEntity.initialized = true;
             if (!world.isClient && world instanceof ServerWorld serverWorld && blockEntity.newlyPlaced) {
-                ModNetworkManager.rebuildNetwork(serverWorld, pos);
+                ModCableNetworkManager.rebuildNetwork(serverWorld, pos);
             }
         }
     }
 
     @Override
     public long insert(long maxAmount, TransactionContext transaction) {
-        CableNetwork net = ModNetworkManager.getNetwork(pos);
+        CableNetwork net = ModCableNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.insertEnergy(maxAmount);
     }
 
     @Override
     public long extract(long maxAmount, TransactionContext transaction) {
-        CableNetwork net = ModNetworkManager.getNetwork(pos);
+        CableNetwork net = ModCableNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.extractEnergy(maxAmount);
     }
 
     @Override
     public long getAmount() {
-        CableNetwork net = ModNetworkManager.getNetwork(pos);
+        CableNetwork net = ModCableNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.getTotalEnergy();
     }
 
     @Override
     public long getCapacity() {
-        CableNetwork net = ModNetworkManager.getNetwork(pos);
+        CableNetwork net = ModCableNetworkManager.getNetwork(pos);
         return net == null ? 0 : net.getTotalCapacity();
     }
 

@@ -1,12 +1,8 @@
-package com.chesy.productiveslimes.network;
+package com.chesy.productiveslimes.network.cable;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.datafixer.DataFixTypes;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateType;
 
@@ -16,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ModNetworkState extends PersistentState {
+public class ModCableNetworkState extends PersistentState {
     private final Map<Integer, CableNetwork> networks = new HashMap<>();
     private int nextId = 1;
 
-    public static final PersistentStateType<ModNetworkState> MY_TYPE =
+    public static final PersistentStateType<ModCableNetworkState> MY_TYPE =
             new PersistentStateType<>(
                     "productiveslimes_cable_networks",
-                    ModNetworkState::new,
+                    ModCableNetworkState::new,
                     ctx -> RecordCodecBuilder.create(instance -> instance.group(
                                     Codec.list(
                                             RecordCodecBuilder.<Map.Entry<Integer, CableNetwork>>create(entryInstance ->
@@ -35,23 +31,23 @@ public class ModNetworkState extends PersistentState {
                                     ).xmap(
                                             entries -> entries.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)),
                                             map -> new ArrayList<>(map.entrySet())
-                                    ).fieldOf("Networks").forGetter(ModNetworkState::getAllNetworks),
-                                    Codec.INT.fieldOf("NextId").forGetter(ModNetworkState::getNextId)
-                            ).apply(instance, ModNetworkState::new)
+                                    ).fieldOf("Networks").forGetter(ModCableNetworkState::getAllNetworks),
+                                    Codec.INT.fieldOf("NextId").forGetter(ModCableNetworkState::getNextId)
+                            ).apply(instance, ModCableNetworkState::new)
                     ),
                     DataFixTypes.LEVEL
             );
 
-    public ModNetworkState() {
+    public ModCableNetworkState() {
         super();
     }
 
-    private ModNetworkState(Map<Integer, CableNetwork> networks, int nextId) {
+    private ModCableNetworkState(Map<Integer, CableNetwork> networks, int nextId) {
         this.networks.putAll(networks);
         this.nextId = nextId;
     }
 
-    public ModNetworkState(Context context) {
+    public ModCableNetworkState(Context context) {
     }
 
     public int getNextId() {

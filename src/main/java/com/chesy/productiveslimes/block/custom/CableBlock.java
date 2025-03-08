@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.CableBlockEntity;
-import com.chesy.productiveslimes.network.ModNetworkManager;
+import com.chesy.productiveslimes.network.cable.ModCableNetworkManager;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -63,7 +63,7 @@ public class CableBlock extends Block implements BlockEntityProvider {
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if(world instanceof ServerWorld pWorld) {
             boolean canConnect = this.canConnectTo(pWorld, neighborPos, direction);
-            ModNetworkManager.rebuildNetwork(pWorld, pos);
+            ModCableNetworkManager.rebuildNetwork(pWorld, pos);
             return state.with(getPropertyForDirection(direction), canConnect);
         }
 

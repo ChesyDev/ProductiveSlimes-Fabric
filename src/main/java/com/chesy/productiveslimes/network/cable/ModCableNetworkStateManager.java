@@ -1,25 +1,25 @@
-package com.chesy.productiveslimes.network;
+package com.chesy.productiveslimes.network.cable;
 
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentStateManager;
 
-public class ModNetworkStateManager {
+public class ModCableNetworkStateManager {
     private static final String KEY = "productiveslimes_cable_networks";
 
-    public static ModNetworkState getOrCreate(ServerWorld world) {
+    public static ModCableNetworkState getOrCreate(ServerWorld world) {
         PersistentStateManager manager = world.getPersistentStateManager();
-        ModNetworkState existing = manager.get(ModNetworkState.MY_TYPE);
+        ModCableNetworkState existing = manager.get(ModCableNetworkState.MY_TYPE);
 
         if (existing == null) {
-            existing = new ModNetworkState();
-            manager.set(ModNetworkState.MY_TYPE, existing);
+            existing = new ModCableNetworkState();
+            manager.set(ModCableNetworkState.MY_TYPE, existing);
         }
 
         return existing;
     }
 
     public static void markDirty(ServerWorld world) {
-        ModNetworkState state = getOrCreate(world);
+        ModCableNetworkState state = getOrCreate(world);
         state.setDirty(true);
     }
 
@@ -32,12 +32,12 @@ public class ModNetworkStateManager {
      * into ModNetworkManager’s in-memory map.
      */
     public static void loadAllNetworksToManager(ServerWorld world) {
-        ModNetworkState state = getOrCreate(world);
+        ModCableNetworkState state = getOrCreate(world);
         // Clear the manager's current map if you prefer a fresh load
         // ModNetworkManager.clear(); // <-- optionally clear your static map
 
         for (CableNetwork net : state.getAllNetworks().values()) {
-            ModNetworkManager.addExistingNetwork(world, net);
+            ModCableNetworkManager.addExistingNetwork(world, net);
         }
     }
 }

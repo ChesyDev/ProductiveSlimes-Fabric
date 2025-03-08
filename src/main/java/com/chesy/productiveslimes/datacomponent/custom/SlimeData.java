@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.datacomponent.custom;
 
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.mojang.serialization.Codec;

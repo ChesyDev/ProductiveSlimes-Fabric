@@ -3,7 +3,7 @@ package com.chesy.productiveslimes.event;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.item.ModItems;
-import com.chesy.productiveslimes.util.SlimeData;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

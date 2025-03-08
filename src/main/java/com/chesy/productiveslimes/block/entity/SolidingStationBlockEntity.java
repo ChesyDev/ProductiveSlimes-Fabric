@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
 import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.recipe.custom.SingleFluidRecipeInput;
 import com.chesy.productiveslimes.util.*;
@@ -10,11 +11,10 @@ import com.chesy.productiveslimes.recipe.SolidingRecipe;
 import com.chesy.productiveslimes.screen.custom.SolidingStationMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,7 +31,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -44,11 +43,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SolidingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
+public class SolidingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity, IFluidBlockEntity {
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
         @Override
         protected void onFinalCommit() {
@@ -122,6 +120,11 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
     }
 
     public SingleFluidStorage getFluidTank() {
+        return fluidTank;
+    }
+
+    @Override
+    public SingleVariantStorage<FluidVariant> getFluidHandler() {
         return fluidTank;
     }
 

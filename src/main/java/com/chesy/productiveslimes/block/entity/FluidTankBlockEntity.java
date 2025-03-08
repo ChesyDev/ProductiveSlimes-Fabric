@@ -1,8 +1,14 @@
 package com.chesy.productiveslimes.block.entity;
 
+import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.util.IFluidBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,9 +19,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class FluidTankBlockEntity extends BlockEntity {
+public class FluidTankBlockEntity extends BlockEntity implements IFluidBlockEntity {
     private final SingleFluidStorage fluidStorage = SingleFluidStorage.withFixedCapacity(FluidConstants.BUCKET * 50, this::update);
 
     public FluidTankBlockEntity(BlockPos pos, BlockState state) {
@@ -29,6 +37,11 @@ public class FluidTankBlockEntity extends BlockEntity {
     }
 
     public SingleFluidStorage getFluidStorage() {
+        return fluidStorage;
+    }
+
+    @Override
+    public SingleVariantStorage<FluidVariant> getFluidHandler() {
         return fluidStorage;
     }
 
@@ -69,5 +82,32 @@ public class FluidTankBlockEntity extends BlockEntity {
         var nbt = super.toInitialChunkDataNbt(registries);
         writeNbt(nbt, registries);
         return nbt;
+    }
+
+    public void tick(World level, BlockPos blockPos, BlockState blockState){
+        Direction direction = Direction.DOWN;
+        BlockPos neighborPos = this.getPos().offset(direction);
+        Storage<FluidVariant> neighborStorage = FluidStorage.SIDED.find(world, neighborPos, direction.getOpposite());
+
+        if (neighborStorage != null) {
+            try(Transaction transaction = Transaction.openOuter()){
+                FluidStack availableFluid = new FluidStack(fluidStorage.getResource().getFluid(), fluidStorage.getAmount());
+
+                if (availableFluid.isEmpty()) {
+                    return;
+                }
+
+                long neighborFluid = neighborStorage.insert(availableFluid.copy().getFluid(), Math.min(FluidConstants.BUCKET, availableFluid.getAmount()), transaction);
+                if (!availableFluid.isEmpty() && neighborFluid > 0) {
+                    long drained = fluidStorage.extract(availableFluid.getFluid(), neighborFluid, transaction);
+                    if (drained > 0) {
+                        transaction.commit();
+                    }
+                    else{
+                        transaction.abort();
+                    }
+                }
+            }
+        }
     }
 }

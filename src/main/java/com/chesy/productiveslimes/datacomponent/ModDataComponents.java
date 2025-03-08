@@ -1,8 +1,8 @@
 package com.chesy.productiveslimes.datacomponent;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.util.ImmutableFluidVariant;
-import com.chesy.productiveslimes.util.SlimeData;
+import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;

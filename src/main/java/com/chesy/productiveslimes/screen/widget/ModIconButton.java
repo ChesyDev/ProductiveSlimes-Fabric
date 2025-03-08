@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.screen.widget;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.client.gui.DrawContext;

@@ -1,8 +1,7 @@
-package com.chesy.productiveslimes.network;
+package com.chesy.productiveslimes.network.cable;
 
 import com.chesy.productiveslimes.block.entity.CableBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -10,7 +9,7 @@ import team.reborn.energy.api.EnergyStorage;
 
 import java.util.*;
 
-public class ModNetworkManager {
+public class ModCableNetworkManager {
     private static final Map<BlockPos, CableNetwork> networkByPos = new HashMap<>();
 
     /**
@@ -58,7 +57,7 @@ public class ModNetworkManager {
 
         // We'll remove the visited cables from old networks (since they are all about to merge).
         // If an old network becomes empty, we remove it from ModNetworkState as well.
-        ModNetworkState state = ModNetworkStateManager.getOrCreate(world);
+        ModCableNetworkState state = ModCableNetworkStateManager.getOrCreate(world);
 
         for (CableNetwork oldNet : oldNetworks) {
             // Remove the BFS cables from this old network
@@ -86,7 +85,7 @@ public class ModNetworkManager {
         long mergedEnergy = Math.min(totalOldEnergy, newNetwork.getTotalCapacity());
         newNetwork.setTotalEnergy(mergedEnergy);
 
-        ModNetworkStateManager.markDirty(world);
+        ModCableNetworkStateManager.markDirty(world);
     }
 
     /**
@@ -104,10 +103,10 @@ public class ModNetworkManager {
         networkByPos.remove(removedPos);
 
         // If the old network is now empty, remove it entirely from the state
-        ModNetworkState state = ModNetworkStateManager.getOrCreate(world);
+        ModCableNetworkState state = ModCableNetworkStateManager.getOrCreate(world);
         if (oldNet.getCablePositions().isEmpty()) {
             state.removeNetwork(oldNet.getNetworkId());
-            ModNetworkStateManager.markDirty(world);
+            ModCableNetworkStateManager.markDirty(world);
             return;
         }
 
@@ -173,7 +172,7 @@ public class ModNetworkManager {
             newNet.setTotalEnergy(subEnergy);
         }
 
-        ModNetworkStateManager.markDirty(world);
+        ModCableNetworkStateManager.markDirty(world);
     }
 
     /**
@@ -220,7 +219,7 @@ public class ModNetworkManager {
     }
 
     public static void tickAllNetworks(ServerWorld world) {
-        ModNetworkState state = ModNetworkStateManager.getOrCreate(world);
+        ModCableNetworkState state = ModCableNetworkStateManager.getOrCreate(world);
 
         for (CableNetwork network : state.getAllNetworks().values()) {
             Set<EnergyStorage> consumers = findAllConsumersForNetwork(world, network);

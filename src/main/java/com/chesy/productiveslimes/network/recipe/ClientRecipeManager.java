@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.network;
+package com.chesy.productiveslimes.network.recipe;
 
 import com.chesy.productiveslimes.recipe.*;
 import net.minecraft.recipe.RecipeEntry;

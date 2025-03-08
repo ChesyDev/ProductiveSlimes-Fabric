@@ -8,8 +8,8 @@ import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
-import com.chesy.productiveslimes.network.ClientRecipeManager;
-import com.chesy.productiveslimes.network.RecipeSyncPayload;
+import com.chesy.productiveslimes.network.recipe.ClientRecipeManager;
+import com.chesy.productiveslimes.network.recipe.RecipeSyncPayload;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.screen.custom.*;
 import com.chesy.productiveslimes.tier.ModTiers;
@@ -17,6 +17,7 @@ import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
+import com.chesy.productiveslimes.util.IFluidBlockEntity;
 import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -28,6 +29,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -144,6 +147,22 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
                     drawContext.drawTextWithShadow(client.textRenderer,
                             Text.of("Energy: " + energyStored + " / " + maxEnergy),
+                            x, y, 0xFFFFFF); // White text
+                }
+
+                if (blockEntity instanceof IFluidBlockEntity fluidBlockEntity){
+                    long fluidAmount = fluidBlockEntity.getFluidHandler().getAmount();
+                    long maxFluidAmount = fluidBlockEntity.getFluidHandler().getCapacity();
+
+                    FluidVariant fluidVariant = fluidBlockEntity.getFluidHandler().getResource();
+                    String fluidName = Text.translatable(fluidVariant.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()).getString();
+
+                    // Draw the text on screen
+                    int x = 10; // Position on screen (X)
+                    int y = 40; // Position on screen (Y)
+
+                    drawContext.drawTextWithShadow(client.textRenderer,
+                            Text.translatable("hud.fluid", fluidName, fluidAmount / FluidConstants.BUCKET, maxFluidAmount / FluidConstants.BUCKET),
                             x, y, 0xFFFFFF); // White text
                 }
             }

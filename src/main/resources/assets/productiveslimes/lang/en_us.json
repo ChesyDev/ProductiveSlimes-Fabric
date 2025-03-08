@@ -492,5 +492,7 @@
   "entity.minecraft.villager.productiveslimes.scientist": "Scientist",
 
   "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s B",
-  "productiveslimes.tooltip.liquid.amount": "%s B"
+  "productiveslimes.tooltip.liquid.amount": "%s B",
+
+  "hud.fluid": "%s: %s B / %s B"
 }

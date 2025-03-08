@@ -5,7 +5,7 @@ import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.screen.custom.SlimeNestMenu;
 import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.ImplementedInventory;
-import com.chesy.productiveslimes.util.SlimeData;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

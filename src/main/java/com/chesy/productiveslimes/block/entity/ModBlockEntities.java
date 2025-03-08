@@ -20,6 +20,7 @@ public class ModBlockEntities {
     public static final BlockEntityType<SlimeSqueezerBlockEntity> SLIME_SQUEEZER = register("slime_squeezer", FabricBlockEntityTypeBuilder.create(SlimeSqueezerBlockEntity::new, ModBlocks.SLIME_SQUEEZER).build());
     public static final BlockEntityType<FluidTankBlockEntity> FLUID_TANK = register("fluid_tank", FabricBlockEntityTypeBuilder.create(FluidTankBlockEntity::new, ModBlocks.FLUID_TANK).build());
     public static final BlockEntityType<CableBlockEntity> CABLE = register("cable", FabricBlockEntityTypeBuilder.create(CableBlockEntity::new, ModBlocks.CABLE).build());
+    public static final BlockEntityType<PipeBlockEntity> PIPE = register("pipe", FabricBlockEntityTypeBuilder.create(PipeBlockEntity::new, ModBlocks.PIPE).build());
     public static final BlockEntityType<SlimeballCollectorBlockEntity> SLIMEBALL_COLLECTOR = register("slimeball_collector", FabricBlockEntityTypeBuilder.create(SlimeballCollectorBlockEntity::new, ModBlocks.SLIMEBALL_COLLECTOR).build());
     public static final BlockEntityType<SlimeNestBlockEntity> SLIME_NEST = register("slime_nest", FabricBlockEntityTypeBuilder.create(SlimeNestBlockEntity::new, ModBlocks.SLIME_NEST).build());
 
@@ -53,11 +54,16 @@ public class ModBlockEntities {
                         return meltingStationBlockEntity.getFluidHandler();
                     }
 
+                    if (blockEntity instanceof PipeBlockEntity pipeBlockEntity){
+                        return pipeBlockEntity.fluidStorage;
+                    }
+
                     return null;
                 },
                 ModBlockEntities.FLUID_TANK,
                 ModBlockEntities.SOLIDING_STATION,
-                ModBlockEntities.MELTING_STATION
+                ModBlockEntities.MELTING_STATION,
+                ModBlockEntities.PIPE
         );
     }
 }

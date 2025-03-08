@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.network;
+package com.chesy.productiveslimes.network.cable;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

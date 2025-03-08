@@ -2,14 +2,17 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
 import com.chesy.productiveslimes.util.*;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.custom.MeltingStationMenu;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -40,10 +43,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
 
-public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity {
+public class MeltingStationBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory, IEnergyBlockEntity, IFluidBlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0){
@@ -66,12 +68,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             return false;
         }
     };
-    private final SingleFluidStorage outputHandler = new SingleFluidStorage() {
-        @Override
-        protected long getCapacity(FluidVariant fluidVariant) {
-            return FluidConstants.BUCKET * 16;
-        }
-
+    private final ExtractOnlyFluidTank outputHandler = new ExtractOnlyFluidTank(FluidConstants.BUCKET * 16) {
         @Override
         protected void onFinalCommit() {
             super.onFinalCommit();
@@ -126,7 +123,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         return energyHandler;
     }
 
-    public SingleFluidStorage getFluidHandler() {
+    public ExtractOnlyFluidTank getFluidHandler() {
         return outputHandler;
     }
 
@@ -197,6 +194,33 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     public void tick(World pWorld, BlockPos pPos, BlockState pState) {
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = this.getPos().offset(direction);
+            Storage<FluidVariant> neighborStorage = FluidStorage.SIDED.find(world, neighborPos, direction.getOpposite());
+
+            if (neighborStorage != null) {
+                try(Transaction transaction = Transaction.openOuter()){
+                    FluidStack availableFluid = outputHandler.getFluid();
+
+                    if (availableFluid.isEmpty()) {
+                        continue;
+                    }
+
+                    long neighborFluid = neighborStorage.insert(availableFluid.copy().getFluid(), Math.min(FluidConstants.BUCKET, availableFluid.getAmount()), transaction);
+                    if (!availableFluid.isEmpty() && neighborFluid > 0) {
+                        long drained = outputHandler.extract(availableFluid.getFluid(), neighborFluid, transaction);
+                        if (drained > 0) {
+                            transaction.commit();
+                        }
+                        else{
+                            transaction.abort();
+                        }
+                    }
+                }
+            }
+        }
+
+
         if(this.getStack(DRAIN_INPUT_SLOT).getItem() == Items.BUCKET && outputHandler.amount >= FluidConstants.BUCKET){
             Fluid fluid = outputHandler.getResource().getFluid();
             Item bucketItem = fluid.getBucketItem();
@@ -282,7 +306,7 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
             this.removeStack(INPUT_SLOT, recipe.get().value().inputItems().count());
 
             try(Transaction transaction = Transaction.openOuter()){
-                this.outputHandler.insert(results.getFluid(), results.getAmount(), transaction);
+                this.outputHandler.internalFill(results, transaction);
                 transaction.commit();
             }
         }

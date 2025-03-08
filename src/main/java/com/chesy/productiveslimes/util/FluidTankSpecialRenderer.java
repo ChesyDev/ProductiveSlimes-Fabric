@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.util;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.renderer.FluidTankBlockEntityRenderer;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;

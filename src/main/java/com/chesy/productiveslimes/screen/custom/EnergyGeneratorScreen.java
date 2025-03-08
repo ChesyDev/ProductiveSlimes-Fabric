@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
-import com.chesy.productiveslimes.util.ModIconButton;
+import com.chesy.productiveslimes.screen.widget.ModIconButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

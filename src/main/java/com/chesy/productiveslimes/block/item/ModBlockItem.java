@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.block.item;
 
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
-import com.chesy.productiveslimes.util.ImmutableFluidVariant;
+import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;

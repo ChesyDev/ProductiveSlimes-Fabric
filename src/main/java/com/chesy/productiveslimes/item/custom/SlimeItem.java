@@ -2,7 +2,7 @@ package com.chesy.productiveslimes.item.custom;
 
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
-import com.chesy.productiveslimes.util.SlimeData;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

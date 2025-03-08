@@ -1,21 +1,18 @@
 package com.chesy.productiveslimes.event;
 
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
-import com.chesy.productiveslimes.network.ModNetworkManager;
-import com.chesy.productiveslimes.network.ModNetworkState;
-import com.chesy.productiveslimes.network.ModNetworkStateManager;
-import com.chesy.productiveslimes.network.RecipeSyncPayload;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import com.chesy.productiveslimes.network.cable.ModCableNetworkManager;
+import com.chesy.productiveslimes.network.cable.ModCableNetworkStateManager;
+import com.chesy.productiveslimes.network.pipe.ModPipeNetworkManager;
+import com.chesy.productiveslimes.network.pipe.ModPipeNetworkStateManager;
+import com.chesy.productiveslimes.network.recipe.RecipeSyncPayload;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.ServerRecipeManager;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 public class ModServerLifecycleEvent {
@@ -28,20 +25,23 @@ public class ModServerLifecycleEvent {
 
         ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> {
             ServerWorld overworld = minecraftServer.getOverworld();
-            ModNetworkStateManager.forceSave(overworld);
+            ModCableNetworkStateManager.forceSave(overworld);
+            ModPipeNetworkStateManager.forceSave(overworld);
         });
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             // For each loaded ServerWorld
             for (ServerWorld world : server.getWorlds()) {
-                ModNetworkManager.tickAllNetworks(world);
+                ModCableNetworkManager.tickAllNetworks(world);
+                ModPipeNetworkManager.tickAllNetworks(world);
             }
         });
 
 
         ServerWorldEvents.LOAD.register((minecraftServer, serverWorld) -> {
             if (!serverWorld.isClient){
-                ModNetworkStateManager.loadAllNetworksToManager(serverWorld);
+                ModCableNetworkStateManager.loadAllNetworksToManager(serverWorld);
+                ModPipeNetworkStateManager.loadAllNetworksToManager(serverWorld);
             }
         });
 
