@@ -2,11 +2,11 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": {
-    "count": 2,
+    "count": 1,
     "ingredient": "productiveslimes:blackstone_slime_block"
   },
   "output": {
-    "amount": 405000,
+    "amount": 182250,
     "id": "productiveslimes:still_blackstone"
   }
 }

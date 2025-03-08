@@ -2,11 +2,11 @@
   "type": "productiveslimes:melting",
   "energy": 200,
   "ingredients": {
-    "count": 4,
+    "count": 1,
     "ingredient": "productiveslimes:deepslate_slimeball"
   },
   "output": {
-    "amount": 81000,
+    "amount": 20250,
     "id": "productiveslimes:still_deepslate"
   }
 }

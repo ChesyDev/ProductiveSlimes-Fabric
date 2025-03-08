@@ -72,7 +72,7 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
 
         List<Text> fluidTankTooltip = new ArrayList<>();
         fluidTankTooltip.add(Text.translatable(handler.blockEntity.getFluidStack().getDescriptionId()));
-        fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount.with.capacity", handler.blockEntity.getFluidStack().getAmount() / FluidConstants.BUCKET, handler.blockEntity.getFluidHandler().getCapacity() / FluidConstants.BUCKET));
+        fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount.with.capacity", String.format("%.3f", (double) handler.blockEntity.getFluidHandler().getAmount() / FluidConstants.BUCKET), handler.blockEntity.getFluidHandler().getCapacity() / FluidConstants.BUCKET));
         if(isPointWithinBounds(153, 13, 15, 57, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer, fluidTankTooltip, mouseX, mouseY);
         }

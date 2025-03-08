@@ -270,8 +270,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     slimeBlockToSlimeBall(exporter, ModTiers.getBlockByName(tiers.name()), ModTiers.getSlimeballItemByName(tiers.name()));
                     slimeBallToSlimeBlock(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getBlockByName(tiers.name()));
 
-                    meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getSourceByName(tiers.name()), 2, FluidConstants.BUCKET * 5);
-                    meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getSourceByName(tiers.name()), 4, FluidConstants.BUCKET);
+                    meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getSourceByName(tiers.name()), 1, FluidConstants.BUCKET / 4 + FluidConstants.BUCKET * 2);
+                    meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getSourceByName(tiers.name()), 1, FluidConstants.BUCKET / 4);
 
                     solidingRecipe(exporter, new FluidStack(ModTiers.getSourceByName(tiers.name()), tiers.solidingInputAmount()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1);
 
