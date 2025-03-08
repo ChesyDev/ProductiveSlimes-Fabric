@@ -136,6 +136,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             }
         });
 
+        // Temporary HUD rendering for snapshot
         HudRenderCallback.EVENT.register((drawContext, renderTickCounter) -> {
             MinecraftClient client = MinecraftClient.getInstance();
 
