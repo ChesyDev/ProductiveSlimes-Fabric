@@ -5,7 +5,7 @@ import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.item.custom.SlimeItem;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
-import com.chesy.productiveslimes.util.SlotItemHandler;
+import com.chesy.productiveslimes.screen.slot.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

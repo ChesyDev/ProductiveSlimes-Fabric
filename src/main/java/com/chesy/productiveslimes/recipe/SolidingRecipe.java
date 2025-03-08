@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.recipe;
 
 import com.chesy.productiveslimes.recipe.custom.SingleFluidRecipeInput;
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

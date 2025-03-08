@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.config.asset;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.google.gson.Gson;

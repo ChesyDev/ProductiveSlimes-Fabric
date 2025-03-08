@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.recipe;
 
 import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
-import com.chesy.productiveslimes.util.SizedIngredient;
+import com.chesy.productiveslimes.recipe.ingredient.SizedIngredient;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

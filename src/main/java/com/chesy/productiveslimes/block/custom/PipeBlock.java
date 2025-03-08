@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.PipeBlockEntity;
-import com.chesy.productiveslimes.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;

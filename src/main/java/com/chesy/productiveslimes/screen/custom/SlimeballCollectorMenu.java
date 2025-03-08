@@ -2,7 +2,7 @@ package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.block.entity.SlimeballCollectorBlockEntity;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
-import com.chesy.productiveslimes.util.SlotItemHandler;
+import com.chesy.productiveslimes.screen.slot.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

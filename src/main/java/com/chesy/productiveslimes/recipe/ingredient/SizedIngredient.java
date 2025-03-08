@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.recipe.ingredient;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;

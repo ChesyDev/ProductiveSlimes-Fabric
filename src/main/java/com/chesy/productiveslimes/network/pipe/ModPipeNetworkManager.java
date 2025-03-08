@@ -2,7 +2,7 @@ package com.chesy.productiveslimes.network.pipe;
 
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
 import com.chesy.productiveslimes.block.entity.PipeBlockEntity;
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;

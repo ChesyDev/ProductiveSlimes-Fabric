@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.screen.slot;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;

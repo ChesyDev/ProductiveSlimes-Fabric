@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.datagen.model.special;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.entity.renderer.FluidTankBlockEntityRenderer;

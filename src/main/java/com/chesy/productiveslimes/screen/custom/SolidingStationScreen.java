@@ -2,7 +2,7 @@ package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.screen.renderer.FluidTankRenderer;
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.DrawContext;

@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.network.pipe;
 
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.fluid.Fluid;

@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block.entity;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.recipe.custom.SingleFluidRecipeInput;
 import com.chesy.productiveslimes.util.*;

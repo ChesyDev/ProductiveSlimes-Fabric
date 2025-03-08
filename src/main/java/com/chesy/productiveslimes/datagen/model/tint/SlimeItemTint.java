@@ -1,4 +1,4 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.datagen.model.tint;
 
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.mojang.serialization.MapCodec;

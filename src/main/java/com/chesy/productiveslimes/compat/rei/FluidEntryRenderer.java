@@ -47,7 +47,7 @@ public class FluidEntryRenderer implements BatchedEntryRenderer<FluidStack, Spri
 
     @Override
     public void renderBase(EntryStack<FluidStack> entryStack, Sprite spriteAtlasTexture, DrawContext drawContext, VertexConsumerProvider.Immediate immediate, Rectangle rectangle, int i, int i1, float v) {
-        FluidTankRenderer.renderFluidStack(drawContext, new com.chesy.productiveslimes.util.FluidStack(entryStack.getValue().getFluid(), ((int) entryStack.getValue().getAmount())), (int) entryStack.getValue().getAmount(), rectangle.width, rectangle.height, rectangle.x, rectangle.y);
+        FluidTankRenderer.renderFluidStack(drawContext, new com.chesy.productiveslimes.fluid.FluidStack(entryStack.getValue().getFluid(), ((int) entryStack.getValue().getAmount())), (int) entryStack.getValue().getAmount(), rectangle.width, rectangle.height, rectangle.x, rectangle.y);
 
         if (rectangle.contains(i, i1)) {
             drawContext.fill(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0x80FFFFFF);

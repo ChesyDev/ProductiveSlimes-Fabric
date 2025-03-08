@@ -2,11 +2,10 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.network.pipe.ModPipeNetworkManager;
 import com.chesy.productiveslimes.network.pipe.PipeNetwork;
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import com.chesy.productiveslimes.util.IFluidBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;

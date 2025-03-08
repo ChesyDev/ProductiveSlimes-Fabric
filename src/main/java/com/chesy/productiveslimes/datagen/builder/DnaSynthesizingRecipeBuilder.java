@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.datagen.builder;
 
 import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
-import com.chesy.productiveslimes.util.SizedIngredient;
+import com.chesy.productiveslimes.recipe.ingredient.SizedIngredient;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -12,7 +12,6 @@ import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.registry.RegistryKey;
 import org.jetbrains.annotations.Nullable;

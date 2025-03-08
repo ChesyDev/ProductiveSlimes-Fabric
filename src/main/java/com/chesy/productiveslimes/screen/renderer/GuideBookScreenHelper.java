@@ -1,11 +1,11 @@
-package com.chesy.productiveslimes.util;
+package com.chesy.productiveslimes.screen.renderer;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import com.chesy.productiveslimes.entity.BaseSlime;
-import com.chesy.productiveslimes.screen.renderer.FluidTankRenderer;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

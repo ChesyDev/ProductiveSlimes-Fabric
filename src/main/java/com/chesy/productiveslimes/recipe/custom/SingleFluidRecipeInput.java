@@ -1,6 +1,6 @@
 package com.chesy.productiveslimes.recipe.custom;
 
-import com.chesy.productiveslimes.util.FluidStack;
+import com.chesy.productiveslimes.fluid.FluidStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.input.RecipeInput;
 

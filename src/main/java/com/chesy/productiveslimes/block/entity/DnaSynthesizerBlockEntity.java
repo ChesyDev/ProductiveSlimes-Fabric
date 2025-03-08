@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block.entity;
 import com.chesy.productiveslimes.recipe.DnaSynthesizingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.custom.MultipleRecipeInput;
+import com.chesy.productiveslimes.recipe.ingredient.SizedIngredient;
 import com.chesy.productiveslimes.screen.custom.DnaSynthesizerMenu;
 import com.chesy.productiveslimes.util.*;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -30,7 +31,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Arrays;
 import java.util.List;
