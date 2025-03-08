@@ -489,5 +489,9 @@
   "guidebook.productiveslimes.nav.world_gen": "Pagbuo ng Mundo",
   "guidebook.productiveslimes.nav.melting": "Pagkatunaw",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "Siyentipiko"
+  "entity.minecraft.villager.productiveslimes.scientist": "Siyentipiko",
+
+  "block.productiveslimes.pipe": "Tubo",
+  "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "productiveslimes.tooltip.liquid.amount": "%s mB"
 }

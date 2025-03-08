@@ -487,5 +487,9 @@
   "guidebook.productiveslimes.nav.world_gen": "월드 생성",
   "guidebook.productiveslimes.nav.melting": "용해",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "과학자"
+  "entity.minecraft.villager.productiveslimes.scientist": "과학자",
+
+  "block.productiveslimes.pipe": "파이프",
+  "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "productiveslimes.tooltip.liquid.amount": "%s mB"
 }

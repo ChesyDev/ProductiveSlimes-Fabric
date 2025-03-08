@@ -486,5 +486,9 @@
   "guidebook.productiveslimes.nav.world_gen": "ワールド生成",
   "guidebook.productiveslimes.nav.melting": "溶解",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "科学者"
+  "entity.minecraft.villager.productiveslimes.scientist": "科学者",
+
+  "block.productiveslimes.pipe": "パイプ",
+  "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "productiveslimes.tooltip.liquid.amount": "%s mB"
 }

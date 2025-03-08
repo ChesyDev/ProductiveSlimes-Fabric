@@ -489,5 +489,9 @@
   "guidebook.productiveslimes.nav.world_gen": "World Gen",
   "guidebook.productiveslimes.nav.melting": "Melting",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "Scientist"
+  "entity.minecraft.villager.productiveslimes.scientist": "Scientist",
+
+  "block.productiveslimes.pipe": "Pipe",
+  "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "productiveslimes.tooltip.liquid.amount": "%s mB"
 }

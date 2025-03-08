@@ -489,5 +489,9 @@
   "guidebook.productiveslimes.nav.world_gen": "Gen del Mundo",
   "guidebook.productiveslimes.nav.melting": "Fusión",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "Científico"
+  "entity.minecraft.villager.productiveslimes.scientist": "Científico",
+
+  "block.productiveslimes.pipe": "Tubo",
+  "productiveslimes.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "productiveslimes.tooltip.liquid.amount": "%s mB"
 }
