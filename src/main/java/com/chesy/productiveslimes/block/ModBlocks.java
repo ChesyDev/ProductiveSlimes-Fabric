@@ -49,7 +49,7 @@ public class ModBlocks {
     public static final Block SLIME_NEST = registerBlock("slime_nest", new SlimeNestBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slime_nest")))));
 
-    public static final Block SLIMY_GRASS_BLOCK = registerBlock("slimy_grass_block", new SlimyDirt(AbstractBlock.Settings.copy(Blocks.GRASS_BLOCK)
+    public static final Block SLIMY_GRASS_BLOCK = registerBlock("slimy_grass_block", new SlimyGrassBlock(AbstractBlock.Settings.copy(Blocks.GRASS_BLOCK)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_grass_block")))));
     public static final Block SLIMY_DIRT = registerBlock("slimy_dirt", new SlimyDirt(AbstractBlock.Settings.copy(Blocks.DIRT)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_dirt")))));
