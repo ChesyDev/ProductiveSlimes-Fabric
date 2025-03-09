@@ -1,14 +1,14 @@
 package com.chesy.productiveslimes.block.custom;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.TintedParticleLeavesBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ModLeavesBlock extends LeavesBlock {
-    public ModLeavesBlock(Settings settings) {
-        super(settings);
+public class ModLeavesBlock extends TintedParticleLeavesBlock {
+    public ModLeavesBlock(float leafParticleChance, Settings settings) {
+        super(leafParticleChance, settings);
     }
 
     @Override

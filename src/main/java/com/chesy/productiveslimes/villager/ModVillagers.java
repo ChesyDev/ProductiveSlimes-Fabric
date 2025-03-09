@@ -10,6 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
@@ -17,10 +18,11 @@ import net.minecraft.world.poi.PointOfInterestType;
 public class ModVillagers {
     public static final RegistryKey<PointOfInterestType> SLIMY_POI_KEY = registerPoiKey("slimy_poi");
     public static final PointOfInterestType SLIMY_POI = registerPOI("slimy_poi", ModBlocks.DNA_EXTRACTOR);
-    public static final VillagerProfession SCIENTIST = registerProfession("scientist", SLIMY_POI_KEY);
+    public static final RegistryKey<VillagerProfession> SCIENTIST_KEY = registerProfessionKey("scientist");
+    public static final VillagerProfession SCIENTIST = registerProfession("scientist", SCIENTIST_KEY, SLIMY_POI_KEY);
 
-    private static VillagerProfession registerProfession(String name, RegistryKey<PointOfInterestType> type) {
-        return Registry.register(Registries.VILLAGER_PROFESSION, Identifier.of(ProductiveSlimes.MODID, name), new VillagerProfession(name, entry -> entry.matchesKey(type), entry -> entry.matchesKey(type), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN));
+    private static VillagerProfession registerProfession(String name, RegistryKey<VillagerProfession> key, RegistryKey<PointOfInterestType> type) {
+        return Registry.register(Registries.VILLAGER_PROFESSION, key, new VillagerProfession(Text.translatable(name), entry -> entry.matchesKey(type), entry -> entry.matchesKey(type), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN));
     }
 
     private static PointOfInterestType registerPOI(String name, Block block) {
@@ -29,6 +31,10 @@ public class ModVillagers {
 
     private static RegistryKey<PointOfInterestType> registerPoiKey(String name) {
         return RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, Identifier.of(ProductiveSlimes.MODID, name));
+    }
+
+    private static RegistryKey<VillagerProfession> registerProfessionKey(String name) {
+        return RegistryKey.of(RegistryKeys.VILLAGER_PROFESSION, Identifier.of(ProductiveSlimes.MODID, name));
     }
 
     public static void init() {

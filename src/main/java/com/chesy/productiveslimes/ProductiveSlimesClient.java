@@ -15,9 +15,8 @@ import com.chesy.productiveslimes.screen.custom.*;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import com.chesy.productiveslimes.util.FluidTankTint;
+import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
 import com.chesy.productiveslimes.util.SlimeItemTint;
-import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -30,7 +29,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.item.property.bool.BooleanProperties;
+import net.minecraft.client.render.item.model.special.SpecialModelTypes;
 import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.util.Identifier;
 
@@ -74,24 +73,9 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
         // Register the tint source
         TintSourceTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
-        TintSourceTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_tint"), FluidTankTint.MAP_CODEC);
 
-        // Register property
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_empty"), FluidTankProperty.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_3k"), FluidTankProperty3k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_6k"), FluidTankProperty6k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_9k"), FluidTankProperty9k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_12k"), FluidTankProperty12k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_15k"), FluidTankProperty15k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_18k"), FluidTankProperty18k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_21k"), FluidTankProperty21k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_24k"), FluidTankProperty24k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_27k"), FluidTankProperty27k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_30k"), FluidTankProperty30k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_33k"), FluidTankProperty33k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_36k"), FluidTankProperty36k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_40k"), FluidTankProperty40k.MAP_CODEC);
-        BooleanProperties.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank_less_than_45k"), FluidTankProperty45k.MAP_CODEC);
+        // Register the special model type
+        SpecialModelTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank"), FluidTankSpecialRenderer.Unbaked.MAP_CODEC);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);

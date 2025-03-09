@@ -190,14 +190,4 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
 
         super.onPlaced(world, pos, state, placer, itemStack);
     }
-
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        if (stack.getOrDefault(ModDataComponents.FLUID_VARIANT, FluidVariant.blank()) != FluidVariant.blank()) {
-            ImmutableFluidVariant immutableFluidStack = stack.get(ModDataComponents.FLUID_VARIANT);
-            FluidVariant fluidStack = (immutableFluidStack != null) ? FluidVariant.of(immutableFluidStack.fluid()) : FluidVariant.blank();
-            tooltip.add(Text.translatable("tooltip.productiveslimes.fluid_stored").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable(fluidStack.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
-            tooltip.add(Text.translatable("tooltip.productiveslimes.stored_amount").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))).append(Text.translatable("tooltip.productiveslimes.fluid_amount", immutableFluidStack.amount() / FluidConstants.BUCKET).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
-        }
-    }
 }

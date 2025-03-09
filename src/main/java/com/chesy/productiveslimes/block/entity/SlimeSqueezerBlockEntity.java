@@ -31,7 +31,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -114,8 +113,8 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("energy"));
-        progress = nbt.getInt("progress");
+        energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("energy"));
+        progress = nbt.getInt("progress", 0);
     }
 
     @Nullable

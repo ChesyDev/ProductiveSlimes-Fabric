@@ -489,5 +489,5 @@
   "guidebook.productiveslimes.nav.world_gen": "World Gen",
   "guidebook.productiveslimes.nav.melting": "Melting",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "Scientist"
+  "scientist": "Scientist"
 }

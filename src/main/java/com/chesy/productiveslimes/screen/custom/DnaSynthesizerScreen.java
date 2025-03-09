@@ -27,7 +27,6 @@ public class DnaSynthesizerScreen extends HandledScreen<DnaSynthesizerMenu> {
     @Override
     protected void drawBackground(DrawContext pGuiGraphics, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
 
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;

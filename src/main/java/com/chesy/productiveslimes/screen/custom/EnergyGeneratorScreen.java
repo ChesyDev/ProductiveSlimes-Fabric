@@ -51,7 +51,6 @@ public class EnergyGeneratorScreen extends HandledScreen<EnergyGeneratorMenu> {
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         int x = (width - 176) / 2;
         int y = (height - backgroundHeight) / 2;

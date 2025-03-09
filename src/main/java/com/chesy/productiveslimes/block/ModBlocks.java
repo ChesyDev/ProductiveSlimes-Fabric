@@ -3,6 +3,7 @@ package com.chesy.productiveslimes.block;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.custom.*;
 import com.chesy.productiveslimes.block.custom.SlimeBlock;
+import com.chesy.productiveslimes.block.item.TooltipBlockItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
@@ -71,7 +72,7 @@ public class ModBlocks {
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "stripped_slimy_wood")))));
     public static final Block SLIMY_PLANKS = registerBlock("slimy_planks", new SlimeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_planks")))));
-    public static final LeavesBlock SLIMY_LEAVES = registerBlock("slimy_leaves", new ModLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+    public static final LeavesBlock SLIMY_LEAVES = registerBlock("slimy_leaves", new ModLeavesBlock(0.01F, AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_leaves")))));
     public static final SaplingBlock SLIMY_SAPLING = registerBlock("slimy_sapling", new ModSaplingBlock(ModTreeGrowers.SLIMY, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_sapling")))));
@@ -124,7 +125,7 @@ public class ModBlocks {
 
     public static <T extends Block> T registerBlock(String name, T block){
         Identifier id = Identifier.of(ProductiveSlimes.MODID, name);
-        registerItem(name, new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, name)))));
+        registerItem(name, new TooltipBlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ProductiveSlimes.MODID, name)))));
         return Registry.register(Registries.BLOCK, id, block);
     }
 

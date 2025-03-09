@@ -9,14 +9,13 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
@@ -28,7 +27,7 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
     }
 
     @Override
-    public void render(SlimeNestBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
+    public void render(SlimeNestBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay, Vec3d cameraPos) {
         if (blockEntity.getSlime() == null) return;
         if (blockEntity.getSlime().isEmpty()) return;
 
@@ -100,7 +99,7 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
         poseStack.translate(centerX - blockEntity.getPos().getX() + renderX, centerY - blockEntity.getPos().getY() + renderY - 0.05f, centerZ - blockEntity.getPos().getZ() + renderZ);
         poseStack.scale(scaleX, scaleY, scaleZ); // Apply squish scaling
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degree));
-        itemRenderer.renderItem(slime, ModelTransformationMode.FIXED, 0xF000F0, packedOverlay, poseStack, bufferSource, blockEntity.getWorld(), 1);
+        itemRenderer.renderItem(slime, ItemDisplayContext.FIXED, 0xF000F0, packedOverlay, poseStack, bufferSource, blockEntity.getWorld(), 1);
         poseStack.pop();
     }
 

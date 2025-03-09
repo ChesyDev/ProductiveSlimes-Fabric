@@ -1,11 +1,13 @@
 package com.chesy.productiveslimes.item.custom;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class NestUpgradeItem extends Item {
     private final float multiplier;
@@ -20,8 +22,7 @@ public class NestUpgradeItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
-        tooltip.add(Text.translatable("tooltip.productiveslimes.nest_upgrade", String.format("%.2f", multiplier)));
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        textConsumer.accept(Text.translatable("tooltip.productiveslimes.nest_upgrade", String.format("%.2f", multiplier)));
     }
 }

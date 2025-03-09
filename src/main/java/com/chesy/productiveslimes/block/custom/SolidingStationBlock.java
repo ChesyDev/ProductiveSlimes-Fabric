@@ -1,6 +1,5 @@
 package com.chesy.productiveslimes.block.custom;
 
-import com.chesy.productiveslimes.block.entity.EnergyGeneratorBlockEntity;
 import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.util.ContainerUtils;
@@ -17,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -30,10 +30,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -79,12 +76,12 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SolidingStationBlockEntity solidingStationBlockEntity) {
             ContainerUtils.dropContents(world, pos, solidingStationBlockEntity);
         }
-        super.onStateReplaced(state, world, pos, newState, moved);
+        super.onStateReplaced(state, world, pos, moved);
     }
 
     @Override
@@ -139,18 +136,5 @@ public class SolidingStationBlock extends Block implements BlockEntityProvider {
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        super.appendTooltip(stack, context, tooltip, options);
-
-        if (stack.getOrDefault(ModDataComponents.ENERGY, 0) != 0) {
-            int energy = stack.getOrDefault(ModDataComponents.ENERGY, 0);
-            tooltip.add(Text.translatable("tooltip.productiveslimes.energy_stored")
-                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00)))
-                    .append(Text.translatable("tooltip.productiveslimes.energy_amount", energy)
-                            .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
-        }
     }
 }

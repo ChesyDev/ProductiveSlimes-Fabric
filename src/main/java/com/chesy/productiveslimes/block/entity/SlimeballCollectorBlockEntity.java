@@ -83,12 +83,7 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        enableOutline = nbt.getInt("enableOutline");
-    }
-
-    @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return true;
+        enableOutline = nbt.getInt("enableOutline", 0);
     }
 
     @Override
@@ -131,8 +126,8 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     }
 
     private boolean hasSpaceForItem(ItemStack stack) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).isEmpty() || inventory.get(i).isOf(stack.getItem()) && inventory.get(i).getCount() + stack.getCount() <= inventory.get(i).getMaxCount()) {
+        for (ItemStack itemStack : inventory) {
+            if (itemStack.isEmpty() || itemStack.isOf(stack.getItem()) && itemStack.getCount() + stack.getCount() <= itemStack.getMaxCount()) {
                 return true;
             }
         }

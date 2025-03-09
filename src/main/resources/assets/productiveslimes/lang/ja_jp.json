@@ -486,5 +486,5 @@
   "guidebook.productiveslimes.nav.world_gen": "ワールド生成",
   "guidebook.productiveslimes.nav.melting": "溶解",
 
-  "entity.minecraft.villager.productiveslimes.scientist": "科学者"
+  "scientist": "科学者"
 }

@@ -2,7 +2,6 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
@@ -207,9 +206,9 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        this.energyHandler.deserializeNBT(registries, nbt.getCompound("Energy"));
-        this.progress = nbt.getInt("Progress");
-        this.maxProgress = nbt.getInt("MaxProgress");
+        this.energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("Energy"));
+        this.progress = nbt.getInt("Progress", 0);
+        this.maxProgress = nbt.getInt("MaxProgress", 100);
     }
 
     @Nullable

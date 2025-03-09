@@ -8,14 +8,11 @@ public class ModNetworkStateManager {
 
     public static ModNetworkState getOrCreate(ServerWorld world) {
         PersistentStateManager manager = world.getPersistentStateManager();
-        ModNetworkState existing = manager.get(
-                ModNetworkState.MY_TYPE,
-                KEY
-        );
+        ModNetworkState existing = manager.get(ModNetworkState.MY_TYPE);
 
         if (existing == null) {
             existing = new ModNetworkState();
-            manager.set(KEY, existing);
+            manager.set(ModNetworkState.MY_TYPE, existing);
         }
 
         return existing;

@@ -1,6 +1,5 @@
 package com.chesy.productiveslimes.block.entity;
 
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.MeltingRecipe;
 import com.chesy.productiveslimes.recipe.ModRecipes;
@@ -138,9 +137,9 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("EnergyInventory"));
+        energyHandler.setAmount(nbt.getInt("EnergyInventory", 0));
 
-        progress = nbt.getInt("melting_station.progress");
+        progress = nbt.getInt("melting_station.progress", 0);
     }
 
     @Override

@@ -66,12 +66,12 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof EnergyGeneratorBlockEntity energyGeneratorBlockEntity) {
             ContainerUtils.dropContents(world, pos, energyGeneratorBlockEntity);
         }
-        super.onStateReplaced(state, world, pos, newState, moved);
+        super.onStateReplaced(state, world, pos, moved);
     }
 
     @Override
@@ -149,18 +149,5 @@ public class EnergyGeneratorBlock extends Block implements BlockEntityProvider {
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        super.appendTooltip(stack, context, tooltip, options);
-
-        if (stack.getOrDefault(ModDataComponents.ENERGY, 0) != 0) {
-            int energy = stack.getOrDefault(ModDataComponents.ENERGY, 0);
-            tooltip.add(Text.translatable("tooltip.productiveslimes.energy_stored")
-                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00)))
-                    .append(Text.translatable("tooltip.productiveslimes.energy_amount", energy)
-                            .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFF)))));
-        }
     }
 }

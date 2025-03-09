@@ -47,7 +47,7 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
     }
 
     public static SlimeData fromTag(NbtCompound tag, RegistryWrapper.WrapperLookup provider) {
-        String slimeTagValue = tag.getString("slime");
+        String slimeTagValue = tag.getString("slime", "");
         if (slimeTagValue.startsWith("Optional[ResourceKey[")) {
             // Strip out the unwanted parts
             int startIndex = slimeTagValue.indexOf('/') + 1; // After '/'
@@ -65,11 +65,11 @@ public record SlimeData(int size, int color, int cooldown, ItemStack dropItem, I
             entityType = (EntityType<BaseSlime>) Registries.ENTITY_TYPE.getEntry(Identifier.of(slimeTagValue.trim())).get().value();
         }
         return new SlimeData(
-                tag.getInt("size"),
-                tag.getInt("color"),
-                tag.getInt("cooldown"),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("drop")),
-                ItemStack.fromNbtOrEmpty(provider, tag.getCompound("growth_item")),
+                tag.getInt("size", 1),
+                tag.getInt("color", -1),
+                tag.getInt("cooldown", 0),
+                ItemStack.fromNbt(provider, tag.getCompoundOrEmpty("drop")).orElse(ItemStack.EMPTY),
+                ItemStack.fromNbt(provider, tag.getCompoundOrEmpty("growth_item")).orElse(ItemStack.EMPTY),
                 entityType
         );
     }

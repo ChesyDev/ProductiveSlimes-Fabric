@@ -133,12 +133,12 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        counter = nbt.getInt("counter");
-        cooldown = nbt.getInt("cooldown");
-        dropItem = ItemStack.fromNbtOrEmpty(registries, nbt.getCompound("dropItem"));
-        slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"), registries);
-        tick = nbt.getInt("tick");
-        multiplier = nbt.getFloat("multiplier");
+        counter = nbt.getInt("counter", 0);
+        cooldown = nbt.getInt("cooldown", 0);
+        dropItem = ItemStack.fromNbt(registries, nbt.getCompoundOrEmpty("dropItem")).orElse(ItemStack.EMPTY);
+        slimeData = SlimeData.fromTag(nbt.getCompoundOrEmpty("slimeData"), registries);
+        tick = nbt.getInt("tick", 0);
+        multiplier = nbt.getFloat("multiplier", 1);
     }
 
     public void tick(World level, BlockPos pos, BlockState state) {

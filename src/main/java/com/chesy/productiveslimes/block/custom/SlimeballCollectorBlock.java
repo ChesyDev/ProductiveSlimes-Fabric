@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.SlimeballCollectorBlockEntity;
-import com.chesy.productiveslimes.block.entity.SolidingStationBlockEntity;
 import com.chesy.productiveslimes.util.ContainerUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -11,6 +10,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -313,12 +313,12 @@ public class SlimeballCollectorBlock extends Block implements BlockEntityProvide
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SlimeballCollectorBlockEntity slimeballCollectorBlockEntity) {
             ContainerUtils.dropContents(world, pos, slimeballCollectorBlockEntity);
         }
-        super.onStateReplaced(state, world, pos, newState, moved);
+        super.onStateReplaced(state, world, pos, moved);
     }
 
     @Override

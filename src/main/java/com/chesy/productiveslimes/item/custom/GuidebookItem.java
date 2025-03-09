@@ -5,12 +5,10 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class GuidebookItem extends Item {
@@ -25,8 +23,7 @@ public class GuidebookItem extends Item {
 
                 @Override
                 public Object getScreenOpeningData(ServerPlayerEntity serverPlayerEntity) {
-                    BlockPos pos = serverPlayerEntity.getBlockPos(); // Example of getting player position
-                    return pos;
+                    return serverPlayerEntity.getBlockPos();
                 }
 
                 @Override
@@ -36,7 +33,7 @@ public class GuidebookItem extends Item {
 
                 @Override
                 public Text getDisplayName() {
-                    return Text.translatable("gui.productiveslimes.guidebook_menu");
+                    return Text.translatable("");
                 }
             });
         }

@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.item.custom.BucketItem;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.SolidingRecipe;
@@ -131,9 +130,9 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("EnergyInventory"));
+        energyHandler.setAmount(nbt.getInt("EnergyInventory", 0));
 
-        progress = nbt.getInt("soliding_station.progress");
+        progress = nbt.getInt("soliding_station.progress", 0);
     }
 
     @Override

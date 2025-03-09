@@ -11,21 +11,22 @@ import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import com.chesy.productiveslimes.util.FluidTankTint;
+import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
 import com.chesy.productiveslimes.util.SlimeItemTint;
-import com.chesy.productiveslimes.util.property.*;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.BasicItemModel;
-import net.minecraft.client.render.item.model.SpecialItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
-import net.minecraft.client.render.item.tint.TintSource;
+import net.minecraft.client.render.model.json.ModelVariant;
+import net.minecraft.client.render.model.json.ModelVariantOperator;
+import net.minecraft.client.render.model.json.WeightedUnbakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
@@ -103,7 +104,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         slimeballItem(itemModelGenerator, ProductiveSlimes.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
-        itemModelGenerator.registerSpawnEgg(ModItems.ENERGY_SLIME_SPAWN_EGG, ModItems.ENERGY_SLIME_SPAWN_EGG.getBg(), ModItems.ENERGY_SLIME_SPAWN_EGG.getFg());
+        registerSpawnEgg(itemModelGenerator, ModItems.ENERGY_SLIME_SPAWN_EGG);
 
         slimeItem(itemModelGenerator, ModItems.SLIME_ITEM);
 
@@ -114,12 +115,17 @@ public class ModModelProvider extends FabricModelProvider {
             bucketItem(itemModelGenerator, ModTiers.getBucketItemByName(tiers.name()));
             dnaItem(itemModelGenerator, ModTiers.getDnaItemByName(tiers.name()));
             SpawnEggItem spawnEggItem = ModTiers.getSpawnEggItemByName(tiers.name());
-            itemModelGenerator.registerSpawnEgg(spawnEggItem, spawnEggItem.getBg(), spawnEggItem.getFg());
+            registerSpawnEgg(itemModelGenerator, spawnEggItem);
         }
     }
 
+    private void registerSpawnEgg(ItemModelGenerator itemModelGenerator, SpawnEggItem item){
+        Identifier model = itemLocation("template_slime_spawn_egg");
+        itemModelGenerator.output.accept(item, ItemModels.tinted(model, ItemModels.constantTintSource(item.getColor())));
+    }
+
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation(getBlockName(block)))));
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(blockLocation(getBlockName(block)))))));
     }
 
     private void blockWithSlab(BlockStateModelGenerator blockModels, Block block, Block slab){
@@ -132,7 +138,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void logBlock(BlockStateModelGenerator blockModels, Block block, Block wood){
-        blockModels.registerLog(block).log(block).wood(wood);
+        blockModels.createLogTexturePool(block).log(block).wood(wood);
     }
 
     private void leavesBlock(BlockStateModelGenerator blockModels, Block block){
@@ -198,100 +204,20 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void fluidTank(BlockStateModelGenerator blockModels, Block block){
         registerNorthDefaultHorizontalRotationInverted(blockModels, block);
-
-        Identifier fluidTankEmpty = itemLocation("fluid_tank/fluid_tank_empty");
-        Identifier fluidTank3k = itemLocation("fluid_tank/fluid_tank_1");
-        Identifier fluidTank6k = itemLocation("fluid_tank/fluid_tank_2");
-        Identifier fluidTank9k = itemLocation("fluid_tank/fluid_tank_3");
-        Identifier fluidTank12k = itemLocation("fluid_tank/fluid_tank_4");
-        Identifier fluidTank15k = itemLocation("fluid_tank/fluid_tank_5");
-        Identifier fluidTank18k = itemLocation("fluid_tank/fluid_tank_6");
-        Identifier fluidTank21k = itemLocation("fluid_tank/fluid_tank_7");
-        Identifier fluidTank24k = itemLocation("fluid_tank/fluid_tank_8");
-        Identifier fluidTank27k = itemLocation("fluid_tank/fluid_tank_9");
-        Identifier fluidTank30k = itemLocation("fluid_tank/fluid_tank_10");
-        Identifier fluidTank33k = itemLocation("fluid_tank/fluid_tank_11");
-        Identifier fluidTank36k = itemLocation("fluid_tank/fluid_tank_12");
-        Identifier fluidTank40k = itemLocation("fluid_tank/fluid_tank_13");
-        Identifier fluidTank45k = itemLocation("fluid_tank/fluid_tank_14");
-        Identifier fluidTankFull = itemLocation("fluid_tank/fluid_tank_full");
-
-        List<TintSource> tintSources = List.of(ItemModels.constantTintSource(-1), new FluidTankTint(16777215));
-
-        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.condition(
-                new FluidTankProperty(),
-                new BasicItemModel.Unbaked(fluidTankEmpty, tintSources),
-                ItemModels.condition(
-                        new FluidTankProperty3k(),
-                        new BasicItemModel.Unbaked(fluidTank3k, tintSources),
-                        ItemModels.condition(
-                                new FluidTankProperty6k(),
-                                new BasicItemModel.Unbaked(fluidTank6k, tintSources),
-                                ItemModels.condition(
-                                        new FluidTankProperty9k(),
-                                        new BasicItemModel.Unbaked(fluidTank9k, tintSources),
-                                        ItemModels.condition(
-                                                new FluidTankProperty12k(),
-                                                new BasicItemModel.Unbaked(fluidTank12k, tintSources),
-                                                ItemModels.condition(
-                                                        new FluidTankProperty15k(),
-                                                        new BasicItemModel.Unbaked(fluidTank15k, tintSources),
-                                                        ItemModels.condition(
-                                                                new FluidTankProperty18k(),
-                                                                new BasicItemModel.Unbaked(fluidTank18k, tintSources),
-                                                                ItemModels.condition(
-                                                                        new FluidTankProperty21k(),
-                                                                        new BasicItemModel.Unbaked(fluidTank21k, tintSources),
-                                                                        ItemModels.condition(
-                                                                                new FluidTankProperty24k(),
-                                                                                new BasicItemModel.Unbaked(fluidTank24k, tintSources),
-                                                                                ItemModels.condition(
-                                                                                        new FluidTankProperty27k(),
-                                                                                        new BasicItemModel.Unbaked(fluidTank27k, tintSources),
-                                                                                        ItemModels.condition(
-                                                                                                new FluidTankProperty30k(),
-                                                                                                new BasicItemModel.Unbaked(fluidTank30k, tintSources),
-                                                                                                ItemModels.condition(
-                                                                                                        new FluidTankProperty33k(),
-                                                                                                        new BasicItemModel.Unbaked(fluidTank33k, tintSources),
-                                                                                                        ItemModels.condition(
-                                                                                                                new FluidTankProperty36k(),
-                                                                                                                new BasicItemModel.Unbaked(fluidTank36k, tintSources),
-                                                                                                                ItemModels.condition(
-                                                                                                                        new FluidTankProperty40k(),
-                                                                                                                        new BasicItemModel.Unbaked(fluidTank40k, tintSources),
-                                                                                                                        ItemModels.condition(
-                                                                                                                                new FluidTankProperty45k(),
-                                                                                                                                new BasicItemModel.Unbaked(fluidTank45k, tintSources),
-                                                                                                                                new BasicItemModel.Unbaked(fluidTankFull, tintSources)
-                                                                                                                        )
-                                                                                                                )
-                                                                                                        )
-                                                                                                )
-                                                                                        )
-                                                                                )
-                                                                        )
-                                                                )
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                )
-        ));
+        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.special(blockLocation("fluid_tank"), new FluidTankSpecialRenderer.Unbaked(blockLocation("fluid_tank"))));
     }
 
-    public BlockStateVariantMap createNorthDefaultHorizontalRotationStatesInverted() {
-        return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
-                .register(Direction.EAST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                .register(Direction.NORTH, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R180))
-                .register(Direction.WEST, BlockStateVariant.create().put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                .register(Direction.SOUTH, BlockStateVariant.create());
+    public BlockStateVariantMap<ModelVariantOperator> createNorthDefaultHorizontalRotationStatesInverted() {
+        return BlockStateVariantMap.operations(Properties.HORIZONTAL_FACING)
+                .register(Direction.EAST, BlockStateModelGenerator.ROTATE_Y_270)
+                .register(Direction.NORTH, BlockStateModelGenerator.ROTATE_Y_180)
+                .register(Direction.WEST, BlockStateModelGenerator.ROTATE_Y_90)
+                .register(Direction.SOUTH, BlockStateModelGenerator.NO_OP);
     }
 
     private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
         blockStateModelGenerator.blockStateCollector
-                .accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, blockLocation("template_slime_block")))
+                .accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(blockLocation("template_slime_block")))))
                 );
         blockStateModelGenerator.registerTintedItemModel(block, blockLocation("template_slime_block"), ItemModels.constantTintSource(block.getColor()));
     }
@@ -299,7 +225,7 @@ public class ModModelProvider extends FabricModelProvider {
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         blockStateModelGenerator.blockStateCollector
                 .accept(
-                        VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(block)))
+                        VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
     }

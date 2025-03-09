@@ -34,11 +34,11 @@ public class ModBiomes {
     private static Biome slimeLand(Registerable<Biome> context){
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
 
-        spawnBuilder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SLIME, 10, 1, 1));
-        spawnBuilder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.BAT, 100, 1, 1));
-        spawnBuilder.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("dirt"), 100, 1, 1));
-        spawnBuilder.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("stone"), 65, 1, 1));
-        spawnBuilder.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("iron"), 10, 1, 1));
+        spawnBuilder.spawn(SpawnGroup.MONSTER, 10, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1));
+        spawnBuilder.spawn(SpawnGroup.MONSTER, 100, new SpawnSettings.SpawnEntry(EntityType.BAT, 1, 1));
+        spawnBuilder.spawn(SpawnGroup.CREATURE, 100, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("dirt"), 1, 1));
+        spawnBuilder.spawn(SpawnGroup.CREATURE, 65, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("stone"), 1, 1));
+        spawnBuilder.spawn(SpawnGroup.CREATURE, 10, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("iron"), 1, 1));
 
         RegistryEntryLookup<PlacedFeature> placedFeatureHolderGetter = context.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
 

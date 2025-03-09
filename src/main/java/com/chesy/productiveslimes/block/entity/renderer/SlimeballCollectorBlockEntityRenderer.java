@@ -7,6 +7,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -18,7 +19,7 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     @Override
-    public void render(SlimeballCollectorBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int light, int overlay) {
+    public void render(SlimeballCollectorBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int light, int overlay, Vec3d cameraPos) {
         if (blockEntity.getWorld() == null) return;
         if (blockEntity.getData().get(0) == 0) return;
         // Define the collection area AABB (match this with your logic).
@@ -38,21 +39,11 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
 
     private void renderOutline(MatrixStack poseStack, VertexConsumerProvider bufferSource, Box aabb) {
         // Buffer for lines.
-        var buffer = bufferSource.getBuffer(RenderLayer.of("glow_lines", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.LINES, 256,
-                RenderLayer.MultiPhaseParameters.builder()
-                        .program(RenderPhase.LINES_PROGRAM)
-                        .lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2.0))) // Line width
-                        .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
-                        .target(RenderPhase.ITEM_ENTITY_TARGET)
-                        .cull(RenderPhase.DISABLE_CULLING) // Disable culling
-                        .build(false)
-        ));
+        var buffer = bufferSource.getBuffer(RenderLayer.getLines());
         RenderSystem.lineWidth(2.0f);
-        RenderSystem.disableCull();
         // Render the outer box.
         drawBox(poseStack, buffer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
         RenderSystem.lineWidth(1.0f);
-        RenderSystem.enableCull();
     }
 
     private void renderGrid(MatrixStack poseStack, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {

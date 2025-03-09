@@ -284,7 +284,7 @@ public class CustomVariantRegistry {
     private static void registerSpawnEggItem(CustomVariant variant){
         String itemName = variant.name() + "_slime_spawn_egg";
         Identifier itemId = Identifier.of(ProductiveSlimes.MODID, itemName);
-        Item item = Registry.register(Registries.ITEM, itemId, new SpawnEggItem(getSlimeForVariant(variant.name()), variant.getColor(), variant.getColor(), new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, itemId))));
+        Item item = Registry.register(Registries.ITEM, itemId, new SpawnEggItem(getSlimeForVariant(variant.name()), variant.getColor(), new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, itemId))));
 
         registeredSpawnEggItems.put(itemId, item);
     }
@@ -330,7 +330,6 @@ public class CustomVariantRegistry {
             String bucketModelPath = "assets/productiveslimes/models/item/molten_" + variants.name() + "_bucket.json";
             String slimeBlockModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slime_block.json";
             String dnaModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slime_dna.json";
-            String spawnEggModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slime_spawn_egg.json";
             String slimeballModelPath = "assets/productiveslimes/models/item/" + variants.name() + "_slimeball.json";
 
             String itemsBucketPath = "assets/productiveslimes/items/molten_" + variants.name() + "_bucket.json";
@@ -428,7 +427,7 @@ public class CustomVariantRegistry {
             String itemsSpawnEggContent = "{\n" +
                     "  \"model\": {\n" +
                     "    \"type\": \"minecraft:model\",\n" +
-                    "    \"model\": \"productiveslimes:item/" + variants.name() + "_slime_spawn_egg\",\n" +
+                    "    \"model\": \"productiveslimes:item/template_slime_spawn_egg\",\n" +
                     "    \"tints\": [\n" +
                     "      {\n" +
                     "        \"type\": \"minecraft:constant\",\n" +
@@ -463,16 +462,11 @@ public class CustomVariantRegistry {
                     "  \"parent\": \"productiveslimes:block/template_slime_block\"\n" +
                     "}";
 
-            String spawnEggModelContent = "{\n" +
-                    "  \"parent\": \"minecraft:item/template_spawn_egg\"\n" +
-                    "}";
-
             resourceData.put(blockstatePath, blockstateContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(modelPath, blockModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(bucketModelPath, bucketModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(slimeBlockModelPath, slimeBlockModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(dnaModelPath, dnaModelContent.getBytes(StandardCharsets.UTF_8));
-            resourceData.put(spawnEggModelPath, spawnEggModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(slimeballModelPath, slimeballModelContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(itemsBucketPath, itemsBucketContent.getBytes(StandardCharsets.UTF_8));
             resourceData.put(itemsSlimeBlockPath, itemsSlimeBlockContent.getBytes(StandardCharsets.UTF_8));

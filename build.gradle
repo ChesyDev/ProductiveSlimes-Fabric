@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.9-SNAPSHOT'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -42,10 +42,10 @@ dependencies {
 	include modApi("teamreborn:energy:${energy_api_version}")
 
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+//	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
-	modImplementation "curse.maven:jade-324717:${jade_version}"
-	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${project.terrablender_version}"
+	modCompileOnly "curse.maven:jade-324717:${jade_version}"
+	modCompileOnly "com.github.glitchfiend:TerraBlender-fabric:1.21.4-${project.terrablender_version}"
 }
 
 processResources {

@@ -1,14 +1,27 @@
 package com.chesy.productiveslimes.network;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CableNetwork {
+    public static final Codec<BlockPos> BLOCK_POS_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("x").forGetter(BlockPos::getX),
+            Codec.INT.fieldOf("y").forGetter(BlockPos::getY),
+            Codec.INT.fieldOf("z").forGetter(BlockPos::getZ)
+    ).apply(instance, BlockPos::new));
+
+    public static final Codec<CableNetwork> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.optionalFieldOf("NetworkId", -1).forGetter(net -> net.networkId),
+            Codec.LONG.fieldOf("TotalEnergy").forGetter(net -> net.totalEnergy),
+            Codec.LONG.fieldOf("TotalCapacity").forGetter(net -> net.totalCapacity),
+            BLOCK_POS_CODEC.listOf().fieldOf("Positions").forGetter(net -> net.cablePositions.stream().toList())
+    ).apply(instance, CableNetwork::new));
+
     private int networkId = -1;
     private long totalEnergy = 0;
     private long totalCapacity = 0;
@@ -16,6 +29,13 @@ public class CableNetwork {
     private final Set<BlockPos> cablePositions = new HashSet<>();
 
     public CableNetwork() {}
+
+    private CableNetwork(int networkId, long totalEnergy, long totalCapacity, List<BlockPos> cablePositions) {
+        this.networkId = networkId;
+        this.totalEnergy = totalEnergy;
+        this.totalCapacity = totalCapacity;
+        this.cablePositions.addAll(cablePositions);
+    }
 
     // NEW: Accessors for the network ID
     public int getNetworkId() {
@@ -70,47 +90,5 @@ public class CableNetwork {
         long extracted = Math.min(totalEnergy, amount);
         totalEnergy -= extracted;
         return extracted;
-    }
-
-    public static NbtCompound writeToNbt(CableNetwork net, NbtCompound nbt) {
-        nbt.putInt("NetworkId", net.networkId);
-
-        nbt.putLong("TotalEnergy", net.totalEnergy);
-        nbt.putLong("TotalCapacity", net.totalCapacity);
-
-        NbtList posList = new NbtList();
-        for (BlockPos pos : net.cablePositions) {
-            NbtCompound posTag = new NbtCompound();
-            posTag.putInt("x", pos.getX());
-            posTag.putInt("y", pos.getY());
-            posTag.putInt("z", pos.getZ());
-            posList.add(posTag);
-        }
-        nbt.put("Positions", posList);
-
-        return nbt;
-    }
-
-    public static CableNetwork readFromNbt(NbtCompound nbt) {
-        CableNetwork net = new CableNetwork();
-
-        if (nbt.contains("NetworkId")) {
-            net.networkId = nbt.getInt("NetworkId");
-        }
-
-        net.totalEnergy = nbt.getLong("TotalEnergy");
-        net.totalCapacity = nbt.getLong("TotalCapacity");
-
-        if (nbt.contains("Positions", NbtElement.LIST_TYPE)) {
-            NbtList list = nbt.getList("Positions", NbtElement.COMPOUND_TYPE);
-            for (int i = 0; i < list.size(); i++) {
-                NbtCompound posTag = list.getCompound(i);
-                int x = posTag.getInt("x");
-                int y = posTag.getInt("y");
-                int z = posTag.getInt("z");
-                net.cablePositions.add(new BlockPos(x, y, z));
-            }
-        }
-        return net;
     }
 }
