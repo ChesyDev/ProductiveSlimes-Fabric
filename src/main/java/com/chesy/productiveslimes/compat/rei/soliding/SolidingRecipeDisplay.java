@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -80,3 +81,4 @@ public class SolidingRecipeDisplay extends BasicDisplay {
         return SERIALIZER;
     }
 }
+*/

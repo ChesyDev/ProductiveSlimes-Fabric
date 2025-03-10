@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -72,4 +73,4 @@ public class SqueezingCategory implements DisplayCategory<SqueezingRecipeDisplay
     public int getDisplayHeight() {
         return 83;
     }
-}
+}*/
