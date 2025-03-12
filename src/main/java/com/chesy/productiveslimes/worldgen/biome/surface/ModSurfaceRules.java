@@ -33,17 +33,6 @@ public class ModSurfaceRules {
                                         SLIMY_DIRT
                                 )
                         )
-                ),
-                MaterialRules.condition(
-                        MaterialRules.aboveYWithStoneDepth(YOffset.fixed(0), 5),
-                        MaterialRules.condition(
-                                MaterialRules.stoneDepth(5, true, 80, VerticalSurfaceType.FLOOR),
-                                SLIMY_STONE
-                        )
-                ),
-                MaterialRules.condition(
-                        MaterialRules.stoneDepth(80, true, 256, VerticalSurfaceType.FLOOR),
-                        SLIMY_DEEPSLATE
                 )
         );
 

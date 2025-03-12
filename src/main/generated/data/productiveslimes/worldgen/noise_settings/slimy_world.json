@@ -481,49 +481,6 @@
                       }
                     ]
                   }
-                },
-                {
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:y_above",
-                    "add_stone_depth": true,
-                    "anchor": {
-                      "absolute": 0
-                    },
-                    "surface_depth_multiplier": 5
-                  },
-                  "then_run": {
-                    "type": "minecraft:condition",
-                    "if_true": {
-                      "type": "minecraft:stone_depth",
-                      "add_surface_depth": true,
-                      "offset": 5,
-                      "secondary_depth_range": 80,
-                      "surface_type": "floor"
-                    },
-                    "then_run": {
-                      "type": "minecraft:block",
-                      "result_state": {
-                        "Name": "productiveslimes:slimy_stone"
-                      }
-                    }
-                  }
-                },
-                {
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "add_surface_depth": true,
-                    "offset": 80,
-                    "secondary_depth_range": 256,
-                    "surface_type": "floor"
-                  },
-                  "then_run": {
-                    "type": "minecraft:block",
-                    "result_state": {
-                      "Name": "productiveslimes:slimy_deepslate"
-                    }
-                  }
                 }
               ]
             }
@@ -600,49 +557,6 @@
                         }
                       }
                     ]
-                  }
-                },
-                {
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:y_above",
-                    "add_stone_depth": true,
-                    "anchor": {
-                      "absolute": 0
-                    },
-                    "surface_depth_multiplier": 5
-                  },
-                  "then_run": {
-                    "type": "minecraft:condition",
-                    "if_true": {
-                      "type": "minecraft:stone_depth",
-                      "add_surface_depth": true,
-                      "offset": 5,
-                      "secondary_depth_range": 80,
-                      "surface_type": "floor"
-                    },
-                    "then_run": {
-                      "type": "minecraft:block",
-                      "result_state": {
-                        "Name": "productiveslimes:slimy_stone"
-                      }
-                    }
-                  }
-                },
-                {
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "add_surface_depth": true,
-                    "offset": 80,
-                    "secondary_depth_range": 256,
-                    "surface_type": "floor"
-                  },
-                  "then_run": {
-                    "type": "minecraft:block",
-                    "result_state": {
-                      "Name": "productiveslimes:slimy_deepslate"
-                    }
                   }
                 }
               ]
