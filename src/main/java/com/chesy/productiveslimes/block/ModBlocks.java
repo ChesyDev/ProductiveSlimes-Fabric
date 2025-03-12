@@ -62,6 +62,11 @@ public class ModBlocks {
     public static final Block SLIMY_COBBLED_DEEPSLATE = registerBlock("slimy_cobbled_deepslate", new SlimyBlock(AbstractBlock.Settings.copy(Blocks.COBBLED_DEEPSLATE)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_cobbled_deepslate")))));
 
+    public static final Block SLIMY_PORTAL_FRAME = registerBlock("slimy_portal_frame", new SlimyPortalFrameBlock(AbstractBlock.Settings.copy(Blocks.GLASS).nonOpaque()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_portal_frame")))));
+    public static final Block SLIMY_PORTAL = registerBlock("slimy_portal", new SlimyPortalBlock(AbstractBlock.Settings.copy(Blocks.NETHER_PORTAL).nonOpaque().dropsNothing()
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_portal")))));
+
     // Slimy Wood Set
     public static final PillarBlock SLIMY_LOG = registerBlock("slimy_log", new ModPillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)
             .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(ProductiveSlimes.MODID, "slimy_log")))));

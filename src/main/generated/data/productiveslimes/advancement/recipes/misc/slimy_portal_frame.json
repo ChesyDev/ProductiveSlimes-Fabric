@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_Slime Block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:slime_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "productiveslimes:slimy_portal_frame"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_Slime Block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "productiveslimes:slimy_portal_frame"
+    ]
+  }
+}

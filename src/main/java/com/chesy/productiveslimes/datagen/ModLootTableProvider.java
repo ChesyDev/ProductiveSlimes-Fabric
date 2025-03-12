@@ -28,6 +28,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.SLIME_SQUEEZER);
         addDrop(ModBlocks.SLIME_NEST);
         addDrop(ModBlocks.SLIMEBALL_COLLECTOR);
+        addDrop(ModBlocks.SLIMY_PORTAL_FRAME);
 
         addDrop(ModBlocks.SLIMY_GRASS_BLOCK, block -> drops(block, ModBlocks.SLIMY_DIRT));
         addDrop(ModBlocks.SLIMY_DIRT);

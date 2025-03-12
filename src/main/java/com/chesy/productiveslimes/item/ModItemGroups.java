@@ -42,6 +42,7 @@ public class ModItemGroups {
                                 // Ensure the field is a Supplier of Block (for blocks)
                                 if (Block.class.isAssignableFrom(field.getType())) {
                                     Block block = (Block) field.get(null);
+                                    if (block == ModBlocks.SLIMY_PORTAL) continue;
                                     if (block != null) entries.add(block);
                                 }
                             } catch (IllegalAccessException e) {

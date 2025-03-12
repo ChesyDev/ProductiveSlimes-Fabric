@@ -94,6 +94,9 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         // Register the special model type
         SpecialModelTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank"), FluidTankSpecialRenderer.Unbaked.MAP_CODEC);
 
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_PORTAL_FRAME, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_PORTAL, RenderLayer.getTranslucent());
+
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
             String name = tiers.name();

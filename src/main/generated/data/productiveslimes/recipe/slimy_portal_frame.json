@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:glass",
+    "minecraft:slime_block"
+  ],
+  "result": {
+    "count": 1,
+    "id": "productiveslimes:slimy_portal_frame"
+  }
+}

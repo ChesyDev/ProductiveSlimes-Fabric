@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "productiveslimes:block/slimy_portal_ns"
+    },
+    "axis=z": {
+      "model": "productiveslimes:block/slimy_portal_ew"
+    }
+  }
+}

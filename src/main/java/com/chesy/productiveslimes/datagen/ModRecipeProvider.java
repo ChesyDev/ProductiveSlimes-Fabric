@@ -173,6 +173,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(getHasName(Items.BOOK), has(Items.SLIME_BALL))
                         .offerTo(exporter);
 
+                ShapelessRecipeJsonBuilder.create(items, RecipeCategory.MISC, ModBlocks.SLIMY_PORTAL_FRAME, 1)
+                        .input(Items.GLASS)
+                        .input(Items.SLIME_BLOCK)
+                        .criterion(getHasName(Items.SLIME_BLOCK), has(Items.SLIME_BLOCK))
+                        .offerTo(exporter);
+
                 ShapelessRecipeJsonBuilder.create(items, RecipeCategory.MISC, ModItems.SLIMEBALL_FRAGMENT, 4)
                         .input(Items.SLIME_BALL)
                         .criterion(getHasName(Items.SLIME_BALL), has(Items.SLIME_BALL))

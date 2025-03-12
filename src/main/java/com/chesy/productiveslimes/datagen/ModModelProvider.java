@@ -90,6 +90,9 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerTrapdoor(ModBlocks.SLIMY_TRAPDOOR);
         blockStateModelGenerator.registerDoor(ModBlocks.SLIMY_DOOR);
 
+        portalBlock(blockStateModelGenerator, ModBlocks.SLIMY_PORTAL);
+        portalFrame(blockStateModelGenerator, ModBlocks.SLIMY_PORTAL_FRAME);
+
         //Slime Blocks
         slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
 
@@ -122,6 +125,19 @@ public class ModModelProvider extends FabricModelProvider {
             SpawnEggItem spawnEggItem = ModTiers.getSpawnEggItemByName(tiers.name());
             registerSpawnEgg(itemModelGenerator, spawnEggItem);
         }
+    }
+
+    private void portalFrame(BlockStateModelGenerator blockModels, Block block){
+        Identifier resourceLocation = Models.CUBE_ALL.upload(block, TextureMap.all(blockLocation(getBlockName(block))), blockModels.modelCollector);
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(resourceLocation)))));
+    }
+
+    private void portalBlock(BlockStateModelGenerator blockModels, Block block){
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block).with(BlockStateVariantMap.models(Properties.HORIZONTAL_AXIS)
+                .register(Direction.Axis.X, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockSubModelId(block, "_ns")))))
+                .register(Direction.Axis.Z, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockSubModelId(block, "_ew")))))
+        ));
+        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.basic(ModelIds.getBlockSubModelId(block, "_ns")));
     }
 
     private void registerSpawnEgg(ItemModelGenerator itemModelGenerator, SpawnEggItem item){
