@@ -28,11 +28,6 @@ public class ModBiomes {
         context.register(SLIMY_OCEAN, slimyOcean(context));
     }
 
-    public static void globalOverworldGeneration(GenerationSettings.LookupBackedBuilder builder) {
-        DefaultBiomeFeatures.addFrozenTopLayer(builder);
-        DefaultBiomeFeatures.addDefaultOres(builder);
-    }
-
     private static Biome slimyLand(Registerable<Biome> context){
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
 
@@ -51,8 +46,6 @@ public class ModBiomes {
         biomeBuilder.feature(GenerationStep.Feature.LAKES, placedFeatureHolderGetter.getOrThrow(ModPlacedFeatures.LAKE_MOLTEN_DIRT));
         biomeBuilder.feature(GenerationStep.Feature.LAKES, placedFeatureHolderGetter.getOrThrow(ModPlacedFeatures.LAKE_MOLTEN_STONE));
 
-        globalOverworldGeneration(biomeBuilder);
-
         return new Biome.Builder()
                 .precipitation(true)
                 .downfall(0.4f)
@@ -69,8 +62,6 @@ public class ModBiomes {
     }
 
     private static Biome slimyOcean(Registerable<Biome> context){
-        RegistryEntryLookup<PlacedFeature> placedFeatureHolderGetter = context.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
-
         GenerationSettings.Builder biomeBuilder = new GenerationSettings.LookupBackedBuilder(
                 context.getRegistryLookup(RegistryKeys.PLACED_FEATURE),
                 context.getRegistryLookup(RegistryKeys.CONFIGURED_CARVER)
