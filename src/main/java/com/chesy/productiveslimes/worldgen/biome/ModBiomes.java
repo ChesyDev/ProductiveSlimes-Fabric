@@ -21,9 +21,11 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 
 public class ModBiomes {
     public static final RegistryKey<Biome> SLIMY_LAND = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(ProductiveSlimes.MODID, "slimy_land"));
+    public static final RegistryKey<Biome> SLIMY_OCEAN  = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(ProductiveSlimes.MODID, "slimy_ocean"));
 
     public static void bootstrap(Registerable<Biome> context){
-        context.register(SLIMY_LAND, slimeLand(context));
+        context.register(SLIMY_LAND, slimyLand(context));
+        context.register(SLIMY_OCEAN, slimyOcean(context));
     }
 
     public static void globalOverworldGeneration(GenerationSettings.LookupBackedBuilder builder) {
@@ -31,7 +33,7 @@ public class ModBiomes {
         DefaultBiomeFeatures.addDefaultOres(builder);
     }
 
-    private static Biome slimeLand(Registerable<Biome> context){
+    private static Biome slimyLand(Registerable<Biome> context){
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
 
         spawnBuilder.spawn(SpawnGroup.MONSTER, 10, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1));
@@ -63,6 +65,30 @@ public class ModBiomes {
                         .waterFogColor(0x2b1b05)
                         .skyColor(0x6EB1FF)
                         .moodSound(BiomeMoodSound.CAVE).build())
+                .build();
+    }
+
+    private static Biome slimyOcean(Registerable<Biome> context){
+        RegistryEntryLookup<PlacedFeature> placedFeatureHolderGetter = context.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
+
+        GenerationSettings.Builder biomeBuilder = new GenerationSettings.LookupBackedBuilder(
+                context.getRegistryLookup(RegistryKeys.PLACED_FEATURE),
+                context.getRegistryLookup(RegistryKeys.CONFIGURED_CARVER)
+        );
+
+        return new Biome.Builder()
+                .temperature(0.5f)
+                .downfall(0.5f)
+                .precipitation(true)
+                .temperature(0.8f)
+                .effects(new BiomeEffects.Builder()
+                        .fogColor(0xFFFFFF)
+                        .waterColor(4159204)
+                        .waterFogColor(329011)
+                        .skyColor(8103167)
+                        .build())
+                .spawnSettings(new SpawnSettings.Builder().build())
+                .generationSettings(biomeBuilder.build())
                 .build();
     }
 }

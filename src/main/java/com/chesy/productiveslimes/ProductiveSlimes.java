@@ -19,6 +19,7 @@ import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.villager.ModVillagers;
+import com.chesy.productiveslimes.worldgen.noise.ModNoiseSettings;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import net.fabricmc.api.ModInitializer;
 
@@ -69,14 +70,14 @@ public class ProductiveSlimes implements ModInitializer {
 
         ModVillagers.init();
 
+        Registry.register(Registries.DENSITY_FUNCTION_TYPE, "clamp_clone", ModNoiseSettings.Clamp.CODEC_HOLDER.codec());
+
         if (!Boolean.getBoolean("fabric.datagen")) {
             CustomVariantRegistry.initialize();
             ModConfig.config();
         }
 
         FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
-
-//		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
 
         // Register the event
         ModServerLifecycleEvent.init();
