@@ -4,7 +4,7 @@ accessible field net/minecraft/item/BucketItem fluid Lnet/minecraft/fluid/Fluid;
 accessible field net/minecraft/resource/ResourcePackManager providers Ljava/util/Set;
 accessible field net/minecraft/world/gen/densityfunction/DensityFunctions SHIFT_X Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/world/gen/densityfunction/DensityFunctions SHIFT_Z Lnet/minecraft/registry/RegistryKey;
-accessible field net/minecraft/world/gen/densityfunction/DensityFunctions SLOPED_CHEESE_OVERWORLD_AMPLIFIED Lnet/minecraft/registry/RegistryKey;
+accessible field net/minecraft/world/gen/densityfunction/DensityFunctions SLOPED_CHEESE_OVERWORLD Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/world/gen/densityfunction/DensityFunctions CAVES_ENTRANCES_OVERWORLD Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/world/gen/densityfunction/DensityFunctions CAVES_SPAGHETTI_2D_OVERWORLD Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/world/gen/densityfunction/DensityFunctions CAVES_SPAGHETTI_ROUGHNESS_FUNCTION_OVERWORLD Lnet/minecraft/registry/RegistryKey;

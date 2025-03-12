@@ -54,6 +54,7 @@ public class SlimyPortalFrameBlock extends Block {
                         1.0F,
                         world.getRandom().nextFloat() * 0.4F + 0.8F
                 );
+                stack.decrement(1);
                 return ActionResult.SUCCESS;
             }
             return ActionResult.PASS;

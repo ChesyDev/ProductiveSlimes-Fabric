@@ -42,7 +42,7 @@ public class ModNoiseSettings {
         DensityFunction depth = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.DEPTH_OVERWORLD));
         DensityFunction ridges = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.RIDGES_OVERWORLD));
         DensityFunction factor = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.FACTOR_OVERWORLD));
-        DensityFunction slopeCheese = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.SLOPED_CHEESE_OVERWORLD_AMPLIFIED));
+        DensityFunction slopeCheese = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.SLOPED_CHEESE_OVERWORLD));
         DensityFunction entrances = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.CAVES_ENTRANCES_OVERWORLD));
         DensityFunction spaghetti2d = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.CAVES_SPAGHETTI_2D_OVERWORLD));
         DensityFunction spaghettiRoughness = new DensityFunctionTypes.RegistryEntryHolder(densityFunctionSettings.getOrThrow(DensityFunctions.CAVES_SPAGHETTI_ROUGHNESS_FUNCTION_OVERWORLD));

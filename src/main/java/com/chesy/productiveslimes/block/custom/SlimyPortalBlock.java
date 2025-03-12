@@ -2,10 +2,7 @@ package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.worldgen.dimension.ModDimensions;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Portal;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.EntityDimensions;
@@ -25,6 +22,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.*;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.dimension.DimensionType;
@@ -36,11 +34,23 @@ import java.util.*;
 
 public class SlimyPortalBlock extends Block implements Portal {
     public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
-    public static final int TELEPORT_DELAY = 80;
+    protected static final VoxelShape X_AXIS_AABB = Block.createCuboidShape(0.0, 0.0, 6.0, 16.0, 16.0, 10.0);
+    protected static final VoxelShape Z_AXIS_AABB = Block.createCuboidShape(6.0, 0.0, 0.0, 10.0, 16.0, 16.0);
 
     public SlimyPortalBlock(Settings properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState().with(AXIS, Direction.Axis.X));
+    }
+
+    @Override
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        switch (state.get(AXIS)) {
+            case Z:
+                return Z_AXIS_AABB;
+            case X:
+            default:
+                return X_AXIS_AABB;
+        }
     }
 
     @Override
@@ -140,7 +150,7 @@ public class SlimyPortalBlock extends Block implements Portal {
         int cz = center.getZ();
         for (int x = cx - horizontalRadius; x <= cx + horizontalRadius; x++) {
             for (int z = cz - horizontalRadius; z <= cz + horizontalRadius; z++) {
-                for (int y = 63; y < level.getTopYInclusive(); y++) {
+                for (int y = level.getBottomY(); y < level.getTopYInclusive(); y++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     if (level.getBlockState(pos).getBlock() == ModBlocks.SLIMY_PORTAL) {
                         double distance = pos.getSquaredDistance(center);
