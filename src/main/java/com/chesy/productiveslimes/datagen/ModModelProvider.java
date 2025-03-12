@@ -21,7 +21,7 @@ import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.ModelVariantOperator;
-import net.minecraft.client.render.model.json.WeightedUnbakedModel;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
@@ -125,7 +125,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(blockLocation(getBlockName(block)))))));
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(blockLocation(getBlockName(block)))))));
     }
 
     private void blockWithSlab(BlockStateModelGenerator blockModels, Block block, Block slab){
@@ -217,7 +217,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
         blockStateModelGenerator.blockStateCollector
-                .accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(blockLocation("template_slime_block")))))
+                .accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(blockLocation("template_slime_block")))))
                 );
         blockStateModelGenerator.registerTintedItemModel(block, blockLocation("template_slime_block"), ItemModels.constantTintSource(block.getColor()));
     }
@@ -225,7 +225,7 @@ public class ModModelProvider extends FabricModelProvider {
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         blockStateModelGenerator.blockStateCollector
                 .accept(
-                        VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(Pool.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
+                        VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
     }
