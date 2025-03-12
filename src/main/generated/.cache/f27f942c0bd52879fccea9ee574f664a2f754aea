@@ -7,9 +7,9 @@ c3355c0f268b4aab130336c7232ffe92ecfb095f data/minecraft/tags/block/dirt.json
 7714699fa19d75c6fcf72328a2206421c806f245 data/minecraft/tags/block/logs.json
 7714699fa19d75c6fcf72328a2206421c806f245 data/minecraft/tags/block/logs_that_burn.json
 a2e2907f06e47147cb37d3d7f51432a452885618 data/minecraft/tags/block/mineable/axe.json
-c9e065855cfba3d379fd1ce861f4ed73ff5e3c37 data/minecraft/tags/block/mineable/pickaxe.json
+ba6c1053ac099c74e50fbdb5ec14593dbbefc0e0 data/minecraft/tags/block/mineable/pickaxe.json
 c3355c0f268b4aab130336c7232ffe92ecfb095f data/minecraft/tags/block/mineable/shovel.json
-2ff5d64e0949b6a434856e7f1542bcdc090ed72c data/minecraft/tags/block/needs_stone_tool.json
+46153997972d1d5245658b81e16d2f91e9abf469 data/minecraft/tags/block/needs_stone_tool.json
 32c236b5ef67be78fd8c72c6660d39c761939a58 data/minecraft/tags/block/planks.json
 9212e131be6142ef14d02662c8eea2508b15a871 data/minecraft/tags/block/saplings.json
 4f14ddc0c347cc8fdbdabdb10f95eb6878c9f60e data/minecraft/tags/block/stone_ore_replaceables.json

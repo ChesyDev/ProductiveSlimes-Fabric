@@ -78,6 +78,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.FLUID_TANK)
                 .add(ModBlocks.SLIME_SQUEEZER)
                 .add(ModBlocks.CABLE)
+                .add(ModBlocks.PIPE)
                 .add(ModBlocks.SLIME_NEST)
                 .add(ModBlocks.SLIMEBALL_COLLECTOR)
                 .add(ModBlocks.SLIMY_STONE)
@@ -123,6 +124,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.FLUID_TANK)
                 .add(ModBlocks.SLIME_SQUEEZER)
                 .add(ModBlocks.CABLE)
+                .add(ModBlocks.PIPE)
                 .add(ModBlocks.SLIME_NEST)
                 .add(ModBlocks.SLIMEBALL_COLLECTOR);
     }

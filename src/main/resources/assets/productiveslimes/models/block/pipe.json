@@ -1,0 +1,7 @@
+{
+  "parent": "productiveslimes:block/pipe_core_part",
+  "textures": {
+    "0": "productiveslimes:block/pipe",
+    "particle": "productiveslimes:block/pipe"
+  }
+}

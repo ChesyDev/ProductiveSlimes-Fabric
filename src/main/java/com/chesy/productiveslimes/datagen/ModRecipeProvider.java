@@ -117,6 +117,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(getHasName(Items.COPPER_INGOT), has(Items.REDSTONE))
                         .offerTo(exporter);
 
+                ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.PIPE,8)
+                        .pattern(" A ")
+                        .pattern("ABA")
+                        .pattern(" A ")
+                        .input('A', Items.COPPER_INGOT)
+                        .input('B', Items.BUCKET)
+                        .criterion(getHasName(Items.COPPER_INGOT), has(Items.COPPER_INGOT))
+                        .offerTo(exporter);
+
+
                 ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.DNA_EXTRACTOR,1)
                         .pattern("AAA")
                         .pattern("ACA")
