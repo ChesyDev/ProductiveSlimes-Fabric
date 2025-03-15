@@ -7,6 +7,9 @@ import com.chesy.productiveslimes.worldgen.biome.ModBiomes;
 import com.chesy.productiveslimes.worldgen.dimension.ModDimensionTypes;
 import com.chesy.productiveslimes.worldgen.dimension.ModDimensions;
 import com.chesy.productiveslimes.worldgen.noise.ModNoiseSettings;
+import com.chesy.productiveslimes.worldgen.structure.ModStructureSets;
+import com.chesy.productiveslimes.worldgen.structure.ModStructureTemplatePools;
+import com.chesy.productiveslimes.worldgen.structure.ModStructures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.registry.RegistryBuilder;
@@ -34,5 +37,8 @@ public class ProductiveSlimesDataGenerator implements DataGeneratorEntrypoint {
 		registryBuilder.addRegistry(RegistryKeys.CHUNK_GENERATOR_SETTINGS, ModNoiseSettings::boostrap);
 		registryBuilder.addRegistry(RegistryKeys.DIMENSION_TYPE, ModDimensionTypes::boostrap);
 		registryBuilder.addRegistry(RegistryKeys.DIMENSION, ModDimensions::boostrap);
+		registryBuilder.addRegistry(RegistryKeys.STRUCTURE, ModStructures::bootstrap);
+		registryBuilder.addRegistry(RegistryKeys.STRUCTURE_SET, ModStructureSets::bootstrap);
+		registryBuilder.addRegistry(RegistryKeys.TEMPLATE_POOL, ModStructureTemplatePools::bootstrap);
 	}
 }
