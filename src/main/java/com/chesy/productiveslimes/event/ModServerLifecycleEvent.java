@@ -2,6 +2,8 @@ package com.chesy.productiveslimes.event;
 
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.config.asset.CustomVariantDataPack;
+import com.chesy.productiveslimes.dataattachment.ModDataAttachments;
+import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.network.cable.ModCableNetworkManager;
 import com.chesy.productiveslimes.network.cable.ModCableNetworkStateManager;
 import com.chesy.productiveslimes.network.pipe.ModPipeNetworkManager;
@@ -14,6 +16,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.resource.*;
 import net.minecraft.server.world.ServerWorld;
@@ -59,9 +63,17 @@ public class ModServerLifecycleEvent {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerRecipeManager recipeManager = server.getRecipeManager();
             ServerPlayNetworking.send(handler.player, new RecipeSyncPayload(recipeManager.values().stream().toList()));
+
+            PlayerEntity player = handler.player;
+            Boolean isFirstTimeLogin = player.getAttachedOrSet(ModDataAttachments.IS_FIRST_TIME_LOGIN, true);
+
+            if (isFirstTimeLogin) {
+                player.giveItemStack(new ItemStack(ModItems.GUIDEBOOK));
+                player.setAttached(ModDataAttachments.IS_FIRST_TIME_LOGIN, false);
+            }
         });
 
-        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
+        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
             CustomVariantDataPack dataPack = new CustomVariantDataPack(CustomVariantRegistry.dataPackResources);
             ResourcePackProfile pack = ResourcePackProfile.create(
                     new ResourcePackInfo(

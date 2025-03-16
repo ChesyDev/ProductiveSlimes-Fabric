@@ -2,7 +2,7 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": {
-    "amount": 250,
+    "amount": 20250,
     "id": "productiveslimes:still_magma"
   },
   "output": [

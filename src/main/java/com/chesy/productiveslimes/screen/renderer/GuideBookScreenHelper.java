@@ -52,7 +52,7 @@ public class GuideBookScreenHelper {
         if (mouseX >= x && mouseX < x + w && mouseY >= y && mouseY < y + h) {
             List<Text> fluidTankTooltip = new ArrayList<>();
             fluidTankTooltip.add(Text.translatable(fluidStack.getDescriptionId()));
-            fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount", fluidStack.getAmount() / FluidConstants.BUCKET));
+            fluidTankTooltip.add(Text.translatable("productiveslimes.tooltip.liquid.amount", fluidStack.getAmount()));
             guiGraphics.drawTooltip(font, fluidTankTooltip, mouseX, mouseY);
             guiGraphics.fill(RenderLayer.getGui(), x, y, x + w, y + h, 0x80FFFFFF);
         }

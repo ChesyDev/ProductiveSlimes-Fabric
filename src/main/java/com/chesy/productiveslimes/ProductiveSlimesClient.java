@@ -29,7 +29,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
@@ -40,7 +39,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.model.special.SpecialModelTypes;
 import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.resource.ResourcePackManager;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
@@ -122,11 +120,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             EntityRendererRegistry.register(CustomVariantRegistry.getSlimeForVariant(name), ctx -> new BaseSlimeRenderer(ctx, variant.getColor()));
         }
 
-        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.TYPE, (recipeSyncPayload, context) -> {
-            context.client().execute(() -> {
-                ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes());
-            });
-        });
+        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.TYPE, (recipeSyncPayload, context) -> context.client().execute(() -> ClientRecipeManager.updateRecipes(recipeSyncPayload.recipes())));
 
         ClientLifecycleEvents.CLIENT_STARTED.register(minecraftClient -> {
             ResourcePackManager dataPackRepository = minecraftClient.getResourcePackManager();

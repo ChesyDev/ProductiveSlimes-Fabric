@@ -289,7 +289,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     meltingRecipe(exporter, ModTiers.getBlockByName(tiers.name()).asItem(), ModTiers.getSourceByName(tiers.name()), 1, FluidConstants.BUCKET / 4 + FluidConstants.BUCKET * 2);
                     meltingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getSourceByName(tiers.name()), 1, FluidConstants.BUCKET / 4);
 
-                    solidingRecipe(exporter, new FluidStack(ModTiers.getSourceByName(tiers.name()), tiers.solidingInputAmount()), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1);
+                    solidingRecipe(exporter, new FluidStack(ModTiers.getSourceByName(tiers.name()), tiers.solidingInputAmount() * 81L), ModTiers.getItemByKey(tiers.solidingOutputKey()), 1);
 
                     dnaExtractingRecipe(exporter, ModTiers.getSlimeballItemByName(tiers.name()), ModTiers.getDnaItemByName(tiers.name()), 1, tiers.dnaOutputChance());
 

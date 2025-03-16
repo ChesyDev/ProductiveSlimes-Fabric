@@ -5,6 +5,7 @@ import com.chesy.productiveslimes.block.entity.ModBlockEntities;
 import com.chesy.productiveslimes.command.ModCommands;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.config.ModConfig;
+import com.chesy.productiveslimes.dataattachment.ModDataAttachments;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
@@ -69,6 +70,8 @@ public class ProductiveSlimes implements ModInitializer {
         ModRecipes.register();
 
         ModVillagers.init();
+
+        ModDataAttachments.register();
 
         Registry.register(Registries.DENSITY_FUNCTION_TYPE, "clamp_clone", ModNoiseSettings.Clamp.CODEC_HOLDER.codec());
 

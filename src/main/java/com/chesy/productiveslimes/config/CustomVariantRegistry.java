@@ -110,7 +110,7 @@ public class CustomVariantRegistry {
         File configFile = new File(CONFIG_PATH);
         if (!configFile.exists()) {
             List<CustomVariant> defaultTiers = List.of(
-                    new CustomVariant("birch", "#FFa69d6f", 5, 1500, "minecraft:birch_log", 250,"minecraft:birch_log", "productiveslimes:oak_slime_dna", "productiveslimes:oak_slime_dna", "minecraft:birch_log", 0.75)
+                    new CustomVariant("birch", "#FFa69d6f", 5, 1500, "minecraft:birch_log", 250 * 81,"minecraft:birch_log", "productiveslimes:oak_slime_dna", "productiveslimes:oak_slime_dna", "minecraft:birch_log", 0.75)
             );
 
             try {

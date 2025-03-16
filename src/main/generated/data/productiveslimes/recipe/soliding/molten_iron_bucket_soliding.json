@@ -2,7 +2,7 @@
   "type": "productiveslimes:soliding",
   "energy": 200,
   "ingredients": {
-    "amount": 400,
+    "amount": 32400,
     "id": "productiveslimes:still_iron"
   },
   "output": [
