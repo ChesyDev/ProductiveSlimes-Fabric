@@ -25,21 +25,16 @@ public class CustomVariantResourcePack implements ResourcePack {
 
     public CustomVariantResourcePack(Map<String, byte[]> resources) {
         this.resources = resources;
-        LOGGER.info("Registered resources in CustomVariantResourcePack:");
-        resources.keySet().forEach(path -> LOGGER.info("  - {}", path));
     }
 
     @Nullable
     @Override
     public InputSupplier<InputStream> openRoot(String... segments) {
         String path = String.join("/", segments);
-        LOGGER.info("Attempting to open root path: {}", path);
         byte[] data = resources.get(path);
-        LOGGER.info("Found root resource: {}", path);
         if (data != null) {
             return () -> new ByteArrayInputStream(data);
         }
-        LOGGER.info("Root resource not found: {}", path);
         return null;
     }
 
@@ -47,10 +42,8 @@ public class CustomVariantResourcePack implements ResourcePack {
     @Override
     public InputSupplier<InputStream> open(ResourceType type, Identifier id) {
         String path = String.format("%s/%s/%s", type.getDirectory(), id.getNamespace(), id.getPath());
-        LOGGER.info("Attempting to open resource: {}", path);
         byte[] data = resources.get(path);
         if (data != null) {
-            LOGGER.info("Found resource: {}", path);
             byte[] finalData = data;
             return () -> new ByteArrayInputStream(finalData);
         }
@@ -58,24 +51,20 @@ public class CustomVariantResourcePack implements ResourcePack {
         String alternatePath = type.getDirectory() + "/" + id.getNamespace() + "/" + id.getPath();
         data = resources.get(alternatePath);
         if (data != null) {
-            LOGGER.info("Found resource (alternate path): {}", alternatePath);
             byte[] finalData1 = data;
             return () -> new ByteArrayInputStream(finalData1);
         }
 
-        LOGGER.info("Resource not found: {} (or alternate: {})", path, alternatePath);
         return null;
     }
 
     @Override
     public void findResources(ResourceType type, String namespace, String path, ResultConsumer consumer) {
         String prefix = type.getDirectory() + "/" + namespace + "/" + path;
-        LOGGER.info("Finding resources for base path: {}", prefix);
         resources.forEach((key, data) -> {
             if (key.startsWith(prefix)) {
                 String resourcePath = key.substring((type.getDirectory() + "/" + namespace + "/").length());
                 Identifier location = Identifier.of(namespace, resourcePath);
-                LOGGER.info("Found matching resource: {} -> {}", path, location);
                 consumer.accept(location, () -> new ByteArrayInputStream(data));
             }
         });
@@ -90,7 +79,6 @@ public class CustomVariantResourcePack implements ResourcePack {
     @Override
     public <T> T parseMetadata(ResourceMetadataSerializer<T> metadataSerializer) throws IOException {
         if ("pack".equals(metadataSerializer.name())) { // Check the section name
-            LOGGER.info("Parsing metadata section: {}", metadataSerializer.name());
             InputSupplier<InputStream> supplier = openRoot("pack.mcmeta");
             if (supplier != null) {
                 try (InputStream stream = supplier.get()) {
