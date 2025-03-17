@@ -99,6 +99,7 @@ public class ModModelProvider extends FabricModelProvider {
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
             slimeBlock(blockStateModelGenerator, ModTiers.getBlockByName(tiers.name()));
+            fluidBlock(blockStateModelGenerator, ModTiers.getLiquidBlockByName(tiers.name()));
         }
     }
 
@@ -138,6 +139,10 @@ public class ModModelProvider extends FabricModelProvider {
                 .register(Direction.Axis.Z, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockSubModelId(block, "_ew")))))
         ));
         blockModels.itemModelOutput.accept(block.asItem(), ItemModels.basic(ModelIds.getBlockSubModelId(block, "_ns")));
+    }
+
+    private void fluidBlock(BlockStateModelGenerator blockModels, Block block){
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(Identifier.ofVanilla("block/water"))))));
     }
 
     private void registerSpawnEgg(ItemModelGenerator itemModelGenerator, SpawnEggItem item){
