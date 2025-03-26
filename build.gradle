@@ -11,6 +11,7 @@ base {
 }
 
 repositories {
+	mavenCentral()
 	maven {
 		url "https://cursemaven.com"
 	}
@@ -36,8 +37,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "com.electronwill.night-config:core:3.8.1"
-	modImplementation "com.electronwill.night-config:toml:3.8.1"
+	modImplementation include("com.electronwill.night-config:core:3.8.1")
+	modImplementation include("com.electronwill.night-config:toml:3.8.1")
 
 	include modApi("teamreborn:energy:${energy_api_version}")
 
