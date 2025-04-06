@@ -91,7 +91,7 @@ public class ProductiveSlimes implements ModInitializer {
         StrippableBlockRegistry.register(ModBlocks.SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_LOG);
         StrippableBlockRegistry.register(ModBlocks.SLIMY_WOOD, ModBlocks.STRIPPED_SLIMY_WOOD);
 
-        // Flammable property
+        // Flammable properties
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_LOG, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SLIMY_WOOD, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_SLIMY_LOG, 5, 5);
