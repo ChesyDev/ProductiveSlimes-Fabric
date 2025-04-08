@@ -27,6 +27,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Pool;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
@@ -142,7 +143,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void leavesBlock(BlockStateModelGenerator blockModels, Block block){
-        blockModels.registerTintedBlockAndItem(block, TexturedModel.LEAVES, -1);
+        blockModels.registerTintedBlockAndItem(block, TexturedModel.LEAVES, ColorHelper.fromAbgr(0xFFA6E395));
     }
 
     private void saplingBlock(BlockStateModelGenerator blockModels, Block block){

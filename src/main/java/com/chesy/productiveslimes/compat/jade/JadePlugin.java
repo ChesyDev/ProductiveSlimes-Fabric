@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.jade;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -22,7 +21,7 @@ public class JadePlugin implements IWailaPlugin {
         public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
             if (entityAccessor.getEntity() instanceof BaseSlime slime) {
                 int nextDrop = slime.getNextDropTime();
-                iTooltip.add(Text.translatable("tooltip.productiveslimes.next_drop" , (int) Math.ceil(nextDrop / 20) + "s"));
+                iTooltip.add(Text.translatable("tooltip.productiveslimes.next_drop" , (int) Math.ceil((double) nextDrop / 20) + "s"));
             }
         }
 
@@ -32,4 +31,3 @@ public class JadePlugin implements IWailaPlugin {
         }
     }
 }
-*/

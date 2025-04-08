@@ -23,6 +23,12 @@
 		],
 		"client": [
 			"com.chesy.productiveslimes.ProductiveSlimesClient"
+		],
+		"jade": [
+			"com.chesy.productiveslimes.compat.jade.JadePlugin"
+		],
+		"terrablender": [
+			"com.chesy.productiveslimes.worldgen.biome.ModTerraBlender"
 		]
 	},
 	"mixins": [
@@ -31,7 +37,7 @@
 	"depends": {
 		"fabric-transfer-api-v1": "*",
 		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.5",
+		"minecraft": "1.21.5",
 		"java": ">=21",
 		"fabric-api": "*"
 	},

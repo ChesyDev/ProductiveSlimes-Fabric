@@ -70,6 +70,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.SLIME_NEST, SlimeNestBlockEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFffff70, ModBlocks.ENERGY_SLIME_BLOCK);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> 0xFFA6E395, ModBlocks.SLIMY_LEAVES);
 
         // Register the tint source
         TintSourceTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "slime_item_tint"), SlimeItemTint.MAP_CODEC);
