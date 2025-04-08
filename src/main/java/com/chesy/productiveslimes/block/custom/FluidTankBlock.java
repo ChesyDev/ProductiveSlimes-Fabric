@@ -1,7 +1,6 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.entity.FluidTankBlockEntity;
-import com.chesy.productiveslimes.block.entity.MeltingStationBlockEntity;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
 import com.chesy.productiveslimes.datacomponent.custom.ImmutableFluidVariant;
 import com.mojang.serialization.MapCodec;
@@ -10,15 +9,10 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.state.StateManager;
@@ -191,19 +185,5 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
         }
 
         super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(world.isClient()) {
-            return null;
-        }
-
-        return ((world1, pos, state1, blockEntity) -> {
-            if(blockEntity instanceof FluidTankBlockEntity fluidTankBlockEntity) {
-                fluidTankBlockEntity.tick(world1, pos, state1);
-            }
-        });
     }
 }

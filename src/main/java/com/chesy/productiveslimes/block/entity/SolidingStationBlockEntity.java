@@ -165,9 +165,9 @@ public class SolidingStationBlockEntity extends BlockEntity implements ExtendedS
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("EnergyInventory"));
+        energyHandler.setAmount(nbt.getInt("EnergyInventory", 0));
         this.fluidTank.readNbt(nbt, registries);
-        progress = nbt.getInt("soliding_station.progress");
+        progress = nbt.getInt("soliding_station.progress", 0);
     }
 
     @Override

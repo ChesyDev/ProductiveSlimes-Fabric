@@ -44,6 +44,6 @@ public class CustomEnergyStorage extends SimpleEnergyStorage {
     }
 
     public void deserializeNBT(RegistryWrapper.WrapperLookup registryWrapper, NbtCompound nbt) {
-        setAmount(nbt.getInt("amount"));
+        setAmount(nbt.getInt("amount", 0));
     }
 }

@@ -41,11 +41,9 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
         // Buffer for lines.
         var buffer = bufferSource.getBuffer(RenderLayer.getLines());
         RenderSystem.lineWidth(2.0f);
-        RenderSystem.disableCull();
         // Render the outer box.
         drawBox(poseStack, buffer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
         RenderSystem.lineWidth(1.0f);
-        RenderSystem.enableCull();
     }
 
     private void renderGrid(MatrixStack poseStack, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {

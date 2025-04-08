@@ -3,7 +3,6 @@ package com.chesy.productiveslimes.block.entity;
 import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.recipe.SqueezingRecipe;
 import com.chesy.productiveslimes.screen.custom.SlimeSqueezerMenu;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
@@ -32,7 +31,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,8 +113,8 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompound("energy"));
-        progress = nbt.getInt("progress");
+        energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("energy"));
+        progress = nbt.getInt("progress", 0);
     }
 
     @Nullable
@@ -284,11 +282,5 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
 
     public ItemStack getOutputStack(int slot) {
         return inventory.get(outputSlots[slot]);
-    }
-
-    @Override
-    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
-        ContainerUtils.dropContents(world, pos, this);
-        super.onBlockReplaced(pos, oldState);
     }
 }

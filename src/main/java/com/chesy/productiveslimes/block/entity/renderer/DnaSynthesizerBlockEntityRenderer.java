@@ -2,22 +2,18 @@ package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.DnaSynthesizerBlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 
 public class DnaSynthesizerBlockEntityRenderer implements BlockEntityRenderer<DnaSynthesizerBlockEntity> {
     public DnaSynthesizerBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
@@ -25,12 +21,12 @@ public class DnaSynthesizerBlockEntityRenderer implements BlockEntityRenderer<Dn
     }
 
     @Override
-    public void render(DnaSynthesizerBlockEntity pBlockEntity, float tickDelta, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int light, int overlay, Vec3d vec3d) {
+    public void render(DnaSynthesizerBlockEntity pBlockEntity, float tickDelta, MatrixStack pPoseStack, VertexConsumerProvider pBufferSource, int light, int overlay, Vec3d cameraPos) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         pPoseStack.push();
 
         Direction facing = pBlockEntity.getCachedState().get(Properties.HORIZONTAL_FACING);
-        
+
         ItemStack input1 = pBlockEntity.getItems().get(0);
         ItemStack input2 = pBlockEntity.getItems().get(1);
         ItemStack input3 = pBlockEntity.getItems().get(2);
@@ -85,7 +81,7 @@ public class DnaSynthesizerBlockEntityRenderer implements BlockEntityRenderer<Dn
         pPoseStack.scale(0.25f, 0.25f, 0.25f);
         pPoseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(pBlockEntity.getRenderingRotation()));
 
-        itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, 0xF000F0, OverlayTexture.DEFAULT_UV, pPoseStack, pBufferSource, pBlockEntity.getWorld(), 1);
+        itemRenderer.renderItem(itemStack, ItemDisplayContext.FIXED, 0xF000F0, OverlayTexture.DEFAULT_UV, pPoseStack, pBufferSource, pBlockEntity.getWorld(), 1);
 
         pPoseStack.pop();
     }

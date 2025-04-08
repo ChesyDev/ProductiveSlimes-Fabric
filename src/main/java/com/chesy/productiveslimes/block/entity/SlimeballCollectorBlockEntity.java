@@ -86,7 +86,7 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        enableOutline = nbt.getInt("enableOutline");
+        enableOutline = nbt.getInt("enableOutline", 0);
     }
 
     @Nullable

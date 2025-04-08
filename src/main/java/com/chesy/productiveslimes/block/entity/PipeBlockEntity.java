@@ -117,6 +117,6 @@ public class PipeBlockEntity extends BlockEntity implements IFluidBlockEntity {
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
-        newlyPlaced = nbt.getBoolean("NewlyPlaced");
+        newlyPlaced = nbt.getBoolean("NewlyPlaced", false);
     }
 }

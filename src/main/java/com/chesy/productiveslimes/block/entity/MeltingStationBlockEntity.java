@@ -167,9 +167,9 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("EnergyInventory"));
+        energyHandler.setAmount(nbt.getInt("EnergyInventory", 0));
         outputHandler.readNbt(nbt, registries);
-        progress = nbt.getInt("melting_station.progress");
+        progress = nbt.getInt("melting_station.progress", 0);
     }
 
     @Override

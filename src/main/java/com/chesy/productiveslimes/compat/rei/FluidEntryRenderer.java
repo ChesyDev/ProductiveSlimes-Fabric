@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei;
 
 import com.chesy.productiveslimes.screen.renderer.FluidTankRenderer;
@@ -88,3 +89,4 @@ public class FluidEntryRenderer implements BatchedEntryRenderer<FluidStack, Spri
         return Tooltip.create(toolTip);
     }
 }
+*/

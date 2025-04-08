@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.dna_synthesizing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -62,3 +63,4 @@ public record DnaSynthesizingRecipeDisplay(RecipeEntry<DnaSynthesizingRecipe> re
         return SERIALIZER;
     }
 }
+*/

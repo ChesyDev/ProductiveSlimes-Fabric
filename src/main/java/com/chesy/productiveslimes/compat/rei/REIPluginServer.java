@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -31,3 +32,4 @@ public class REIPluginServer implements REICommonPlugin {
         registry.beginRecipeFiller(SqueezingRecipe.class).filterType(ModRecipes.SQUEEZING_TYPE).fill(SqueezingRecipeDisplay::new);
     }
 }
+*/

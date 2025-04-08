@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei;
 
 import com.chesy.productiveslimes.block.ModBlocks;
@@ -44,3 +45,4 @@ public class REIPluginClient implements REIClientPlugin {
         registry.register(VanillaEntryTypes.FLUID, new FluidEntryRenderer());
     }
 }
+*/
