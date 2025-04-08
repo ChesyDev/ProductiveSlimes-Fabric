@@ -134,8 +134,8 @@ public class DnaSynthesizerBlockEntity extends BlockEntity implements Implemente
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("energy"));
-        progress = nbt.getInt("progress");
+        energyHandler.setAmount(nbt.getInt("energy", 0));
+        progress = nbt.getInt("progress", 0);
     }
 
     @Nullable

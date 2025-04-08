@@ -1,3 +1,4 @@
+/*
 package com.chesy.productiveslimes.compat.rei.melting;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -89,3 +90,4 @@ public class MeltingCategory implements DisplayCategory<MeltingRecipeDisplay> {
         return 83;
     }
 }
+*/

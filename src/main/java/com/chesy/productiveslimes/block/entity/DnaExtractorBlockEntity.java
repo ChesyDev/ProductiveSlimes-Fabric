@@ -140,9 +140,9 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
         super.readNbt(nbt, registries);
 
         Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("Energy"));
-        progress = nbt.getInt("Progress");
-        maxProgress = nbt.getInt("MaxProgress");
+        energyHandler.setAmount(nbt.getInt("Energy", 0));
+        progress = nbt.getInt("Progress", 0);
+        maxProgress = nbt.getInt("MaxProgress", 78);
     }
 
     @Nullable
