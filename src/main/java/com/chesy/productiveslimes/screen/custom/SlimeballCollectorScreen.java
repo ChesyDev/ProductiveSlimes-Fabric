@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.screen.custom;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -36,7 +37,7 @@ public class SlimeballCollectorScreen extends HandledScreen<SlimeballCollectorMe
 
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
     }
 
     @Override

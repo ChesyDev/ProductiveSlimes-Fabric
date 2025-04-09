@@ -8,12 +8,14 @@ import com.chesy.productiveslimes.network.ClientRecipeManager;
 import com.chesy.productiveslimes.recipe.*;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.ModTiers;
+import com.chesy.productiveslimes.util.EnergyTooltipUtil;
 import com.chesy.productiveslimes.util.GuideBookScreenHelper;
+import com.chesy.productiveslimes.util.MouseUtil;
 import com.chesy.productiveslimes.util.SlimeData;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,6 +26,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +71,9 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     private static final List<SolidingRecipe> solidingRecipeList = ClientRecipeManager.getSolidingRecipes();
     private static final List<SqueezingRecipe> squeezingRecipeList = ClientRecipeManager.getSqueezingRecipes();
 
+    public static final List<MouseUtil> mouseUtils = new ArrayList<>();
+    public static final List<EnergyTooltipUtil> energyTooltipUtils = new ArrayList<>();
+
     public GuidebookScreen(GuidebookMenu menu, PlayerInventory playerInventory, Text title) {
         super(menu, playerInventory, title);
     }
@@ -95,6 +101,12 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         renderNavigationPanel(pGuiGraphics);
         renderContentPanel(pGuiGraphics, pMouseX, pMouseY);
+        GuideBookScreenHelper.renderTooltip(pGuiGraphics, pMouseX, pMouseY, textRenderer);
+        for (EnergyTooltipUtil tooltipUtil : energyTooltipUtils) {
+            if (pMouseX >= tooltipUtil.mouseX1() && pMouseX < tooltipUtil.mouseX2() && pMouseY >= tooltipUtil.mouseY1() && pMouseY < tooltipUtil.mouseY2()){
+                pGuiGraphics.drawTooltip(textRenderer, tooltipUtil.getText(), pMouseX, pMouseY);
+            }
+        }
     }
 
     private void renderNavigationPanel(DrawContext pGuiGraphics) {
@@ -117,6 +129,8 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     }
 
     private void renderContentPanel(DrawContext pGuiGraphics, int pMouseX, int pMouseY) {
+        mouseUtils.clear();
+        energyTooltipUtils.clear();
         switch (selectedSection) {
             case 0:
                 drawWelcomePage(pGuiGraphics, pMouseX, pMouseY);
@@ -264,7 +278,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         Text description = Text.translatable("guidebook.productiveslimes.dna_extracting.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> extractor = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "dna_extractor"));
         if (extractor.isPresent()){
@@ -296,15 +310,12 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int yPos = contentY + INFO_SECTION_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
             // Render recipe background (optional)
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             // Render energy bar
             int energyScaled = (int) (((float) recipe.energy() / (float) 10000) * 57);
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
-            if (pMouseX >= xPos + 9 && pMouseX < xPos + 18 && pMouseY >= yPos + 13 && pMouseY < yPos + 70) {
-                Text text = Text.translatable("gui.productiveslimes.energy_stored", recipe.energy(), 10000);
-                pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
-            }
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
+            energyTooltipUtils.add(new EnergyTooltipUtil(xPos + 9, xPos + 18, yPos + 13, yPos + 70, recipe.energy(), 10000));
 
             // Render recipe input
             Ingredient input = recipe.inputItems().getFirst();
@@ -356,7 +367,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         Text description = Text.translatable("guidebook.productiveslimes.dna_synthesizing.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 30, 0xAAAAAA);
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> extractor = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "dna_synthesizer"));
         if (extractor.isPresent()){
@@ -386,15 +397,12 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int xPos = contentX + col * (RECIPE_WIDTH + H_SPACING);
             int yPos = contentY + INFO_SECTION_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             // Render energy bar
             int energyScaled = (int) (((float) recipe.energy() / (float) 10000) * 57);
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
-            if (pMouseX >= xPos + 9 && pMouseX < xPos + 18 && pMouseY >= yPos + 13 && pMouseY < yPos + 70) {
-                Text text = Text.translatable("gui.productiveslimes.energy_stored", recipe.energy(), 10000);
-                pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
-            }
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
+            energyTooltipUtils.add(new EnergyTooltipUtil(xPos + 9, xPos + 18, yPos + 13, yPos + 70, recipe.energy(), 10000));
 
             // Render recipe input
             List<Ingredient> input = recipe.inputItems();
@@ -428,11 +436,11 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 82, yPos + 55, Items.EGG.getDefaultStack(), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 125, yPos + 34, recipe.output().getFirst(), textRenderer);
 
-            pGuiGraphics.getMatrices().push();
-            pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4, 0);
-            pGuiGraphics.getMatrices().scale(0.8f, 0.8f, 0.8f);
+            pGuiGraphics.getMatrices().pushMatrix();
+            pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4);
+            pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
             pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0x555555, false);
-            pGuiGraphics.getMatrices().pop();
+            pGuiGraphics.getMatrices().popMatrix();
 
             index++;
         }
@@ -462,7 +470,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         Text description = Text.translatable("guidebook.productiveslimes.slimeball_melting.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> extractor = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "melting_station"));
         if (extractor.isPresent()){
@@ -493,25 +501,22 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int yPos = contentY + INFO_SECTION_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
             // Render recipe background (optional)
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             // Render energy bar
             int energyScaled = (int) (((float) recipe.getEnergy() / (float) 10000) * 57);
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
-            if (pMouseX >= xPos + 9 && pMouseX < xPos + 18 && pMouseY >= yPos + 13 && pMouseY < yPos + 70) {
-                Text text = Text.translatable("gui.productiveslimes.energy_stored", recipe.getEnergy(), 10000);
-                pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
-            }
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
+            energyTooltipUtils.add(new EnergyTooltipUtil(xPos + 9, xPos + 18, yPos + 13, yPos + 70, recipe.getEnergy(), 10000));
 
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 25, yPos + 34, new ItemStack(Items.BUCKET, recipe.getOutputs().getFirst().getCount()), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 45, yPos + 34, new ItemStack(recipe.getInputItems().getFirst().getMatchingItems().toList().getFirst().value(), recipe.getInputCount()), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 108 + 20, yPos + 34, recipe.getOutputs().getFirst(), textRenderer);
 
-            pGuiGraphics.getMatrices().push();
-            pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4, 0);
-            pGuiGraphics.getMatrices().scale(0.8f, 0.8f, 0.8f);
+            pGuiGraphics.getMatrices().pushMatrix();
+            pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4);
+            pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
             pGuiGraphics.drawText(textRenderer, recipe.getOutputs().getFirst().toHoverableText().getString().substring(1, recipe.getOutputs().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0x555555, false);
-            pGuiGraphics.getMatrices().pop();
+            pGuiGraphics.getMatrices().popMatrix();
 
             index++;
         }
@@ -541,7 +546,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         Text description = Text.translatable("guidebook.productiveslimes.soliding.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> extractor = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "soliding_station"));
         if(extractor.isPresent()){
@@ -575,15 +580,12 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int yPos = contentY + INFO_SECTION_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
             // Render recipe background (optional)
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             // Render energy bar
             int energyScaled = (int) (((float) recipe.getEnergy() / (float) 10000) * 57);
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
-            if (pMouseX >= xPos + 9 && pMouseX < xPos + 18 && pMouseY >= yPos + 13 && pMouseY < yPos + 70) {
-                Text text = Text.translatable("gui.productiveslimes.energy_stored", recipe.getEnergy(), 10000);
-                pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
-            }
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
+            energyTooltipUtils.add(new EnergyTooltipUtil(xPos + 9, xPos + 18, yPos + 13, yPos + 70, recipe.getEnergy(), 10000));
 
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 26, yPos + 34, new ItemStack( recipe.getInputItems().getFirst().getMatchingItems().toList().getFirst().value(), recipe.getInputCount()), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.getOutputs().getFirst(), textRenderer);
@@ -619,8 +621,8 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         Text description = Text.translatable("guidebook.productiveslimes.squeezing.description");
         pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX + RECIPE_WIDTH + V_SPACING, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + RECIPE_WIDTH + V_SPACING, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> squeezer = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "squeezer"));
         if (squeezer.isPresent()){
@@ -668,15 +670,12 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int yPos = contentY + INFO_SECTION_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
             // Render recipe background (optional)
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             // Render energy bar
             int energyScaled = (int) (((float) recipe.energy() / (float) 10000) * 57);
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
-            if (pMouseX >= xPos + 9 && pMouseX < xPos + 18 && pMouseY >= yPos + 13 && pMouseY < yPos + 70) {
-                Text text = Text.translatable("gui.productiveslimes.energy_stored", recipe.energy(), 10000);
-                pGuiGraphics.drawTooltip(textRenderer, text, pMouseX, pMouseY);
-            }
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos + 9, yPos + 13 + (57 - energyScaled), 153, 8, 9, energyScaled, 256, 256);
+            energyTooltipUtils.add(new EnergyTooltipUtil(xPos + 9, xPos + 18, yPos + 13, yPos + 70, recipe.energy(), 10000));
 
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 26, yPos + 34, new ItemStack(recipe.inputItems().getFirst().getMatchingItems().toList().getFirst().value()), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.output().getFirst(), textRenderer);
@@ -737,14 +736,14 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int xPos = contentX + col * (RECIPE_WIDTH + H_SPACING);
             int yPos = contentY + SLIME_AND_SLIMEBALL_INFO_HEIGHT + row * (RECIPE_HEIGHT + V_SPACING) - contentScrollOffset;
 
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
             Text tierName = Text.translatable("entity.productiveslimes." + tiers.name() + "_slime");
-            pGuiGraphics.getMatrices().push();
-            pGuiGraphics.getMatrices().translate(xPos + 5, yPos + 3, 0);
-            pGuiGraphics.getMatrices().scale(0.8f, 0.8f, 0.8f);
+            pGuiGraphics.getMatrices().pushMatrix();
+            pGuiGraphics.getMatrices().translate(xPos + 5, yPos + 3);
+            pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
             pGuiGraphics.drawText(textRenderer, tierName, 0, 0, 0x555555, false);
-            pGuiGraphics.getMatrices().pop();
+            pGuiGraphics.getMatrices().popMatrix();
 
             SlimeData slimeData = GuideBookScreenHelper.generateSlimeData(tiers);
             ItemStack slimeItem = new ItemStack(ModItems.SLIME_ITEM);
@@ -796,7 +795,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             int xPos = contentX + col * (RECIPE_WIDTH + H_SPACING);
             int yPos = contentY + SLIME_AND_SLIMEBALL_INFO_HEIGHT + SLIME_AND_SLIMEBALL_SECOND_INFO_HEIGHT + totalRecipeHeight + row * (cooldownGUIHeight + V_SPACING) - contentScrollOffset;
 
-            pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, COOLDOWN_TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, cooldownGUIHeight, 256, 256);
+            pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, COOLDOWN_TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, cooldownGUIHeight, 256, 256);
 
             Text tierName = Text.translatable("entity.productiveslimes." + tiers.name() + "_slime");
             pGuiGraphics.drawText(textRenderer, tierName, xPos + 6, yPos + 4, 0x555555, false);
@@ -828,7 +827,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int textureY = infoY3 + 20 + textRenderer.getWrappedLinesHeight(description6, wordWarpLength) + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients.size(); i++) {
             Optional<Ingredient> ingredient = ingredients.get(i);
@@ -860,7 +859,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int textureY2 = infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY2, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY2, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients2.size(); i++) {
             Optional<Ingredient> ingredient = ingredients2.get(i);
@@ -879,7 +878,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int textureY3 = infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY3, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY3, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients3.size(); i++) {
             Optional<Ingredient> ingredient = ingredients3.get(i);
@@ -898,7 +897,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int textureY4 = infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY4, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY4, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients4.size(); i++) {
             Optional<Ingredient> ingredient = ingredients4.get(i);
@@ -924,7 +923,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int textureY5 = infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + textRenderer.getWrappedLinesHeight(description9, wordWarpLength) + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY5, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), textureY5, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0, k = 0; i < ingredients5.size(); i++, k++) {
             Optional<Ingredient> ingredient = ingredients5.get(i);
@@ -993,7 +992,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int recipeBaseY = infoY + textRenderer.fontHeight + textRenderer.getWrappedLinesHeight(description, contentWidth) + 25;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         Optional<RecipeEntry<?>> RecipeEntry = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "energy_slime_spawn_egg"));
         RecipeEntry<ShapedRecipe> recipe = (RecipeEntry<ShapedRecipe>) RecipeEntry.get();
@@ -1016,7 +1015,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int recipeBaseY2 = recipeBaseY + RECIPE_HEIGHT + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY2, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY2, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients2.size(); i++) {
             Optional<Ingredient> ingredient = ingredients2.get(i);
@@ -1035,7 +1034,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int recipeBaseY3 = recipeBaseY2 + RECIPE_HEIGHT + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY3, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY3, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients3.size(); i++) {
             Optional<Ingredient> ingredient = ingredients3.get(i);
@@ -1054,7 +1053,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         int recipeBaseY4 = recipeBaseY3 + RECIPE_HEIGHT + 10;
 
-        pGuiGraphics.drawTexture(RenderLayer::getGuiTextured, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY4, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
+        pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + (contentWidth - RECIPE_WIDTH) / 2, recipeBaseY4, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
         for (int i = 0; i < ingredients4.size(); i++) {
             Optional<Ingredient> ingredient = ingredients4.get(i);
