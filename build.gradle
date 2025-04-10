@@ -49,10 +49,8 @@ dependencies {
 
 	include modApi("teamreborn:energy:${energy_api_version}")
 
-	modCompileOnly ("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"){
-		transitive false
-	}
-//	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
 	modImplementation "curse.maven:jade-324717:${jade_version}"
 	modImplementation "com.github.glitchfiend:TerraBlender-fabric:1.21.5-${project.terrablender_version}"
