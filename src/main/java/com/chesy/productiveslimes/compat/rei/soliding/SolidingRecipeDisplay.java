@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -68,4 +67,3 @@ public record SolidingRecipeDisplay(RecipeEntry<SolidingRecipe> recipe) implemen
         return SERIALIZER;
     }
 }
-*/

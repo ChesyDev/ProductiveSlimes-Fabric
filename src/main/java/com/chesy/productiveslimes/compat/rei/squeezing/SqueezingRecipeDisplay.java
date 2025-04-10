@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.squeezing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -73,4 +72,3 @@ public record SqueezingRecipeDisplay(RecipeEntry<SqueezingRecipe> recipe) implem
         return SERIALIZER;
     }
 }
-*/
