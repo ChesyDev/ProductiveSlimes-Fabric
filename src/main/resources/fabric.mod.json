@@ -23,6 +23,12 @@
 		],
 		"client": [
 			"com.chesy.productiveslimes.ProductiveSlimesClient"
+		],
+		"rei_client": [
+			"com.chesy.productiveslimes.compat.rei.REIPluginClient"
+		],
+		"rei_common": [
+			"com.chesy.productiveslimes.compat.rei.REIPluginServer"
 		]
 	},
 	"mixins": [

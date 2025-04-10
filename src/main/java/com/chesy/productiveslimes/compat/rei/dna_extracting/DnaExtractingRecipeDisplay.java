@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.dna_extracting;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -73,4 +72,3 @@ public record DnaExtractingRecipeDisplay(RecipeEntry<DnaExtractingRecipe> recipe
         return SERIALIZER;
     }
 }
-*/

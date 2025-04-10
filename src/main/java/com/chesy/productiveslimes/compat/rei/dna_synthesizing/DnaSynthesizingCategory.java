@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.dna_synthesizing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -104,4 +103,3 @@ public class DnaSynthesizingCategory implements DisplayCategory<DnaSynthesizingR
         return 83;
     }
 }
-*/

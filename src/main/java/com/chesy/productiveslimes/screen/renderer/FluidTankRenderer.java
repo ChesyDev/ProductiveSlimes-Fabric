@@ -44,10 +44,10 @@ public class FluidTankRenderer {
                     v0 = v0 - ((16 - height) / 16.f * (v0 - v1));
 
                     VertexConsumer bufferBuilder = vertexConsumers.getBuffer(renderLayer);
-                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset, 0).color(fluidColorTint).texture(u0, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset, 0).color(fluidColorTint).texture(u1, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset - height, 0).color(fluidColorTint).texture(u1, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset - height, 0).color(fluidColorTint).texture(u0, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
+                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset, 0).color(fluidColorTint).texture(u0, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset, 0).color(fluidColorTint).texture(u1, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset - height, 0).color(fluidColorTint).texture(u1, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset - height, 0).color(fluidColorTint).texture(u0, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
                 });
             }
         }

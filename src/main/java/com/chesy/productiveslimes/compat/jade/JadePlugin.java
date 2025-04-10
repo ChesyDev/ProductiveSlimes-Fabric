@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.jade;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -32,4 +31,3 @@ public class JadePlugin implements IWailaPlugin {
         }
     }
 }
-*/

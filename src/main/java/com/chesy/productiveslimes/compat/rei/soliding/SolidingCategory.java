@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.soliding;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -51,7 +50,7 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
         widgets.add(Widgets.createTexturedWidget(TEXTURE, new Rectangle(startPoint.x, startPoint.y, 153, 83)));
 
         widgets.add(Widgets.createSlot(new Rectangle(startPoint.x + 21, startPoint.y + 12, 17, 59)).entries(display.getInputEntries().getFirst()).markInput().disableBackground());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 127, startPoint.y + 34)).entries(display.getOutputEntries().get(1)).markOutput());
+        widgets.add(Widgets.createSlot(new Point(startPoint.x + 127, startPoint.y + 34)).entries(display.getOutputEntries().getFirst()).markOutput());
 
         Text text = Text.translatable("tooltip.productiveslimes.energy_usage", display.recipe().value().energy());
 
@@ -89,4 +88,3 @@ public class SolidingCategory implements DisplayCategory<SolidingRecipeDisplay> 
         return 83;
     }
 }
-*/
