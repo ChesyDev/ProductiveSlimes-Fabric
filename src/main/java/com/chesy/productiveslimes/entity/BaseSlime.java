@@ -163,8 +163,8 @@ public class BaseSlime extends SlimeEntity {
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        this.dataTracker.set(ID_SIZE, nbt.getInt("size"));
-        this.dataTracker.set(GROWTH_COUNTER, nbt.getInt("growth_counter"));
+        this.dataTracker.set(ID_SIZE, nbt.getInt("size", 1));
+        this.dataTracker.set(GROWTH_COUNTER, nbt.getInt("growth_counter", 0));
 
     }
 

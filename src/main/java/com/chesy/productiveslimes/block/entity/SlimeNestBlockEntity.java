@@ -1,11 +1,10 @@
 package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import com.chesy.productiveslimes.item.custom.NestUpgradeItem;
 import com.chesy.productiveslimes.screen.custom.SlimeNestMenu;
-import com.chesy.productiveslimes.util.ContainerUtils;
 import com.chesy.productiveslimes.util.ImplementedInventory;
-import com.chesy.productiveslimes.datacomponent.custom.SlimeData;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -134,12 +133,12 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
         Inventories.readNbt(nbt, inventory, registries);
-        counter = nbt.getInt("counter");
-        cooldown = nbt.getInt("cooldown");
-        dropItem = ItemStack.fromNbt(registries, nbt.getCompound("dropItem")).isPresent() ? ItemStack.fromNbt(registries, nbt.getCompound("dropItem")).get() : ItemStack.EMPTY;
-        slimeData = SlimeData.fromTag(nbt.getCompound("slimeData"), registries);
-        tick = nbt.getInt("tick");
-        multiplier = nbt.getFloat("multiplier");
+        counter = nbt.getInt("counter", 0);
+        cooldown = nbt.getInt("cooldown", 0);
+        dropItem = ItemStack.fromNbt(registries, nbt.getCompoundOrEmpty("dropItem")).orElse(ItemStack.EMPTY);
+        slimeData = SlimeData.fromTag(nbt.getCompoundOrEmpty("slimeData"), registries);
+        tick = nbt.getInt("tick", 0);
+        multiplier = nbt.getFloat("multiplier", 1);
     }
 
     public void tick(World level, BlockPos pos, BlockState state) {
@@ -246,11 +245,5 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new SlimeNestMenu(syncId, playerInventory, this, data);
-    }
-
-    @Override
-    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
-        ContainerUtils.dropContents(world, pos, this);
-        super.onBlockReplaced(pos, oldState);
     }
 }

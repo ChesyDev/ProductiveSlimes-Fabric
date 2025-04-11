@@ -3,6 +3,8 @@ package com.chesy.productiveslimes.datagen;
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
 import com.chesy.productiveslimes.block.custom.SlimeBlock;
+import com.chesy.productiveslimes.datagen.model.special.FluidTankSpecialRenderer;
+import com.chesy.productiveslimes.datagen.model.tint.SlimeItemTint;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
@@ -11,8 +13,6 @@ import com.chesy.productiveslimes.item.custom.SpawnEggItem;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
-import com.chesy.productiveslimes.datagen.model.special.FluidTankSpecialRenderer;
-import com.chesy.productiveslimes.datagen.model.tint.SlimeItemTint;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
@@ -21,11 +21,12 @@ import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.ModelVariantOperator;
-import net.minecraft.client.render.model.json.WeightedUnbakedModel;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
@@ -38,11 +39,6 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        BlockStateModelGenerator.BlockTexturePool slimyWoodSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_PLANKS);
-        BlockStateModelGenerator.BlockTexturePool slimyStoneSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_STONE);
-        BlockStateModelGenerator.BlockTexturePool slimyCobblestoneSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_COBBLESTONE);
-        BlockStateModelGenerator.BlockTexturePool slimyCobbledDeepslateSet = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.SLIMY_COBBLED_DEEPSLATE);
-
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.MELTING_STATION);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SOLIDING_STATION);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.DNA_EXTRACTOR);
@@ -59,47 +55,42 @@ public class ModModelProvider extends FabricModelProvider {
         simpleBlockWithExistingModel(blockStateModelGenerator, ModBlocks.SLIMY_GRASS_BLOCK);
 
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.SLIMY_DIRT);
+        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_STONE, ModBlocks.SLIMY_STONE_SLAB);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.SLIMY_DEEPSLATE);
+        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE, ModBlocks.SLIMY_COBBLESTONE_SLAB);
+        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE, ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB);
 
         logBlock(blockStateModelGenerator, ModBlocks.SLIMY_LOG, ModBlocks.SLIMY_WOOD);
         logBlock(blockStateModelGenerator, ModBlocks.STRIPPED_SLIMY_LOG, ModBlocks.STRIPPED_SLIMY_WOOD);
 
-        slimyStoneSet.slab(ModBlocks.SLIMY_STONE_SLAB);
-        slimyStoneSet.stairs(ModBlocks.SLIMY_STONE_STAIRS);
-        slimyStoneSet.pressurePlate(ModBlocks.SLIMY_STONE_PRESSURE_PLATE);
-        slimyStoneSet.button(ModBlocks.SLIMY_STONE_BUTTON);
-
-        slimyCobblestoneSet.slab(ModBlocks.SLIMY_COBBLESTONE_SLAB);
-        slimyCobblestoneSet.stairs(ModBlocks.SLIMY_COBBLESTONE_STAIRS);
-        slimyCobblestoneSet.wall(ModBlocks.SLIMY_COBBLESTONE_WALL);
-
-        slimyCobbledDeepslateSet.slab(ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB);
-        slimyCobbledDeepslateSet.stairs(ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS);
-        slimyCobbledDeepslateSet.wall(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL);
-
-        slimyWoodSet.slab(ModBlocks.SLIMY_SLAB);
-        slimyWoodSet.stairs(ModBlocks.SLIMY_STAIRS);
-        slimyWoodSet.pressurePlate(ModBlocks.SLIMY_PRESSURE_PLATE);
-        slimyWoodSet.button(ModBlocks.SLIMY_BUTTON);
-        slimyWoodSet.fence(ModBlocks.SLIMY_FENCE);
-        slimyWoodSet.fenceGate(ModBlocks.SLIMY_FENCE_GATE);
+        blockWithSlab(blockStateModelGenerator, ModBlocks.SLIMY_PLANKS, ModBlocks.SLIMY_SLAB);
 
         leavesBlock(blockStateModelGenerator, ModBlocks.SLIMY_LEAVES);
         saplingBlock(blockStateModelGenerator, ModBlocks.SLIMY_SAPLING);
 
+        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_STAIRS, ModBlocks.SLIMY_PLANKS);
+        pressurePlateBlock(blockStateModelGenerator, ModBlocks.SLIMY_PRESSURE_PLATE, ModBlocks.SLIMY_PLANKS);
+        buttonBlock(blockStateModelGenerator, ModBlocks.SLIMY_BUTTON, ModBlocks.SLIMY_PLANKS);
+        fenceBlock(blockStateModelGenerator, ModBlocks.SLIMY_FENCE, ModBlocks.SLIMY_PLANKS);
+        fenceGateBlock(blockStateModelGenerator, ModBlocks.SLIMY_FENCE_GATE, ModBlocks.SLIMY_PLANKS);
         blockStateModelGenerator.registerTrapdoor(ModBlocks.SLIMY_TRAPDOOR);
         blockStateModelGenerator.registerDoor(ModBlocks.SLIMY_DOOR);
 
-        portalBlock(blockStateModelGenerator, ModBlocks.SLIMY_PORTAL);
-        portalFrame(blockStateModelGenerator, ModBlocks.SLIMY_PORTAL_FRAME);
+        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_STAIRS, ModBlocks.SLIMY_STONE);
+        pressurePlateBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_PRESSURE_PLATE, ModBlocks.SLIMY_STONE);
+        buttonBlock(blockStateModelGenerator, ModBlocks.SLIMY_STONE_BUTTON, ModBlocks.SLIMY_STONE);
 
-        //Slime Blocks
+        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE_STAIRS, ModBlocks.SLIMY_COBBLESTONE);
+        wallBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLESTONE_WALL, ModBlocks.SLIMY_COBBLESTONE);
+
+        stairsBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS, ModBlocks.SLIMY_COBBLED_DEEPSLATE);
+        wallBlock(blockStateModelGenerator, ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL, ModBlocks.SLIMY_COBBLED_DEEPSLATE);
+
         slimeBlock(blockStateModelGenerator, ModBlocks.ENERGY_SLIME_BLOCK);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
             slimeBlock(blockStateModelGenerator, ModTiers.getBlockByName(tiers.name()));
-            fluidBlock(blockStateModelGenerator, ModTiers.getLiquidBlockByName(tiers.name()));
         }
     }
 
@@ -128,30 +119,13 @@ public class ModModelProvider extends FabricModelProvider {
         }
     }
 
-    private void portalFrame(BlockStateModelGenerator blockModels, Block block){
-        Identifier resourceLocation = Models.CUBE_ALL.upload(block, TextureMap.all(blockLocation(getBlockName(block))), blockModels.modelCollector);
-        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(resourceLocation)))));
-    }
-
-    private void portalBlock(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block).with(BlockStateVariantMap.models(Properties.HORIZONTAL_AXIS)
-                .register(Direction.Axis.X, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockSubModelId(block, "_ns")))))
-                .register(Direction.Axis.Z, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockSubModelId(block, "_ew")))))
-        ));
-        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.basic(ModelIds.getBlockSubModelId(block, "_ns")));
-    }
-
-    private void fluidBlock(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(Identifier.ofVanilla("block/water"))))));
-    }
-
     private void registerSpawnEgg(ItemModelGenerator itemModelGenerator, SpawnEggItem item){
         Identifier model = itemLocation("template_slime_spawn_egg");
         itemModelGenerator.output.accept(item, ItemModels.tinted(model, ItemModels.constantTintSource(item.getColor())));
     }
 
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
-        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(blockLocation(getBlockName(block)))))));
+        blockModels.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(blockLocation(getBlockName(block)))))));
     }
 
     private void blockWithSlab(BlockStateModelGenerator blockModels, Block block, Block slab){
@@ -164,7 +138,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void logBlock(BlockStateModelGenerator blockModels, Block block, Block wood){
-        blockModels.registerLog(block).log(block).wood(wood);
+        blockModels.createLogTexturePool(block).log(block).wood(wood);
     }
 
     private void leavesBlock(BlockStateModelGenerator blockModels, Block block){
@@ -173,6 +147,35 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void saplingBlock(BlockStateModelGenerator blockModels, Block block){
         blockModels.registerTintableCrossBlockState(block, BlockStateModelGenerator.CrossType.NOT_TINTED);
+    }
+
+    private void pressurePlateBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).pressurePlate(block);
+    }
+
+    private void stairsBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        Identifier texture = blockLocation(getBlockName(materialBlock));
+        blockModels.new BlockTexturePool(TextureMap.texture(texture)
+                .put(TextureKey.BOTTOM, texture)
+                .put(TextureKey.TOP, texture)
+                .put(TextureKey.SIDE, texture)
+        ).stairs(block);
+    }
+
+    private void buttonBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).button(block);
+    }
+
+    private void fenceBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).fence(block);
+    }
+
+    private void fenceGateBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock)).fenceGate(block);
+    }
+
+    private void wallBlock(BlockStateModelGenerator blockModels, Block block, Block materialBlock){
+        blockModels.new BlockTexturePool(TextureMap.texture(materialBlock).put(TextureKey.WALL, blockLocation(getBlockName(materialBlock)))).wall(block);
     }
 
     private void dnaItem(ItemModelGenerator itemModelGenerator, DnaItem item) {
@@ -207,14 +210,14 @@ public class ModModelProvider extends FabricModelProvider {
     public BlockStateVariantMap<ModelVariantOperator> createNorthDefaultHorizontalRotationStatesInverted() {
         return BlockStateVariantMap.operations(Properties.HORIZONTAL_FACING)
                 .register(Direction.EAST, BlockStateModelGenerator.ROTATE_Y_270)
-                .register(Direction.SOUTH, BlockStateModelGenerator.NO_OP)
+                .register(Direction.NORTH, BlockStateModelGenerator.ROTATE_Y_180)
                 .register(Direction.WEST, BlockStateModelGenerator.ROTATE_Y_90)
-                .register(Direction.NORTH, BlockStateModelGenerator.ROTATE_Y_180);
+                .register(Direction.SOUTH, BlockStateModelGenerator.NO_OP);
     }
 
     private void slimeBlock(BlockStateModelGenerator blockStateModelGenerator, SlimeBlock block){
         blockStateModelGenerator.blockStateCollector
-                .accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(blockLocation("template_slime_block")))))
+                .accept(VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(blockLocation("template_slime_block")))))
                 );
         blockStateModelGenerator.registerTintedItemModel(block, blockLocation("template_slime_block"), ItemModels.constantTintSource(block.getColor()));
     }
@@ -222,7 +225,7 @@ public class ModModelProvider extends FabricModelProvider {
     public final void registerNorthDefaultHorizontalRotationInverted(BlockStateModelGenerator blockStateModelGenerator, Block block) {
         blockStateModelGenerator.blockStateCollector
                 .accept(
-                        VariantsBlockModelDefinitionCreator.of(block, new WeightedUnbakedModel(List.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
+                        VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
                                 .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
                 );
     }

@@ -12,14 +12,14 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-public record FluidTankSpecialRenderer() implements SpecialModelRenderer {
+public record FluidTankSpecialRenderer() implements SpecialModelRenderer<ImmutableFluidVariant> {
     @Override
-    public void render(@Nullable Object data, ModelTransformationMode modelTransformationMode, MatrixStack poseStack, VertexConsumerProvider vertexConsumers, int light, int overlay, boolean glint) {
+    public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext modelTransformationMode, MatrixStack poseStack, VertexConsumerProvider vertexConsumers, int light, int overlay, boolean glint) {
         poseStack.push();
         BlockState blockState = ModBlocks.FLUID_TANK.getDefaultState();
         MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(blockState, poseStack, vertexConsumers, light, overlay);
@@ -37,7 +37,7 @@ public record FluidTankSpecialRenderer() implements SpecialModelRenderer {
         return stack.get(ModDataComponents.FLUID_VARIANT);
     }
 
-    public record Unbaked(Identifier texture) implements  SpecialModelRenderer.Unbaked{
+    public record Unbaked(Identifier texture) implements SpecialModelRenderer.Unbaked{
         public static final MapCodec<Unbaked> MAP_CODEC = Identifier.CODEC.fieldOf("texture").xmap(FluidTankSpecialRenderer.Unbaked::new, FluidTankSpecialRenderer.Unbaked::texture);
 
         @Nullable

@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.screen.renderer;
 
 import com.chesy.productiveslimes.fluid.FluidStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.GpuTexture;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.OverlayTexture;
@@ -23,8 +24,6 @@ public class FluidTankRenderer {
 
         long fluidMeterPos = tankCapacity == -1 || (fluidStack.getAmount() > 0 && fluidStack.getAmount() == tankCapacity) ? 0:(h - ((fluidStack.getAmount() <= 0 || tankCapacity == 0)?0: (Math.min(fluidStack.getAmount(), tankCapacity - 1) * h / tankCapacity + 1)));
 
-        RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
-
         Matrix4f mat = guiGraphics.getMatrices().peek().getPositionMatrix();
 
         for (int yOffset = h; yOffset > fluidMeterPos; yOffset -= 16) {
@@ -45,10 +44,10 @@ public class FluidTankRenderer {
                     v0 = v0 - ((16 - height) / 16.f * (v0 - v1));
 
                     VertexConsumer bufferBuilder = vertexConsumers.getBuffer(renderLayer);
-                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset, 0).color(fluidColorTint).texture(u0, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset, 0).color(fluidColorTint).texture(u1, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset - height, 0).color(fluidColorTint).texture(u1, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
-                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset - height, 0).color(fluidColorTint).texture(u0, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
+                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset, 0).color(fluidColorTint).texture(u0, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset, 0).color(fluidColorTint).texture(u1, v1).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset + width, finalYOffset - height, 0).color(fluidColorTint).texture(u1, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
+                    bufferBuilder.vertex(mat, finalXOffset, finalYOffset - height, 0).color(fluidColorTint).texture(u0, v0).light(15728880).overlay(OverlayTexture.DEFAULT_UV).normal(0, -1, -1);
                 });
             }
         }
