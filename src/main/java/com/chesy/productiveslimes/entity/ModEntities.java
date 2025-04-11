@@ -4,6 +4,7 @@ import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
@@ -29,10 +30,21 @@ public class ModEntities {
         }
     }
 
+    public static void registerSlimyEntities() {
+        EntityType<SlimyZombie> zombie = registerSlimyMob("slimy_zombie",
+                EntityType.Builder.create((type, world) -> new SlimyZombie(type, world), SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, "slimy_zombie"))));
+    }
+
     public static EntityType<BaseSlime> registerSlime(String name, int cooldown, int color, Item dropItem, Item growthItem) {
         return Registry.register(Registries.ENTITY_TYPE,
                 Identifier.of(ProductiveSlimes.MODID, name),
                 EntityType.Builder.<BaseSlime>create((type, world) -> new BaseSlime(type, world, cooldown, color, dropItem, growthItem), SpawnGroup.CREATURE).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, name))));
+    }
+
+    public static EntityType<?> registerSlimyMob(String name, Builder<T> builder) {
+        return Registry.register(Registries.ENTITY_TYPE,
+                Identifier.of(ProductiveSlimes.MODID, name),
+                builder);
     }
 
 
