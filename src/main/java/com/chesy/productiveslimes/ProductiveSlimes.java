@@ -61,6 +61,7 @@ public class ProductiveSlimes implements ModInitializer {
 
         ModItems.registerSlimeball();
         ModEntities.initialize();
+
         ModItems.initialize();
 
         ModBlocks.initialize();
