@@ -29,8 +29,6 @@ public class MeltingStationScreen extends HandledScreen<MeltingStationMenu> {
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
