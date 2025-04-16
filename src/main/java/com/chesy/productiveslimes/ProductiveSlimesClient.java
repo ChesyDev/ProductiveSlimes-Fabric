@@ -8,6 +8,7 @@ import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
+import com.chesy.productiveslimes.entity.renderer.SlimyZombieRenderer;
 import com.chesy.productiveslimes.network.recipe.ClientRecipeManager;
 import com.chesy.productiveslimes.network.recipe.RecipeSyncPayload;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
@@ -63,6 +64,8 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
+
+        EntityRendererRegistry.register(ModEntities.SLIMY_ZOMBIE, ctx -> new SlimyZombieRenderer(ctx));
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_SYNTHESIZER, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_EXTRACTOR, RenderLayer.getTranslucent());

@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.block.custom;
 
+import com.chesy.productiveslimes.entity.SlimyZombie;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -60,6 +61,11 @@ public class SlimeBlock extends TranslucentBlock {
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         double d = Math.abs(entity.getVelocity().y);
+
+        if (entity instanceof SlimyZombie) {
+            return;
+        }
+
         if (d < 0.1 && !entity.bypassesSteppingEffects()) {
             double e = 0.4 + d * 0.2;
             entity.setVelocity(entity.getVelocity().multiply(e, 1.0, e));

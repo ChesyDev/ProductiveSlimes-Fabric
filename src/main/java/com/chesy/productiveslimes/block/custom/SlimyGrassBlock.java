@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.entity.SlimyZombie;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.RegistryKeys;
@@ -43,6 +44,11 @@ public class SlimyGrassBlock extends Block implements Fertilizable {
         if (!entity.isOnGround() || entity.isSpectator() || entity.hasPassengers()) {
             return;
         }
+
+        if (entity instanceof SlimyZombie) {
+            return;
+        }
+
         double slowFactor = 0.05;
         entity.setVelocity(
                 entity.getVelocity().multiply(slowFactor, 1.0, slowFactor)
