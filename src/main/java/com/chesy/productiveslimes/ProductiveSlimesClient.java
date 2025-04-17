@@ -6,8 +6,11 @@ import com.chesy.productiveslimes.block.entity.renderer.*;
 import com.chesy.productiveslimes.config.CustomVariant;
 import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.entity.ModEntities;
+import com.chesy.productiveslimes.entity.SlimySpider;
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
+import com.chesy.productiveslimes.entity.renderer.SlimySkeletonRenderer;
+import com.chesy.productiveslimes.entity.renderer.SlimySpiderRenderer;
 import com.chesy.productiveslimes.entity.renderer.SlimyZombieRenderer;
 import com.chesy.productiveslimes.network.recipe.ClientRecipeManager;
 import com.chesy.productiveslimes.network.recipe.RecipeSyncPayload;
@@ -64,8 +67,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
-
-        EntityRendererRegistry.register(ModEntities.SLIMY_ZOMBIE, ctx -> new SlimyZombieRenderer(ctx));
+        entityRender();
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_SYNTHESIZER, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_EXTRACTOR, RenderLayer.getTranslucent());
@@ -181,5 +183,11 @@ public class ProductiveSlimesClient implements ClientModInitializer {
                 }
             }
         });
+    }
+
+    private void entityRender() {
+        EntityRendererRegistry.register(ModEntities.SLIMY_ZOMBIE, ctx -> new SlimyZombieRenderer(ctx));
+        EntityRendererRegistry.register(ModEntities.SLIMY_SKELETON, ctx -> new SlimySkeletonRenderer(ctx));
+        EntityRendererRegistry.register(ModEntities.SLIMY_SPIDER, ctx -> new SlimySpiderRenderer(ctx));
     }
 }

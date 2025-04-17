@@ -1,6 +1,7 @@
 package com.chesy.productiveslimes.worldgen.biome;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
+import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.worldgen.ModPlacedFeatures;
 import net.minecraft.entity.EntityType;
@@ -33,6 +34,7 @@ public class ModBiomes {
 
         spawnBuilder.spawn(SpawnGroup.MONSTER, 10, new SpawnSettings.SpawnEntry(EntityType.SLIME, 1, 1));
         spawnBuilder.spawn(SpawnGroup.MONSTER, 100, new SpawnSettings.SpawnEntry(EntityType.BAT, 1, 1));
+//        spawnBuilder.spawn(SpawnGroup.MONSTER, 50, new SpawnSettings.SpawnEntry(ModEntities.SLIMY_ZOMBIE, 1, 1));
         spawnBuilder.spawn(SpawnGroup.CREATURE, 100, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("dirt"), 1, 1));
         spawnBuilder.spawn(SpawnGroup.CREATURE, 65, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("stone"), 1, 1));
         spawnBuilder.spawn(SpawnGroup.CREATURE, 10, new SpawnSettings.SpawnEntry(ModTiers.getEntityByName("iron"), 1, 1));

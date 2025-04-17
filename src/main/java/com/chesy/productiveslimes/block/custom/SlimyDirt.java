@@ -46,6 +46,7 @@ public class SlimyDirt extends Block implements Fertilizable {
         }
 
         double slowFactor = 0.05;
+        System.out.println(entity.getType());
         entity.setVelocity(
                 entity.getVelocity().multiply(slowFactor, 1.0, slowFactor)
         );

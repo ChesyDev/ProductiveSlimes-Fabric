@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.SkeletonEntity;
+import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -32,6 +34,22 @@ public class ModEntities {
                     .<SlimyZombie>create(SlimyZombie::new, SpawnGroup.CREATURE)
                     .dimensions(0.6f, 1.95f)
                     .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, "slimy_zombie")))
+    );
+    public static final EntityType<SlimySkeleton> SLIMY_SKELETON = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(ProductiveSlimes.MODID, "slimy_skeleton"),
+            EntityType.Builder
+                    .<SlimySkeleton>create(SlimySkeleton::new, SpawnGroup.CREATURE)
+                    .dimensions(0.6f, 1.95f)
+                    .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, "slimy_skeleton")))
+    );
+    public static final EntityType<SlimySpider> SLIMY_SPIDER = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(ProductiveSlimes.MODID, "slimy_spider"),
+            EntityType.Builder
+                    .<SlimySpider>create(SlimySpider::new, SpawnGroup.CREATURE)
+                    .dimensions(0.6f, 1.95f)
+                    .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ProductiveSlimes.MODID, "slimy_spider")))
     );
 
     public static void registerTierEntities(){
@@ -56,5 +74,7 @@ public class ModEntities {
         registerTierEntities();
 
         FabricDefaultAttributeRegistry.register(SLIMY_ZOMBIE, ZombieEntity.createZombieAttributes());
+        FabricDefaultAttributeRegistry.register(SLIMY_SKELETON, SkeletonEntity.createAbstractSkeletonAttributes());
+        FabricDefaultAttributeRegistry.register(SLIMY_SPIDER, SpiderEntity.createSpiderAttributes());
     }
 }

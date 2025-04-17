@@ -20,7 +20,7 @@ public class ModDimensionTypes {
 
     public static DimensionType slimyWorld(Registerable<DimensionType> bootstrap){
         return new DimensionType(
-                OptionalLong.of(6000),
+                OptionalLong.empty(),
                 true,
                 false,
                 false,
