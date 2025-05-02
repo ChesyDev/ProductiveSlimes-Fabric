@@ -16,114 +16,114 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.DIRT)
-                .add(ModBlocks.SLIMY_GRASS_BLOCK)
-                .add(ModBlocks.SLIMY_DIRT);
+        getTagBuilder(BlockTags.DIRT)
+                .add(ModBlocks.SLIMY_GRASS_BLOCK.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_DIRT.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.STONE_ORE_REPLACEABLES)
-                .add(ModBlocks.SLIMY_STONE);
+        getTagBuilder(BlockTags.STONE_ORE_REPLACEABLES)
+                .add(ModBlocks.SLIMY_STONE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
-                .add(ModBlocks.SLIMY_DEEPSLATE);
+        getTagBuilder(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
+                .add(ModBlocks.SLIMY_DEEPSLATE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
-                .add(ModBlocks.SLIMY_LOG)
-                .add(ModBlocks.SLIMY_WOOD)
-                .add(ModBlocks.STRIPPED_SLIMY_LOG)
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD);
+        getTagBuilder(BlockTags.LOGS_THAT_BURN)
+                .add(ModBlocks.SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.PLANKS)
-                .add(ModBlocks.SLIMY_PLANKS);
+        getTagBuilder(BlockTags.PLANKS)
+                .add(ModBlocks.SLIMY_PLANKS.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.SAPLINGS)
-                .add(ModBlocks.SLIMY_SAPLING);
+        getTagBuilder(BlockTags.SAPLINGS)
+                .add(ModBlocks.SLIMY_SAPLING.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.LEAVES)
-                .add(ModBlocks.SLIMY_LEAVES);
+        getTagBuilder(BlockTags.LEAVES)
+                .add(ModBlocks.SLIMY_LEAVES.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.LOGS)
-                .add(ModBlocks.SLIMY_LOG)
-                .add(ModBlocks.SLIMY_WOOD)
-                .add(ModBlocks.STRIPPED_SLIMY_LOG)
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD);
+        getTagBuilder(BlockTags.LOGS)
+                .add(ModBlocks.SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(ModTags.Blocks.SLIMY_LOGS)
-                .add(ModBlocks.SLIMY_LOG)
-                .add(ModBlocks.SLIMY_WOOD)
-                .add(ModBlocks.STRIPPED_SLIMY_LOG)
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD);
+        getTagBuilder(ModTags.Blocks.SLIMY_LOGS)
+                .add(ModBlocks.SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.FENCES)
-                .add(ModBlocks.SLIMY_FENCE);
+        getTagBuilder(BlockTags.FENCES)
+                .add(ModBlocks.SLIMY_FENCE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.FENCE_GATES)
-                .add(ModBlocks.SLIMY_FENCE_GATE);
+        getTagBuilder(BlockTags.FENCE_GATES)
+                .add(ModBlocks.SLIMY_FENCE_GATE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
-                .add(ModBlocks.SLIMY_DOOR);
+        getTagBuilder(BlockTags.WOODEN_DOORS)
+                .add(ModBlocks.SLIMY_DOOR.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
-                .add(ModBlocks.SLIMY_TRAPDOOR);
+        getTagBuilder(BlockTags.WOODEN_TRAPDOORS)
+                .add(ModBlocks.SLIMY_TRAPDOOR.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.WALLS)
-                .add(ModBlocks.SLIMY_COBBLESTONE_WALL)
-                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL);
+        getTagBuilder(BlockTags.WALLS)
+                .add(ModBlocks.SLIMY_COBBLESTONE_WALL.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-                .add(ModBlocks.MELTING_STATION)
-                .add(ModBlocks.SOLIDING_STATION)
-                .add(ModBlocks.ENERGY_GENERATOR)
-                .add(ModBlocks.DNA_EXTRACTOR)
-                .add(ModBlocks.DNA_SYNTHESIZER)
-                .add(ModBlocks.FLUID_TANK)
-                .add(ModBlocks.SLIME_SQUEEZER)
-                .add(ModBlocks.CABLE)
-                .add(ModBlocks.SLIME_NEST)
-                .add(ModBlocks.SLIMEBALL_COLLECTOR)
-                .add(ModBlocks.SLIMY_STONE)
-                .add(ModBlocks.SLIMY_DEEPSLATE)
-                .add(ModBlocks.SLIMY_COBBLESTONE)
-                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE)
-                .add(ModBlocks.SLIMY_COBBLESTONE_SLAB)
-                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB)
-                .add(ModBlocks.SLIMY_COBBLESTONE_STAIRS)
-                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS)
-                .add(ModBlocks.SLIMY_COBBLESTONE_WALL)
-                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL)
-                .add(ModBlocks.SLIMY_STONE_STAIRS)
-                .add(ModBlocks.SLIMY_STONE_SLAB)
-                .add(ModBlocks.SLIMY_STONE_BUTTON)
-                .add(ModBlocks.SLIMY_STONE_PRESSURE_PLATE);
+        getTagBuilder(BlockTags.PICKAXE_MINEABLE)
+                .add(ModBlocks.MELTING_STATION.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SOLIDING_STATION.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.ENERGY_GENERATOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.DNA_EXTRACTOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.DNA_SYNTHESIZER.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.FLUID_TANK.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIME_SQUEEZER.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.CABLE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIME_NEST.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMEBALL_COLLECTOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STONE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_DEEPSLATE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLESTONE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLESTONE_SLAB.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_SLAB.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLESTONE_STAIRS.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_STAIRS.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLESTONE_WALL.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_COBBLED_DEEPSLATE_WALL.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STONE_STAIRS.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STONE_SLAB.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STONE_BUTTON.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STONE_PRESSURE_PLATE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                .add(ModBlocks.SLIMY_LOG)
-                .add(ModBlocks.SLIMY_WOOD)
-                .add(ModBlocks.STRIPPED_SLIMY_LOG)
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD)
-                .add(ModBlocks.SLIMY_PLANKS)
-                .add(ModBlocks.SLIMY_FENCE)
-                .add(ModBlocks.SLIMY_FENCE_GATE)
-                .add(ModBlocks.SLIMY_PRESSURE_PLATE)
-                .add(ModBlocks.SLIMY_BUTTON)
-                .add(ModBlocks.SLIMY_DOOR)
-                .add(ModBlocks.SLIMY_TRAPDOOR)
-                .add(ModBlocks.SLIMY_STAIRS)
-                .add(ModBlocks.SLIMY_SLAB);
+        getTagBuilder(BlockTags.AXE_MINEABLE)
+                .add(ModBlocks.SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_PLANKS.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_FENCE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_FENCE_GATE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_PRESSURE_PLATE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_BUTTON.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_DOOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_TRAPDOOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_STAIRS.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_SLAB.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE)
-                .add(ModBlocks.SLIMY_GRASS_BLOCK)
-                .add(ModBlocks.SLIMY_DIRT);
+        getTagBuilder(BlockTags.SHOVEL_MINEABLE)
+                .add(ModBlocks.SLIMY_GRASS_BLOCK.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_DIRT.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-                .add(ModBlocks.MELTING_STATION)
-                .add(ModBlocks.SOLIDING_STATION)
-                .add(ModBlocks.DNA_EXTRACTOR)
-                .add(ModBlocks.DNA_SYNTHESIZER)
-                .add(ModBlocks.ENERGY_GENERATOR)
-                .add(ModBlocks.FLUID_TANK)
-                .add(ModBlocks.SLIME_SQUEEZER)
-                .add(ModBlocks.CABLE)
-                .add(ModBlocks.SLIME_NEST)
-                .add(ModBlocks.SLIMEBALL_COLLECTOR);
+        getTagBuilder(BlockTags.NEEDS_STONE_TOOL)
+                .add(ModBlocks.MELTING_STATION.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SOLIDING_STATION.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.DNA_EXTRACTOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.DNA_SYNTHESIZER.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.ENERGY_GENERATOR.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.FLUID_TANK.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIME_SQUEEZER.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.CABLE.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIME_NEST.getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMEBALL_COLLECTOR.getRegistryEntry().registryKey().getValue());
     }
 }

@@ -61,23 +61,6 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
         float renderY = 0.0F + bounce; // Apply vertical bounce
         float renderZ = 0.0F;
 
-        // Spawn particles during the squish
-        /*if (tick % 20 == 0) {
-            for (int i = 0; i < 5; i++) { // Spawn 5 particles
-                double offsetX = level.random.nextDouble() * 0.4 - 0.2; // Random offset around the X-axis
-                double offsetY = level.random.nextDouble() * 0.3;       // Random offset upward
-                double offsetZ = level.random.nextDouble() * 0.4 - 0.2; // Random offset around the Z-axis
-                // Add the particle with a randomized position surrounding the slime
-                level.addParticle(
-                        new ItemStackParticleEffect(ParticleTypes.ITEM,
-                                new ItemStack(slime.get(ModDataComponents.SLIME_DATA).growthItem().getItem())),
-                        centerX + offsetX,
-                        centerY + offsetY,
-                        centerZ + offsetZ,
-                        0.0, 0.1, 0.0
-                );
-            }
-        }*/
         Direction direction = blockEntity.getCachedState().get(Properties.HORIZONTAL_FACING);
         int degree = 0;
         switch (direction) {
@@ -99,13 +82,7 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
         poseStack.translate(centerX - blockEntity.getPos().getX() + renderX, centerY - blockEntity.getPos().getY() + renderY - 0.05f, centerZ - blockEntity.getPos().getZ() + renderZ);
         poseStack.scale(scaleX, scaleY, scaleZ); // Apply squish scaling
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degree));
-        itemRenderer.renderItem(slime, ItemDisplayContext.FIXED, 0xF000F0, packedOverlay, poseStack, bufferSource, blockEntity.getWorld(), 1);
+        itemRenderer.renderItem(slime, ItemDisplayContext.FIXED, 0xFFFFFF, packedOverlay, poseStack, bufferSource, blockEntity.getWorld(), 1);
         poseStack.pop();
-    }
-
-    private int getLightLevel(World level, BlockPos pos) {
-        int bLight = level.getLightLevel(LightType.BLOCK, pos);
-        int sLight = level.getLightLevel(LightType.SKY, pos);
-        return LightmapTextureManager.pack(bLight, sLight);
     }
 }

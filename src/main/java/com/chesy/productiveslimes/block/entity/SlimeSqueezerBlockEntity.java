@@ -25,6 +25,8 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -102,19 +104,21 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("energy", energyHandler.serializeNBT(registries));
-        nbt.putInt("progress", progress);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+
+        Inventories.writeData(view, inventory);
+        view.putLong("energy", energyHandler.getAmountStored());
+        view.putInt("progress", progress);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("energy"));
-        progress = nbt.getInt("progress", 0);
+    protected void readData(ReadView view) {
+        super.readData(view);
+
+        Inventories.readData(view, inventory);
+        energyHandler.setAmount(view.getLong("energy", 0));
+        progress = view.getInt("progress", 0);
     }
 
     @Nullable

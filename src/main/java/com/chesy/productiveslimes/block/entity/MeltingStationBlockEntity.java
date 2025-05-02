@@ -24,6 +24,8 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -123,23 +125,21 @@ public class MeltingStationBlockEntity extends BlockEntity implements ExtendedSc
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.putInt("EnergyInventory", energyHandler.getAmountStored());
+    protected void writeData(WriteView view) {
+        Inventories.writeData(view, inventory);
+        view.putInt("EnergyInventory", energyHandler.getAmountStored());
+        view.putInt("melting_station.progress", progress);
 
-        nbt.putInt("melting_station.progress", progress);
-
-        super.writeNbt(nbt, registries);
+        super.writeData(view);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
 
-        Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.setAmount(nbt.getInt("EnergyInventory", 0));
-
-        progress = nbt.getInt("melting_station.progress", 0);
+        Inventories.readData(view, inventory);
+        energyHandler.setAmount(view.getInt("EnergyInventory", 0));
+        progress = view.getInt("melting_station.progress", 0);
     }
 
     @Override

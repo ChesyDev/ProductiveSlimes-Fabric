@@ -102,6 +102,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SLIME_NEST_SPEED_UPGRADE_1, Models.GENERATED);
         itemModelGenerator.register(ModItems.SLIME_NEST_SPEED_UPGRADE_2, Models.GENERATED);
         itemModelGenerator.register(ModItems.SLIMEBALL_FRAGMENT, Models.GENERATED);
+        itemModelGenerator.output.accept(ModBlocks.CABLE.asItem(), new BasicItemModel.Unbaked(blockLocation("cable"), Collections.emptyList()));
 
         slimeballItem(itemModelGenerator, ProductiveSlimes.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);

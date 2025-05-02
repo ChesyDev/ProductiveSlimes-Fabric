@@ -22,6 +22,8 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -116,34 +118,36 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.putInt("counter", counter);
-        nbt.putInt("cooldown", cooldown);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+
+        Inventories.writeData(view, inventory);
+        view.putInt("counter", counter);
+        view.putInt("cooldown", cooldown);
         if (slimeData != null && !dropItem.isEmpty()) {
-            nbt.put("dropItem", dropItem.toNbt(registries));
-            nbt.put("slimeData", slimeData.toTag(new NbtCompound(), registries));
+            view.put("dropItem", ItemStack.CODEC, dropItem);
+            view.put("slimeData", SlimeData.CODEC, slimeData);
         }
-        nbt.putInt("tick", tick);
-        nbt.putFloat("multiplier", multiplier);
+        view.putInt("tick", tick);
+        view.putFloat("multiplier", multiplier);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
-        counter = nbt.getInt("counter", 0);
-        cooldown = nbt.getInt("cooldown", 0);
-        dropItem = ItemStack.fromNbt(registries, nbt.getCompoundOrEmpty("dropItem")).orElse(ItemStack.EMPTY);
-        slimeData = SlimeData.fromTag(nbt.getCompoundOrEmpty("slimeData"), registries);
-        tick = nbt.getInt("tick", 0);
-        multiplier = nbt.getFloat("multiplier", 1);
+    protected void readData(ReadView view) {
+        super.readData(view);
+
+        Inventories.readData(view, inventory);
+        counter = view.getInt("counter", 0);
+        cooldown = view.getInt("cooldown", 0);
+        dropItem = view.read("dropItem", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        slimeData = view.read("slimeData", SlimeData.CODEC).orElse(null);
+        tick = view.getInt("tick", 0);
+        multiplier = view.getFloat("multiplier", 1);
     }
 
     public void tick(World level, BlockPos pos, BlockState state) {
         data.set(2, 1);
-        if (inventory.get(slimeSlot[0]).isEmpty()) {
+        if (inventory.get(slimeSlot[0]).isEmpty() || slimeData == null) {
             counter = 0;
             cooldown = 0;
             dropItem = ItemStack.EMPTY;
@@ -212,7 +216,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
+        return this.createComponentlessNbt(registries);
     }
 
     public ItemStack getSlime() {

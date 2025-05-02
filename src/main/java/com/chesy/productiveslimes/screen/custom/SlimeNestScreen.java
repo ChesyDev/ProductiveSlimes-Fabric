@@ -60,17 +60,18 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
                 cd = Text.translatable("slimenest.productiveslimes.no_slime_found").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc70d0d)));
             }
         }
+
         pGuiGraphics.getMatrices().pushMatrix();
         pGuiGraphics.getMatrices().translate(textX, textY);
         pGuiGraphics.getMatrices().scale(0.75f, 0.75f);
-        pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, cd, 0,  0, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, cd, 0,  0, 0xFFFFFFFF);
         pGuiGraphics.getMatrices().popMatrix();
 
         if (handler.hasSlime()){
             pGuiGraphics.getMatrices().pushMatrix();
             pGuiGraphics.getMatrices().translate(textX, textY + 8);
             pGuiGraphics.getMatrices().scale(0.75f, 0.75f);
-            pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, size, 0,  0, 0xFFFFFF);
+            pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, size, 0,  0, 0xFFFFFFFF);
             pGuiGraphics.getMatrices().popMatrix();
         }
 
@@ -79,19 +80,19 @@ public class SlimeNestScreen extends HandledScreen<SlimeNestMenu> {
             if (String.valueOf(handler.getMultiplier()).length() >= 6){
                 pGuiGraphics.getMatrices().translate(textX, textY + 16);
                 pGuiGraphics.getMatrices().scale(0.7f, 0.7f);
-                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, 0,  0, 0xFFFFFF);
+                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, 0,  0, 0xFFFFFFFF);
             }
             else{
                 pGuiGraphics.getMatrices().translate(textX, textY + 16);
                 pGuiGraphics.getMatrices().scale(0.75f, 0.75f);
-                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, 0,  0, 0xFFFFFF);
+                pGuiGraphics.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, multiplier, 0,  0, 0xFFFFFFFF);
             }
             pGuiGraphics.getMatrices().popMatrix();
 
             pGuiGraphics.getMatrices().pushMatrix();
             pGuiGraphics.getMatrices().translate(textX, textY + 24);
             pGuiGraphics.getMatrices().scale(0.75f, 0.75f);
-            pGuiGraphics.drawWrappedTextWithShadow(MinecraftClient.getInstance().textRenderer, dropItem, 0,  0, 85,  0xFFFFFF);
+            pGuiGraphics.drawWrappedTextWithShadow(MinecraftClient.getInstance().textRenderer, dropItem, 0,  0, 85,  0xFFFFFFFF);
             pGuiGraphics.getMatrices().popMatrix();
         }
         drawMouseoverTooltip(pGuiGraphics, pMouseX, pMouseY);

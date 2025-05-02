@@ -11,6 +11,8 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,21 +42,16 @@ public class FluidTankBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        var fluidNbt = new NbtCompound();
-        this.fluidStorage.writeNbt(fluidNbt, registries);
-        nbt.put("FluidTank", fluidNbt);
+    protected void writeData(WriteView view) {
+        this.fluidStorage.writeData(view);
 
-        super.writeNbt(nbt, registries);
+        super.writeData(view);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-
-        if(nbt.contains("FluidTank")) {
-            this.fluidStorage.readNbt(nbt.getCompoundOrEmpty("FluidTank"), registries);
-        }
+    protected void readData(ReadView view) {
+        super.readData(view);
+        this.fluidStorage.readData(view);
     }
 
     @Nullable
@@ -65,8 +62,6 @@ public class FluidTankBlockEntity extends BlockEntity {
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        var nbt = super.toInitialChunkDataNbt(registries);
-        writeNbt(nbt, registries);
-        return nbt;
+        return this.createComponentlessNbt(registries);
     }
 }

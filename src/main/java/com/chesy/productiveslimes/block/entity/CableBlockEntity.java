@@ -12,6 +12,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -90,15 +92,15 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        nbt.putBoolean("NewlyPlaced", newlyPlaced);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putBoolean("NewlyPlaced", newlyPlaced);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        newlyPlaced = nbt.getBoolean("NewlyPlaced", true);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        newlyPlaced = view.getBoolean("NewlyPlaced", true);
     }
 
     @Override

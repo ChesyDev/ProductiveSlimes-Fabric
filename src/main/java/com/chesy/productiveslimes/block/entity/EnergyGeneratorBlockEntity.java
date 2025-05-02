@@ -24,6 +24,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -192,23 +194,23 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
 
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("Energy", energyHandler.serializeNBT(registries));
-        nbt.putInt("Progress", progress);
-        nbt.putInt("MaxProgress", maxProgress);
+        Inventories.writeData(view, inventory);
+        view.putLong("Energy", energyHandler.getAmountStored());
+        view.putInt("Progress", progress);
+        view.putInt("MaxProgress", maxProgress);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
 
-        Inventories.readNbt(nbt, inventory, registries);
-        this.energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("Energy"));
-        this.progress = nbt.getInt("Progress", 0);
-        this.maxProgress = nbt.getInt("MaxProgress", 100);
+        Inventories.readData(view, inventory);
+        this.energyHandler.setAmount(view.getLong("Energy", 0));
+        this.progress = view.getInt("Progress", 0);
+        this.maxProgress = view.getInt("MaxProgress", 100);
     }
 
     @Nullable

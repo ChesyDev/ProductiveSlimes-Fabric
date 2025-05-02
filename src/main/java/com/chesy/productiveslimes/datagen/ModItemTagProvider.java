@@ -22,42 +22,42 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        var slimeballTag = getOrCreateTagBuilder(ConventionalItemTags.SLIME_BALLS);
+        var slimeballTag = getTagBuilder(ConventionalItemTags.SLIME_BALLS);
 
-        slimeballTag.add(ProductiveSlimes.ENERGY_SLIME_BALL);
-
-        for (Tier tier : Tier.values()){
-            ModTier tiers = ModTiers.getTierByName(tier);
-            slimeballTag.add(ModTiers.getSlimeballItemByName(tiers.name()));
-        }
-
-        var dnaTag = getOrCreateTagBuilder(ModTags.Items.DNA_ITEM);
-        dnaTag.add(ModItems.SLIME_DNA);
+        slimeballTag.add(ProductiveSlimes.ENERGY_SLIME_BALL.getRegistryEntry().registryKey().getValue());
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
-            dnaTag.add(ModTiers.getDnaItemByName(tiers.name()));
+            slimeballTag.add(ModTiers.getSlimeballItemByName(tiers.name()).getRegistryEntry().registryKey().getValue());
         }
 
-        getOrCreateTagBuilder(ModTags.Items.TRANSFORMABLE_ITEMS)
-                .add(ModItems.GUIDEBOOK)
-                .add(ModItems.SLIMEBALL_FRAGMENT)
-                .add(ProductiveSlimes.ENERGY_SLIME_BALL)
-                .add(ModItems.ENERGY_MULTIPLIER_UPGRADE);
+        var dnaTag = getTagBuilder(ModTags.Items.DNA_ITEM);
+        dnaTag.add(ModItems.SLIME_DNA.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
-                .add(ModBlocks.SLIMY_LOG.asItem())
-                .add(ModBlocks.SLIMY_WOOD.asItem())
-                .add(ModBlocks.STRIPPED_SLIMY_LOG.asItem())
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD.asItem());
+        for (Tier tier : Tier.values()){
+            ModTier tiers = ModTiers.getTierByName(tier);
+            dnaTag.add(ModTiers.getDnaItemByName(tiers.name()).getRegistryEntry().registryKey().getValue());
+        }
 
-        getOrCreateTagBuilder(ItemTags.PLANKS)
-                .add(ModBlocks.SLIMY_PLANKS.asItem());
+        getTagBuilder(ModTags.Items.TRANSFORMABLE_ITEMS)
+                .add(ModItems.GUIDEBOOK.getRegistryEntry().registryKey().getValue())
+                .add(ModItems.SLIMEBALL_FRAGMENT.getRegistryEntry().registryKey().getValue())
+                .add(ProductiveSlimes.ENERGY_SLIME_BALL.getRegistryEntry().registryKey().getValue())
+                .add(ModItems.ENERGY_MULTIPLIER_UPGRADE.getRegistryEntry().registryKey().getValue());
 
-        getOrCreateTagBuilder(ModTags.Items.SLIMY_LOG)
-                .add(ModBlocks.SLIMY_LOG.asItem())
-                .add(ModBlocks.STRIPPED_SLIMY_LOG.asItem())
-                .add(ModBlocks.SLIMY_WOOD.asItem())
-                .add(ModBlocks.STRIPPED_SLIMY_WOOD.asItem());
+        getTagBuilder(ItemTags.LOGS_THAT_BURN)
+                .add(ModBlocks.SLIMY_LOG.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.asItem().getRegistryEntry().registryKey().getValue());
+
+        getTagBuilder(ItemTags.PLANKS)
+                .add(ModBlocks.SLIMY_PLANKS.asItem().getRegistryEntry().registryKey().getValue());
+
+        getTagBuilder(ModTags.Items.SLIMY_LOG)
+                .add(ModBlocks.SLIMY_LOG.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_LOG.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.SLIMY_WOOD.asItem().getRegistryEntry().registryKey().getValue())
+                .add(ModBlocks.STRIPPED_SLIMY_WOOD.asItem().getRegistryEntry().registryKey().getValue());
     }
 }

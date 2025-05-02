@@ -17,6 +17,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -73,17 +75,18 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.putInt("enableOutline", enableOutline);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+
+        Inventories.writeData(view, inventory);
+        view.putInt("enableOutline", enableOutline);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        Inventories.readNbt(nbt, inventory, registries);
-        enableOutline = nbt.getInt("enableOutline", 0);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        Inventories.readData(view, inventory);
+        enableOutline = view.getInt("enableOutline", 0);
     }
 
     @Override

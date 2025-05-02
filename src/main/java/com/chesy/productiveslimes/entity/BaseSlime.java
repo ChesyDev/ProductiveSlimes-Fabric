@@ -18,6 +18,8 @@ import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -161,18 +163,17 @@ public class BaseSlime extends SlimeEntity {
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.dataTracker.set(ID_SIZE, nbt.getInt("size", 1));
-        this.dataTracker.set(GROWTH_COUNTER, nbt.getInt("growth_counter", 0));
-
+    protected void readCustomData(ReadView view) {
+        super.readCustomData(view);
+        this.dataTracker.set(ID_SIZE, view.getInt("size", 1));
+        this.dataTracker.set(GROWTH_COUNTER, view.getInt("growth_counter", 0));
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("growth_counter", this.dataTracker.get(GROWTH_COUNTER));
-        nbt.putInt("size", this.dataTracker.get(ID_SIZE));
+    protected void writeCustomData(WriteView view) {
+        super.writeCustomData(view);
+        view.putInt("growth_counter", this.dataTracker.get(GROWTH_COUNTER));
+        view.putInt("size", this.dataTracker.get(ID_SIZE));
     }
 
     public int getNextDropTime() {

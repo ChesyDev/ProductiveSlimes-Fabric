@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.registry.tag.TagBuilder;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,11 +18,11 @@ public class ModFluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagProvider<Fluid>.FabricTagBuilder tag =  getOrCreateTagBuilder(FluidTags.WATER);
+        TagBuilder tag = getTagBuilder(FluidTags.WATER);
 
         for (Tier tier : Tier.values()){
-            tag.add(ModTiers.getSourceByName(ModTiers.getTierByName(tier).name()));
-            tag.add(ModTiers.getFlowByName(ModTiers.getTierByName(tier).name()));
+            tag.add(ModTiers.getSourceByName(ModTiers.getTierByName(tier).name()).getStill().getRegistryEntry().registryKey().getValue());
+            tag.add(ModTiers.getFlowByName(ModTiers.getTierByName(tier).name()).getFlowing().getRegistryEntry().registryKey().getValue());
         }
     }
 }

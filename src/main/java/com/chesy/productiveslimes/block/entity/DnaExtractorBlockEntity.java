@@ -26,6 +26,8 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -105,23 +107,23 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        Inventories.writeNbt(nbt, inventory, registries);
-        nbt.put("Energy", energyHandler.serializeNBT(registries));
-        nbt.putInt("Progress", progress);
-        nbt.putInt("MaxProgress", maxProgress);
+    protected void writeData(WriteView view) {
+        Inventories.writeData(view, inventory);
+        view.putLong("Energy", energyHandler.getAmountStored());
+        view.putInt("Progress", progress);
+        view.putInt("MaxProgress", maxProgress);
 
-        super.writeNbt(nbt, registries);
+        super.writeData(view);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    protected void readData(ReadView view) {
+        super.readData(view);
 
-        Inventories.readNbt(nbt, inventory, registries);
-        energyHandler.deserializeNBT(registries, nbt.getCompoundOrEmpty("Energy"));
-        progress = nbt.getInt("Progress", 0);
-        maxProgress = nbt.getInt("MaxProgress", 78);
+        Inventories.readData(view, inventory);
+        energyHandler.setAmount(view.getLong("Energy", 0));
+        progress = view.getInt("Progress", 0);
+        maxProgress = view.getInt("MaxProgress", 78);
     }
 
     @Nullable

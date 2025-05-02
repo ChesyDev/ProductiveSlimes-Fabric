@@ -273,10 +273,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         // Render the info section
         Text title = Text.translatable("guidebook.productiveslimes.dna_extracting");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.dna_extracting.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xFFAAAAAA);
 
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
@@ -334,10 +334,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, outputX + 20, outputY, Items.SLIME_BALL.getDefaultStack(), textRenderer);
             }
 
-            pGuiGraphics.drawText(textRenderer, output.toHoverableText().getString().substring(1, output.toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, output.toHoverableText().getString().substring(1, output.toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0xFF555555, false);
 
             Text outputChance = Text.translatable("gui.productiveslimes.output_chance", String.format("%.1f", recipe.outputChance() * 100) + "%");
-            pGuiGraphics.drawText(textRenderer, outputChance, xPos + 9, yPos + 72, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, outputChance, xPos + 9, yPos + 72, 0xFF555555, false);
 
             index++;
         }
@@ -362,10 +362,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         // Render the info section
         Text title = Text.translatable("guidebook.productiveslimes.dna_synthesizing");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.dna_synthesizing.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 30, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 30, 0xFFAAAAAA);
 
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
@@ -439,7 +439,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             pGuiGraphics.getMatrices().pushMatrix();
             pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4);
             pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
-            pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0xFF555555, false);
             pGuiGraphics.getMatrices().popMatrix();
 
             index++;
@@ -465,10 +465,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         // Render the info section
         Text title = Text.translatable("guidebook.productiveslimes.slimeball_melting");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.slimeball_melting.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xFFAAAAAA);
 
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
@@ -515,7 +515,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             pGuiGraphics.getMatrices().pushMatrix();
             pGuiGraphics.getMatrices().translate(xPos + 9, yPos + 4);
             pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
-            pGuiGraphics.drawText(textRenderer, recipe.getOutputs().getFirst().toHoverableText().getString().substring(1, recipe.getOutputs().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, recipe.getOutputs().getFirst().toHoverableText().getString().substring(1, recipe.getOutputs().getFirst().toHoverableText().getString().length() - 1), 0, 0, 0xFF555555, false);
             pGuiGraphics.getMatrices().popMatrix();
 
             index++;
@@ -541,10 +541,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         // Render the info section
         Text title = Text.translatable("guidebook.productiveslimes.soliding");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.soliding.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xFFAAAAAA);
 
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f), infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
 
@@ -591,7 +591,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.getOutputs().getFirst(), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 107 + 20, yPos + 34, recipe.getOutputs().get(1), textRenderer);
 
-            pGuiGraphics.drawText(textRenderer, recipe.getOutputs().getFirst().toHoverableText().getString().substring(1, recipe.getOutputs().getFirst().toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, recipe.getOutputs().getFirst().toHoverableText().getString().substring(1, recipe.getOutputs().getFirst().toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0xFF555555, false);
 
             index++;
         }
@@ -616,10 +616,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         // Render the info section
         Text title = Text.translatable("guidebook.productiveslimes.squeezing");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.squeezing.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth - 20, 0xFFAAAAAA);
 
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
         pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, CRAFTING_TEXTURE, contentX + RECIPE_WIDTH + V_SPACING, infoY + 45, 0, 0, RECIPE_WIDTH, RECIPE_HEIGHT, 256, 256);
@@ -681,7 +681,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 87 + 20, yPos + 34, recipe.output().getFirst(), textRenderer);
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 107 + 20, yPos + 34, recipe.output().get(1), textRenderer);
 
-            pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, recipe.output().getFirst().toHoverableText().getString().substring(1, recipe.output().getFirst().toHoverableText().getString().length() - 1), xPos + 9, yPos + 4, 0xFF555555, false);
 
             index++;
         }
@@ -706,20 +706,20 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title = Text.translatable("guidebook.productiveslimes.slime_and_slimeball");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, (int) (contentX + (contentWidth - fontX) / 2 * 0.8f), infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.slime_and_slimeball.description1");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, wordWarpLength, 0xFFAAAAAA);
 
         Text description2 = Text.translatable("guidebook.productiveslimes.slime_and_slimeball.description2");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + 25, (int) (contentWidth * 0.85f), 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + 25, (int) (contentWidth * 0.85f), 0xFFAAAAAA);
 
         Text title2 = Text.translatable("guidebook.productiveslimes.slime_growing");
         int fontX2 = textRenderer.getWidth(title2);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title2, (int) (contentX + (contentWidth - fontX2) / 2 * 0.8f), infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + 30, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title2, (int) (contentX + (contentWidth - fontX2) / 2 * 0.8f), infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + 30, 0xFFFFFFFF);
 
         Text description3 = Text.translatable("guidebook.productiveslimes.slime_growing.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + textRenderer.getWrappedLinesHeight(title2, wordWarpLength) + 35, (int) (contentWidth * 0.85f), 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + textRenderer.getWrappedLinesHeight(title2, wordWarpLength) + 35, (int) (contentWidth * 0.85f), 0xFFAAAAAA);
 
         SLIME_AND_SLIMEBALL_INFO_HEIGHT = contentY + textRenderer.getWrappedLinesHeight(description, wordWarpLength) + textRenderer.getWrappedLinesHeight(description2, wordWarpLength) + textRenderer.getWrappedLinesHeight(title2, wordWarpLength) + textRenderer.getWrappedLinesHeight(description3, wordWarpLength) + 40;
 
@@ -742,7 +742,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             pGuiGraphics.getMatrices().pushMatrix();
             pGuiGraphics.getMatrices().translate(xPos + 5, yPos + 3);
             pGuiGraphics.getMatrices().scale(0.8f, 0.8f);
-            pGuiGraphics.drawText(textRenderer, tierName, 0, 0, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, tierName, 0, 0, 0xFF555555, false);
             pGuiGraphics.getMatrices().popMatrix();
 
             SlimeData slimeData = GuideBookScreenHelper.generateSlimeData(tiers);
@@ -769,17 +769,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title3 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining");
         int fontX3 = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title3, (int) (contentX + (contentWidth - fontX3) / 2 * 0.8f), infoY2 + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title3, (int) (contentX + (contentWidth - fontX3) / 2 * 0.8f), infoY2 + 5, 0xFFFFFFFF);
 
         Text description4 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY2 + 20, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY2 + 20, wordWarpLength, 0xFFAAAAAA);
 
         Text description5 = Text.translatable("guidebook.productiveslimes.slimeball_obtaining.description2");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description5, contentX + 5, infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength), wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description5, contentX + 5, infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength), wordWarpLength, 0xFFAAAAAA);
 
         Text title4 = Text.translatable("guidebook.productiveslimes.slime_cooldown_time");
         int fontX4 = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title4, (int) (contentX + (contentWidth - fontX4) / 2 * 0.8f), infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength) + textRenderer.getWrappedLinesHeight(description5, wordWarpLength) + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title4, (int) (contentX + (contentWidth - fontX4) / 2 * 0.8f), infoY2 + 25 + textRenderer.getWrappedLinesHeight(description4, wordWarpLength) + textRenderer.getWrappedLinesHeight(description5, wordWarpLength) + 5, 0xFFFFFFFF);
 
         SLIME_AND_SLIMEBALL_SECOND_INFO_HEIGHT = textRenderer.getWrappedLinesHeight(description4, wordWarpLength) + textRenderer.getWrappedLinesHeight(description5, wordWarpLength) + 45;
 
@@ -798,7 +798,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             pGuiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, COOLDOWN_TEXTURE, xPos, yPos, 0, 0, RECIPE_WIDTH, cooldownGUIHeight, 256, 256);
 
             Text tierName = Text.translatable("entity.productiveslimes." + tiers.name() + "_slime");
-            pGuiGraphics.drawText(textRenderer, tierName, xPos + 6, yPos + 4, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, tierName, xPos + 6, yPos + 4, 0xFF555555, false);
 
             SlimeData slimeData = GuideBookScreenHelper.generateSlimeData(tiers);
             ItemStack slimeItem = new ItemStack(ModItems.SLIME_ITEM);
@@ -807,7 +807,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
             GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, xPos + 29, yPos + 15, slimeItem, textRenderer);
 
             Text cooldownText = Text.translatable("guidebook.productiveslimes.cooldown", tiers.cooldown() / 20);
-            pGuiGraphics.drawText(textRenderer, cooldownText, xPos + 55, yPos + 19, 0x555555, false);
+            pGuiGraphics.drawText(textRenderer, cooldownText, xPos + 55, yPos + 19, 0xFF555555, false);
 
             index2++;
         }
@@ -816,10 +816,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title5 = Text.translatable("block.productiveslimes.slimeball_collector");
         int fontX5 = textRenderer.getWidth(title5);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title5, (int) (contentX + (contentWidth - fontX5) / 2 * 0.8f), infoY3 + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title5, (int) (contentX + (contentWidth - fontX5) / 2 * 0.8f), infoY3 + 5, 0xFFFFFFFF);
 
         Text description6 = Text.translatable("guidebook.productiveslimes.slimeball_collector.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description6, contentX + 5, infoY3 + 20, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description6, contentX + 5, infoY3 + 20, wordWarpLength, 0xFFAAAAAA);
 
         Optional<RecipeEntry<?>> slimeballCollectorHolder = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slimeball_collector"));
         RecipeEntry<ShapedRecipe> slimeballCollector = (RecipeEntry<ShapedRecipe>) slimeballCollectorHolder.get();
@@ -841,17 +841,17 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
         GuideBookScreenHelper.renderItemSlot(pGuiGraphics, pMouseX, pMouseY, (int) (contentX + (contentWidth - RECIPE_WIDTH) / 2 * 0.8f) + 95 + 18, textureY + 17 + 18, output, textRenderer);
 
         Text note = Text.translatable("guidebook.productiveslimes.slimeball_collector.note");
-        pGuiGraphics.drawText(textRenderer, note, (int) (contentX + (contentWidth - textRenderer.getWidth(note)) / 2 * 0.8f), infoY3 + 110 + 18 + 26, 0x555555, false);
+        pGuiGraphics.drawText(textRenderer, note, (int) (contentX + (contentWidth - textRenderer.getWidth(note)) / 2 * 0.8f), infoY3 + 110 + 18 + 26, 0xFF555555, false);
 
         Text title6 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades");
         int fontX6 = textRenderer.getWidth(title6);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title6, (int) (contentX + (contentWidth - fontX6) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + 15, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title6, (int) (contentX + (contentWidth - fontX6) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + 15, 0xFFFFFFFF);
 
         Text description7 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description7, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + 20, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description7, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + 20, wordWarpLength, 0xFFAAAAAA);
 
         Text description8 = Text.translatable("guidebook.productiveslimes.slime_simulation_chamber_and_upgrades.description2");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description8, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + 25, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description8, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + 25, wordWarpLength, 0xFFAAAAAA);
 
         Optional<RecipeEntry<?>> slimeNestHolder = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slime_nest"));
         RecipeEntry<ShapedRecipe> SlimeNest = (RecipeEntry<ShapedRecipe>) slimeNestHolder.get();
@@ -912,10 +912,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title7 = Text.translatable("guidebook.productiveslimes.slimeball_fragment");
         int fontX7 = textRenderer.getWidth(title7);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title7, (int) (contentX + (contentWidth - fontX7) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title7, (int) (contentX + (contentWidth - fontX7) / 2 * 0.8f), infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 5, 0xFFFFFFFF);
 
         Text description9 = Text.translatable("guidebook.productiveslimes.slimeball_fragment.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description9, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + 5, wordWarpLength, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description9, contentX + 5, infoY3 + 110 + 18 + 26 + textRenderer.getWrappedLinesHeight(note, wordWarpLength) + textRenderer.getWrappedLinesHeight(title6, wordWarpLength) + textRenderer.getWrappedLinesHeight(description7, wordWarpLength) + textRenderer.getWrappedLinesHeight(description8, wordWarpLength) + 30 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + RECIPE_HEIGHT + 10 + 5, wordWarpLength, 0xFFAAAAAA);
 
         Optional<RecipeEntry<?>> slimeball = ClientRecipeManager.getRecipe(Identifier.of(ProductiveSlimes.MODID, "slimeball_from_fragment"));
         RecipeEntry<ShapedRecipe> slimeballFragment = (RecipeEntry<ShapedRecipe>) slimeball.get();
@@ -957,23 +957,23 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title = Text.translatable("guidebook.productiveslimes.welcome");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.welcome.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xFFAAAAAA);
 
         Text description2 = Text.translatable("guidebook.productiveslimes.welcome.description2");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xFFAAAAAA);
 
         Text description3 = Text.translatable("guidebook.productiveslimes.welcome.description3");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xFFAAAAAA);
 
         Text description4 = Text.translatable("guidebook.productiveslimes.welcome.description4");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + 15, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description4, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + 15, contentWidth, 0xFFAAAAAA);
 
         Text wikiLink = Text.translatable("guidebook.productiveslimes.welcome.wiki_link");
         int wikiLinkWidth = textRenderer.getWidth(wikiLink);
-        pGuiGraphics.drawTextWithShadow(textRenderer, wikiLink, contentX + (contentWidth - wikiLinkWidth) / 2, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + textRenderer.getWrappedLinesHeight(description4, contentWidth) + 20, 0x5555FF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, wikiLink, contentX + (contentWidth - wikiLinkWidth) / 2, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + textRenderer.getWrappedLinesHeight(description3, contentWidth) + textRenderer.getWrappedLinesHeight(description4, contentWidth) + 20, 0xFF5555FF);
     }
 
     private void drawEnergyGeneration(DrawContext pGuiGraphics, int pMouseX, int pMouseY) {
@@ -985,10 +985,10 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title = Text.translatable("guidebook.productiveslimes.energy_generation");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.energy_generation.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xFFAAAAAA);
 
         int recipeBaseY = infoY + textRenderer.fontHeight + textRenderer.getWrappedLinesHeight(description, contentWidth) + 25;
 
@@ -1084,15 +1084,15 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
 
         Text title = Text.translatable("guidebook.productiveslimes.world_generation");
         int fontX = textRenderer.getWidth(title);
-        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFF);
+        pGuiGraphics.drawTextWithShadow(textRenderer, title, contentX + (contentWidth - fontX) / 2, infoY + 5, 0xFFFFFFFF);
 
         Text description = Text.translatable("guidebook.productiveslimes.world_generation.description");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description, contentX + 5, infoY + 20, contentWidth, 0xFFAAAAAA);
 
         Text description2 = Text.translatable("guidebook.productiveslimes.world_generation.description2");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description2, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + 5, contentWidth, 0xFFAAAAAA);
 
         Text description3 = Text.translatable("guidebook.productiveslimes.world_generation.description3");
-        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xAAAAAA);
+        pGuiGraphics.drawWrappedTextWithShadow(textRenderer, description3, contentX + 5, infoY + 20 + textRenderer.getWrappedLinesHeight(description, contentWidth) + textRenderer.getWrappedLinesHeight(description2, contentWidth) + 10, contentWidth, 0xFFAAAAAA);
     }
 }
