@@ -18,11 +18,11 @@ public class ModFluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        TagBuilder tag = getTagBuilder(FluidTags.WATER);
+        var tag = valueLookupBuilder(FluidTags.WATER);
 
         for (Tier tier : Tier.values()){
-            tag.add(ModTiers.getSourceByName(ModTiers.getTierByName(tier).name()).getStill().getRegistryEntry().registryKey().getValue());
-            tag.add(ModTiers.getFlowByName(ModTiers.getTierByName(tier).name()).getFlowing().getRegistryEntry().registryKey().getValue());
+            tag.add(ModTiers.getSourceByName(ModTiers.getTierByName(tier).name()));
+            tag.add(ModTiers.getFlowByName(ModTiers.getTierByName(tier).name()));
         }
     }
 }
