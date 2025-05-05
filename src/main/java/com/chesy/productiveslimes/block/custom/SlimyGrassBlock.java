@@ -1,10 +1,19 @@
 package com.chesy.productiveslimes.block.custom;
 
 import com.chesy.productiveslimes.block.ModBlocks;
+import com.chesy.productiveslimes.enchantment.ModEnchantments;
+import com.chesy.productiveslimes.entity.SlimySkeleton;
+import com.chesy.productiveslimes.entity.SlimySpider;
 import com.chesy.productiveslimes.entity.SlimyZombie;
 import net.minecraft.block.*;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
@@ -45,8 +54,24 @@ public class SlimyGrassBlock extends Block implements Fertilizable {
             return;
         }
 
-        if (entity instanceof SlimyZombie) {
+        if (entity instanceof SlimyZombie || entity instanceof SlimySkeleton || entity instanceof SlimySpider) {
             return;
+        }
+
+        if (entity instanceof PlayerEntity player) {
+            ItemStack boots = player.getEquippedStack(EquipmentSlot.FEET);
+
+            RegistryWrapper<Enchantment> enchantRegistry =
+                    world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+
+            RegistryEntry<Enchantment> glidingEntry =
+                    enchantRegistry.getOrThrow(ModEnchantments.GLIDING);
+
+            int glideLevel = EnchantmentHelper.getLevel(glidingEntry, boots);
+
+            if (glideLevel > 0) {
+                return;
+            }
         }
 
         double slowFactor = 0.05;

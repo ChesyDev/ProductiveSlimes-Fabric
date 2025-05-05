@@ -244,6 +244,10 @@
   "entity.productiveslimes.oak_leaves_slime": "Oak Leaves Slime",
   "entity.productiveslimes.birch_slime": "Birch Slime",
 
+  "entity.productiveslimes.slimy_zombie": "Slimy Zombie",
+  "entity.productiveslimes.slimy_skeleton": "Slimy Skeleton",
+  "entity.productiveslimes.slimy_spider": "Slimy Spider",
+
   "item.productiveslimes.slime_dna": "Slime DNA",
   "item.productiveslimes.dirt_slime_dna": "Dirt Slime DNA",
   "item.productiveslimes.stone_slime_dna": "Stone Slime DNA",
@@ -492,6 +496,8 @@
   "guidebook.productiveslimes.nav.welcome": "Welcome",
   "guidebook.productiveslimes.nav.world_gen": "World Gen",
   "guidebook.productiveslimes.nav.melting": "Melting",
+
+  "enchantment.productiveslimes.gliding": "Gliding",
 
   "scientist": "Scientist",
 

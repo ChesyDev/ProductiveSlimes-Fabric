@@ -7,6 +7,7 @@ import com.chesy.productiveslimes.config.CustomVariantRegistry;
 import com.chesy.productiveslimes.config.ModConfig;
 import com.chesy.productiveslimes.dataattachment.ModDataAttachments;
 import com.chesy.productiveslimes.datacomponent.ModDataComponents;
+import com.chesy.productiveslimes.enchantment.ModEnchantments;
 import com.chesy.productiveslimes.entity.BaseSlime;
 import com.chesy.productiveslimes.entity.ModEntities;
 import com.chesy.productiveslimes.event.EntityInteractEvent;
@@ -73,6 +74,8 @@ public class ProductiveSlimes implements ModInitializer {
         ModVillagers.init();
 
         ModDataAttachments.register();
+
+        ModEnchantments.initialize();
 
         Registry.register(Registries.DENSITY_FUNCTION_TYPE, "clamp_clone", ModNoiseSettings.Clamp.CODEC_HOLDER.codec());
 

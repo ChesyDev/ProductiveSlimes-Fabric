@@ -1,0 +1,14 @@
+{
+  "description": { "translate": "enchantment.productiveslimes.gliding" },
+  "supported_items": "#minecraft:enchantable/foot_armor",
+  "exclusive_set": [ "minecraft:frost_walker",
+    "minecraft:soul_speed" ],
+  "primary_items": [],
+  "weight": 1,
+  "max_level": 1,
+  "min_cost": { "base": 5, "per_level_above_first": 10 },
+  "max_cost": { "base": 50, "per_level_above_first": 12 },
+  "anvil_cost": 2,
+  "slots": [ "feet" ],
+  "effects": {}
+}

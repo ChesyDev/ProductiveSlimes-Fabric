@@ -1,12 +1,23 @@
 package com.chesy.productiveslimes.block.custom;
 
+import com.chesy.productiveslimes.enchantment.ModEnchantments;
+import com.chesy.productiveslimes.entity.SlimySkeleton;
+import com.chesy.productiveslimes.entity.SlimySpider;
 import com.chesy.productiveslimes.entity.SlimyZombie;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TranslucentBlock;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
@@ -62,8 +73,24 @@ public class SlimeBlock extends TranslucentBlock {
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         double d = Math.abs(entity.getVelocity().y);
 
-        if (entity instanceof SlimyZombie) {
+        if (entity instanceof SlimyZombie || entity instanceof SlimySkeleton || entity instanceof SlimySpider) {
             return;
+        }
+
+        if (entity instanceof PlayerEntity player) {
+            ItemStack boots = player.getEquippedStack(EquipmentSlot.FEET);
+
+            RegistryWrapper<Enchantment> enchantRegistry =
+                    world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+
+            RegistryEntry<Enchantment> glidingEntry =
+                    enchantRegistry.getOrThrow(ModEnchantments.GLIDING);
+
+            int glideLevel = EnchantmentHelper.getLevel(glidingEntry, boots);
+
+            if (glideLevel > 0) {
+                return;
+            }
         }
 
         if (d < 0.1 && !entity.bypassesSteppingEffects()) {
