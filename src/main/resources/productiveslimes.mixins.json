@@ -6,6 +6,7 @@
     "CustomMeleeAttackGoal",
     "CustomMoveTowardsTargetGoalMixin",
     "ResourcePackManagerMixin",
+    "SlimeBlockMixin",
     "SlimeMixin"
   ],
   "injectors": {
