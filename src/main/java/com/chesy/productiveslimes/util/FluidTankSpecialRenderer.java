@@ -15,6 +15,9 @@ import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
+
+import java.util.Set;
 
 public record FluidTankSpecialRenderer() implements SpecialModelRenderer<ImmutableFluidVariant> {
     @Override
@@ -28,6 +31,11 @@ public record FluidTankSpecialRenderer() implements SpecialModelRenderer<Immutab
             FluidVariant fluidVariant = FluidVariant.of(immutableFluidVariant.fluid());
             FluidTankBlockEntityRenderer.renderFluid(poseStack, vertexConsumers, light, overlay, fluidVariant, immutableFluidVariant.amount());
         }
+    }
+
+    @Override
+    public void method_72175(Set<Vector3f> set) {
+
     }
 
     @Nullable
