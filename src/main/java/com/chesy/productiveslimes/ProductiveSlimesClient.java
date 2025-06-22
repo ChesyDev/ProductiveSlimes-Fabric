@@ -18,11 +18,11 @@ import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
 import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -49,18 +49,18 @@ public class ProductiveSlimesClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(BaseSlimeModel.SLIME_TEXTURE, BaseSlimeModel::getOuterTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ENERGY_SLIME, ctx -> new BaseSlimeRenderer(ctx, 0xFFffff70));
 
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_SYNTHESIZER, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DNA_EXTRACTOR, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_GENERATOR, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FLUID_TANK, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOLIDING_STATION, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_SAPLING, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_DOOR, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMY_TRAPDOOR, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIMEBALL_COLLECTOR, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLIME_NEST, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.DNA_SYNTHESIZER, BlockRenderLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(ModBlocks.DNA_EXTRACTOR, BlockRenderLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(ModBlocks.ENERGY_GENERATOR, BlockRenderLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(ModBlocks.FLUID_TANK, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SOLIDING_STATION, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SLIMY_SAPLING, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SLIMY_DOOR, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SLIMY_TRAPDOOR, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SLIMEBALL_COLLECTOR, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.SLIME_NEST, BlockRenderLayer.CUTOUT);
 
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, BlockRenderLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(ModBlocks.ENERGY_SLIME_BLOCK, BlockRenderLayer.TRANSLUCENT);
         BlockEntityRendererFactories.register(ModBlockEntities.SOLIDING_STATION, SolidingStationBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.FLUID_TANK, FluidTankBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DNA_EXTRACTOR, DnaExtractorBlockEntityRenderer::new);
@@ -83,9 +83,9 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             String name = tiers.name();
 
             FluidRenderHandlerRegistry.INSTANCE.register(ModTiers.getSourceByName(name), ModTiers.getFlowByName(name), SimpleFluidRenderHandler.coloredWater(tiers.color()));
-            BlockRenderLayerMap.INSTANCE.putFluids(BlockRenderLayer.TRANSLUCENT, ModTiers.getSourceByName(name), ModTiers.getFlowByName(name));
+            BlockRenderLayerMap.putFluids(BlockRenderLayer.TRANSLUCENT, ModTiers.getSourceByName(name), ModTiers.getFlowByName(name));
 
-            BlockRenderLayerMap.INSTANCE.putBlock(ModTiers.getBlockByName(name), BlockRenderLayer.TRANSLUCENT);
+            BlockRenderLayerMap.putBlock(ModTiers.getBlockByName(name), BlockRenderLayer.TRANSLUCENT);
             ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tiers.color(), ModTiers.getBlockByName(name));
 
             EntityRendererRegistry.register(ModTiers.getEntityByName(name), ctx -> new BaseSlimeRenderer(ctx, tiers.color()));
@@ -95,9 +95,9 @@ public class ProductiveSlimesClient implements ClientModInitializer {
             String name = variant.name();
 
             FluidRenderHandlerRegistry.INSTANCE.register(CustomVariantRegistry.getSourceFluidForVariant(name), CustomVariantRegistry.getFlowingFluidForVariant(name), SimpleFluidRenderHandler.coloredWater(variant.getColor()));
-            BlockRenderLayerMap.INSTANCE.putFluids(BlockRenderLayer.TRANSLUCENT, CustomVariantRegistry.getSourceFluidForVariant(name), CustomVariantRegistry.getFlowingFluidForVariant(name));
+            BlockRenderLayerMap.putFluids(BlockRenderLayer.TRANSLUCENT, CustomVariantRegistry.getSourceFluidForVariant(name), CustomVariantRegistry.getFlowingFluidForVariant(name));
 
-            BlockRenderLayerMap.INSTANCE.putBlock(CustomVariantRegistry.getSlimeBlockForVariant(name), BlockRenderLayer.TRANSLUCENT);
+            BlockRenderLayerMap.putBlock(CustomVariantRegistry.getSlimeBlockForVariant(name), BlockRenderLayer.TRANSLUCENT);
             ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> variant.getColor(), CustomVariantRegistry.getSlimeBlockForVariant(name));
 
             EntityRendererRegistry.register(CustomVariantRegistry.getSlimeForVariant(name), ctx -> new BaseSlimeRenderer(ctx, variant.getColor()));

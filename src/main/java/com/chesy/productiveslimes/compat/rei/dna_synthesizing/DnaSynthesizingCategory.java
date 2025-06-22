@@ -1,4 +1,3 @@
-/*
 package com.chesy.productiveslimes.compat.rei.dna_synthesizing;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
@@ -12,6 +11,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.render.RenderLayer;
@@ -80,14 +80,14 @@ public class DnaSynthesizingCategory implements DisplayCategory<DnaSynthesizingR
                 int arrowWidth = (tickCount % 600) * 26 / 600;
                 int dnaHeight = (tickCount % 600) * 23 / 600;
 
-                guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 77, startPoint.y + 38, 153, 0, arrowWidth, 8, 256,256);
+                guiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, startPoint.x + 77, startPoint.y + 38, 153, 0, arrowWidth, 8, 256,256);
 
                 // Energy bar
                 int energyScaled = (int) Math.ceil((double) display.getEnergy() / 10000 * 57);
                 energyScaled = arrowWidth >= 25 ? 0 : energyScaled;
 
-                guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 9, (startPoint.y + 18) + (52 - energyScaled), 153, 65 - energyScaled, 9, energyScaled, 256,256);
-                guiGraphics.drawTexture(RenderLayer::getGuiTextured, TEXTURE, startPoint.x + 36, startPoint.y + 30, 153, 66, 6, dnaHeight, 256,256);
+                guiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, startPoint.x + 9, (startPoint.y + 18) + (52 - energyScaled), 153, 65 - energyScaled, 9, energyScaled, 256,256);
+                guiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, startPoint.x + 36, startPoint.y + 30, 153, 66, 6, dnaHeight, 256,256);
             }
 
             @Override
@@ -103,4 +103,4 @@ public class DnaSynthesizingCategory implements DisplayCategory<DnaSynthesizingR
     public int getDisplayHeight() {
         return 83;
     }
-}*/
+}
