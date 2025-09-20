@@ -23,7 +23,7 @@ public class EnergyGeneratorMenu extends ScreenHandler {
     private boolean showExtraSlots = true;
 
     public EnergyGeneratorMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
-        this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
+        this(syncId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
     }
 
     public EnergyGeneratorMenu(int syncId, PlayerInventory playerInventory, BlockEntity entity, PropertyDelegate data) {

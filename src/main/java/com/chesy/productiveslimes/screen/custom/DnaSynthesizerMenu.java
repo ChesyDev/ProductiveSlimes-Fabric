@@ -22,13 +22,13 @@ public class DnaSynthesizerMenu extends ScreenHandler {
     private final PropertyDelegate data;
 
     public DnaSynthesizerMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
+        this(pContainerId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
     }
 
     public DnaSynthesizerMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.DNA_SYNTHESIZER_MENU_HANDLER, pContainerId);
         inventory = (Inventory) entity;
-        this.level = inv.player.getWorld();
+        this.level = inv.player.getEntityWorld();
         this.data = data;
 
         this.addSlot(new SlotItemHandler(inventory, 0, 31, 12, itemStack -> itemStack.isIn(ModTags.Items.DNA_ITEM)));

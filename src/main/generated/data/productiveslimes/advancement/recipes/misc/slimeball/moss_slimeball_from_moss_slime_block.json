@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slimeball/moss_slimeball_from_moss_slime_block"
+        "recipe": "productiveslimes:slimeball/moss_slimeball_from_moss_slime_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slimeball/moss_slimeball_from_moss_slime_block"
+      "productiveslimes:slimeball/moss_slimeball_from_moss_slime_block"
     ]
   }
 }

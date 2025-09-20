@@ -12,8 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -95,7 +93,7 @@ public class SlimeballCollectorBlockEntity extends BlockEntity implements Extend
     }
 
     public void tick(World level, BlockPos pos, BlockState state) {
-        if (this.world == null || this.world.isClient) return;
+        if (this.world == null || this.world.isClient()) return;
 
         // Define the collection area: 16x16 in X and Z, full height in Y.
         Box collectionArea = new Box(

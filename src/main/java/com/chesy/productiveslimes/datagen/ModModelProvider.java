@@ -8,11 +8,11 @@ import com.chesy.productiveslimes.item.custom.BucketItem;
 import com.chesy.productiveslimes.item.custom.DnaItem;
 import com.chesy.productiveslimes.item.custom.SlimeballItem;
 import com.chesy.productiveslimes.item.custom.SpawnEggItem;
-import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
+import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
-import com.chesy.productiveslimes.util.SlimeItemTint;
+import com.chesy.productiveslimes.util.SlimeItemSpecialRenderer;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
@@ -30,7 +30,8 @@ import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Direction;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -234,7 +235,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void slimeItem(ItemModelGenerator itemModels, Item item){
         Identifier model = itemLocation("slime_item");
-        itemModels.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new SlimeItemTint(-1), new SlimeItemTint(-1))));
+        itemModels.output.accept(item, ItemModels.special(model, new SlimeItemSpecialRenderer.Unbaked(model)));
     }
 
     private Identifier blockLocation(String modelName){

@@ -33,7 +33,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
     public void markRemoved() {
         super.markRemoved();
         assert world != null;
-        if (!world.isClient && world instanceof ServerWorld serverWorld) {
+        if (!world.isClient() && world instanceof ServerWorld serverWorld) {
             if (shouldRemoveCableEntity(serverWorld)) {
                 ModNetworkManager.onCableRemoved(serverWorld, pos);
             }
@@ -50,7 +50,7 @@ public class CableBlockEntity extends BlockEntity implements EnergyStorage, IEne
     public static void tick(World world, BlockPos pos, CableBlockEntity blockEntity) {
         if (!blockEntity.initialized) {
             blockEntity.initialized = true;
-            if (!world.isClient && world instanceof ServerWorld serverWorld && blockEntity.newlyPlaced) {
+            if (!world.isClient() && world instanceof ServerWorld serverWorld && blockEntity.newlyPlaced) {
                 ModNetworkManager.rebuildNetwork(serverWorld, pos);
             }
         }

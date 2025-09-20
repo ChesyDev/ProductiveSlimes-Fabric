@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slime_block/amethyst_slime_block_from_amethyst_slimeball"
+        "recipe": "productiveslimes:slime_block/amethyst_slime_block_from_amethyst_slimeball"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slime_block/amethyst_slime_block_from_amethyst_slimeball"
+      "productiveslimes:slime_block/amethyst_slime_block_from_amethyst_slimeball"
     ]
   }
 }

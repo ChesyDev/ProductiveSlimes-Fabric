@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slime_block/glowstone_slime_block_from_glowstone_slimeball"
+        "recipe": "productiveslimes:slime_block/glowstone_slime_block_from_glowstone_slimeball"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slime_block/glowstone_slime_block_from_glowstone_slimeball"
+      "productiveslimes:slime_block/glowstone_slime_block_from_glowstone_slimeball"
     ]
   }
 }

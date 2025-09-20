@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slimeball/energy_slimeball_from_energy_slime_block"
+        "recipe": "productiveslimes:slimeball/energy_slimeball_from_energy_slime_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slimeball/energy_slimeball_from_energy_slime_block"
+      "productiveslimes:slimeball/energy_slimeball_from_energy_slime_block"
     ]
   }
 }

@@ -21,7 +21,7 @@ public class MeltingStationMenu extends ScreenHandler {
     private final Inventory inventory;
 
     public MeltingStationMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
-        this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
+        this(syncId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
     }
 
     public MeltingStationMenu(int syncId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {

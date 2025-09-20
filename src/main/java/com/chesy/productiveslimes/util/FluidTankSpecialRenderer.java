@@ -7,7 +7,9 @@ import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,21 +23,22 @@ import java.util.Set;
 
 public record FluidTankSpecialRenderer() implements SpecialModelRenderer<ImmutableFluidVariant> {
     @Override
-    public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext modelTransformationMode, MatrixStack poseStack, VertexConsumerProvider vertexConsumers, int light, int overlay, boolean glint) {
-        poseStack.push();
+    public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue nodeCollector, int light, int overlay, boolean glint) {
+        matrices.push();
         BlockState blockState = ModBlocks.FLUID_TANK.getDefaultState();
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(blockState, poseStack, vertexConsumers, light, overlay);
-        poseStack.pop();
+        nodeCollector.submitBlockStateModel(matrices, RenderLayer.getCutout(), MinecraftClient.getInstance().getBlockRenderManager().getModel(blockState), -1, -1, -1, light, overlay, 0);
+        matrices.pop();
 
         if (data instanceof ImmutableFluidVariant immutableFluidVariant){
             FluidVariant fluidVariant = FluidVariant.of(immutableFluidVariant.fluid());
-            FluidTankBlockEntityRenderer.renderFluid(poseStack, vertexConsumers, light, overlay, fluidVariant, immutableFluidVariant.amount());
+            FluidTankBlockEntityRenderer.renderFluid(matrices, nodeCollector, light, overlay, fluidVariant, immutableFluidVariant.amount());
         }
     }
 
     @Override
     public void collectVertices(Set<Vector3f> vertices) {
-
+        vertices.add(new Vector3f(0.0f, 0.0f, 0.0f));
+        vertices.add(new Vector3f(1.0f, 1.0f, 1.0f));
     }
 
     @Nullable
@@ -47,9 +50,8 @@ public record FluidTankSpecialRenderer() implements SpecialModelRenderer<Immutab
     public record Unbaked(Identifier texture) implements SpecialModelRenderer.Unbaked{
         public static final MapCodec<Unbaked> MAP_CODEC = Identifier.CODEC.fieldOf("texture").xmap(FluidTankSpecialRenderer.Unbaked::new, FluidTankSpecialRenderer.Unbaked::texture);
 
-        @Nullable
         @Override
-        public SpecialModelRenderer<?> bake(LoadedEntityModels entityModels) {
+        public @Nullable SpecialModelRenderer<?> bake(BakeContext context) {
             return new FluidTankSpecialRenderer();
         }
 

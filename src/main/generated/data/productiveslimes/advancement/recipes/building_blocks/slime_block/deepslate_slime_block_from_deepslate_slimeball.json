@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slime_block/deepslate_slime_block_from_deepslate_slimeball"
+        "recipe": "productiveslimes:slime_block/deepslate_slime_block_from_deepslate_slimeball"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slime_block/deepslate_slime_block_from_deepslate_slimeball"
+      "productiveslimes:slime_block/deepslate_slime_block_from_deepslate_slimeball"
     ]
   }
 }

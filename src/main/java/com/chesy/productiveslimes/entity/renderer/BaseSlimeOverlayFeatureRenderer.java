@@ -2,8 +2,7 @@ package com.chesy.productiveslimes.entity.renderer;
 
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -20,19 +19,17 @@ public class BaseSlimeOverlayFeatureRenderer extends FeatureRenderer<SlimeEntity
         this.model = new BaseSlimeModel(loader.getModelPart(EntityModelLayers.SLIME_OUTER), color);
     }
 
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, SlimeEntityRenderState slimeEntityRenderState, float f, float g) {
-        boolean bl = slimeEntityRenderState.hasOutline && slimeEntityRenderState.invisible;
-        if (!slimeEntityRenderState.invisible || bl) {
-            VertexConsumer vertexConsumer;
-            if (bl) {
-                vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getOutline(BaseSlimeRenderer.TEXTURE));
-            } else {
-                vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE));
-            }
+    public void render(MatrixStack poseStack, OrderedRenderCommandQueue nodeCollector, int light, SlimeEntityRenderState slimeRenderState, float limbAngle, float limbDistance) {
+        boolean bl = slimeRenderState.hasOutline() && slimeRenderState.invisible;
+        if (!slimeRenderState.invisible || bl) {
+            int i = LivingEntityRenderer.getOverlay(slimeRenderState, 0.0F);
 
-            this.model.setAngles(slimeEntityRenderState);
-            this.model.render(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlay(slimeEntityRenderState, 0.0F), model.color);
-            this.getContextModel().getRoot().render(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlay(slimeEntityRenderState, 0.0F), model.color);
+            if (bl) {
+                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayer.getOutline(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
+            } else {
+                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
+            }
+            nodeCollector.getBatchingQueue(0).submitModel(this.getContextModel(), slimeRenderState, poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
         }
     }
 }

@@ -13,7 +13,6 @@ import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -137,7 +136,7 @@ public class BaseSlime extends SlimeEntity {
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
         if (hand == Hand.MAIN_HAND) {
             if (player.isSneaking()) {
-                if (!getWorld().isClient()) {
+                if (!getEntityWorld().isClient()) {
                     if (player.getStackInHand(hand).getItem() == growthItem && this.getSize() < 4 && player.getStackInHand(hand).getCount() > this.getSize()) {
                         this.growthSlime(player, hand, this);
                     }
@@ -194,8 +193,8 @@ public class BaseSlime extends SlimeEntity {
     }
 
     public void dropResource() {
-        ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.dropItem, this.getSize()));
-        this.getWorld().spawnEntity(itemEntity);
+        ItemEntity itemEntity = new ItemEntity(this.getEntityWorld(), this.getX(), this.getY(), this.getZ(), new ItemStack(this.dropItem, this.getSize()));
+        this.getEntityWorld().spawnEntity(itemEntity);
     }
 
     @Override
@@ -241,12 +240,6 @@ public class BaseSlime extends SlimeEntity {
         this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue((double) i);
 
         this.experiencePoints = i;
-    }
-
-
-    @Override
-    protected boolean isDisallowedInPeaceful() {
-        return false;
     }
 
     @Override

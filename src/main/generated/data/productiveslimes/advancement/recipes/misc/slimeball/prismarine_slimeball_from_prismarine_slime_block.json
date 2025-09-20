@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slimeball/prismarine_slimeball_from_prismarine_slime_block"
+        "recipe": "productiveslimes:slimeball/prismarine_slimeball_from_prismarine_slime_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slimeball/prismarine_slimeball_from_prismarine_slime_block"
+      "productiveslimes:slimeball/prismarine_slimeball_from_prismarine_slime_block"
     ]
   }
 }

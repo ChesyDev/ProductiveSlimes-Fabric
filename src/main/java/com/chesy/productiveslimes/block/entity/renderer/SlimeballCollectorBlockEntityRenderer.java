@@ -1,25 +1,39 @@
 package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.SlimeballCollectorBlockEntity;
+import com.chesy.productiveslimes.block.entity.renderstate.SlimeballCollectorBlockEntityRenderState;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.command.ModelCommandRenderer;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-import java.util.OptionalDouble;
-
-public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRenderer<SlimeballCollectorBlockEntity> {
+public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRenderer<SlimeballCollectorBlockEntity, SlimeballCollectorBlockEntityRenderState> {
     public SlimeballCollectorBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
 
     }
 
     @Override
-    public void render(SlimeballCollectorBlockEntity blockEntity, float tickDelta, MatrixStack poseStack, VertexConsumerProvider bufferSource, int light, int overlay, Vec3d cameraPos) {
+    public void updateRenderState(SlimeballCollectorBlockEntity blockEntity, SlimeballCollectorBlockEntityRenderState state, float tickProgress, Vec3d cameraPos, @Nullable ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlay) {
+        BlockEntityRenderer.super.updateRenderState(blockEntity, state, tickProgress, cameraPos, crumblingOverlay);
+        state.blockEntity = blockEntity;
+        state.lightmapCoordinates = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos().up());
+    }
+
+    @Override
+    public void render(SlimeballCollectorBlockEntityRenderState renderState, MatrixStack poseStack, OrderedRenderCommandQueue nodeCollector, CameraRenderState p_451022_) {
+        SlimeballCollectorBlockEntity blockEntity = renderState.blockEntity;
         if (blockEntity.getWorld() == null) return;
         if (blockEntity.getData().get(0) == 0) return;
         // Define the collection area AABB (match this with your logic).
@@ -33,35 +47,21 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
         poseStack.push();
         poseStack.translate(-blockEntity.getPos().getX(), -blockEntity.getPos().getY(), -blockEntity.getPos().getZ());
         // Render the outline box.
-        renderOutline(poseStack, bufferSource, collectionArea);
+        renderOutline(poseStack, nodeCollector, collectionArea);
         poseStack.pop();
     }
 
-    private void renderOutline(MatrixStack poseStack, VertexConsumerProvider bufferSource, Box aabb) {
+    private void renderOutline(MatrixStack poseStack, OrderedRenderCommandQueue nodeCollector, Box aabb) {
         // Buffer for lines.
-        var buffer = bufferSource.getBuffer(RenderLayer.getLines());
         RenderSystem.lineWidth(2.0f);
         // Render the outer box.
-        drawBox(poseStack, buffer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
+        nodeCollector.submitCustom(poseStack, RenderLayer.getLines(), (pose, vertexConsumer) -> {
+            drawBox(pose, vertexConsumer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
+        });
         RenderSystem.lineWidth(1.0f);
     }
 
-    private void renderGrid(MatrixStack poseStack, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {
-        MatrixStack.Entry pose = poseStack.peek();
-        Matrix4f matrix = pose.getPositionMatrix();
-        // Chunk grid size (16 blocks).
-        int chunkSize = 16;
-        // Loop through the X and Z axes to draw the grid.
-        for (double x = Math.ceil(box.minX / chunkSize) * chunkSize; x < box.maxX; x += chunkSize) {
-            drawLine(matrix, buffer, x, box.minY, box.minZ, x, box.maxY, box.minZ, red, green, blue, alpha); // Vertical lines.
-        }
-        for (double z = Math.ceil(box.minZ / chunkSize) * chunkSize; z < box.maxZ; z += chunkSize) {
-            drawLine(matrix, buffer, box.minX, box.minY, z, box.minX, box.maxY, z, red, green, blue, alpha); // Horizontal lines.
-        }
-    }
-
-    private void drawBox(MatrixStack poseStack, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {
-        MatrixStack.Entry pose = poseStack.peek();
+    private void drawBox(MatrixStack.Entry pose, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {
         Matrix4f matrix = pose.getPositionMatrix();
         Matrix3f normal = pose.getNormalMatrix();
         float x1 = (float) box.minX;
@@ -87,7 +87,12 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void drawLine(Matrix4f matrix, VertexConsumer buffer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f);
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).normal(1.0f, 0.0f, 0.0f);
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0);
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0);
+    }
+
+    @Override
+    public SlimeballCollectorBlockEntityRenderState createRenderState() {
+        return new SlimeballCollectorBlockEntityRenderState();
     }
 }

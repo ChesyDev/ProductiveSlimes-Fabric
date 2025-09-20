@@ -23,13 +23,13 @@ public class SlimeNestMenu extends ScreenHandler {
     private final PropertyDelegate data;
 
     public SlimeNestMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(6));
+        this(pContainerId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(6));
     }
 
     public SlimeNestMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.SLIME_NEST_MENU_HANDLER, pContainerId);
         blockEntity = (SlimeNestBlockEntity) entity;
-        this.level = inv.player.getWorld();
+        this.level = inv.player.getEntityWorld();
         this.data = data;
 
         this.addSlot(new SlotItemHandler(blockEntity, 0, 8, 7, itemStack -> itemStack.getItem() instanceof NestUpgradeItem, 1));

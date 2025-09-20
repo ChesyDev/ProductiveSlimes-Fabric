@@ -19,7 +19,7 @@ public record SqueezingRecipe(List<Ingredient> inputItems, List<ItemStack> outpu
 
     @Override
     public boolean matches(SingleStackRecipeInput input, World world) {
-        if (world.isClient){
+        if (world.isClient()){
             return false;
         }
         return inputItems.getFirst().test(input.getStackInSlot(0));

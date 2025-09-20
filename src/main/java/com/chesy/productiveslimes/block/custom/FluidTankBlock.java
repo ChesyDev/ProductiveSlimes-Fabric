@@ -12,16 +12,15 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.*;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -84,7 +83,7 @@ public class FluidTankBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient){
+        if (!world.isClient()){
             bucketUsed(world, pos, player);
         }
         return ActionResult.SUCCESS;

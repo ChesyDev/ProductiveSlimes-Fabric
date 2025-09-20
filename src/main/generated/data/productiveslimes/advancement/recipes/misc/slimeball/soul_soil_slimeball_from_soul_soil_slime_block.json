@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slimeball/soul_soil_slimeball_from_soul_soil_slime_block"
+        "recipe": "productiveslimes:slimeball/soul_soil_slimeball_from_soul_soil_slime_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slimeball/soul_soil_slimeball_from_soul_soil_slime_block"
+      "productiveslimes:slimeball/soul_soil_slimeball_from_soul_soil_slime_block"
     ]
   }
 }

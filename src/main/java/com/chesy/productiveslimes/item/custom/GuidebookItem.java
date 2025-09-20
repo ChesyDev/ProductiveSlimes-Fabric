@@ -18,7 +18,7 @@ public class GuidebookItem extends Item {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if(!world.isClient) {
+        if(!world.isClient()) {
             user.openHandledScreen(new ExtendedScreenHandlerFactory() {
 
                 @Override

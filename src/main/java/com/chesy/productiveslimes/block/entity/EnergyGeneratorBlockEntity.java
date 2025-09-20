@@ -2,9 +2,9 @@ package com.chesy.productiveslimes.block.entity;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import com.chesy.productiveslimes.block.ModBlocks;
-import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.item.ModItems;
 import com.chesy.productiveslimes.screen.custom.EnergyGeneratorMenu;
+import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
 import com.chesy.productiveslimes.util.ImplementedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -16,11 +16,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -159,7 +157,7 @@ public class EnergyGeneratorBlockEntity extends BlockEntity implements ExtendedS
             }
         }
 
-        if (!this.world.isClient) {
+        if (!this.world.isClient()) {
             for (Direction direction : Direction.values()) {
                 World world = this.world;
 

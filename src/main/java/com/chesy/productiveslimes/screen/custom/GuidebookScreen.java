@@ -14,6 +14,7 @@ import com.chesy.productiveslimes.util.MouseUtil;
 import com.chesy.productiveslimes.util.SlimeData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -239,9 +240,9 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     }
 
     @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        if (pMouseX >= 10 && pMouseX < 10 + NAVIGATION_WIDTH && pMouseY >= 10 && pMouseY < this.height - 10) {
-            int sectionIndex = (int) ((pMouseY - 10) / NAV_TEXT_HEIGHT);
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (click.x() >= 10 && click.x() < 10 + NAVIGATION_WIDTH && click.y() >= 10 && click.y() < this.height - 10) {
+            int sectionIndex = (int) ((click.y() - 10) / NAV_TEXT_HEIGHT);
             if (sectionIndex >= 0 && sectionIndex < sections.size()) {
                 if (sectionIndex == selectedSection) {
                     return true;
@@ -251,7 +252,7 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
                 return true;
             }
         }
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
+        return super.mouseClicked(click, doubled);
     }
 
     @Override

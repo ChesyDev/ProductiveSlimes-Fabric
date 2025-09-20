@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:slime_block/tuff_slime_block_from_tuff_slimeball"
+        "recipe": "productiveslimes:slime_block/tuff_slime_block_from_tuff_slimeball"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:slime_block/tuff_slime_block_from_tuff_slimeball"
+      "productiveslimes:slime_block/tuff_slime_block_from_tuff_slimeball"
     ]
   }
 }

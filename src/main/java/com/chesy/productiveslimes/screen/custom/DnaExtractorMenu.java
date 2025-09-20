@@ -20,13 +20,13 @@ public class DnaExtractorMenu extends ScreenHandler {
     private final PropertyDelegate data;
 
     public DnaExtractorMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
+        this(pContainerId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
     }
 
     public DnaExtractorMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.DNA_EXTRACTOR_MENU_HANDLER, pContainerId);
         this.inventory = (Inventory) entity;
-        this.level = inv.player.getWorld();
+        this.level = inv.player.getEntityWorld();
         this.data = data;
 
         this.addSlot(new SlotItemHandler(inventory, 0, 34, 34, itemStack -> true));

@@ -34,7 +34,7 @@ public class ModServerLifecycleEvent {
         });
 
         ServerWorldEvents.LOAD.register((minecraftServer, serverWorld) -> {
-            if (!serverWorld.isClient){
+            if (!serverWorld.isClient()){
                 ModNetworkStateManager.loadAllNetworksToManager(serverWorld);
             }
         });

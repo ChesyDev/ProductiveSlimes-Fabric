@@ -20,7 +20,7 @@ public class SolidingStationMenu extends ScreenHandler {
     private final Inventory inventory;
 
     public SolidingStationMenu(int syncId, PlayerInventory inv, BlockPos blockPos) {
-        this(syncId, inv, inv.player.getWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
+        this(syncId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos),new ArrayPropertyDelegate(4));
     }
 
     public SolidingStationMenu(int syncId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {

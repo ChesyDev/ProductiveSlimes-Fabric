@@ -164,7 +164,7 @@ public class SlimeNestBlockEntity extends BlockEntity implements ExtendedScreenH
         tick += 3;
         cooldown = (int) Math.ceil(cooldown / speed);
         markDirty();
-        if (level != null && !level.isClient) {
+        if (level != null && !level.isClient()) {
             level.updateListeners(pos, getCachedState(), getCachedState(), 3);
         }
         if (!hasAvailableSlot(dropItem)) {

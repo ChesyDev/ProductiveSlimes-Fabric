@@ -20,13 +20,13 @@ public class SlimeSqueezerMenu extends ScreenHandler {
     private final PropertyDelegate data;
 
     public SlimeSqueezerMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
+        this(pContainerId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(4));
     }
 
     public SlimeSqueezerMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.SLIME_SQUEEZER_MENU_HANDLER, pContainerId);
         inventory = (Inventory) entity;
-        this.level = inv.player.getWorld();
+        this.level = inv.player.getEntityWorld();
         this.data = data;
 
         this.addSlot(new SlotItemHandler(inventory, 0, 34, 34, itemStack -> true));

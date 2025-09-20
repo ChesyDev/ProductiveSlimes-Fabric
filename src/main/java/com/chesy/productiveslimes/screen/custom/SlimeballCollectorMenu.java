@@ -21,13 +21,13 @@ public class SlimeballCollectorMenu extends ScreenHandler {
     private final PropertyDelegate data;
 
     public SlimeballCollectorMenu(int pContainerId, PlayerInventory inv, BlockPos blockPos) {
-        this(pContainerId, inv, inv.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(2));
+        this(pContainerId, inv, inv.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(2));
     }
 
     public SlimeballCollectorMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.SLIMEBALL_COLLECTOR_MENU_HANDLER, pContainerId);
         inventory = (SlimeballCollectorBlockEntity) entity;
-        this.level = inv.player.getWorld();
+        this.level = inv.player.getEntityWorld();
         this.data = data;
 
         for (int i = 0; i < inventory.size(); i++) {

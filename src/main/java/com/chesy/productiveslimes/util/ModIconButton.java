@@ -2,6 +2,7 @@ package com.chesy.productiveslimes.util;
 
 import com.chesy.productiveslimes.ProductiveSlimes;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.RenderLayer;
@@ -37,7 +38,7 @@ public class ModIconButton extends ButtonWidget {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(Click click, boolean bl) {
         this.isOpen = !this.isOpen;
         this.onPress.onPress(this);
     }

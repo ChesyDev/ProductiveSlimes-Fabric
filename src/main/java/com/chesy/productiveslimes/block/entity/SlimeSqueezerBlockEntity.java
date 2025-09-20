@@ -44,8 +44,8 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     protected final PropertyDelegate data;
     private int progress = 0;
     private int maxProgress = 78;
-    private final int[] inputSlots = new int[]{0};
-    private final int[] outputSlots = new int[]{1, 2};
+    public final int[] inputSlots = new int[]{0};
+    public final int[] outputSlots = new int[]{1, 2};
 
     public SlimeSqueezerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SLIME_SQUEEZER, pos, state);
@@ -162,7 +162,7 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     private void resetProgress() {
         progress = 0;
         markDirty();
-        if (world != null && !world.isClient) {
+        if (world != null && !world.isClient()) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 3);
         }
     }
@@ -271,7 +271,7 @@ public class SlimeSqueezerBlockEntity extends BlockEntity implements Implemented
     private void increaseCraftingProgress() {
         progress++;
         markDirty();
-        if (world != null && !world.isClient) {
+        if (world != null && !world.isClient()) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 3);
         }
     }

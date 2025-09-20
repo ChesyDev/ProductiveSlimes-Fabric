@@ -16,6 +16,7 @@ import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.tier.ModTier;
 import com.chesy.productiveslimes.tier.Tier;
 import com.chesy.productiveslimes.util.FluidTankSpecialRenderer;
+import com.chesy.productiveslimes.util.SlimeItemSpecialRenderer;
 import com.chesy.productiveslimes.util.SlimeItemTint;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -77,6 +78,7 @@ public class ProductiveSlimesClient implements ClientModInitializer {
 
         // Register the special model type
         SpecialModelTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "fluid_tank"), FluidTankSpecialRenderer.Unbaked.MAP_CODEC);
+        SpecialModelTypes.ID_MAPPER.put(Identifier.of(ProductiveSlimes.MODID, "slime_item"), SlimeItemSpecialRenderer.Unbaked.MAP_CODEC);
 
         for (Tier tier : Tier.values()){
             ModTier tiers = ModTiers.getTierByName(tier);
