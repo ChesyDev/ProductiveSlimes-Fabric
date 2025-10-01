@@ -5,13 +5,12 @@ import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.custom.DnaExtractorMenu;
 import com.chesy.productiveslimes.util.CustomEnergyStorage;
 import com.chesy.productiveslimes.util.IEnergyBlockEntity;
-import com.chesy.productiveslimes.util.ImplementedInventory;
+import com.chesy.productiveslimes.util.SimpleSidedInventory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -29,7 +28,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -40,15 +38,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedInventory, IEnergyBlockEntity, ExtendedScreenHandlerFactory<BlockPos> {
+public class DnaExtractorBlockEntity extends BlockEntity implements IEnergyBlockEntity, ExtendedScreenHandlerFactory<BlockPos> {
     private float rotation;
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final int[] inputSlots = new int[]{0};
     private final int[] outputSlots = new int[]{1, 2};
     private final CustomEnergyStorage energyHandler = new CustomEnergyStorage(10000, 1000, 0, 0);
     protected final PropertyDelegate data;
     private int progress = 0;
     private int maxProgress = 78;
+    private final SimpleSidedInventory slots = new SimpleSidedInventory(3) {
+        @Override
+        public boolean canExtract(int slot, ItemStack stack, Direction side) {
+            return side == Direction.DOWN && Arrays.stream(outputSlots).anyMatch(value -> value == slot);
+        }
+
+        @Override
+        public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+            return side != Direction.DOWN && Arrays.stream(inputSlots).anyMatch(value -> value == slot);
+        }
+    };
 
     public DnaExtractorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DNA_EXTRACTOR, pos, state);
@@ -81,11 +89,6 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     @Override
-    public DefaultedList<ItemStack> getItems() {
-        return inventory;
-    }
-
-    @Override
     public CustomEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
@@ -108,7 +111,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
 
     @Override
     protected void writeData(WriteView view) {
-        Inventories.writeData(view, inventory);
+        slots.toDataList(view.getListAppender("slots", ItemStack.CODEC));
         view.putLong("Energy", energyHandler.getAmountStored());
         view.putInt("Progress", progress);
         view.putInt("MaxProgress", maxProgress);
@@ -120,7 +123,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     protected void readData(ReadView view) {
         super.readData(view);
 
-        Inventories.readData(view, inventory);
+        slots.readDataList(view.getTypedListView("slots", ItemStack.CODEC));
         energyHandler.setAmount(view.getLong("Energy", 0));
         progress = view.getInt("Progress", 0);
         maxProgress = view.getInt("MaxProgress", 78);
@@ -135,16 +138,6 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
         return createNbt(registries);
-    }
-
-    @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return side == Direction.DOWN && Arrays.stream(outputSlots).anyMatch(value -> value == slot);
-    }
-
-    @Override
-    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
-        return side != Direction.DOWN && Arrays.stream(inputSlots).anyMatch(value -> value == slot);
     }
 
     public void tick(World pLevel, BlockPos pPos, BlockState pState) {
@@ -173,22 +166,22 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             List<ItemStack> results = recipe.get().value().output();
 
             // Extract the input item from the input slot
-            this.removeStack(inputSlots[0], recipe.get().value().inputCount());
+            this.slots.removeStack(inputSlots[0], recipe.get().value().inputCount());
 
             // Loop through each result item and find suitable output slots
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
                 if (outputSlot != -1) {
                     if (result.getItem() == Items.SLIME_BALL){
-                        this.setStack(outputSlot, new ItemStack(result.getItem(),
-                                this.inventory.get(outputSlot).getCount() + result.getCount()));
+                        this.slots.setStack(outputSlot, new ItemStack(result.getItem(),
+                                this.slots.getStack(outputSlot).getCount() + result.getCount()));
                     }
                     else{
                         Random random = new Random();
                         float chance = recipe.get().value().outputChance();
                         if (random.nextFloat() < chance){
-                            this.setStack(outputSlot, new ItemStack(result.getItem(),
-                                    this.inventory.get(outputSlot).getCount() + result.getCount()));
+                            this.slots.setStack(outputSlot, new ItemStack(result.getItem(),
+                                    this.slots.getStack(outputSlot).getCount() + result.getCount()));
                         }
                     }
 
@@ -205,7 +198,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
         // Implement logic to find a suitable output slot for the given result
         // Return the slot index or -1 if no suitable slot is found
         for (int i : outputSlots) {
-            ItemStack stackInSlot = this.inventory.get(i);
+            ItemStack stackInSlot = this.slots.getStack(i);
             if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
                 return i;
             }
@@ -220,7 +213,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             return false;
         }
 
-        if (inventory.get(0).getCount() < recipe.get().value().inputCount()) {
+        if (slots.getStack(0).getCount() < recipe.get().value().inputCount()) {
             return false;
         }
 
@@ -243,7 +236,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
         }
 
         for (int i : outputSlots) {
-            ItemStack stackInSlot = this.inventory.get(i);
+            ItemStack stackInSlot = this.slots.getStack(i);
             if(!stackInSlot.isEmpty()){
                 for (ItemStack result : results){
                     if(stackInSlot.getItem() == result.getItem()){
@@ -263,12 +256,12 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
 
     private Optional<RecipeEntry<DnaExtractingRecipe>> getCurrentRecipe(){
         ServerWorld level = (ServerWorld) this.world;
-        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_EXTRACTING_TYPE, new SingleStackRecipeInput(inventory.get(0)), level);
+        return level.getRecipeManager().getFirstMatch(ModRecipes.DNA_EXTRACTING_TYPE, new SingleStackRecipeInput(slots.getStack(0)), level);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
         for (int i : outputSlots) {
-            ItemStack stackInSlot = this.inventory.get(i);
+            ItemStack stackInSlot = this.slots.getStack(i);
             if (stackInSlot.isEmpty() || (stackInSlot.getItem() == result.getItem() && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxCount())) {
                 return true;
             }
@@ -278,7 +271,7 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
         for (int i : outputSlots) {
-            ItemStack stackInSlot = this.inventory.get(i);
+            ItemStack stackInSlot = this.slots.getStack(i);
             if (stackInSlot.isEmpty() || stackInSlot.getItem() == item) {
                 return true;
             }
@@ -300,19 +293,19 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
     }
 
     public ItemStack getRenderStack() {
-        if (inventory.get(outputSlots[0]).isEmpty() && inventory.get(outputSlots[1]).isEmpty()) {
-            return inventory.get(inputSlots[0]);
+        if (slots.getStack(outputSlots[0]).isEmpty() && slots.getStack(outputSlots[1]).isEmpty()) {
+            return slots.getStack(inputSlots[0]);
         }
         else {
-            if (!inventory.get(outputSlots[0]).isEmpty() && inventory.get(outputSlots[0]).getItem() != Items.SLIME_BALL) {
-                return inventory.get(outputSlots[0]);
+            if (!slots.getStack(outputSlots[0]).isEmpty() && slots.getStack(outputSlots[0]).getItem() != Items.SLIME_BALL) {
+                return slots.getStack(outputSlots[0]);
             }
             else {
-                if (inventory.get(outputSlots[1]).isEmpty()){
-                    return inventory.get(outputSlots[0]);
+                if (slots.getStack(outputSlots[1]).isEmpty()){
+                    return slots.getStack(outputSlots[0]);
                 }
                 else {
-                    return inventory.get(outputSlots[1]);
+                    return slots.getStack(outputSlots[1]);
 
                 }
             }
@@ -325,5 +318,9 @@ public class DnaExtractorBlockEntity extends BlockEntity implements ImplementedI
             rotation = 0;
         }
         return rotation;
+    }
+
+    public SimpleSidedInventory getSlots() {
+        return slots;
     }
 }

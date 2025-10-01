@@ -23,7 +23,7 @@ import java.util.Set;
 
 public record SlimeItemSpecialRenderer() implements SpecialModelRenderer<SlimeData> {
     @Override
-    public void render(@Nullable SlimeData slimeData, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue nodeCollector, int light, int overlay, boolean glint) {
+    public void render(@Nullable SlimeData slimeData, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue nodeCollector, int light, int overlay, boolean glint, int i) {
         LoadedEntityModels entityModelSet = MinecraftClient.getInstance().getLoadedEntityModels();
         BaseSlimeModel slimeModel = new BaseSlimeModel(entityModelSet.getModelPart(EntityModelLayers.SLIME), -1);
         BaseSlimeModel slimeModelOuter = new BaseSlimeModel(entityModelSet.getModelPart(EntityModelLayers.SLIME_OUTER), -1);

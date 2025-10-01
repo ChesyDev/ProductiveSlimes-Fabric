@@ -23,15 +23,15 @@ import java.util.Set;
 
 public record FluidTankSpecialRenderer() implements SpecialModelRenderer<ImmutableFluidVariant> {
     @Override
-    public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue nodeCollector, int light, int overlay, boolean glint) {
+    public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue queue, int light, int overlay, boolean glint, int i) {
         matrices.push();
         BlockState blockState = ModBlocks.FLUID_TANK.getDefaultState();
-        nodeCollector.submitBlockStateModel(matrices, RenderLayer.getCutout(), MinecraftClient.getInstance().getBlockRenderManager().getModel(blockState), -1, -1, -1, light, overlay, 0);
+        queue.submitBlockStateModel(matrices, RenderLayer.getCutout(), MinecraftClient.getInstance().getBlockRenderManager().getModel(blockState), -1, -1, -1, light, overlay, 0);
         matrices.pop();
 
         if (data instanceof ImmutableFluidVariant immutableFluidVariant){
             FluidVariant fluidVariant = FluidVariant.of(immutableFluidVariant.fluid());
-            FluidTankBlockEntityRenderer.renderFluid(matrices, nodeCollector, light, overlay, fluidVariant, immutableFluidVariant.amount());
+            FluidTankBlockEntityRenderer.renderFluid(matrices, queue, light, overlay, fluidVariant, immutableFluidVariant.amount());
         }
     }
 

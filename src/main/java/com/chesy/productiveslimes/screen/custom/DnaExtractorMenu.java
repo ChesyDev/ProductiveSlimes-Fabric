@@ -1,5 +1,6 @@
 package com.chesy.productiveslimes.screen.custom;
 
+import com.chesy.productiveslimes.block.entity.DnaExtractorBlockEntity;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.util.SlotItemHandler;
 import net.minecraft.block.entity.BlockEntity;
@@ -25,7 +26,7 @@ public class DnaExtractorMenu extends ScreenHandler {
 
     public DnaExtractorMenu(int pContainerId, PlayerInventory inv, BlockEntity entity, PropertyDelegate data) {
         super(ModMenuTypes.DNA_EXTRACTOR_MENU_HANDLER, pContainerId);
-        this.inventory = (Inventory) entity;
+        this.inventory = ((DnaExtractorBlockEntity) entity).getSlots();
         this.level = inv.player.getEntityWorld();
         this.data = data;
 
