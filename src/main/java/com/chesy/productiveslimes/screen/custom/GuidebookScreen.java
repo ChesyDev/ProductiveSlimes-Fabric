@@ -12,7 +12,6 @@ import com.chesy.productiveslimes.util.EnergyTooltipUtil;
 import com.chesy.productiveslimes.util.GuideBookScreenHelper;
 import com.chesy.productiveslimes.util.MouseUtil;
 import com.chesy.productiveslimes.util.SlimeData;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -256,8 +255,8 @@ public class GuidebookScreen extends HandledScreen<GuidebookMenu> {
     }
 
     @Override
-    public void resize(@NotNull MinecraftClient minecraft, int width, int height) {
-        super.resize(minecraft, width, height);
+    public void resize(int width, int height) {
+        super.resize(width, height);
         contentScrollOffset = 0;
     }
 

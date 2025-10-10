@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
+import net.minecraft.client.item.ItemAsset;
 import net.minecraft.client.render.item.model.BasicItemModel;
 import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.client.render.model.json.ModelVariant;
@@ -48,8 +49,8 @@ public class ModModelProvider extends FabricModelProvider {
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.ENERGY_GENERATOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SLIMEBALL_COLLECTOR);
         registerNorthDefaultHorizontalRotationInverted(blockStateModelGenerator, ModBlocks.SLIME_NEST);
-        blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.SLIME_SQUEEZER);
-        blockStateModelGenerator.itemModelOutput.accept(ModBlocks.SLIME_SQUEEZER.asItem(), new BasicItemModel.Unbaked(itemLocation("slime_squeezer"), Collections.emptyList()));
+        blockStateModelGenerator.registerNorthDefaultHorizontalRotatable(ModBlocks.SLIME_SQUEEZER);
+        blockStateModelGenerator.itemModelOutput.accept(ModBlocks.SLIME_SQUEEZER.asItem(), new BasicItemModel.Unbaked(itemLocation("slime_squeezer"), Collections.emptyList()), ItemAsset.Properties.DEFAULT);
         simpleBlockWithExistingModel(blockStateModelGenerator, ModBlocks.SQUEEZER);
 
         fluidTank(blockStateModelGenerator, ModBlocks.FLUID_TANK);
@@ -103,7 +104,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SLIME_NEST_SPEED_UPGRADE_1, Models.GENERATED);
         itemModelGenerator.register(ModItems.SLIME_NEST_SPEED_UPGRADE_2, Models.GENERATED);
         itemModelGenerator.register(ModItems.SLIMEBALL_FRAGMENT, Models.GENERATED);
-        itemModelGenerator.output.accept(ModBlocks.CABLE.asItem(), new BasicItemModel.Unbaked(blockLocation("cable"), Collections.emptyList()));
+        itemModelGenerator.output.accept(ModBlocks.CABLE.asItem(), new BasicItemModel.Unbaked(blockLocation("cable"), Collections.emptyList()), ItemAsset.Properties.DEFAULT);
 
         slimeballItem(itemModelGenerator, ProductiveSlimes.ENERGY_SLIME_BALL);
         dnaItem(itemModelGenerator, ModItems.SLIME_DNA);
@@ -124,7 +125,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void registerSpawnEgg(ItemModelGenerator itemModelGenerator, SpawnEggItem item){
         Identifier model = itemLocation("template_slime_spawn_egg");
-        itemModelGenerator.output.accept(item, ItemModels.tinted(model, ItemModels.constantTintSource(item.getColor())));
+        itemModelGenerator.output.accept(item, ItemModels.tinted(model, ItemModels.constantTintSource(item.getColor())), ItemAsset.Properties.DEFAULT);
     }
 
     private void simpleBlockWithExistingModel(BlockStateModelGenerator blockModels, Block block){
@@ -185,14 +186,14 @@ public class ModModelProvider extends FabricModelProvider {
         Identifier identifier = Identifier.of(ProductiveSlimes.MODID,"item/template_dna");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
-        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
+        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))), ItemAsset.Properties.DEFAULT);
     }
 
     private void slimeballItem(ItemModelGenerator itemModelGenerator, SlimeballItem item) {
         Identifier identifier = Identifier.of(ProductiveSlimes.MODID,"item/template_slimeball");
         Identifier model = Models.GENERATED.upload(item, TextureMap.of(TextureKey.LAYER0, identifier), itemModelGenerator.modelCollector);
 
-        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))));
+        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, Collections.singletonList(new ConstantTintSource(item.getColor()))), ItemAsset.Properties.DEFAULT);
     }
 
     private void bucketItem(ItemModelGenerator itemModelGenerator, BucketItem item){
@@ -202,12 +203,12 @@ public class ModModelProvider extends FabricModelProvider {
 
         Identifier model = Models.GENERATED_TWO_LAYERS.upload(item, textures, itemModelGenerator.modelCollector);
 
-        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new ConstantTintSource(-1),new ConstantTintSource(item.getColor()))));
+        itemModelGenerator.output.accept(item, new BasicItemModel.Unbaked(model, List.of(new ConstantTintSource(-1),new ConstantTintSource(item.getColor()))), ItemAsset.Properties.DEFAULT);
     }
 
     private void fluidTank(BlockStateModelGenerator blockModels, Block block){
         registerNorthDefaultHorizontalRotationInverted(blockModels, block);
-        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.special(blockLocation("fluid_tank"), new FluidTankSpecialRenderer.Unbaked(blockLocation("fluid_tank"))));
+        blockModels.itemModelOutput.accept(block.asItem(), ItemModels.special(blockLocation("fluid_tank"), new FluidTankSpecialRenderer.Unbaked(blockLocation("fluid_tank"))), ItemAsset.Properties.DEFAULT);
     }
 
     public BlockStateVariantMap<ModelVariantOperator> createNorthDefaultHorizontalRotationStatesInverted() {
@@ -229,13 +230,13 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector
                 .accept(
                         VariantsBlockModelDefinitionCreator.of(block, new WeightedVariant(Pool.of(new ModelVariant(ModelIds.getBlockModelId(block)))))
-                                .coordinate(createNorthDefaultHorizontalRotationStatesInverted())
+                                .apply(createNorthDefaultHorizontalRotationStatesInverted())
                 );
     }
 
     private void slimeItem(ItemModelGenerator itemModels, Item item){
         Identifier model = itemLocation("slime_item");
-        itemModels.output.accept(item, ItemModels.special(model, new SlimeItemSpecialRenderer.Unbaked(model)));
+        itemModels.output.accept(item, ItemModels.special(model, new SlimeItemSpecialRenderer.Unbaked(model)), ItemAsset.Properties.DEFAULT);
     }
 
     private Identifier blockLocation(String modelName){

@@ -52,13 +52,9 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void renderOutline(MatrixStack poseStack, OrderedRenderCommandQueue nodeCollector, Box aabb) {
-        // Buffer for lines.
-        RenderSystem.lineWidth(2.0f);
-        // Render the outer box.
         nodeCollector.submitCustom(poseStack, RenderLayer.getLines(), (pose, vertexConsumer) -> {
             drawBox(pose, vertexConsumer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
         });
-        RenderSystem.lineWidth(1.0f);
     }
 
     private void drawBox(MatrixStack.Entry pose, VertexConsumer buffer, Box box, float red, float green, float blue, float alpha) {
@@ -87,8 +83,8 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void drawLine(Matrix4f matrix, VertexConsumer buffer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0);
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0);
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).method_75298(2.0f);
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).method_75298(2.0f);
     }
 
     @Override
