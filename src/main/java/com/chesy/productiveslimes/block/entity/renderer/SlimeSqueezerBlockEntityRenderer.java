@@ -7,7 +7,7 @@ import com.chesy.productiveslimes.block.entity.renderstate.SlimeSqueezerBlockEnt
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -123,7 +123,7 @@ public class SlimeSqueezerBlockEntityRenderer implements BlockEntityRenderer<Sli
 
         for (Direction direction : Direction.values()) {
             rand.setSeed(42L);
-            nodeCollector.submitBlockStateModel(poseStack, RenderLayer.getCutout(), model, 1.0f, 1.0f, 1.0f, light, overlay, 0);
+            nodeCollector.submitBlockStateModel(poseStack, RenderLayers.cutout(), model, 1.0f, 1.0f, 1.0f, light, overlay, 0);
         }
     }
 

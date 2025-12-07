@@ -5,7 +5,7 @@ import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
 import com.chesy.productiveslimes.entity.renderer.BaseSlimeRenderer;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
@@ -18,8 +18,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 public record SlimeItemSpecialRenderer() implements SpecialModelRenderer<SlimeData> {
     @Override
@@ -34,16 +35,16 @@ public record SlimeItemSpecialRenderer() implements SpecialModelRenderer<SlimeDa
             matrices.translate(0.25f, 1.5f, 0.25f);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0F));
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
-            nodeCollector.getBatchingQueue(0).submitModel(slimeModel, new SlimeEntityRenderState(), matrices, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, overlay, slimeData.color(), null, 0, null);
-            nodeCollector.getBatchingQueue(1).submitModel(slimeModelOuter, new SlimeEntityRenderState(), matrices, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, overlay, slimeData.color(), null, 0, null);
+            nodeCollector.getBatchingQueue(0).submitModel(slimeModel, new SlimeEntityRenderState(), matrices, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), light, overlay, slimeData.color(), null, 0, null);
+            nodeCollector.getBatchingQueue(1).submitModel(slimeModelOuter, new SlimeEntityRenderState(), matrices, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), light, overlay, slimeData.color(), null, 0, null);
             matrices.pop();
         }
     }
 
     @Override
-    public void collectVertices(Set<Vector3f> vertices) {
-        vertices.add(new Vector3f(0.0f, 0.0f, 0.0f));
-        vertices.add(new Vector3f(1.0f, 1.0f, 1.0f));
+    public void collectVertices(Consumer<Vector3fc> consumer) {
+        consumer.accept(new Vector3f(0.0f, 0.0f, 0.0f));
+        consumer.accept(new Vector3f(1.0f, 1.0f, 1.0f));
     }
 
     @Nullable

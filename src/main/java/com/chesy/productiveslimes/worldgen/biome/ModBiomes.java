@@ -9,8 +9,8 @@ import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
@@ -57,12 +57,10 @@ public class ModBiomes {
                 .temperature(0.8f)
                 .generationSettings(biomeBuilder.build())
                 .spawnSettings(spawnBuilder.build())
-                .effects((new BiomeEffects.Builder())
-                        .fogColor(0xFFFFFF)
-                        .waterColor(0x254788)
-                        .waterFogColor(0x2b1b05)
-                        .skyColor(0x6EB1FF)
-                        .moodSound(BiomeMoodSound.CAVE).build())
+                .setEnvironmentAttribute(EnvironmentAttributes.FOG_COLOR_VISUAL, 0xFFFFFF)
+                .setEnvironmentAttribute(EnvironmentAttributes.WATER_FOG_COLOR_VISUAL, 0x2b1b05)
+                .setEnvironmentAttribute(EnvironmentAttributes.SKY_COLOR_VISUAL, 0x6EB1FF)
+                .effects((new BiomeEffects.Builder()).waterColor(0x254788).build())
                 .build();
     }
 }

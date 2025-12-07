@@ -1,7 +1,7 @@
 package com.chesy.productiveslimes.entity.renderer;
 
 import com.chesy.productiveslimes.entity.model.BaseSlimeModel;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -25,11 +25,11 @@ public class BaseSlimeOverlayFeatureRenderer extends FeatureRenderer<SlimeEntity
             int i = LivingEntityRenderer.getOverlay(slimeRenderState, 0.0F);
 
             if (bl) {
-                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayer.getOutline(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
+                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayers.outlineNoCull(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
             } else {
-                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
+                nodeCollector.getBatchingQueue(1).submitModel(this.model, slimeRenderState, poseStack, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
             }
-            nodeCollector.getBatchingQueue(0).submitModel(this.getContextModel(), slimeRenderState, poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
+            nodeCollector.getBatchingQueue(0).submitModel(this.getContextModel(), slimeRenderState, poseStack, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), light, i, this.model.color, null, slimeRenderState.outlineColor, null);
         }
     }
 }

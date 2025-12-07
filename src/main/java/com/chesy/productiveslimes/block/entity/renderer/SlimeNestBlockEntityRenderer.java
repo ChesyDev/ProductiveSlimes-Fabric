@@ -9,7 +9,7 @@ import com.chesy.productiveslimes.util.SlimeData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -106,8 +106,8 @@ public class SlimeNestBlockEntityRenderer implements BlockEntityRenderer<SlimeNe
         poseStack.scale(scaleX, scaleY, scaleZ); // Apply squish scaling
         poseStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0F));
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degree));
-        nodeCollector.getBatchingQueue(0).submitModel(this.slimeModel, new SlimeEntityRenderState(), poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), renderState.lightmapCoordinates, OverlayTexture.DEFAULT_UV, renderState.slimeColor, null, 0, null);
-        nodeCollector.getBatchingQueue(1).submitModel(this.slimeModelOuter, new SlimeEntityRenderState(), poseStack, RenderLayer.getEntityTranslucent(BaseSlimeRenderer.TEXTURE), renderState.lightmapCoordinates, OverlayTexture.DEFAULT_UV, renderState.slimeColor, null, 0, null);
+        nodeCollector.getBatchingQueue(0).submitModel(this.slimeModel, new SlimeEntityRenderState(), poseStack, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), renderState.lightmapCoordinates, OverlayTexture.DEFAULT_UV, renderState.slimeColor, null, 0, null);
+        nodeCollector.getBatchingQueue(1).submitModel(this.slimeModelOuter, new SlimeEntityRenderState(), poseStack, RenderLayers.entityTranslucent(BaseSlimeRenderer.TEXTURE), renderState.lightmapCoordinates, OverlayTexture.DEFAULT_UV, renderState.slimeColor, null, 0, null);
         poseStack.pop();
     }
 

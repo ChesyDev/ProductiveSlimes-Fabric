@@ -5,7 +5,7 @@ import com.chesy.productiveslimes.block.entity.renderstate.SolidingStationBlockE
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -39,7 +39,7 @@ public class SolidingStationBlockEntityRenderer implements BlockEntityRenderer<S
 
         int color = FluidVariantRendering.getColor(fluidStack);
         Sprite sprite = FluidVariantRendering.getSprites(fluidStack)[0];
-        RenderLayer renderLayer = RenderLayer.getEntityTranslucent(sprite.getAtlasId());
+        RenderLayer renderLayer = RenderLayers.entityTranslucent(sprite.getAtlasId());
 
         float height = 0.8f;
 

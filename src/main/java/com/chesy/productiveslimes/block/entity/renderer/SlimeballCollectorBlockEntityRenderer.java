@@ -2,9 +2,8 @@ package com.chesy.productiveslimes.block.entity.renderer;
 
 import com.chesy.productiveslimes.block.entity.SlimeballCollectorBlockEntity;
 import com.chesy.productiveslimes.block.entity.renderstate.SlimeballCollectorBlockEntityRenderState;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -52,7 +51,7 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void renderOutline(MatrixStack poseStack, OrderedRenderCommandQueue nodeCollector, Box aabb) {
-        nodeCollector.submitCustom(poseStack, RenderLayer.getLines(), (pose, vertexConsumer) -> {
+        nodeCollector.submitCustom(poseStack, RenderLayers.lines(), (pose, vertexConsumer) -> {
             drawBox(pose, vertexConsumer, aabb, 1.0f, 0.0f, 0.0f, 1.0f); // Red color.
         });
     }
@@ -83,8 +82,8 @@ public class SlimeballCollectorBlockEntityRenderer implements BlockEntityRendere
     }
 
     private void drawLine(Matrix4f matrix, VertexConsumer buffer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).method_75298(2.0f);
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).method_75298(2.0f);
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).lineWidth(2.0f);
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(red, green, blue, alpha).texture(0, 0).light(0x00F000F0).overlay(OverlayTexture.DEFAULT_UV).normal(1, 0, 0).lineWidth(2.0f);
     }
 
     @Override

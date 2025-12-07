@@ -7,10 +7,8 @@ import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemDisplayContext;
@@ -18,15 +16,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 public record FluidTankSpecialRenderer() implements SpecialModelRenderer<ImmutableFluidVariant> {
     @Override
     public void render(@Nullable ImmutableFluidVariant data, ItemDisplayContext displayContext, MatrixStack matrices, OrderedRenderCommandQueue queue, int light, int overlay, boolean glint, int i) {
         matrices.push();
         BlockState blockState = ModBlocks.FLUID_TANK.getDefaultState();
-        queue.submitBlockStateModel(matrices, RenderLayer.getCutout(), MinecraftClient.getInstance().getBlockRenderManager().getModel(blockState), -1, -1, -1, light, overlay, 0);
+        queue.submitBlockStateModel(matrices, RenderLayers.cutout(), MinecraftClient.getInstance().getBlockRenderManager().getModel(blockState), -1, -1, -1, light, overlay, 0);
         matrices.pop();
 
         if (data instanceof ImmutableFluidVariant immutableFluidVariant){
@@ -36,9 +35,9 @@ public record FluidTankSpecialRenderer() implements SpecialModelRenderer<Immutab
     }
 
     @Override
-    public void collectVertices(Set<Vector3f> vertices) {
-        vertices.add(new Vector3f(0.0f, 0.0f, 0.0f));
-        vertices.add(new Vector3f(1.0f, 1.0f, 1.0f));
+    public void collectVertices(Consumer<Vector3fc> consumer) {
+        consumer.accept(new Vector3f(0.0f, 0.0f, 0.0f));
+        consumer.accept(new Vector3f(1.0f, 1.0f, 1.0f));
     }
 
     @Nullable

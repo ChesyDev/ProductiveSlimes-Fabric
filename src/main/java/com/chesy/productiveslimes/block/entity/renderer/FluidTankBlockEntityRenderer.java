@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -45,7 +45,7 @@ public class FluidTankBlockEntityRenderer implements BlockEntityRenderer<FluidTa
 
         int color = FluidVariantRendering.getColor(fluidVariant);
         Sprite sprite = FluidVariantRendering.getSprites(fluidVariant)[0];
-        RenderLayer renderLayer = RenderLayer.getEntityTranslucent(sprite.getAtlasId());
+        RenderLayer renderLayer = RenderLayers.entityTranslucent(sprite.getAtlasId());
 
         float height = ((float) amount / (FluidConstants.BUCKET * 50)) * 0.90f;
         height += 0.05f;
