@@ -46,7 +46,7 @@ dependencies {
 //	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
 	modCompileOnly "curse.maven:jade-324717:${jade_version}"
-	modCompileOnly "com.github.glitchfiend:TerraBlender-fabric:1.21.9-${project.terrablender_version}"
+    modImplementation "com.github.glitchfiend:TerraBlender-fabric:1.21.9-${project.terrablender_version}"
 }
 
 processResources {

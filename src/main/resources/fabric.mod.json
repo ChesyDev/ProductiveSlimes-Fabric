@@ -26,9 +26,6 @@
 		],
 		"jade": [
 			"com.chesy.productiveslimes.compat.jade.JadePlugin"
-		],
-		"terrablender": [
-			"com.chesy.productiveslimes.worldgen.biome.ModTerraBlender"
 		]
 	},
 	"mixins": [

@@ -18,6 +18,7 @@ import com.chesy.productiveslimes.recipe.ModRecipes;
 import com.chesy.productiveslimes.screen.ModMenuTypes;
 import com.chesy.productiveslimes.tier.ModTiers;
 import com.chesy.productiveslimes.villager.ModVillagers;
+import com.chesy.productiveslimes.worldgen.biome.BiomeRegister;
 import com.chesy.productiveslimes.worldgen.biome.surface.ModSurfaceRules;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import net.fabricmc.api.ModInitializer;
@@ -51,6 +52,8 @@ public class ProductiveSlimes implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        BiomeRegister.init();
+
         ModTiers.init();
         ModFluids.register();
         ModDataComponents.register();
@@ -75,7 +78,9 @@ public class ProductiveSlimes implements ModInitializer {
 
         FabricDefaultAttributeRegistry.register(ModEntities.ENERGY_SLIME, BaseSlime.createAttributes());
 
-//        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
+        if (FabricLoader.getInstance().isModLoaded("terrablender")){
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModSurfaceRules.makeRules());
+        }
 
         // Register the event
         ModServerLifecycleEvent.init();

@@ -5,6 +5,8 @@
   "mixins": [
     "CustomMeleeAttackGoal",
     "CustomMoveTowardsTargetGoalMixin",
+    "NoiseGeneratorSettingsMixin",
+    "OverworldBiomeBuilderMixin",
     "ResourcePackManagerMixin",
     "SlimeMixin"
   ],
